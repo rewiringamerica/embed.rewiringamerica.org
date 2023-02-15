@@ -1,94 +1,6 @@
 import { css } from 'lit';
 
-export const fontStyles = css`
-@font-face {
-  font-family: GT America;
-  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Regular.woff2) format("woff2");
-  font-style: normal;
-  font-display: block;
-  font-weight:400
-}
-
-@font-face {
-  font-family: GT America;
-  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Regular-Italic.woff2) format("woff2");
-  font-style: italic;
-  font-display: block;
-  font-weight:400
-}
-
-@font-face {
-  font-family: GT America;
-  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Medium.woff2) format("woff2");
-  font-style: normal;
-  font-display: block;
-  font-weight:500
-}
-
-@font-face {
-  font-family: GT America;
-  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Medium-Italic.woff2) format("woff2");
-  font-style: italic;
-  font-display: block;
-  font-weight:500
-}
-
-@font-face {
-  font-family: GT America;
-  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Bold.woff2) format("woff2");
-  font-style: normal;
-  font-display: block;
-  font-weight:700
-}
-
-@font-face {
-  font-family: GT America;
-  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Bold-Italic.woff2) format("woff2");
-  font-style: italic;
-  font-display: block;
-  font-weight:700
-}
-
-@font-face {
-  font-family: GT America Condensed;
-  src: url(https://www.rewiringamerica.org/fonts/GT-America-Condensed-Bold.woff2) format("woff2");
-  font-style: normal;
-  font-display: block;
-  font-weight:700
-}
-
-@font-face {
-  font-family: GT America Condensed;
-  src: url(https://www.rewiringamerica.org/fonts/GT-America-Condensed-Bold-Italic.woff2) format("woff2");
-  font-style: italic;
-  font-display: block;
-  font-weight:700
-}
-
-@font-face {
-  font-family: GT America Mono;
-  src: url(https://www.rewiringamerica.org/fonts/GT-America-Mono-Regular.woff2) format("woff2");
-  font-style: normal;
-  font-display: block;
-  font-weight:40
-}
-
-@font-face {
-  font-family: GT America Mono;
-  src: url(https://www.rewiringamerica.org/fonts/GT-America-Mono-Medium.woff2) format("woff2");
-  font-style: normal;
-  font-display: block;
-  font-weight:500
-}
-
-@font-face {
-  font-family: GT America Mono;
-  src: url(https://www.rewiringamerica.org/fonts/GT-America-Mono-Bold.woff2) format("woff2");
-  font-style: normal;
-  font-display: block;
-  font-weight: 700
-}
-
+export const baseStyles = css`
 :host * {
   box-sizing: border-box;
   font-smoothing: antialiased;
@@ -109,7 +21,7 @@ export const fontStyles = css`
 h1 {
   font-size: 24px;
   line-height: 40px;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 24px;
   margin-top: 0px;
 }
@@ -117,11 +29,11 @@ h1 {
 
 export const cardStyles = css`
 .card {
-  margin: 24px;
-  padding: 24px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  box-shadow: 4px 4px 32px #ddd;
+  margin: 40px;
+  padding: 40px 30px;
+  border: 1px solid rgb(217, 217, 217);
+  border-radius: 20px;
+  box-shadow: rgba(0,0,0,0.1) 0px 4px 50px;
 }
 .logo {
   text-align: center;
@@ -140,9 +52,9 @@ export const gridStyles = css`
 
 export const formStyles = css`
 label {
-  /* font-family: inherit;
    font-size: 16px;
-   font-weight: inherit; */
+   line-height: 28px;
+   font-weight: 500;
 }
 
 button {
@@ -308,5 +220,56 @@ select[multiple] option {
   cursor: not-allowed;
   background-color: #eee;
   background-image: linear-gradient(to top, #ddd, #eee 33%);
+}
+`;
+
+// https://dev.to/link2twenty/native-html-tooltips-3od1
+// TODO: left/right align to avoid overflow
+export const tooltipStyles = css`
+[data-tooltip] {
+  position: relative;
+  cursor: help;
+  --tooltip-width: 400px;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+[data-tooltip]::after {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  content: attr(data-tooltip);
+  left: 0;
+  top: calc(100% + 10px);
+
+  width: var(--tooltip-width);
+  padding: 20px;
+
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid rgb(226, 226, 226);
+  /* box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px; */
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px -3px, rgba(0, 0, 0, 0.14) 0px 8px 10px 1px, rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
+
+  z-index: 10; /* TODO: top layer? */
+  transform: translateY(-20px);
+  transition: all 150ms cubic-bezier(.25, .8, .25, 1);
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+  transition-duration: 300ms;
+}
+
+[data-tooltip-align=middle]::after {
+  left: calc(-0.5 * var(--tooltip-width));
+  right: inherit;
+}
+
+[data-tooltip-align=right]::after {
+  left: inherit;
+  right: 0;
 }
 `;

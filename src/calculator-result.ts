@@ -3,11 +3,6 @@ import { customElement, property } from 'lit/decorators.js';
 import { Task } from '@lit-labs/task';
 import { cardStyles, fontStyles } from './styles';
 
-function formatCurrency(value) {
-  const commaSeparated = value.toLocaleString();
-  return `$${commaSeparated}`;
-}
-
 const numberStyles = css`
   .summary-number {
     border-left: 5px solid var(--rewiring-yellow);
@@ -27,10 +22,10 @@ const numberStyles = css`
   }
 `;
 
-const numberTemplate = (label, value) => html`
+const numberTemplate = (label: string, value: number) => html`
   <div class="summary-number">
     <div class="summary-number--label">${label}</div>
-    <div class="summary-number--value">${formatCurrency(value)}</div>
+    <div class="summary-number--value">$${value.toLocaleString()}</div>
   </div>
 `;
 
@@ -44,7 +39,6 @@ const loadedTemplate = (results: any) => html`
 
 const RA_API_BASE: string = 'https://api.rewiringamerica.org';
 const CALCULATOR_PATH: string = '/api/v0/calculator';
-const RA_API_TOKEN: string = 'zpka_55fe0949f2df43b58bf973931d15c638_00913a90'
 
 @customElement('rewiring-america-calculator-result')
 export class RewiringAmericaCalculatorResult extends LitElement {
@@ -65,6 +59,9 @@ export class RewiringAmericaCalculatorResult extends LitElement {
   @property({ type: String, attribute: 'household-size' })
   householdSize: string = '';
 
+  @property({ type: String, attribute: 'api-key' })
+  apiKey: string = '';
+
   private _task = new Task(
     this,
     async ([zip, ownerStatus, householdIncome, taxFiling, householdSize]) => {
@@ -76,10 +73,11 @@ export class RewiringAmericaCalculatorResult extends LitElement {
         household_size: householdSize,
       });
       const url = new URL(`${RA_API_BASE}${CALCULATOR_PATH}?${query}`);
+      console.log(url);
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${RA_API_TOKEN}`
+          'Authorization': `Bearer ${this.apiKey}`
         }
       });
       return response.json();
