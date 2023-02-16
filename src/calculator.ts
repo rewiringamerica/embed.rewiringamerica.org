@@ -1,28 +1,11 @@
 import { LitElement, html } from 'lit';
-import { customElement, state, property } from 'lit/decorators.js';
-import { baseStyles, cardStyles, gridStyles, selectStyles, tooltipStyles } from './styles.ts';
-import './calculator-result'
+import { customElement, property } from 'lit/decorators.js';
+import { baseStyles, cardStyles, gridStyles } from './styles';
+import { tooltip, tooltipStyles } from './components/tooltip';
+import { downIcon } from './components/icons';
+import { select, selectStyles, OptionParam } from './components/forms/select';
 import { formStyles } from './styles';
-
-const icons = {
-  // FIXME: does this need to be nested like this?
-  down: (w: number, h: number) => html`<svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" style="width: ${w}px; height: ${h}px; opacity: 0.5; fill: currentColor; vertical-align: text-top;">
-    <svg viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M1.90137 1.92651L8.98672 7.62669C9.0241 7.65676 9.07756 7.65605 9.11413 7.62499L15.8241 1.92651" stroke="black" stroke-width="2" stroke-linecap="round"></path>
-      <path d="M1.90137 7.67859L8.98672 13.3788C9.0241 13.4088 9.07756 13.4081 9.11413 13.3771L15.8241 7.67859" stroke="black" stroke-width="2" stroke-linecap="round"></path>
-    </svg>
-  </svg>`,
-  question: (w: number, h: number) => html`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 24 24" opacity="0.5" style="vertical-align:text-top;" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="10"></circle>
-    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-    <line x1="12" y1="17" x2="12.01" y2="17"></line>
-  </svg>`
-}
-
-interface OptionParam {
-  label: string,
-  value: string
-}
+import './calculator-result'
 
 const OWNER_STATUS_OPTIONS: OptionParam[] = [
   { value: 'homeowner', label: 'Homeowner' },
@@ -42,43 +25,8 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(count
   } as OptionParam
 });
 
-const option = ({ label, value }: OptionParam, selected: boolean) => html`
-  <option value="${value}" ${selected && 'selected'}>${label}</option>
-`;
-
-interface SelectParam {
-  id: string;
-  placeholder: string;
-  required: boolean;
-  options: OptionParam[];
-  currentValue: string;
-}
-
-const select = ({
-  id,
-  placeholder,
-  required,
-  options,
-  currentValue
-}: SelectParam) => {
-  return html`
-    <div class="select">
-      <select id="${id}" placeholder="${placeholder}" name="${id}" ${required && 'required'}>
-        ${options.map(o => option(o, o.value == currentValue))}
-      </select>
-      <span class="focus"></span>
-    </div>
-  `;
-};
-
-// TODO: maybe more like https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/tooltip_role ?
-const tooltip = (text: string, w: number, h: number, align: string = 'left') => html`
-  <span data-tooltip="${text}" data-tooltip-align="${align}">${icons.question(w, h)}</span>
-`;
-
 @customElement('rewiring-america-calculator')
 export class RewiringAmericaCalculator extends LitElement {
-  // TODO: shared styles
   static styles = [
     baseStyles,
     cardStyles,
@@ -91,26 +39,36 @@ export class RewiringAmericaCalculator extends LitElement {
   @property({ type: String, attribute: 'api-key' })
   apiKey: string = '';
 
-  @state()
+  @property({ type: String, attribute: 'zip' })
   zip: string = '';
 
-  @state()
+  @property({ type: String, attribute: 'owner-status' })
   ownerStatus: string = '';
 
-  @state()
+  @property({ type: String, attribute: 'household-income' })
   householdIncome: string = '';
 
-  @state()
+  @property({ type: String, attribute: 'tax-filing' })
   taxFiling: string = '';
 
-  @state()
+  @property({ type: String, attribute: 'household-size' })
   householdSize: string = '';
+
+  submit(e: SubmitEvent) {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    this.zip = formData.get('zip') as string || '';
+    this.ownerStatus = formData.get('owner_status') as string || '';
+    this.householdIncome = formData.get('household_income') as string || '';
+    this.taxFiling = formData.get('tax_filing') as string || '';
+    this.householdSize = formData.get('household_size') as string || '';
+  }
 
   override render() {
     return html`
-    <div class="card">
+    <div class="card card-content">
       <h1>How much money will you get with the Inflation Reduction Act?</h1>
-      <form>
+      <form @submit=${this.submit}>
       <div class="grid-3-2">
         <div>
           <label for="zip">
@@ -143,7 +101,7 @@ export class RewiringAmericaCalculator extends LitElement {
           </label>
         </div>
         <div>
-          <button type="submit">Calculate! ${icons.down(18, 18)}</button>
+          <button type="submit">Calculate! ${downIcon(18, 18)}</button>
         </div>
       </div>
     </form>
@@ -155,7 +113,7 @@ export class RewiringAmericaCalculator extends LitElement {
       owner-status="${this.ownerStatus}"
       household-income="${this.householdIncome}"
       tax-filing="${this.taxFiling}"
-      household-size="4">
+      household-size="${this.householdSize}">
     </rewiring-america-calculator-result>
   `}
   `
