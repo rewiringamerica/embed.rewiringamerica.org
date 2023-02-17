@@ -248,7 +248,7 @@ const upfrontDiscountLabel = ({ is_under_150_ami, is_under_80_ami }) => {
   }
 };
 
-const loadedTemplate = (results: any, showDetails: boolean = true) => html`
+const summaryTemplate = (results: any) => html`
   <div class="card">
     <div class="card__heading">
       <h1>Your Personalized Incentives</h1>
@@ -274,7 +274,11 @@ const loadedTemplate = (results: any, showDetails: boolean = true) => html`
       <!-- TODO: Based on your household income, you may not qualify for tax credits, but you can take full advantage of the electrification rebates. Check out this relevant case study! -->
     </div>
   </div>
-  ${showDetails && detailsTemplate(results)}
+`;
+
+const loadedTemplate = (results: any, showDetails: boolean, showSummary: boolean) => html`
+    ${showSummary && summaryTemplate(results)}
+    ${showDetails && detailsTemplate(results)}
 `;
 
 const loadingTemplate = () => html`
@@ -291,6 +295,12 @@ const CALCULATOR_PATH: string = '/api/v0/calculator';
 @customElement('rewiring-america-calculator-result')
 export class RewiringAmericaCalculatorResult extends LitElement {
   static styles = [baseStyles, cardStyles, numberStyles, tableStlyes, linkStyles];
+
+  @property({ type: Boolean, attribute: 'show-summary' })
+  showSummary: boolean = true;
+
+  @property({ type: Boolean, attribute: 'show-details' })
+  showDetails: boolean = true;
 
   @property({ type: String })
   zip: string = '';
@@ -338,7 +348,17 @@ export class RewiringAmericaCalculatorResult extends LitElement {
 
   override render() {
     return html`
-      ${this._task.render({ pending: loadingTemplate, complete: loadedTemplate, error: errorTemplate })}
+      ${this._task.render({
+      pending: loadingTemplate,
+      complete: (results) => loadedTemplate(results, this.showDetails, this.showSummary),
+      error: errorTemplate
+    })}
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "rewiring-america-calculator-result": RewiringAmericaCalculatorResult;
   }
 }
