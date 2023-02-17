@@ -165,7 +165,11 @@ function formatAmount(amount: number, amount_type: string) {
   if (amount_type == 'percent') {
     return `${Math.round(amount * 100)}%`;
   } else if (amount_type == 'dollar_amount') {
-    return `$${amount.toLocaleString()}`;
+    if (amount == 0) {
+      return 'N/A';
+    } else {
+      return `$${amount.toLocaleString()}`;
+    }
   } else {
     return amount.toString();
   }
@@ -173,24 +177,24 @@ function formatAmount(amount: number, amount_type: string) {
 
 function formatStartDate(start_date: number, type: string) {
   if (start_date == 2022) {
-    return 'Available now!';
+    return html`<em>Available Now!</em>`;
   } else if (start_date == 2023) {
     if (type == 'pos_rebate') {
-      return 'Late 2023'
+      return html`Late 2023`;
     } else {
-      return 'Available now!';
+      return html`<em>Available Now!</em>`;
     }
   } else {
-    return start_date.toString();
+    return html`${start_date.toString()}`;
   }
 }
 
 const detailRow = (incentive) => html`
-  <tr>
-  <td><a class="more-info-link" href="https://www.rewiringamerica.org/${incentive.more_info_url}">${incentive.item}</a></td>
-  <td class="cell--right">${formatAmount(incentive.amount, incentive.amount_type)}</td>
-  <td class="cell--right">${formatStartDate(incentive.start_date, incentive.type)}</td>
-  <td class="cell--right hide-on-mobile"><a class="more-info-button" href="https://www.rewiringamerica.org/${incentive.more_info_url}">More Info</a></td>
+  <tr class="${incentive.eligible ? nothing : "row--dimmed"}">
+    <td><a class="more-info-link" href="https://www.rewiringamerica.org/${incentive.more_info_url}">${incentive.item}</a></td>
+    <td class="cell--right">${formatAmount(incentive.amount, incentive.amount_type)}</td>
+    <td class="cell--right">${formatStartDate(incentive.start_date, incentive.type)}</td>
+    <td class="cell--right hide-on-mobile"><a class="more-info-button" href="https://www.rewiringamerica.org/${incentive.more_info_url}">More Info</a></td>
   </tr>
 `;
 

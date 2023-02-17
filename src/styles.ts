@@ -10,14 +10,22 @@ export const baseStyles = css`
 
 /* these are documented as themable and should be backwards compatible if changed */
 :host {
-  --ra-embed-primary-button-color: var(--rewiring-yellow);
+  /* Most of the text */
   --ra-embed-text-color: black;
+  --ra-embed-emphasis-text-color: var(--rewiring-purple);
+  /* the Calculate! button */
+  --ra-embed-primary-button-color: var(--rewiring-yellow);
+  /* card styles: */
   --ra-embed-card-background: white;
   --ra-embed-card-shadow: rgba(0,0,0,0.1) 0px 4px 50px;
   --ra-embed-card-border: 1px solid rgb(217, 217, 217);
   --ra-embed-card-border-radius: 24px;
+  /* the lavender card heading: */
   --ra-embed-card-heading-background: var(--rewiring-light-purple);
-  --ra-embed-card-heading-intense-background: #333;
+  --ra-embed-card-heading-text-color: black;
+  /* the rich purple card heading: */
+  --ra-embed-card-heading-intense-background: var(--rewiring-purple);
+  --ra-embed-card-heading-intense-text-color: white;
 }
 
 :host {
@@ -66,6 +74,11 @@ label {
   font-weight: 500;
   font-style: normal;
   margin: 0;
+}
+
+em {
+  color: var(--ra-embed-emphasis-text-color);
+  font-style: normal;
 }
 `;
 
@@ -117,11 +130,12 @@ export const cardStyles = css`
 .card__heading {
   padding: 32px;
   background-color: var(--ra-embed-card-heading-background);
+  color:  var(--ra-embed-card-heading-text-color);
 }
 .card__heading--intense {
   padding: 32px;
-  background-color: rgb(74, 0, 195);
-  color: white;
+  background-color: var(--ra-embed-card-heading-intense-background);
+  color: var(--ra-embed-card-heading-intense-text-color);
 }
 .card__heading__icon-grid {
   display: grid;
@@ -181,6 +195,9 @@ export const tableStlyes = css`
   .cell--primary {
     width: 33%;
   }
+  .row--dimmed {
+    opacity: 0.2;
+  }
 `
 
 export const gridStyles = css`
@@ -232,8 +249,8 @@ input {
 }
 
 input:focus {
-  outline: 2px solid var(--select-focus);
-  outline-radius: 4px;
+  box-shadow: 0 0 0 2px var(--select-focus) inset;
+  outline: none;
 }
 
 button {
