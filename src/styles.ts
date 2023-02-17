@@ -1,22 +1,41 @@
 import { css } from 'lit';
 
 export const baseStyles = css`
-:host * {
-  box-sizing: border-box;
-  font-smoothing: antialiased;
-  -webkit-font-smoothing: antialiased;
+/* private 'semantic' defaults to use in themes */
+:host {
+  --rewiring-yellow: rgb(249, 214, 91);
+  --rewiring-purple: rgb(74, 0, 195);
+  --rewiring-light-purple: rgb(241, 237, 249);
+}
+
+/* these are documented as themable and should be backwards compatible if changed */
+:host {
+  --ra-embed-primary-button-color: var(--rewiring-yellow);
+  --ra-embed-text-color: black;
+  --ra-embed-card-background: white;
+  --ra-embed-card-shadow: rgba(0,0,0,0.1) 0px 4px 50px;
+  --ra-embed-card-border: 1px solid rgb(217, 217, 217);
+  --ra-embed-card-border-radius: 24px;
+  --ra-embed-card-heading-background: var(--rewiring-light-purple);
+  --ra-embed-card-heading-intense-background: #333;
 }
 
 :host {
+  color: var(--ra-embed-text-color);
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
   font-family: "GT America", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 1rem;
+  font-size: 16px;
+  line-height: 28px;
   font-weight: 400;
-  line-height: 24px;
   --select-border: 1px solid #cccccc;
   --input-border: 1px solid #cccccc;
   --select-arrow: #222;
   --select-focus: blue;
-  --rewiring-yellow: rgb(249, 214, 91);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 h1 {
@@ -51,14 +70,36 @@ label {
 `;
 
 export const cardStyles = css`
-.card {
-  margin: 48px;
-  border: 1px solid rgb(217, 217, 217);
-  border-radius: 24px;
-  box-shadow: rgba(0,0,0,0.1) 0px 4px 50px;
-  background-color: white;
-  overflow: clip;
+/* Extra small devices */
+@media only screen and (max-width: 600px) {
+  .card {
+    min-width: 200px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background-color: var(--ra-embed-card-background);
+    overflow: clip;
+  }
 }
+/* (portrait tablets and large phones and up) */
+@media only screen and (min-width: 600px) {
+  .card {
+    margin: 24px;
+    border: var(--ra-embed-card-border);
+    border-radius: var(--ra-embed-card-border-radius);
+    box-shadow: var(--ra-embed-card-shadow);
+    background-color: var(--ra-embed-card-background);
+    overflow: clip;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .card {
+    margin: 48px;
+  }
+}
+
 .card-content {
   padding: 32px;
   display: grid;
@@ -73,22 +114,23 @@ export const cardStyles = css`
 .card-content--full-bleed__title {
   padding: 16px 16px 0px;
 }
-.card-title {
+.card__heading {
   padding: 32px;
-  background-color: rgb(241, 237, 249);
+  background-color: var(--ra-embed-card-heading-background);
 }
-.card-title--intense {
+.card__heading--intense {
   padding: 32px;
   background-color: rgb(74, 0, 195);
   color: white;
 }
-.card-title__icon-grid {
+.card__heading__icon-grid {
   display: grid;
   grid-template-columns: min-content 1fr;
   gap: 16px;
   align-items: start;
 }
-.logo {
+.footer {
+  margin: 16px 16px 24px 16px;
   text-align: center;
 }
 `;
@@ -117,6 +159,17 @@ export const tableStlyes = css`
     font-weight: normal;
     text-align: left;
     padding: 16px;
+    max-width: 33%;
+  }
+  /* Extra small devices */
+  @media only screen and (max-width: 600px) {
+    td, th {
+      font-size: 14px;
+      line-height: 16px;
+      font-weight: normal;
+      text-align: left;
+      padding: 8px;
+    }
   }
   th {
     font-weight: 500;
@@ -125,19 +178,34 @@ export const tableStlyes = css`
   .cell--right {
     text-align: right;
   }
+  .cell--primary {
+    width: 33%;
+  }
 `
 
 export const gridStyles = css`
+/* Extra small devices */
+@media only screen and (max-width: 600px) {
+  .grid-3-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    align-items: end;
+  }
+}
+/* Portrait tablets and large phones and up */
+@media only screen and (min-width: 600px) {
 .grid-3-2 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 16px;
   align-items: end;
+  }
 }
 `;
 
 export const formStyles = css`
-/* TODO: use a CSS reset */
+/* TODO: use a CSS reset? */
 button {
   appearance: none;
   border: none;

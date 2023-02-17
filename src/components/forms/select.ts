@@ -1,4 +1,5 @@
 import { html, css } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 export interface OptionParam {
   label: string,
@@ -7,26 +8,26 @@ export interface OptionParam {
 
 export interface SelectParam {
   id: string;
-  placeholder: string;
   required: boolean;
   options: OptionParam[];
   currentValue: string;
+  tabIndex?: number;
 }
 
 export const option = ({ label, value }: OptionParam, selected: boolean) => html`
-  <option value="${value}" ${selected && 'selected'}>${label}</option>
+  <option value="${value}" ?selected=${selected}>${label}</option>
 `;
 
 export const select = ({
   id,
-  placeholder,
   required,
   options,
-  currentValue
+  currentValue,
+  tabIndex
 }: SelectParam) => {
   return html`
     <div class="select">
-      <select id="${id}" placeholder="${placeholder}" name="${id}" ${required && 'required'}>
+      <select id="${id}" name="${id}" ?required=${required} tabindex="${ifDefined(tabIndex)}">
         ${options.map(o => option(o, o.value == currentValue))}
       </select>
       <span class="focus"></span>

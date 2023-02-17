@@ -43,16 +43,16 @@ export class RewiringAmericaCalculator extends LitElement {
   zip: string = '';
 
   @property({ type: String, attribute: 'owner-status' })
-  ownerStatus: string = '';
+  ownerStatus: string = 'homeowner';
 
   @property({ type: String, attribute: 'household-income' })
   householdIncome: string = '';
 
   @property({ type: String, attribute: 'tax-filing' })
-  taxFiling: string = '';
+  taxFiling: string = 'single';
 
   @property({ type: String, attribute: 'household-size' })
-  householdSize: string = '';
+  householdSize: string = '1';
 
   submit(e: SubmitEvent) {
     e.preventDefault();
@@ -64,6 +64,10 @@ export class RewiringAmericaCalculator extends LitElement {
     this.householdSize = formData.get('household_size') as string || '';
   }
 
+  get showResult() {
+    return (this.zip && this.ownerStatus && this.taxFiling && this.householdIncome && this.householdSize);
+  }
+
   override render() {
     return html`
     <div class="card card-content">
@@ -73,31 +77,31 @@ export class RewiringAmericaCalculator extends LitElement {
         <div>
           <label for="zip">
             Zip ${tooltip('Your zip code helps determine the amount of discounts and tax credits you qualify for.', 18, 18)}<br>
-            <input id="zip" placeholder="12345" name="zip" required="required" type="text" value="${this.zip}">
+            <input tabindex="0" id="zip" placeholder="12345" name="zip" required type="text" value="${this.zip}" minlength="5" maxlength="5" inputmode="numeric" pattern="[0-9]{5}">
           </label>
         </div>
         <div>
           <label for="owner_status">
             Homeowners Status ${tooltip('Homeowners and renters qualify for different incentives.', 18, 18, 'middle')}<br>
-            ${select({ id: 'owner_status', placeholder: 'Owner status...', required: true, options: OWNER_STATUS_OPTIONS, currentValue: this.ownerStatus })}
+            ${select({ id: 'owner_status', required: true, options: OWNER_STATUS_OPTIONS, currentValue: this.ownerStatus, tabIndex: 0 })}
           </label>
         </div>
         <div>
           <label for="household_income">
             Household Income ${tooltip('Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse\'s income', 18, 18, 'right')}<br>
-            <input id="household_income" placeholder="50000" name="household_income" required="required" type="text" value="${this.householdIncome}">
+            <input tabindex="0" id="household_income" placeholder="50000" name="household_income" required type="text" value="${this.householdIncome}" minlength="1" maxlength="9" inputmode="numeric" pattern="([1-9][0-9]*|0)">
           </label>
         </div>
         <div>
           <label for="tax_filing">
             Tax Filing ${tooltip('Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.', 18, 18)}<br>
-            ${select({ id: 'tax_filing', placeholder: 'Tax filing...', required: true, options: TAX_FILING_OPTIONS, currentValue: this.taxFiling })}
+            ${select({ id: 'tax_filing', required: true, options: TAX_FILING_OPTIONS, currentValue: this.taxFiling, tabIndex: 0 })}
           </label>
         </div>
         <div>
           <label for="household_size">
             Household Size ${tooltip('Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.', 18, 18, 'middle')}<br>
-            ${select({ id: 'household_size', placeholder: 'Household size...', required: true, options: HOUSEHOLD_SIZE_OPTIONS, currentValue: this.householdSize })}
+            ${select({ id: 'household_size', required: true, options: HOUSEHOLD_SIZE_OPTIONS, currentValue: this.householdSize, tabIndex: 0 })}
           </label>
         </div>
         <div>
@@ -106,7 +110,7 @@ export class RewiringAmericaCalculator extends LitElement {
       </div>
     </form>
   </div>
-  ${(this.zip && this.ownerStatus && this.taxFiling && this.householdIncome && this.householdSize) && html`
+  ${this.showResult && html`
     <rewiring-america-calculator-result
       api-key="${this.apiKey}"
       zip="${this.zip}"
@@ -116,6 +120,9 @@ export class RewiringAmericaCalculator extends LitElement {
       household-size="${this.householdSize}">
     </rewiring-america-calculator-result>
   `}
+  <div class="footer">
+    <p>Calculator by <a href="https://www.rewiringamerica.org">Rewiring America</a> • <a href="https://content.rewiringamerica.org/view/privacy-policy.pdf">Privacy Policy</a> • <a href="https://content.rewiringamerica.org/api/terms.pdf">Terms</a></p>
+  </div>
   `
   }
 }

@@ -1,30 +1,104 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, TemplateResult, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Task } from '@lit-labs/task';
 import { cardStyles, baseStyles, tableStlyes } from './styles';
-import { calculatorTableIcon } from './components/icons';
+import { calculatorTableIcon, lightningBolt } from './components/icons';
 
 const numberStyles = css`
-  .summary-number {
+  .summary-numbers {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  /* Extra small devices */
+  @media only screen and (max-width: 600px) {
+    .summary-numbers {
+      grid-template-columns: unset;
+      grid-template-rows: min-content;
+    }
+  }
+  .summary-number__border {
     border-left: 5px solid var(--rewiring-yellow);
     padding-left: 11px;
-    margin-bottom: 8px;
   }
-  .summary-number--label {
+  .summary-number__border--fancy {
+    border-left: 5px solid var(--rewiring-purple);
+    padding-left: 11px;
+  }
+  .summary-number__label {
     font-size: 16px;
-    line-height: 16px;
+    line-height: 24px;
     font-weight: 400;
     text-transform: uppercase;
+    max-width: 10em; /* optical */
+    margin-bottom: 8px;
   }
-  .summary-number--value {
+  .summary-number__value {
     font-size: 32px;
     line-height: 32px;
     font-weight: 700;
   }
+  .summary-number__detail {
+    padding-left: 16px;
+    padding-top: 4px;
+    margin-top: 8px;
+  }
+  /* Extra small devices */
+  @media only screen and (max-width: 600px) {
+    .summary-number__detail {
+      margin: 0;
+    }
+  }
+
+  .summary-number--total {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .summary-number--total__value, .summary-number--total__label {
+    font-size: 48px;
+    line-height: 64px;
+    font-weight: 500;
+  }
+  .summary-number--total__label__detail {
+    display: none;
+  }
+  .summary-number--total__icon {
+    vertical-align: middle;
+    margin-left: 16px;
+  }
+
+  /* Extra small devices */
+  @media only screen and (max-width: 600px) {
+    .summary-number--total__icon {
+      display: none;
+    }
+    .summary-number--total__label__detail {
+      display: inline;
+    }
+    .summary-number--total__disclaimer {
+      display: none;
+    }
+    .summary-number--total {
+      border-left: 5px solid var(--rewiring-yellow);
+      padding-left: 11px;
+      display: block;
+      grid-template-columns: unset;
+      align-items: unset;
+      gap: unset;
+    }
+    .summary-number--total__label {
+      font-size: 16px;
+      line-height: 16px;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+  }
 `;
 
 const linkStyles = css`
-  a.more-info-button {
+  a.more-info-button, a.more-info-button:link, a.more-info-button:visited {
     display: inline-block;
     text-decoration: none;
     color: black;
@@ -35,6 +109,9 @@ const linkStyles = css`
     text-align: center;
     position: relative;
     padding: 8px 40px 8px 16px;
+  }
+  a.more-info-button:hover, a.more-info-button:active {
+    background-color: rgb(218, 218, 218);
   }
   a.more-info-button::after {
     content: "";
@@ -52,12 +129,35 @@ const linkStyles = css`
     transform: rotate(316deg);
     margin-top: 8px;
   }
+
+  a.more-info-link, a.more-info-link:link, a.more-info-link:visited {
+    text-decoration: none;
+    color: black;
+  }
+
+  /* Extra small devices */
+  @media only screen and (max-width: 768px) {
+    a.more-info-button, a.more-info-button:link, a.more-info-button:visited {
+      display: none;
+    }
+    a.more-info-button::after {
+      display: none;
+    }
+
+    a.more-info-link, a.more-info-link:link, a.more-info-link:visited {
+      text-decoration: underline;
+      color: unset;
+    }
+  }
 `;
 
-const numberTemplate = (label: string, value: number) => html`
+const numberTemplate = (label: string, value: number, fancy?: boolean, extra?: TemplateResult) => html`
   <div class="summary-number">
-    <div class="summary-number--label">${label}</div>
-    <div class="summary-number--value">$${value.toLocaleString()}</div>
+    <div class=${fancy ? "summary-number__border--fancy" : "summary-number__border"}>
+      <div class="summary-number__label">${label}</div>
+      <div class="summary-number__value">$${value.toLocaleString()}</div>
+    </div>
+    ${extra || nothing}
   </div>
 `;
 
@@ -91,7 +191,7 @@ function formatStartDate(start_date: number, type: string) {
 
 const detailRow = (incentive) => html`
   <tr>
-  <td>${incentive.item}</td>
+  <td><a class="more-info-link" href="https://www.rewiringamerica.org/${incentive.more_info_url}">${incentive.item}</a></td>
   <td class="cell--right">${formatAmount(incentive.amount, incentive.amount_type)}</td>
   <td class="cell--right">${formatStartDate(incentive.start_date, incentive.type)}</td>
   <td class="cell--right"><a class="more-info-button" href="https://www.rewiringamerica.org/${incentive.more_info_url}">More Info</a></td>
@@ -101,7 +201,12 @@ const detailRow = (incentive) => html`
 const detailsTable = (incentives) => html`
   <table>
     <thead>
-      <tr><th>Item</th><th class="cell--right">Amount</th><th class="cell--right">Timeline</th><th>&nbsp;</th></tr>
+      <tr>
+        <th class="cell--primary">Item</th>
+        <th class="cell--right">Amount</th>
+        <th class="cell--right">Timeline</th>
+        <th></th>
+      </tr>
     </thead>
     <tbody>
       ${incentives && incentives.map(item => detailRow(item))}
@@ -111,8 +216,8 @@ const detailsTable = (incentives) => html`
 
 const detailsTemplate = (results: any) => html`
   <div class="card">
-    <div class="card-title--intense">
-      <div class="card-title__icon-grid">
+    <div class="card__heading--intense">
+      <div class="card__heading__icon-grid">
         ${calculatorTableIcon()}
         <div>
           <h2>Household Electrification Incentives</h2>
@@ -129,30 +234,52 @@ const detailsTemplate = (results: any) => html`
   </div>
 `;
 
+const upfrontDiscountLabel = ({ is_under_150_ami, is_under_80_ami }) => {
+  if (is_under_150_ami && !is_under_80_ami) {
+    return html`
+      <div class="summary-number__detail">Covers up to 50% of costs</div>
+      <!-- TODO: tooltip! -->
+      <!-- Electrification rebates for your income bracket can be used to cover up to 50% of your total costs. For example, if your total project cost is $10,000, you can receive an electrification rebate of $5,000. -->
+    `;
+  } else {
+    return nothing;
+  }
+};
+
 const loadedTemplate = (results: any, showDetails: boolean = true) => html`
   <div class="card">
-    <div class="card-title">
+    <div class="card__heading">
       <h1>Your Personalized Incentives</h1>
       These are available to American homeowners and renters over the next 10 years.
     </div>
     <div class="card-content">
-      ${numberTemplate('Upfront Discounts', nearestFifty(results.pos_savings))}
-      <!-- TODO: add disclaimer here about 50 or 100% of costs -->
-      ${numberTemplate('Tax Credits', nearestFifty(results.tax_savings))}
-      ${numberTemplate('Estimated Bill Savings Per Year', nearestFifty(results.estimated_annual_savings))}
-      ${numberTemplate('Total Incentives (Estimated)', nearestFifty(results.pos_savings + results.tax_savings))}
+      <div class="summary-numbers">
+        ${numberTemplate('Upfront Discounts', nearestFifty(results.pos_savings), false, upfrontDiscountLabel(results))}
+        <!-- TODO: add disclaimer here about 50 or 100% of costs -->
+        ${numberTemplate('Available Tax Credits', nearestFifty(results.tax_savings))}
+        <!-- TODO: purple style -->
+        ${numberTemplate('Estimated Bill Savings Per Year', nearestFifty(results.estimated_annual_savings), true)}
+      </div>
+      <div>
+        <div class="summary-number--total">
+          <div class="summary-number--total__label">Total Incentives <span class="summary-number--total__label__detail">(Estimated)</span></div>
+          <div class="summary-number--total__value">$${nearestFifty(results.pos_savings + results.tax_savings).toLocaleString()}<span class="summary-number--total__icon">${lightningBolt()}</span></div>
+        </div>
+        <p class="summary-number--total__disclaimer">
+          Disclaimer: This is an estimate. We do not yet know how or when electrification rebates will be implemented in each state, so we cannot guarantee final amounts or timeline.
+        </p>
+      </div>
     </div>
   </div>
   ${showDetails && detailsTemplate(results)}
-  <div class="logo"><img src="https://www.rewiringamerica.org/images/logo-rewiring-america.png" width="160"></div>
 `;
 
 const loadingTemplate = () => html`
-  <div class="card-content">Loading...</div>
+  <div class="card card-content">Loading...</div>
 `;
 
 const errorTemplate = (error: any) => html`
-  <div class="card-content">${error.message || 'Error loading incentives.'}</div>
+  <div class="card card-content">${error.message || 'Error loading incentives.'}</div>
 `;
 
 const RA_API_BASE: string = 'https://api.rewiringamerica.org';
