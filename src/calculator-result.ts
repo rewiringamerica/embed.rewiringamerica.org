@@ -137,13 +137,9 @@ const linkStyles = css`
 
   /* Extra small devices */
   @media only screen and (max-width: 768px) {
-    a.more-info-button, a.more-info-button:link, a.more-info-button:visited {
-      display: none;
+    .hide-on-mobile {
+      display:none;
     }
-    a.more-info-button::after {
-      display: none;
-    }
-
     a.more-info-link, a.more-info-link:link, a.more-info-link:visited {
       text-decoration: underline;
       color: unset;
@@ -194,7 +190,7 @@ const detailRow = (incentive) => html`
   <td><a class="more-info-link" href="https://www.rewiringamerica.org/${incentive.more_info_url}">${incentive.item}</a></td>
   <td class="cell--right">${formatAmount(incentive.amount, incentive.amount_type)}</td>
   <td class="cell--right">${formatStartDate(incentive.start_date, incentive.type)}</td>
-  <td class="cell--right"><a class="more-info-button" href="https://www.rewiringamerica.org/${incentive.more_info_url}">More Info</a></td>
+  <td class="cell--right hide-on-mobile"><a class="more-info-button" href="https://www.rewiringamerica.org/${incentive.more_info_url}">More Info</a></td>
   </tr>
 `;
 
@@ -205,7 +201,7 @@ const detailsTable = (incentives) => html`
         <th class="cell--primary">Item</th>
         <th class="cell--right">Amount</th>
         <th class="cell--right">Timeline</th>
-        <th></th>
+        <th class="hide-on-mobile"></th>
       </tr>
     </thead>
     <tbody>
@@ -242,6 +238,8 @@ const upfrontDiscountLabel = ({ is_under_150_ami, is_under_80_ami }) => {
       <!-- Electrification rebates for your income bracket can be used to cover up to 50% of your total costs. For example, if your total project cost is $10,000, you can receive an electrification rebate of $5,000. -->
     `;
   } else {
+    // Covers up to 100% of costs
+    // Electrification rebates for your income bracket can be used to cover 100% of your total costs. For example, if your total project cost is $10,000, you can receive an electrification rebate of $10,000.
     return nothing;
   }
 };
@@ -269,6 +267,7 @@ const loadedTemplate = (results: any, showDetails: boolean = true) => html`
           Disclaimer: This is an estimate. We do not yet know how or when electrification rebates will be implemented in each state, so we cannot guarantee final amounts or timeline.
         </p>
       </div>
+      <!-- TODO: Based on your household income, you may not qualify for tax credits, but you can take full advantage of the electrification rebates. Check out this relevant case study! -->
     </div>
   </div>
   ${showDetails && detailsTemplate(results)}
