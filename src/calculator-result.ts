@@ -276,9 +276,9 @@ const summaryTemplate = (results: any) => html`
   </div>
 `;
 
-const loadedTemplate = (results: any, showDetails: boolean, showSummary: boolean) => html`
-    ${showSummary && summaryTemplate(results)}
-    ${showDetails && detailsTemplate(results)}
+const loadedTemplate = (results: any, hideDetails: boolean, hideSummary: boolean) => html`
+    ${hideSummary ? nothing : summaryTemplate(results)}
+    ${hideDetails ? nothing : detailsTemplate(results)}
 `;
 
 const loadingTemplate = () => html`
@@ -296,11 +296,11 @@ const CALCULATOR_PATH: string = '/api/v0/calculator';
 export class RewiringAmericaCalculatorResult extends LitElement {
   static styles = [baseStyles, cardStyles, numberStyles, tableStlyes, linkStyles];
 
-  @property({ type: Boolean, attribute: 'show-summary' })
-  showSummary: boolean = true;
+  @property({ type: Boolean, attribute: 'hide-summary' })
+  hideSummary: boolean = false;
 
-  @property({ type: Boolean, attribute: 'show-details' })
-  showDetails: boolean = true;
+  @property({ type: Boolean, attribute: 'hide-details' })
+  hideDetails: boolean = false;
 
   @property({ type: String })
   zip: string = '';
@@ -350,7 +350,7 @@ export class RewiringAmericaCalculatorResult extends LitElement {
     return html`
       ${this._task.render({
       pending: loadingTemplate,
-      complete: (results) => loadedTemplate(results, this.showDetails, this.showSummary),
+      complete: (results) => loadedTemplate(results, this.hideDetails, this.hideSummary),
       error: errorTemplate
     })}
     `;

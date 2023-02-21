@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { baseStyles, cardStyles, gridStyles } from './styles';
 import { tooltip, tooltipStyles } from './components/tooltip';
@@ -79,14 +79,14 @@ export class RewiringAmericaCalculator extends LitElement {
     tooltipStyles,
   ];
 
-  @property({ type: Boolean, attribute: 'show-form' })
-  showForm: boolean = true;
+  @property({ type: Boolean, attribute: 'hide-form' })
+  hideForm: boolean = false;
 
-  @property({ type: Boolean, attribute: 'show-summary' })
-  showSummary: boolean = true;
+  @property({ type: Boolean, attribute: 'hide-summary' })
+  hideSummary: boolean = false;
 
-  @property({ type: Boolean, attribute: 'show-details' })
-  showDetails: boolean = true;
+  @property({ type: Boolean, attribute: 'hide-details' })
+  hideDetails: boolean = false;
 
   @property({ type: String, attribute: 'api-key' })
   apiKey: string = '';
@@ -116,29 +116,29 @@ export class RewiringAmericaCalculator extends LitElement {
     this.householdSize = formData.get('household_size') as string || '';
   }
 
-  get showResult() {
-    return (this.zip && this.ownerStatus && this.taxFiling && this.householdIncome && this.householdSize);
+  get hideResult() {
+    return !(this.zip && this.ownerStatus && this.taxFiling && this.householdIncome && this.householdSize);
   }
 
   override render() {
     return html`
-  ${this.showForm && formTemplate(this)}
-  ${this.showResult && html`
-    <rewiring-america-calculator-result
-      show-summary=${this.showSummary}
-      show-details=${this.showDetails}
-      api-key="${this.apiKey}"
-      zip="${this.zip}"
-      owner-status="${this.ownerStatus}"
-      household-income="${this.householdIncome}"
-      tax-filing="${this.taxFiling}"
-      household-size="${this.householdSize}">
-    </rewiring-america-calculator-result>
-  `}
-  <div class="footer">
-    <p>Calculator by <a href="https://www.rewiringamerica.org">Rewiring America</a> • <a href="https://content.rewiringamerica.org/view/privacy-policy.pdf">Privacy Policy</a> • <a href="https://content.rewiringamerica.org/api/terms.pdf">Terms</a></p>
-  </div>
-  `
+      ${this.hideForm ? nothing : formTemplate(this)}
+      ${this.hideResult ? nothing : html`
+        <rewiring-america-calculator-result
+          ?hide-summary=${this.hideSummary}
+          ?hide-details=${this.hideDetails}
+          api-key="${this.apiKey}"
+          zip="${this.zip}"
+          owner-status="${this.ownerStatus}"
+          household-income="${this.householdIncome}"
+          tax-filing="${this.taxFiling}"
+          household-size="${this.householdSize}">
+        </rewiring-america-calculator-result>
+      `}
+      <div class="footer">
+        <p>Calculator by <a href="https://www.rewiringamerica.org">Rewiring America</a> • <a href="https://content.rewiringamerica.org/view/privacy-policy.pdf">Privacy Policy</a> • <a href="https://content.rewiringamerica.org/api/terms.pdf">Terms</a></p>
+      </div>
+  `;
   }
 }
 

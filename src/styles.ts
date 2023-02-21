@@ -4,6 +4,7 @@ export const baseStyles = css`
 /* private 'semantic' defaults to use in themes */
 :host {
   --rewiring-yellow: rgb(249, 214, 91);
+  --rewiring-yellow-darker: rgb(242, 199, 46);
   --rewiring-purple: rgb(74, 0, 195);
   --rewiring-light-purple: rgb(241, 237, 249);
 }
@@ -14,7 +15,9 @@ export const baseStyles = css`
   --ra-embed-text-color: black;
   --ra-embed-emphasis-text-color: var(--rewiring-purple);
   /* the Calculate! button */
-  --ra-embed-primary-button-color: var(--rewiring-yellow);
+  --ra-embed-primary-button-background-color: var(--rewiring-yellow);
+  --ra-embed-primary-button-background-hover-color: var(--rewiring-yellow-darker);
+  --ra-embed-primary-button-text-color: black;
   /* card styles: */
   --ra-embed-card-background: white;
   --ra-embed-card-shadow: rgba(0,0,0,0.1) 0px 4px 50px;
@@ -36,6 +39,9 @@ export const baseStyles = css`
   font-size: 16px;
   line-height: 28px;
   font-weight: 400;
+  margin: 0 auto; /* center on page */
+  display: block; /* required for max-width to kick in */
+  max-width: 1280px;
   --select-border: 1px solid #cccccc;
   --input-border: 1px solid #cccccc;
   --select-arrow: #222;
@@ -257,17 +263,16 @@ button {
   padding: 8px;
   font-size: 16px;
   line-height: 28px;
-  /* TODO: primary-action-color */
-  background-color: var(--rewiring-yellow);
-  border: 1px solid var(--rewiring-yellow);
+  background-color: var(--ra-embed-primary-button-background-color);
+  border: 1px solid var(--ra-embed-primary-button-background-color);
   border-radius: 4px;
   font-weight: 600;
   margin-top: 4px;
   cursor: pointer;
+  color: var(--ra-embed-primary-button-text-color);
 }
 
 button:hover {
-  /* TODO: use a filter to darken this based on the primary-action-color */
-  background-color: rgb(242, 199, 46);
+  background-color: var(--ra-embed-primary-button-background-hover-color);
 }
 `;
