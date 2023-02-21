@@ -2,9 +2,10 @@ import { LitElement, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Task, initialState } from '@lit-labs/task';
 import { baseStyles, cardStyles, gridStyles } from './styles';
-import { formTemplate, formStyles } from './components/calculator-form';
-import { detailsStyles, detailsTemplate } from './components/incentive-details';
-import { summaryStyles, summaryTemplate } from './components/incentive-summary'
+import { formTemplate, formStyles } from './calculator-form';
+import { detailsStyles, detailsTemplate } from './incentive-details';
+import { summaryStyles, summaryTemplate } from './incentive-summary'
+import { FilingStatus, OwnerStatus } from './calculator-types';
 
 const loadedTemplate = (results: any, hideDetails: boolean, hideSummary: boolean) => html`
     ${hideSummary ? nothing : summaryTemplate(results)}
@@ -19,8 +20,7 @@ const errorTemplate = (error: any) => html`
   <div class="card card-content">${error.message || 'Error loading incentives.'}</div>
 `;
 
-const RA_API_BASE: string = 'https://api.rewiringamerica.org';
-const CALCULATOR_PATH: string = '/api/v0/calculator';
+const DEFAULT_CALCULATOR_API_PATH: string = 'https://api.rewiringamerica.org/api/v0/calculator';
 
 @customElement('rewiring-america-calculator')
 export class RewiringAmericaCalculator extends LitElement {
@@ -33,6 +33,8 @@ export class RewiringAmericaCalculator extends LitElement {
     ...detailsStyles
   ];
 
+  /* supported properties to control showing/hiding of each card in the widget */
+
   @property({ type: Boolean, attribute: 'hide-form' })
   hideForm: boolean = false;
 
@@ -42,20 +44,27 @@ export class RewiringAmericaCalculator extends LitElement {
   @property({ type: Boolean, attribute: 'hide-details' })
   hideDetails: boolean = false;
 
+  /* supported properties to control which API path and key is used to load the calculator results */
+
   @property({ type: String, attribute: 'api-key' })
   apiKey: string = '';
+
+  @property({ type: String, attribute: 'api-path' })
+  apiPath: string = DEFAULT_CALCULATOR_API_PATH;
+
+  /* supported properties to allow pre-filling the form */
 
   @property({ type: String, attribute: 'zip' })
   zip: string = '';
 
   @property({ type: String, attribute: 'owner-status' })
-  ownerStatus: string = 'homeowner';
+  ownerStatus: OwnerStatus = 'homeowner';
 
   @property({ type: String, attribute: 'household-income' })
   householdIncome: string = '';
 
   @property({ type: String, attribute: 'tax-filing' })
-  taxFiling: string = 'single';
+  taxFiling: FilingStatus = 'single';
 
   @property({ type: String, attribute: 'household-size' })
   householdSize: string = '1';
@@ -64,9 +73,9 @@ export class RewiringAmericaCalculator extends LitElement {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     this.zip = formData.get('zip') as string || '';
-    this.ownerStatus = formData.get('owner_status') as string || '';
+    this.ownerStatus = formData.get('owner_status') as OwnerStatus || '';
     this.householdIncome = formData.get('household_income') as string || '';
-    this.taxFiling = formData.get('tax_filing') as string || '';
+    this.taxFiling = formData.get('tax_filing') as FilingStatus || '';
     this.householdSize = formData.get('household_size') as string || '';
   }
 
@@ -87,7 +96,7 @@ export class RewiringAmericaCalculator extends LitElement {
         tax_filing: taxFiling,
         household_size: householdSize,
       });
-      const url = new URL(`${RA_API_BASE}${CALCULATOR_PATH}?${query}`);
+      const url = new URL(`${this.apiPath}?${query}`);
       const response: Response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -95,7 +104,7 @@ export class RewiringAmericaCalculator extends LitElement {
         }
       });
       if (response.status >= 400) {
-        console.log(response);
+        console.error(response);
         throw new Error(response.statusText);
       }
       return response.json();
@@ -114,7 +123,7 @@ export class RewiringAmericaCalculator extends LitElement {
     })}
       `}
       <div class="footer">
-        <p>Calculator by <a href="https://www.rewiringamerica.org">Rewiring America</a> • <a href="https://content.rewiringamerica.org/view/privacy-policy.pdf">Privacy Policy</a> • <a href="https://content.rewiringamerica.org/api/terms.pdf">Terms</a></p>
+        <p>Calculator by <a target="_blank" href="https://www.rewiringamerica.org">Rewiring America</a> • <a target="_blank" href="https://content.rewiringamerica.org/view/privacy-policy.pdf">Privacy Policy</a> • <a target="_blank" href="https://content.rewiringamerica.org/api/terms.pdf">Terms</a></p>
       </div>
   `;
   }

@@ -1,7 +1,7 @@
 import { html, css } from 'lit';
 import { tooltip, tooltipStyles } from './tooltip';
 import { downIcon } from './icons';
-import { select, selectStyles, OptionParam } from './forms/select';
+import { select, selectStyles, OptionParam } from './select';
 
 const inputStyles = css`
 /* TODO: use a CSS reset? */

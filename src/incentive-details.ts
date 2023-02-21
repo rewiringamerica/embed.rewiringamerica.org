@@ -1,6 +1,7 @@
-import { css, html, nothing } from 'lit';
+import { css, html } from 'lit';
 import { calculatorTableIcon } from './icons';
-import { tableStlyes } from '../styles';
+import { tableStlyes } from './styles';
+import { AmountType, ICalculatedIncentiveResults, IIncentiveRecord, IncentiveType } from './calculator-types';
 
 const linkButtonStyles = css`
   a.more-info-button, a.more-info-button:link, a.more-info-button:visited {
@@ -54,7 +55,7 @@ const linkButtonStyles = css`
 
 export const detailsStyles = [linkButtonStyles, tableStlyes]
 
-function formatAmount(amount: number, amount_type: string) {
+function formatAmount(amount: number, amount_type: AmountType) {
   if (amount_type == 'percent') {
     return `${Math.round(amount * 100)}%`;
   } else if (amount_type == 'dollar_amount') {
@@ -68,7 +69,7 @@ function formatAmount(amount: number, amount_type: string) {
   }
 }
 
-function formatStartDate(start_date: number, type: string) {
+function formatStartDate(start_date: number, type: IncentiveType) {
   if (start_date == 2022) {
     return html`<em>Available Now!</em>`;
   } else if (start_date == 2023) {
@@ -82,16 +83,16 @@ function formatStartDate(start_date: number, type: string) {
   }
 }
 
-const detailRow = (incentive) => html`
-  <tr class="${incentive.eligible ? nothing : "row--dimmed"}">
-    <td><a class="more-info-link" href="https://www.rewiringamerica.org/${incentive.more_info_url}">${incentive.item}</a></td>
+const detailRow = (incentive: IIncentiveRecord) => html`
+  <tr class=${incentive.eligible ? '' : 'row--dimmed'}>
+    <td><a class="more-info-link" target="_blank" href="https://www.rewiringamerica.org/${incentive.more_info_url}">${incentive.item}</a></td>
     <td class="cell--right">${formatAmount(incentive.amount, incentive.amount_type)}</td>
     <td class="cell--right">${formatStartDate(incentive.start_date, incentive.type)}</td>
-    <td class="cell--right hide-on-mobile"><a class="more-info-button" href="https://www.rewiringamerica.org/${incentive.more_info_url}">More Info</a></td>
+    <td class="cell--right hide-on-mobile"><a class="more-info-button" target="_blank" href="https://www.rewiringamerica.org/${incentive.more_info_url}">More Info</a></td>
   </tr>
 `;
 
-const detailsTable = (incentives) => html`
+const detailsTable = (incentives: Array<IIncentiveRecord>) => html`
   <table>
     <thead>
       <tr>
@@ -107,14 +108,14 @@ const detailsTable = (incentives) => html`
   </table>
 `;
 
-export const detailsTemplate = (results: any) => html`
+export const detailsTemplate = (results: ICalculatedIncentiveResults) => html`
   <div class="card">
     <div class="card__heading--intense">
       <div class="card__heading__icon-grid">
         ${calculatorTableIcon()}
         <div>
           <h2>Household Electrification Incentives</h2>
-          <p>All the savings you may be eligible for!<p>
+          <p>All the savings you may be eligible for!</p>
         </div>
       </div>
     </div>
