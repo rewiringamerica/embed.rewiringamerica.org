@@ -7,8 +7,8 @@
     "lit": "^2.6.1"
   },
   "scripts": {
-    "build:widget": "parcel build --public-url ./ --target default",
-    "serve:widget": "parcel serve src/index.html --dist-dir build"
+    "build:widget": "parcel build --target default",
+    "serve:widget": "parcel serve ./src/*.html --dist-dir build"
   },
   "browserslist": {
     "production": [

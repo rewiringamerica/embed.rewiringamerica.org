@@ -50,7 +50,7 @@ export class RewiringAmericaCalculator extends LitElement {
   apiKey: string = '';
 
   @property({ type: String, attribute: 'api-path' })
-  apiPath: string = DEFAULT_CALCULATOR_API_PATH;
+  apiPath: string = '';
 
   /* supported properties to allow pre-filling the form */
 
@@ -96,7 +96,8 @@ export class RewiringAmericaCalculator extends LitElement {
         tax_filing: taxFiling,
         household_size: householdSize,
       });
-      const url = new URL(`${this.apiPath}?${query}`);
+      const apiPath = this.apiPath || DEFAULT_CALCULATOR_API_PATH;
+      const url = new URL(`${apiPath}?${query}`);
       const response: Response = await fetch(url, {
         method: 'GET',
         headers: {
