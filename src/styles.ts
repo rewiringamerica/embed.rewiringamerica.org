@@ -44,7 +44,7 @@ export const baseStyles = css`
   font-weight: 400;
   margin: 0 auto; /* center on page */
   display: block; /* required for max-width to kick in */
-  /* width: 100%; */
+  width: 100%;
   max-width: 1280px;
   --select-border: 1px solid #cccccc;
   --input-border: 1px solid #cccccc;
