@@ -7,7 +7,7 @@ const linkButtonStyles = css`
   a.more-info-button, a.more-info-button:link, a.more-info-button:visited {
     display: inline-block;
     text-decoration: none;
-    color: black;
+    color: var(--ra-embed-text-color);
     background-color: rgb(238, 238, 238);
     border-radius: 4px;
     font-weight: 500;
@@ -16,14 +16,16 @@ const linkButtonStyles = css`
     position: relative;
     padding: 8px 40px 8px 16px;
   }
+
   a.more-info-button:hover, a.more-info-button:active {
     background-color: rgb(218, 218, 218);
   }
+
   a.more-info-button::after {
     content: "";
     display: inline-block;
     position: absolute;
-    border-color: black;
+    border-color: var(--ra-embed-text-color);
     border-style: solid;
     border-top-width: 0px;
     border-right-width: 1px;
@@ -38,7 +40,7 @@ const linkButtonStyles = css`
 
   a.more-info-link, a.more-info-link:link, a.more-info-link:visited {
     text-decoration: none;
-    color: black;
+    color: var(--ra-embed-text-color);
   }
 
   /* Extra small devices */

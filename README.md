@@ -32,7 +32,7 @@ This site is deployed using a Github Action and Github Pages. The domain `embed.
 
 Features and content:
  * Add remaining guidance and disclaimer copy for <80% and >150% AMI.
- * Add reset button to form.
+ * Add reset button to form?
  * Switch order of incentives depending on whether credits/rebates are more useful.
  * Use a better tooltip component to ensure tooltips are readable at mobile breakpoints. Maybe [floating-ui](https://floating-ui.com/docs/tutorial)? See also [Lit's tooltip tutorial](https://lit.dev/tutorials/tooltip/).
  * Add currency formatting to the income input element.
@@ -48,6 +48,7 @@ Robustness:
  * Add unit tests, run in CI.
  * How do we handle versioning?
  * Work with Zuplo to add `origin` configs to API keys and prevent use of API keys outside specific hosts.
+ * Generate types (and API client?) automatically from OpenAPI file.
 
 Optimizations:
  * Add support for caching results in localStorage.

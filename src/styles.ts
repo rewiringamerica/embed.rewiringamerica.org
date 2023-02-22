@@ -29,6 +29,9 @@ export const baseStyles = css`
   /* the rich purple card heading: */
   --ra-embed-card-heading-intense-background: var(--rewiring-purple);
   --ra-embed-card-heading-intense-text-color: white;
+  /* info section for high income customers */
+  --ra-embed-card-info-border: var(--rewiring-yellow);
+  --ra-embed-card-info-background: rgb(255, 250, 231);
 }
 
 :host {
@@ -41,6 +44,7 @@ export const baseStyles = css`
   font-weight: 400;
   margin: 0 auto; /* center on page */
   display: block; /* required for max-width to kick in */
+  /* width: 100%; */
   max-width: 1280px;
   --select-border: 1px solid #cccccc;
   --input-border: 1px solid #cccccc;
@@ -86,14 +90,49 @@ em {
   color: var(--ra-embed-emphasis-text-color);
   font-style: normal;
 }
+
+.calculator {
+  display: grid;
+  grid-template-rows: min-content;
+}
+
+.calculator__footer {
+  min-width: 200px;
+  text-align: center;
+}
+
+/* Extra small devices */
+@media only screen and (max-width: 600px) {
+  .calculator {
+    gap: 16px;
+  }
+}
+/* (portrait tablets and large phones and up) */
+@media only screen and (min-width: 600px) {
+  .calculator {
+    gap: 24px;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .calculator {
+    gap: 48px;
+  }
+}
 `;
 
 export const cardStyles = css`
+
+.card {
+  width: 100%;
+  margin: 0;
+}
+
 /* Extra small devices */
 @media only screen and (max-width: 600px) {
   .card {
     min-width: 200px;
-    margin: 0;
+  }
+  .card {
     border: none;
     border-radius: 0;
     box-shadow: none;
@@ -104,18 +143,11 @@ export const cardStyles = css`
 /* (portrait tablets and large phones and up) */
 @media only screen and (min-width: 600px) {
   .card {
-    margin: 24px;
     border: var(--ra-embed-card-border);
     border-radius: var(--ra-embed-card-border-radius);
     box-shadow: var(--ra-embed-card-shadow);
     background-color: var(--ra-embed-card-background);
     overflow: clip;
-  }
-}
-
-@media only screen and (min-width: 1024px) {
-  .card {
-    margin: 48px;
   }
 }
 
@@ -131,7 +163,7 @@ export const cardStyles = css`
   gap: 16px;
 }
 .card-content--full-bleed__title {
-  padding: 16px 16px 0px;
+  padding: 32px 32px 0px;
 }
 .card__heading {
   padding: 32px;
@@ -149,9 +181,14 @@ export const cardStyles = css`
   gap: 16px;
   align-items: start;
 }
-.footer {
-  margin: 16px 16px 24px 16px;
-  text-align: center;
+.card__info {
+  border: 1px solid var(--ra-embed-card-info-border);
+  border-radius: 10px;
+  padding: 18px 24px;
+  background-color: var(--ra-embed-card-info-background);
+}
+.card__info a:link, .card__info a:visited, .card__info a:active, .card__info a:hover {
+  color: var(--ra-embed-text-color);
 }
 `;
 
