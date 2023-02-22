@@ -41,7 +41,7 @@ Features and content:
  * [ ] Add support for Spanish translations.
 
 Robustness:
- * [ ] Take a copy of fonts and serve them from this domain.
+ * [x] Take a copy of fonts and serve them from this domain.
  * [ ] Port to API v1's calculator endpoint.
  * [ ] Add slots to allow customizing the form intro text.
  * [ ] Add UI tests with Cypress, run in CI.
