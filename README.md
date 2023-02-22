@@ -31,35 +31,35 @@ This site is deployed using a Github Action and Github Pages. The domain `embed.
 # TODO
 
 Features and content:
- * Add remaining guidance and disclaimer copy for <80% and >150% AMI.
- * Add reset button to form?
- * Switch order of incentives depending on whether credits/rebates are more useful.
- * Use a better tooltip component to ensure tooltips are readable at mobile breakpoints. Maybe [floating-ui](https://floating-ui.com/docs/tutorial)? See also [Lit's tooltip tutorial](https://lit.dev/tutorials/tooltip/).
- * Add currency formatting to the income input element.
- * Think about how the 'back to calculator' links should work on RA's detail pages ([example](https://www.rewiringamerica.org/app/ira-calculator/information/electrical-panel))
- * Add analytics support (Amplitude events?)
- * Add support for Spanish translations.
+ * [x] Add remaining guidance and disclaimer copy for <80% and >150% AMI.
+ * [ ] Add reset button to form?
+ * [ ] Switch order of incentives depending on whether credits/rebates are more useful.
+ * [ ] Use a better tooltip component to ensure tooltips are readable at mobile breakpoints. Maybe [floating-ui](https://floating-ui.com/docs/tutorial)? See also [Lit's tooltip tutorial](https://lit.dev/tutorials/tooltip/).
+ * [ ] Add currency formatting to the income input element.
+ * [ ] Think about how the 'back to calculator' links should work on RA's detail pages ([example](https://www.rewiringamerica.org/app/ira-calculator/information/electrical-panel))
+ * [ ] Add analytics support (Amplitude events?)
+ * [ ] Add support for Spanish translations.
 
 Robustness:
- * Take a copy of fonts and serve them from this domain.
- * Port to API v1's calculator endpoint.
- * Add slots to allow customizing the form intro text.
- * Add UI tests with Cypress, run in CI.
- * Add unit tests, run in CI.
- * How do we handle versioning?
- * Work with Zuplo to add `origin` configs to API keys and prevent use of API keys outside specific hosts.
- * Generate types (and API client?) automatically from OpenAPI file.
+ * [ ] Take a copy of fonts and serve them from this domain.
+ * [ ] Port to API v1's calculator endpoint.
+ * [ ] Add slots to allow customizing the form intro text.
+ * [ ] Add UI tests with Cypress, run in CI.
+ * [ ] Add unit tests, run in CI.
+ * [ ] How do we handle versioning?
+ * [ ] Work with Zuplo to add `origin` configs to API keys and prevent use of API keys outside specific hosts.
+ * [ ] Generate types (and API client?) automatically from OpenAPI file.
 
 Optimizations:
- * Add support for caching results in localStorage.
- * Add support for showing default list of incentives (from `/api/v0/incentives`).
- * Reuse microcopy from Rewiring America's CMS to avoid duplication between this repo and our website.
+ * [ ] Add support for caching results in localStorage.
+ * [ ] Add support for showing default list of incentives (from `/api/v0/incentives`).
+ * [ ] Reuse microcopy from Rewiring America's CMS to avoid duplication between this repo and our website.
 
 Roadmap:
- * Open source?
- * Do we need a way to filter the kinds of incentives offered?
- * Query by address for v1?
- * Respond to customer requests for customization/functionality.
+ * [ ] Open source?
+ * [ ] Do we need a way to filter the kinds of incentives offered?
+ * [ ] Query by address for v1?
+ * [ ] Respond to customer requests for customization/functionality.
 
 # References
 
