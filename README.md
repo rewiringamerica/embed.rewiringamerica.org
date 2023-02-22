@@ -44,11 +44,12 @@ Robustness:
  * [x] Take a copy of fonts and serve them from this domain.
  * [ ] Port to API v1's calculator endpoint.
  * [ ] Add slots to allow customizing the form intro text.
- * [ ] Add UI tests with Cypress, run in CI.
+ * [x] Add UI tests with Cypress, run in CI.
  * [ ] Add unit tests, run in CI.
  * [ ] How do we handle versioning?
  * [ ] Work with Zuplo to add `origin` configs to API keys and prevent use of API keys outside specific hosts.
  * [ ] Generate types (and API client?) automatically from OpenAPI file.
+ * [x] Protect main branch, require PRs.
 
 Optimizations:
  * [ ] Add support for caching results in localStorage.
