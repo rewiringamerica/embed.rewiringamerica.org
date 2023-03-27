@@ -5,30 +5,34 @@ and fetching data from our API.
 
 __Note:__ API keys are required, sign up on our [API homepage](https://www.rewiringamerica.org/api).
 
-# Documentation
+## Documentation
 
  * [Embed usage](https://api.rewiringamerica.org/docs/v0/embed)
  * [Calculator examples](https://glitch.com/~rewiring-america-calculator-widget)
 
 
-# Development
+## Getting Started
 
  * `yarn` to install dependencies
  * `yarn serve:widget` and open `http://localhost:1234/` to start working - should refresh when files change
  * Open `http://localhost:1234/working-copy.html` to test against the dev API service
  * `yarn build:widget` to build the deployment artifacts (but Github Pages handles this)
 
-# Styles
+## Styles
 
 For better or worse, using BEM to keep CSS manageable. This may be overkill since LitElement encapsulates the styles for us already.
 
 The CSS font-face does not seem to apply if fonts are loaded by the Shadow DOM's styles, so a separate font stylesheet is provided for these.
 
-# Github Pages
+## Branching & Deploying
 
+### Branching
+When working on a new change, branch off of and merge PRs into `main`.
+
+### Deploying
 This site is deployed using a Github Action and Github Pages. The domain `embed.rewiringamerica.org` points here.
 
-# TODO
+## TODO
 
 Features and content:
  * [x] Add remaining guidance and disclaimer copy for <80% and >150% AMI.
@@ -62,7 +66,7 @@ Roadmap:
  * [ ] Query by address for v1?
  * [ ] Respond to customer requests for customization/functionality.
 
-# References
+## References
 
  * [Lit](https://lit.dev)
  * [Lit Task](https://github.com/lit/lit/tree/main/packages/labs/task)
