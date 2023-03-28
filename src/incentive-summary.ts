@@ -146,7 +146,7 @@ export const summaryTemplate = (results: ICalculatedIncentiveResults) => html`
           <div class="summary-number--total__value">$${nearestFifty(results.pos_savings! + results.tax_savings!).toLocaleString()}<span class="summary-number--total__icon">${lightningBolt()}</span></div>
         </div>
         <p class="summary-number--total__disclaimer">
-          Disclaimer: This is an estimate. We do not yet know how or when electrification rebates will be implemented in each state, so we cannot guarantee final amounts or timeline.
+          Disclaimer: These values are estimates. The rebates may be implemented differently in each state, so we cannot guarantee final amounts, eligibility, or timeline. And without additional appropriations from Congress, the rebate programs will end once their initial IRA funding is exhausted. Tax credits can only be used to offset your federal taxes owed, which we estimate but do not know.
         </p>
       </div>
       ${results.is_over_150_ami ? html`<div class="card__info">
