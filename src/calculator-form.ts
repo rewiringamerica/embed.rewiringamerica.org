@@ -1,11 +1,14 @@
 import { html, css } from 'lit';
-import { tooltip, tooltipStyles } from './tooltip';
-import { downIcon } from './icons';
+import { downIcon, questionIcon } from './icons';
 import { select, selectStyles, OptionParam } from './select';
 import { inputStyles } from './styles/input';
 import './currency-input';
+import '@shoelace-style/shoelace/dist/themes/light.css';
+import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
+
 
 const buttonStyles = css`
+/* TODO: use a CSS reset? */
 button {
   appearance: none;
   font-family: inherit;
@@ -26,9 +29,29 @@ button {
 button:hover {
   background-color: var(--ra-embed-primary-button-background-hover-color);
 }
+
+/* shoelace style overrides */
+sl-tooltip {
+  --max-width: 280px;
+  --sl-tooltip-arrow-size: 0;
+  --sl-tooltip-padding: 24px;
+  --sl-tooltip-background-color: var(--ra-embed-card-background);
+  --sl-tooltip-color: var(--ra-embed-text-color);
+  /* --sl-tooltip-border-radius: 8px; */
+  --sl-tooltip-font-family: "GT America", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --sl-tooltip-font-size: 16px;
+}
+
+sl-tooltip::part(body) {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px -3px, rgba(0, 0, 0, 0.14) 0px 8px 10px 1px, rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
+  border-radius: 8px;
+  border: 1px solid rgb(226,226,226);
+}
+
+
 `;
 
-export const formStyles = [inputStyles, buttonStyles, selectStyles, tooltipStyles];
+export const formStyles = [inputStyles, buttonStyles, selectStyles];
 
 const OWNER_STATUS_OPTIONS: OptionParam[] = [
   { value: 'homeowner', label: 'Homeowner' },
@@ -59,19 +82,19 @@ export const formTemplate = ([zip,
     <div class="grid-3-2">
       <div>
         <label for="zip">
-          Zip ${tooltip('Your zip code helps determine the amount of discounts and tax credits you qualify for.', 18, 18)}<br>
+          Zip <sl-tooltip content="Your zip code helps determine the amount of discounts and tax credits you qualify for." hoist>${questionIcon(18, 18)}</sl-tooltip><br>
           <input tabindex="0" id="zip" placeholder="12345" name="zip" required type="text" value="${zip}" minlength="5" maxlength="5" inputmode="numeric" pattern="[0-9]{5}">
         </label>
       </div>
       <div>
         <label for="owner_status">
-          Homeowners Status ${tooltip('Homeowners and renters qualify for different incentives.', 18, 18, 'middle')}<br>
+          Homeowners Status <sl-tooltip content="Homeowners and renters qualify for different incentives." hoist>${questionIcon(18, 18)}</sl-tooltip><br>
           ${select({ id: 'owner_status', required: true, options: OWNER_STATUS_OPTIONS, currentValue: ownerStatus, tabIndex: 0 })}
         </label>
       </div>
       <div>
         <label for="household_income">
-          Household Income ${tooltip('Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse\'s income', 18, 18, 'right')}<br>
+          Household Income <sl-tooltip content="Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse\'s income" hoist>${questionIcon(18, 18)}</sl-tooltip><br>
           <ra-currency-input
             id="household_income"
             placeholder="$60,000"
@@ -85,13 +108,13 @@ export const formTemplate = ([zip,
       </div>
       <div>
         <label for="tax_filing">
-          Tax Filing ${tooltip('Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.', 18, 18)}<br>
+          Tax Filing <sl-tooltip hoist><div slot="content">Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple."</div>${questionIcon(18, 18)}</sl-tooltip><br>
           ${select({ id: 'tax_filing', required: true, options: TAX_FILING_OPTIONS, currentValue: taxFiling, tabIndex: 0 })}
         </label>
       </div>
       <div>
         <label for="household_size">
-          Household Size ${tooltip('Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.', 18, 18, 'middle')}<br>
+          Household Size <sl-tooltip content="Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together." hoist>${questionIcon(18, 18)}</sl-tooltip><br>
           ${select({ id: 'household_size', required: true, options: HOUSEHOLD_SIZE_OPTIONS, currentValue: householdSize, tabIndex: 0 })}
         </label>
       </div>
