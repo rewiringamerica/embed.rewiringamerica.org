@@ -34,11 +34,13 @@ Features and content:
  * [x] Add remaining guidance and disclaimer copy for <80% and >150% AMI.
  * [ ] Add reset button to form?
  * [ ] Switch order of incentives depending on whether credits/rebates are more useful.
- * [ ] Use a better tooltip component to ensure tooltips are readable at mobile breakpoints. Maybe [floating-ui](https://floating-ui.com/docs/tutorial)? See also [Lit's tooltip tutorial](https://lit.dev/tutorials/tooltip/).
- * [x] Add currency formatting to the income input element. Using autonumeric.
+ * [x] Add currency formatting to the income input element. Using [autonumeric](http://autonumeric.org), which is large.
+ * [ ] Consider [Inputmask](https://robinherbots.github.io/Inputmask/#/documentation/numeric) in future.
+ * [x] Use a better tooltip component to ensure tooltips are readable at mobile breakpoints. Trying Shoelace's [tooltip](https://shoelace.style/components/tooltip).
  * [ ] Think about how the 'back to calculator' links should work on RA's detail pages ([example](https://www.rewiringamerica.org/app/ira-calculator/information/electrical-panel))
  * [ ] Add analytics support (Amplitude events?)
  * [ ] Add support for Spanish translations.
+ * [ ] Send javascript events for calculate, results, project details clicks.
 
 Robustness:
  * [x] Take a copy of fonts and serve them from this domain.
@@ -68,3 +70,4 @@ Roadmap:
  * [Lit Task](https://github.com/lit/lit/tree/main/packages/labs/task)
  * [Rewiring America API](https://api.rewiringamerica.org/docs/)
  * [BEM](https://getbem.com/introduction/)
+ * [Shoelace](https://shoelace.style)
