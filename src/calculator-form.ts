@@ -52,7 +52,7 @@ export const formTemplate = ([zip,
   ownerStatus,
   householdIncome,
   taxFiling,
-  householdSize]: Array<any>, onSubmit: Function) => html`
+  householdSize]: Array<string>, onSubmit: Function) => html`
 <div class="card card-content">
   <h1>How much money will you get with the Inflation Reduction Act?</h1>
   <form @submit=${onSubmit}>
@@ -79,7 +79,7 @@ export const formTemplate = ([zip,
             required
             value=${householdIncome}
             min="0"
-            max="1000000"
+            max="100000000"
           ></ra-currency-input>
         </label>
       </div>
