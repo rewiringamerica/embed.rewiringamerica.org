@@ -32,20 +32,20 @@ button:hover {
 
 /* shoelace style overrides */
 sl-tooltip {
-  --max-width: 280px;
-  --sl-tooltip-arrow-size: 0;
-  --sl-tooltip-padding: 24px;
-  --sl-tooltip-background-color: var(--ra-embed-card-background);
-  --sl-tooltip-color: var(--ra-embed-text-color);
-  /* --sl-tooltip-border-radius: 8px; */
-  --sl-tooltip-font-family: "GT America", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --max-width: var(--ra-tooltip-max-width);
+  --sl-tooltip-arrow-size: var(--ra-tooltip-arrow-size);
+  --sl-tooltip-padding: var(--ra-tooltip-padding);
+  --sl-tooltip-background-color: var(--ra-tooltip-background-color);
+  --sl-tooltip-color: var(--ra-tooltip-color);
+  --sl-tooltip-border-radius: var(--ra-tooltip-border-radius);
+  --sl-tooltip-font-family: var(--ra-embed-font-family);
   --sl-tooltip-font-size: 16px;
 }
 
 sl-tooltip::part(body) {
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px -3px, rgba(0, 0, 0, 0.14) 0px 8px 10px 1px, rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
-  border-radius: 8px;
-  border: 1px solid rgb(226,226,226);
+  box-shadow: var(--ra-tooltip-box-shadow);
+  border-radius: var(--sl-tooltip-border-radius);
+  border: var(--ra-tooltip-border);
 }
 
 

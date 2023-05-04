@@ -12,6 +12,10 @@ export const baseStyles = css`
 /* these are documented as themable and should be backwards compatible if changed */
 :host {
   /* Most of the text */
+  --ra-embed-font-family: "GT America", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --ra-embed-font-size: 16px;
+  --ra-embed-line-height: 28px;
+  --ra-embed-font-weight: 400;
   --ra-embed-text-color: black;
   --ra-embed-emphasis-text-color: var(--rewiring-purple);
   /* the Calculate! button */
@@ -32,16 +36,25 @@ export const baseStyles = css`
   /* info section for high income customers */
   --ra-embed-card-info-border: var(--rewiring-yellow);
   --ra-embed-card-info-background: rgb(255, 250, 231);
+  /* tooltip styles */
+  --ra-tooltip-max-width: 280px;
+  --ra-tooltip-arrow-size: 0px;
+  --ra-tooltip-padding: 24px;
+  --ra-tooltip-background-color: var(--ra-embed-card-background);
+  --ra-tooltip-color: var(--ra-embed-text-color);
+  --ra-tooltip-border-radius: 8px;
+  --ra-tooltip-border: var(--ra-embed-card-border);
+  --ra-tooltip-box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px -3px, rgba(0, 0, 0, 0.14) 0px 8px 10px 1px, rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
 }
 
 :host {
   color: var(--ra-embed-text-color);
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
-  font-family: "GT America", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 16px;
-  line-height: 28px;
-  font-weight: 400;
+  font-family: var(--ra-embed-font-family);
+  font-size: var(--ra-embed-font-size);
+  line-height: var(--ra-embed-line-height);
+  font-weight: var(--ra-embed-font-weight);
   margin: 0 auto; /* center on page */
   display: block; /* required for max-width to kick in */
   width: 100%;

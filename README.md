@@ -64,6 +64,10 @@ Roadmap:
  * [ ] Query by address for v1?
  * [ ] Respond to customer requests for customization/functionality.
 
+Bugs:
+ * [ ] Clicking the tooltip for Household Income should focus the input. Do we need `delegatesFocus` or do we need to refactor the input into a slot so it's light DOM?
+ * [ ] Tapping the tooltip on mobile probably shouldn't select the field. Move outside the label maybe?
+
 # References
 
  * [Lit](https://lit.dev)
