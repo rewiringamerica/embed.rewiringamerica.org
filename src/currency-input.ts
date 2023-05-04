@@ -28,6 +28,9 @@ export class CurrencyInput extends LitElement {
   @property({ type: String })
   placeholder = '$0.00';
 
+  @property({ type: Boolean })
+  required = false;
+
   // this is optional because it can't exist until the input is rendered
   private autonumeric?: AutoNumeric;
 
@@ -104,6 +107,7 @@ export class CurrencyInput extends LitElement {
         inputmode="numeric"
         @change=${this.onChange}
         placeholder=${this.placeholder}
+        ?required=${this.required}
       />
     `;
   }
