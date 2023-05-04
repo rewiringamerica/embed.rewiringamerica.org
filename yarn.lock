@@ -897,6 +897,11 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
+autonumeric@^4.8.1:
+  version "4.8.1"
+  resolved "https://registry.yarnpkg.com/autonumeric/-/autonumeric-4.8.1.tgz#24259b4175d7814dde89fd26ad3d388368b40ddd"
+  integrity sha512-bXymqga5EvHSEyoifaw/+pGLJHPOv9+C31G1zUHAFU/2J+94LYm24BYqInw7XWmQJQ96r4VXUchurFmiqzxB5w==
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -1341,6 +1346,11 @@ electron-to-chromium@^1.4.284:
   version "1.4.302"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.302.tgz#5770646ffe7051677b489226144aad9386d420f2"
   integrity sha512-Uk7C+7aPBryUR1Fwvk9VmipBcN9fVsqBO57jV2ZjTm+IZ6BMNqu7EDVEg2HxCNufk6QcWlFsBkhQyQroB2VWKw==
+
+element-internals-polyfill@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/element-internals-polyfill/-/element-internals-polyfill-1.3.4.tgz#ef1bc6d4c6c9695cee7b99453c578ff999970675"
+  integrity sha512-NDKP2BoU2PJidwoFWwtqWbL2TTqGTJl4w+eYserLgR5MfH6OyBm6QKkAvh9mT2ZwMPvNtPRjTFBHGe++4GJ8vg==
 
 emoji-regex@^8.0.0:
   version "8.0.0"

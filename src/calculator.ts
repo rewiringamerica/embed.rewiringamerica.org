@@ -61,7 +61,7 @@ export class RewiringAmericaCalculator extends LitElement {
   ownerStatus: OwnerStatus = 'homeowner';
 
   @property({ type: String, attribute: 'household-income' })
-  householdIncome: string = '';
+  householdIncome: string = '0';
 
   @property({ type: String, attribute: 'tax-filing' })
   taxFiling: FilingStatus = 'single';

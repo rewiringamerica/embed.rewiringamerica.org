@@ -35,7 +35,7 @@ Features and content:
  * [ ] Add reset button to form?
  * [ ] Switch order of incentives depending on whether credits/rebates are more useful.
  * [ ] Use a better tooltip component to ensure tooltips are readable at mobile breakpoints. Maybe [floating-ui](https://floating-ui.com/docs/tutorial)? See also [Lit's tooltip tutorial](https://lit.dev/tutorials/tooltip/).
- * [ ] Add currency formatting to the income input element.
+ * [x] Add currency formatting to the income input element. Using autonumeric.
  * [ ] Think about how the 'back to calculator' links should work on RA's detail pages ([example](https://www.rewiringamerica.org/app/ira-calculator/information/electrical-panel))
  * [ ] Add analytics support (Amplitude events?)
  * [ ] Add support for Spanish translations.
