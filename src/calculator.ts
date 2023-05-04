@@ -60,8 +60,8 @@ export class RewiringAmericaCalculator extends LitElement {
   @property({ type: String, attribute: 'owner-status' })
   ownerStatus: OwnerStatus = 'homeowner';
 
-  @property({ type: String, attribute: 'household-income' })
-  householdIncome: string = '';
+  @property({ type: Number, attribute: 'household-income' })
+  householdIncome: number = 0;
 
   @property({ type: String, attribute: 'tax-filing' })
   taxFiling: FilingStatus = 'single';
@@ -72,15 +72,16 @@ export class RewiringAmericaCalculator extends LitElement {
   submit(e: SubmitEvent) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
+    console.log(Array.from(formData.entries()));
     this.zip = formData.get('zip') as string || '';
     this.ownerStatus = formData.get('owner_status') as OwnerStatus || '';
-    this.householdIncome = formData.get('household_income') as string || '';
+    this.householdIncome = Number(formData.get('household_income')) || 0;
     this.taxFiling = formData.get('tax_filing') as FilingStatus || '';
     this.householdSize = formData.get('household_size') as string || '';
   }
 
   get hideResult() {
-    return !(this.zip && this.ownerStatus && this.taxFiling && this.householdIncome && this.householdSize);
+    return !(this.zip && this.ownerStatus && this.taxFiling && !isNaN(this.householdIncome) && this.householdSize);
   }
 
   private _task = new Task(

@@ -2,50 +2,25 @@ import { html, css } from 'lit';
 import { tooltip, tooltipStyles } from './tooltip';
 import { downIcon } from './icons';
 import { select, selectStyles, OptionParam } from './select';
+import { inputStyles } from './styles/input';
+import './currency-input';
 
-const inputStyles = css`
-/* TODO: use a CSS reset? */
+const buttonStyles = css`
 button {
   appearance: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
   font-family: inherit;
-  font-size: inherit;
-  cursor: inherit;
-  line-height: inherit;
-  outline: 0;
-}
-
-input {
-  padding: 8px;
   font-size: 16px;
   line-height: 28px;
-  border: var(--input-border);
-  border-radius: 4px;
-  width: 100%;
-  margin-top: 4px;
-  margin-left: 0;
-  margin-right: 0;
-}
-
-input:focus {
-  box-shadow: 0 0 0 2px var(--select-focus) inset;
-  outline: none;
-}
-
-button {
   padding: 8px;
-  font-size: 16px;
-  line-height: 28px;
   background-color: var(--ra-embed-primary-button-background-color);
   border: 1px solid var(--ra-embed-primary-button-background-color);
   border-radius: 4px;
   font-weight: 600;
-  margin-top: 4px;
+  margin: 4px 0 0 0;
   cursor: pointer;
   color: var(--ra-embed-primary-button-text-color);
+  outline: 0;
+  width: 100%;
 }
 
 button:hover {
@@ -53,7 +28,7 @@ button:hover {
 }
 `;
 
-export const formStyles = [inputStyles, selectStyles, tooltipStyles];
+export const formStyles = [inputStyles, buttonStyles, selectStyles, tooltipStyles];
 
 const OWNER_STATUS_OPTIONS: OptionParam[] = [
   { value: 'homeowner', label: 'Homeowner' },
@@ -77,7 +52,7 @@ export const formTemplate = ([zip,
   ownerStatus,
   householdIncome,
   taxFiling,
-  householdSize]: Array<string>, onSubmit: Function) => html`
+  householdSize]: Array<any>, onSubmit: Function) => html`
 <div class="card card-content">
   <h1>How much money will you get with the Inflation Reduction Act?</h1>
   <form @submit=${onSubmit}>
@@ -97,7 +72,15 @@ export const formTemplate = ([zip,
       <div>
         <label for="household_income">
           Household Income ${tooltip('Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse\'s income', 18, 18, 'right')}<br>
-          <input tabindex="0" id="household_income" placeholder="50000" name="household_income" required type="text" value="${householdIncome}" minlength="1" maxlength="9" inputmode="numeric" pattern="([1-9][0-9]*|0)">
+          <ra-currency-input
+            id="household_income"
+            placeholder="$60,000"
+            name="household_income"
+            required
+            value=${householdIncome}
+            min="0"
+            max="1000000"
+          ></ra-currency-input>
         </label>
       </div>
       <div>
