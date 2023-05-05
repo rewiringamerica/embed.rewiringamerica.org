@@ -48,6 +48,7 @@ export const baseStyles = css`
 }
 
 :host {
+  all: initial; /* https://lamplightdev.com/blog/2019/03/26/why-is-my-web-component-inheriting-styles/ */
   color: var(--ra-embed-text-color);
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
