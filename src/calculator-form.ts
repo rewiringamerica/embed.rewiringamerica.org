@@ -8,7 +8,6 @@ import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 
 
 const buttonStyles = css`
-/* TODO: use a CSS reset? */
 button {
   appearance: none;
   font-family: inherit;
