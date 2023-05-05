@@ -38,7 +38,10 @@ sl-tooltip {
   --sl-tooltip-color: var(--ra-tooltip-color);
   --sl-tooltip-border-radius: var(--ra-tooltip-border-radius);
   --sl-tooltip-font-family: var(--ra-embed-font-family);
-  --sl-tooltip-font-size: 16px;
+  --sl-tooltip-font-size: var(--ra-embed-font-size);
+  --sl-tooltip-line-height: var(--ra-embed-line-height);
+  --sl-tooltip-font-weight: var(--ra-embed-font-weight);
+  --sl-tooltip-z-index: 10000;
 }
 
 sl-tooltip::part(body) {
