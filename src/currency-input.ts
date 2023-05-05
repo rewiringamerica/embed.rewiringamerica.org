@@ -1,21 +1,11 @@
 import { LitElement, css, html, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { ref } from 'lit/directives/ref';
-import { inputStyles } from './styles/input';
 import AutoNumeric from 'autonumeric';
 import 'element-internals-polyfill';
 
 @customElement('ra-currency-input')
 export class CurrencyInput extends LitElement {
-  static override styles = [
-    css`
-      * {
-        box-sizing: border-box;
-      }
-    `,
-    inputStyles
-  ];
-
   @property({ type: String })
   value = '';
 
@@ -40,6 +30,11 @@ export class CurrencyInput extends LitElement {
   // this is for element-internals-polyfill
   static get formAssociated() {
     return true;
+  }
+
+  // be "light DOM" and allow styling to be set from the outside
+  protected override createRenderRoot() {
+    return this;
   }
 
   onChange() {
