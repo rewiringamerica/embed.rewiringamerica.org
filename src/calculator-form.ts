@@ -41,7 +41,7 @@ sl-tooltip {
   --sl-tooltip-font-size: var(--ra-embed-font-size);
   --sl-tooltip-line-height: var(--ra-embed-line-height);
   --sl-tooltip-font-weight: var(--ra-embed-font-weight);
-  --sl-tooltip-z-index: 10000;
+  --sl-z-index-tooltip: 10000;
 }
 
 sl-tooltip::part(body) {
