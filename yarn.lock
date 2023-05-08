@@ -943,11 +943,6 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
-autonumeric@^4.8.1:
-  version "4.8.1"
-  resolved "https://registry.yarnpkg.com/autonumeric/-/autonumeric-4.8.1.tgz#24259b4175d7814dde89fd26ad3d388368b40ddd"
-  integrity sha512-bXymqga5EvHSEyoifaw/+pGLJHPOv9+C31G1zUHAFU/2J+94LYm24BYqInw7XWmQJQ96r4VXUchurFmiqzxB5w==
-
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -1694,6 +1689,11 @@ ieee754@^1.1.13:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
+
+imask@^6.6.1:
+  version "6.6.1"
+  resolved "https://registry.yarnpkg.com/imask/-/imask-6.6.1.tgz#06987afaf72c1d9f6ca4fdddd0e04a174466a8c9"
+  integrity sha512-3JfLZVYABpNUGZpObu92/+3ptwwNIHXWNYqCfS+OaHBmMhLKBAAnGa2oNJWLbx5r3EyWxnkFNb2bX5Dz4wLkuA==
 
 import-fresh@^3.2.1:
   version "3.3.0"
