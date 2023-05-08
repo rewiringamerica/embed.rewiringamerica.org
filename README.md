@@ -10,13 +10,12 @@ __Note:__ API keys are required, sign up on our [API homepage](https://www.rewir
  * [Embed usage](https://api.rewiringamerica.org/docs/v0/embed)
  * [Calculator examples](https://glitch.com/~rewiring-america-calculator-widget)
 
-
 # Development
 
  * `yarn` to install dependencies
  * `yarn serve:widget` and open `http://localhost:1234/` to start working - should refresh when files change
  * Open `http://localhost:1234/working-copy.html` to test against the dev API service
- * `yarn build:widget` to build the deployment artifacts (but Github Pages handles this)
+ * `yarn build:widget` to build the deployment artifacts (Vercel does this for production deploys)
 
 # Styles
 
@@ -24,9 +23,9 @@ For better or worse, using BEM to keep CSS manageable. This may be overkill sinc
 
 The CSS font-face does not seem to apply if fonts are loaded by the Shadow DOM's styles, so a separate font stylesheet is provided for these.
 
-# Github Pages
+# Hosting
 
-This site is deployed using a Github Action and Github Pages. The domain `embed.rewiringamerica.org` points here.
+This site is deployed using the [embed-rewiring-america](https://vercel.com/rewiring-america/embed-rewiringamerica-org) project on Vercel. The domain `embed.rewiringamerica.org` points to Vercel and is [configured in Google Domains](https://domains.google.com/registrar/rewiringamerica.org/dns).
 
 # TODO
 
