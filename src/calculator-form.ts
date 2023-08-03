@@ -66,7 +66,7 @@ const TAX_FILING_OPTIONS: OptionParam[] = [
 const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
   count => {
     return {
-      label: `${count} ${count == 1 ? 'person' : 'people'}`,
+      label: `${count} ${count === 1 ? 'person' : 'people'}`,
       value: count.toString(),
     } as OptionParam;
   },
@@ -74,7 +74,7 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
 
 export const formTemplate = (
   [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
-  onSubmit: Function,
+  onSubmit: (e: SubmitEvent) => void,
 ) => html`
   <div class="card card-content">
     <h1>How much money will you get with the Inflation Reduction Act?</h1>

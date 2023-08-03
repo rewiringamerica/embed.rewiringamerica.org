@@ -70,10 +70,10 @@ const linkButtonStyles = css`
 export const detailsStyles = [linkButtonStyles, tableStlyes];
 
 function formatAmount(amount: number, amount_type: AmountType) {
-  if (amount_type == 'percent') {
+  if (amount_type === 'percent') {
     return `${Math.round(amount * 100)}%`;
-  } else if (amount_type == 'dollar_amount') {
-    if (amount == 0) {
+  } else if (amount_type === 'dollar_amount') {
+    if (amount === 0) {
       return 'N/A';
     } else {
       return `$${amount.toLocaleString()}`;
@@ -84,10 +84,10 @@ function formatAmount(amount: number, amount_type: AmountType) {
 }
 
 function formatStartDate(start_date: number, type: IncentiveType) {
-  if (start_date == 2022) {
+  if (start_date === 2022) {
     return html`<em>Available Now!</em>`;
-  } else if (start_date == 2023) {
-    if (type == 'pos_rebate') {
+  } else if (start_date === 2023) {
+    if (type === 'pos_rebate') {
       return html`Late 2023`;
     } else {
       return html`<em>Available Now!</em>`;

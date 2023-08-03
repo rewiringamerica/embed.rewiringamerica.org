@@ -5,10 +5,14 @@ import { baseStyles, cardStyles, gridStyles } from './styles';
 import { formTemplate, formStyles } from './calculator-form';
 import { detailsStyles, detailsTemplate } from './incentive-details';
 import { summaryStyles, summaryTemplate } from './incentive-summary';
-import { FilingStatus, OwnerStatus } from './calculator-types';
+import {
+  FilingStatus,
+  ICalculatedIncentiveResults,
+  OwnerStatus,
+} from './calculator-types';
 
 const loadedTemplate = (
-  results: any,
+  results: ICalculatedIncentiveResults,
   hideDetails: boolean,
   hideSummary: boolean,
 ) => html`
@@ -20,9 +24,11 @@ const loadingTemplate = () => html`
   <div class="card card-content">Loading...</div>
 `;
 
-const errorTemplate = (error: any) => html`
+const errorTemplate = (error: unknown) => html`
   <div class="card card-content">
-    ${error.message || 'Error loading incentives.'}
+    ${typeof error === 'object' && error && 'message' in error && error.message
+      ? error.message
+      : 'Error loading incentives.'}
   </div>
 `;
 

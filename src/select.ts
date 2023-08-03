@@ -32,7 +32,7 @@ export const select = ({
         ?required=${required}
         tabindex="${ifDefined(tabIndex)}"
       >
-        ${options.map(o => option(o, o.value == currentValue))}
+        ${options.map(o => option(o, o.value === currentValue))}
       </select>
       <span class="focus"></span>
     </div>
