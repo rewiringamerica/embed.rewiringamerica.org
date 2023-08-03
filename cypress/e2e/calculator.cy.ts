@@ -4,7 +4,8 @@ describe('template spec', () => {
     cy.get('rewiring-america-calculator').should('exist');
     // FIXME: is there a way to do this less repetitively?
     // Doing const shadow = cy.get(...).shadow() didn't seem to work.
-    cy.get('rewiring-america-calculator').shadow()
+    cy.get('rewiring-america-calculator')
+      .shadow()
       .contains('Upfront Discounts')
       .siblings()
       .contains('$14,000');
@@ -21,5 +22,5 @@ describe('template spec', () => {
     cy.get('rewiring-america-calculator')
       .shadow()
       .contains('Covers up to 50% of costs');
-  })
-})
+  });
+});

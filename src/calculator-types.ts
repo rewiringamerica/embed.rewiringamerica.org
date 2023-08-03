@@ -9,7 +9,10 @@ export type AmountMethod =
   | 'solar_tax_credit'
   | 'ev_charger_credit';
 export type OwnerStatus = 'homeowner' | 'renter';
-export type AmiQualification = 'less_than_80_ami' | 'more_than_80_ami' | 'less_than_150_ami';
+export type AmiQualification =
+  | 'less_than_80_ami'
+  | 'more_than_80_ami'
+  | 'less_than_150_ami';
 export type FilingStatus = 'single' | 'joint' | 'hoh';
 
 export interface IIncentiveRecord {

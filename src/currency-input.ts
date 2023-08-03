@@ -71,7 +71,11 @@ export class CurrencyInput extends LitElement {
     if (input === undefined) {
       this.autonumeric?.detach();
     } else {
-      this.autonumeric = new AutoNumeric(input as HTMLInputElement, this.value, AutoNumeric.getPredefinedOptions().NorthAmerican);
+      this.autonumeric = new AutoNumeric(
+        input as HTMLInputElement,
+        this.value,
+        AutoNumeric.getPredefinedOptions().NorthAmerican,
+      );
       this.updateAutonumericOptions();
     }
   }
@@ -110,6 +114,6 @@ export class CurrencyInput extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "ra-currency-input": CurrencyInput;
+    'ra-currency-input': CurrencyInput;
   }
 }

@@ -1,5 +1,8 @@
 import { html, css, nothing } from 'lit';
-import { ICalculatedIncentiveResults, IIncentiveRecord } from './calculator-types';
+import {
+  ICalculatedIncentiveResults,
+  IIncentiveRecord,
+} from './calculator-types';
 import { lightningBolt } from './icons';
 
 export const summaryStyles = css`
@@ -54,7 +57,8 @@ export const summaryStyles = css`
     align-items: baseline;
     gap: 16px;
   }
-  .summary-number--total__value, .summary-number--total__label {
+  .summary-number--total__value,
+  .summary-number--total__label {
     font-size: 48px;
     line-height: 64px;
     font-weight: 500;
@@ -95,9 +99,18 @@ export const summaryStyles = css`
   }
 `;
 
-const numberTemplate = (label: string, value: number, fancy?: boolean, extra?: TemplateResult) => html`
+const numberTemplate = (
+  label: string,
+  value: number,
+  fancy?: boolean,
+  extra?: TemplateResult,
+) => html`
   <div class="summary-number">
-    <div class=${fancy ? "summary-number__border--fancy" : "summary-number__border"}>
+    <div
+      class=${fancy
+        ? 'summary-number__border--fancy'
+        : 'summary-number__border'}
+    >
       <div class="summary-number__label">${label}</div>
       <div class="summary-number__value">$${value.toLocaleString()}</div>
     </div>
@@ -109,15 +122,17 @@ function nearestFifty(dollars: number) {
   return Math.round(dollars / 50) * 50;
 }
 
-const upfrontDiscountLabel = ({ is_under_150_ami, is_under_80_ami }: ICalculatedIncentiveResults) => {
+const upfrontDiscountLabel = ({
+  is_under_150_ami,
+  is_under_80_ami,
+}: ICalculatedIncentiveResults) => {
   if (is_under_80_ami) {
     return html`
       <div class="summary-number__detail">Covers up to 100% of costs</div>
       <!-- TODO: tooltip! -->
       <!-- Electrification rebates for your income bracket can be used to cover 100% of your total costs. For example, if your total project cost is $10,000, you can receive an electrification rebate of $10,000. -->
     `;
-  }
-  else if (is_under_150_ami) {
+  } else if (is_under_150_ami) {
     return html`
       <div class="summary-number__detail">Covers up to 50% of costs</div>
       <!-- TODO: tooltip! -->
@@ -132,26 +147,60 @@ export const summaryTemplate = (results: ICalculatedIncentiveResults) => html`
   <div class="card">
     <div class="card__heading">
       <h1>Your Personalized Incentives</h1>
-      These are available to American homeowners and renters over the next 10 years.
+      These are available to American homeowners and renters over the next 10
+      years.
     </div>
     <div class="card-content">
       <div class="summary-numbers">
-        ${numberTemplate('Upfront Discounts', nearestFifty(results.pos_savings!), false, upfrontDiscountLabel(results))}
-        ${numberTemplate('Available Tax Credits', nearestFifty(results.tax_savings!))}
-        ${numberTemplate('Estimated Bill Savings Per Year', nearestFifty(results.estimated_annual_savings!), true)}
+        ${numberTemplate(
+          'Upfront Discounts',
+          nearestFifty(results.pos_savings!),
+          false,
+          upfrontDiscountLabel(results),
+        )}
+        ${numberTemplate(
+          'Available Tax Credits',
+          nearestFifty(results.tax_savings!),
+        )}
+        ${numberTemplate(
+          'Estimated Bill Savings Per Year',
+          nearestFifty(results.estimated_annual_savings!),
+          true,
+        )}
       </div>
       <div>
         <div class="summary-number--total">
-          <div class="summary-number--total__label">Total Incentives <span class="summary-number--total__label__detail">(Estimated)</span></div>
-          <div class="summary-number--total__value">$${nearestFifty(results.pos_savings! + results.tax_savings!).toLocaleString()}<span class="summary-number--total__icon">${lightningBolt()}</span></div>
+          <div class="summary-number--total__label">
+            Total Incentives
+            <span class="summary-number--total__label__detail"
+              >(Estimated)</span
+            >
+          </div>
+          <div class="summary-number--total__value">
+            $${nearestFifty(
+              results.pos_savings! + results.tax_savings!,
+            ).toLocaleString()}<span class="summary-number--total__icon"
+              >${lightningBolt()}</span
+            >
+          </div>
         </div>
         <p class="summary-number--total__disclaimer">
-          Disclaimer: This is an estimate. We do not yet know how or when electrification rebates will be implemented in each state, so we cannot guarantee final amounts or timeline.
+          Disclaimer: This is an estimate. We do not yet know how or when
+          electrification rebates will be implemented in each state, so we
+          cannot guarantee final amounts or timeline.
         </p>
       </div>
-      ${results.is_over_150_ami ? html`<div class="card__info">
-        Based on your household income, you may not qualify for tax credits, but you can take full advantage of the electrification rebates. <a href="https://content.rewiringamerica.org/reports/Rewiring%20America%20IRA%20Case%20Study%20-%20High%20Income.pdf" target="_blank">Check out this relevant case study!</a>
-      </div>` : nothing}
+      ${results.is_over_150_ami
+        ? html`<div class="card__info">
+            Based on your household income, you may not qualify for tax credits,
+            but you can take full advantage of the electrification rebates.
+            <a
+              href="https://content.rewiringamerica.org/reports/Rewiring%20America%20IRA%20Case%20Study%20-%20High%20Income.pdf"
+              target="_blank"
+              >Check out this relevant case study!</a
+            >
+          </div>`
+        : nothing}
     </div>
   </div>
 `;

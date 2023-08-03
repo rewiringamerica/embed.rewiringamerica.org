@@ -1,10 +1,17 @@
 import { css, html } from 'lit';
 import { calculatorTableIcon } from './icons';
 import { tableStlyes } from './styles';
-import { AmountType, ICalculatedIncentiveResults, IIncentiveRecord, IncentiveType } from './calculator-types';
+import {
+  AmountType,
+  ICalculatedIncentiveResults,
+  IIncentiveRecord,
+  IncentiveType,
+} from './calculator-types';
 
 const linkButtonStyles = css`
-  a.more-info-button, a.more-info-button:link, a.more-info-button:visited {
+  a.more-info-button,
+  a.more-info-button:link,
+  a.more-info-button:visited {
     display: inline-block;
     text-decoration: none;
     color: var(--ra-embed-text-color);
@@ -17,12 +24,13 @@ const linkButtonStyles = css`
     padding: 8px 40px 8px 16px;
   }
 
-  a.more-info-button:hover, a.more-info-button:active {
+  a.more-info-button:hover,
+  a.more-info-button:active {
     background-color: rgb(218, 218, 218);
   }
 
   a.more-info-button::after {
-    content: "";
+    content: '';
     display: inline-block;
     position: absolute;
     border-color: var(--ra-embed-text-color);
@@ -38,7 +46,9 @@ const linkButtonStyles = css`
     margin-top: 8px;
   }
 
-  a.more-info-link, a.more-info-link:link, a.more-info-link:visited {
+  a.more-info-link,
+  a.more-info-link:link,
+  a.more-info-link:visited {
     text-decoration: none;
     color: var(--ra-embed-text-color);
   }
@@ -46,16 +56,18 @@ const linkButtonStyles = css`
   /* Extra small devices */
   @media only screen and (max-width: 768px) {
     .hide-on-mobile {
-      display:none;
+      display: none;
     }
-    a.more-info-link, a.more-info-link:link, a.more-info-link:visited {
+    a.more-info-link,
+    a.more-info-link:link,
+    a.more-info-link:visited {
       text-decoration: underline;
       color: unset;
     }
   }
 `;
 
-export const detailsStyles = [linkButtonStyles, tableStlyes]
+export const detailsStyles = [linkButtonStyles, tableStlyes];
 
 function formatAmount(amount: number, amount_type: AmountType) {
   if (amount_type == 'percent') {
@@ -87,10 +99,28 @@ function formatStartDate(start_date: number, type: IncentiveType) {
 
 const detailRow = (incentive: IIncentiveRecord) => html`
   <tr class=${incentive.eligible ? '' : 'row--dimmed'}>
-    <td><a class="more-info-link" target="_blank" href="https://www.rewiringamerica.org/${incentive.more_info_url}">${incentive.item}</a></td>
-    <td class="cell--right">${formatAmount(incentive.amount, incentive.amount_type)}</td>
-    <td class="cell--right">${formatStartDate(incentive.start_date, incentive.type)}</td>
-    <td class="cell--right hide-on-mobile"><a class="more-info-button" target="_blank" href="https://www.rewiringamerica.org/${incentive.more_info_url}">More Info</a></td>
+    <td>
+      <a
+        class="more-info-link"
+        target="_blank"
+        href="https://www.rewiringamerica.org/${incentive.more_info_url}"
+        >${incentive.item}</a
+      >
+    </td>
+    <td class="cell--right">
+      ${formatAmount(incentive.amount, incentive.amount_type)}
+    </td>
+    <td class="cell--right">
+      ${formatStartDate(incentive.start_date, incentive.type)}
+    </td>
+    <td class="cell--right hide-on-mobile">
+      <a
+        class="more-info-button"
+        target="_blank"
+        href="https://www.rewiringamerica.org/${incentive.more_info_url}"
+        >More Info</a
+      >
+    </td>
   </tr>
 `;
 
