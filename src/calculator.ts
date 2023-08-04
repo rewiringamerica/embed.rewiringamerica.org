@@ -150,12 +150,14 @@ export class RewiringAmericaCalculator extends LitElement {
             ? nothing
             : formTemplate(
                 [
+                  '',
                   this.zip,
                   this.ownerStatus,
                   this.householdIncome,
                   this.taxFiling,
                   this.householdSize,
                 ],
+                false,
                 (event: SubmitEvent) => this.submit(event),
               )}
         </div>
