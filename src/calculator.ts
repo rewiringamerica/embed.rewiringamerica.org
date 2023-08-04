@@ -10,6 +10,8 @@ import {
   ICalculatedIncentiveResults,
   OwnerStatus,
 } from './calculator-types';
+import { CALCULATOR_FOOTER } from './calculator-footer';
+import { fetchApi } from './api/fetch';
 
 const loadedTemplate = (
   results: ICalculatedIncentiveResults,
@@ -32,8 +34,7 @@ const errorTemplate = (error: unknown) => html`
   </div>
 `;
 
-const DEFAULT_CALCULATOR_API_PATH: string =
-  'https://api.rewiringamerica.org/api/v0/calculator';
+const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
 
 @customElement('rewiring-america-calculator')
 export class RewiringAmericaCalculator extends LitElement {
@@ -62,8 +63,8 @@ export class RewiringAmericaCalculator extends LitElement {
   @property({ type: String, attribute: 'api-key' })
   apiKey: string = '';
 
-  @property({ type: String, attribute: 'api-path' })
-  apiPath: string = DEFAULT_CALCULATOR_API_PATH;
+  @property({ type: String, attribute: 'api-host' })
+  apiHost: string = DEFAULT_CALCULATOR_API_HOST;
 
   /* supported properties to allow pre-filling the form */
 
@@ -123,34 +124,12 @@ export class RewiringAmericaCalculator extends LitElement {
         tax_filing,
         household_size,
       });
-      const url = new URL(`${this.apiPath}?${query}`);
-      const response: Response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${this.apiKey}`,
-        },
-      });
-      if (response.status >= 400) {
-        console.error(response);
-        // statusText isn't always set, but it's a reasonable proxy for a human readable error if it is:
-        let message = response.statusText;
-        try {
-          const error = await response.json();
-          console.error(error);
-          if (error.title && error.detail) {
-            // Zuplo's API key errors have this form:
-            message = `${error.title}: ${error.detail}`;
-          } else if (error.message && error.error) {
-            // Rewiring America's API errors have this form:
-            message = `${error.error}: ${error.message}`;
-          }
-        } catch (e) {
-          // if we couldn't get anything off the response, just go with something generic:
-          message = 'Error loading incentives.';
-        }
-        throw new Error(message);
-      }
-      return response.json();
+      return await fetchApi(
+        this.apiKey,
+        this.apiHost,
+        '/api/v0/calculator',
+        query,
+      );
     },
     // if the args array changes then the task will run again
     args: () => [
@@ -187,27 +166,7 @@ export class RewiringAmericaCalculator extends LitElement {
                 error: errorTemplate,
               })}
             `}
-        <div class="calculator__footer">
-          <p>
-            Calculator&nbsp;by&nbsp;<a
-              target="_blank"
-              href="https://www.rewiringamerica.org"
-              >Rewiring&nbsp;America</a
-            >
-            •
-            <a
-              target="_blank"
-              href="https://content.rewiringamerica.org/view/privacy-policy.pdf"
-              >Privacy&nbsp;Policy</a
-            >
-            •
-            <a
-              target="_blank"
-              href="https://content.rewiringamerica.org/api/terms.pdf"
-              >Terms</a
-            >
-          </p>
-        </div>
+        ${CALCULATOR_FOOTER}
       </div>
     `;
   }
