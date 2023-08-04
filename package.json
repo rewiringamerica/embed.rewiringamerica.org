@@ -14,7 +14,7 @@
     "serve:widget": "parcel serve ./src/*.html --dist-dir build",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "lint": "prettier --check ."
+    "lint": "prettier --check . && eslint ."
   },
   "browserslist": {
     "production": [
@@ -30,7 +30,10 @@
   },
   "devDependencies": {
     "@swc/helpers": "^0.4.14",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
     "cypress": "^12.6.0",
+    "eslint": "^8.45.0",
     "parcel": "v2.8.3",
     "postcss": "^8.4.21",
     "postcss-modules": "^6.0.0",

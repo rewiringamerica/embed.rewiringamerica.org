@@ -1,4 +1,4 @@
-import { LitElement, css, html, PropertyValues } from 'lit';
+import { LitElement, html, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { ref } from 'lit/directives/ref';
 import AutoNumeric from 'autonumeric';
@@ -48,7 +48,7 @@ export class CurrencyInput extends LitElement {
 
   onKeydown(event: KeyboardEvent) {
     // this simulates submit on the host form, just like if you hit Enter in a regular <input>
-    if (event.key == 'Enter') {
+    if (event.key === 'Enter') {
       const element: CurrencyInput = event.target as CurrencyInput;
       element.internals?.form?.requestSubmit();
     }

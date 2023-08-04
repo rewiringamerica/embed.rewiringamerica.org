@@ -1,8 +1,5 @@
-import { html, css, nothing } from 'lit';
-import {
-  ICalculatedIncentiveResults,
-  IIncentiveRecord,
-} from './calculator-types';
+import { html, css, nothing, TemplateResult } from 'lit';
+import { ICalculatedIncentiveResults } from './calculator-types';
 import { lightningBolt } from './icons';
 
 export const summaryStyles = css`
@@ -103,7 +100,7 @@ const numberTemplate = (
   label: string,
   value: number,
   fancy?: boolean,
-  extra?: TemplateResult,
+  extra?: TemplateResult | typeof nothing,
 ) => html`
   <div class="summary-number">
     <div
