@@ -1,6 +1,6 @@
 import { css, html } from 'lit';
 import { calculatorTableIcon } from './icons';
-import { tableStlyes } from './styles';
+import { tableStyles } from './styles';
 import {
   AmountType,
   ICalculatedIncentiveResults,
@@ -67,7 +67,7 @@ const linkButtonStyles = css`
   }
 `;
 
-export const detailsStyles = [linkButtonStyles, tableStlyes];
+export const detailsStyles = [linkButtonStyles, tableStyles];
 
 function formatAmount(amount: number, amount_type: AmountType) {
   if (amount_type === 'percent') {
