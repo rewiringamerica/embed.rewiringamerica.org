@@ -214,7 +214,7 @@ export const cardStyles = css`
   }
 `;
 
-export const tableStlyes = css`
+export const tableStyles = css`
   table,
   thead,
   tbody,
