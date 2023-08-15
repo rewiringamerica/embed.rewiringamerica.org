@@ -144,18 +144,21 @@ export class RewiringAmericaCalculator extends LitElement {
   override render() {
     return html`
       <div class="calculator">
-        ${this.hideForm
-          ? nothing
-          : formTemplate(
-              [
-                this.zip,
-                this.ownerStatus,
-                this.householdIncome,
-                this.taxFiling,
-                this.householdSize,
-              ],
-              (event: SubmitEvent) => this.submit(event),
-            )}
+        <div class="card card-content">
+          <h1>How much money will you get with the Inflation Reduction Act?</h1>
+          ${this.hideForm
+            ? nothing
+            : formTemplate(
+                [
+                  this.zip,
+                  this.ownerStatus,
+                  this.householdIncome,
+                  this.taxFiling,
+                  this.householdSize,
+                ],
+                (event: SubmitEvent) => this.submit(event),
+              )}
+        </div>
         ${this.hideResult
           ? nothing
           : html`
