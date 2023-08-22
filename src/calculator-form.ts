@@ -59,7 +59,8 @@ const OWNER_STATUS_OPTIONS: OptionParam[] = [
 
 const TAX_FILING_OPTIONS: OptionParam[] = [
   { value: 'single', label: 'Single' },
-  { value: 'joint', label: 'Joint' },
+  { value: 'joint', label: 'Married Filing Jointly' },
+  { value: 'married_filing_separately', label: 'Married Filing Separately' },
   { value: 'hoh', label: 'Head of Household' },
 ];
 
