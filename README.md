@@ -12,6 +12,11 @@ and fetching data from our API.
 
 # Development
 
+- Get an incentives API key, and put it in a local file `.env.local` like so:
+  ```
+  REWIRING_AMERICA_API_KEY=zpka_********************************_********
+  ```
+  You can also set that as an environment variable, if you prefer.
 - `yarn` to install dependencies
 - `yarn serve:widget` and open `http://localhost:1234/` to start working - should refresh when files change
 - Open `http://localhost:1234/working-copy.html` to test against the dev API service

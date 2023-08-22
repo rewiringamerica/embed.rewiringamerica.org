@@ -32,3 +32,5 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           # pass GitHub token to detect new build vs re-run build
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Incentive API key substituted in at build time
+          REWIRING_AMERICA_API_KEY: ${{ secrets.REWIRING_AMERICA_API_KEY }}
