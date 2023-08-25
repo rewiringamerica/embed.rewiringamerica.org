@@ -109,6 +109,40 @@ export const cardStyles = css`
   }
 `;
 
+export const dividerStyles = css`
+  .divider {
+    display: flex;
+    flex-wrap: wrap;
+
+    & h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      line-height: 125%;
+    }
+
+    & .spacer {
+      flex-grow: 1;
+      height: 2rem;
+    }
+  }
+
+  .divider__section {
+    width: 25rem;
+  }
+
+  /* Extra small devices */
+  @media only screen and (max-width: 600px) {
+    .divider {
+      margin: 0 1rem;
+      min-width: 200px;
+
+      & .card {
+        margin: 0;
+      }
+    }
+  }
+`;
+
 /** To make the layout more realistic until we have descriptions in API */
 const DUMMY_TEXT =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices ' +

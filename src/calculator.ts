@@ -156,6 +156,7 @@ export class RewiringAmericaCalculator extends LitElement {
                   this.taxFiling,
                   this.householdSize,
                 ],
+                () => {}, // do nothing on zip change
                 (event: SubmitEvent) => this.submit(event),
               )}
         </div>

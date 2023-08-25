@@ -1,8 +1,12 @@
 import { LitElement, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Task, initialState } from '@lit-labs/task';
+import { Task, TaskStatus, initialState } from '@lit-labs/task';
 import { baseStyles, gridStyles } from './styles';
-import { formTemplate, formStyles } from './calculator-form';
+import {
+  formTemplate,
+  formStyles,
+  utilityFormTemplate,
+} from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { CALCULATOR_FOOTER } from './calculator-footer';
 import { fetchApi } from './api/fetch';
@@ -10,7 +14,10 @@ import {
   stateIncentivesTemplate,
   stateIncentivesStyles,
   cardStyles,
+  dividerStyles,
 } from './state-incentive-details';
+import { OptionParam } from './select';
+import { STATES } from './states';
 
 const loadingTemplate = () => html`
   <div class="card card-content">Loading...</div>
@@ -34,6 +41,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     gridStyles,
     ...formStyles,
     stateIncentivesStyles,
+    dividerStyles,
   ];
 
   /* supported properties to control showing/hiding of each card in the widget */
@@ -80,6 +88,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: String, attribute: 'household-size' })
   householdSize: string = '1';
 
+  @property({ type: String })
+  utility: string = '';
+
   submit(e: SubmitEvent) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
@@ -90,8 +101,8 @@ export class RewiringAmericaStateCalculator extends LitElement {
     this.householdSize = (formData.get('household_size') as string) || '';
   }
 
-  get hideResult() {
-    return !(
+  isFormComplete() {
+    return !!(
       this.zip &&
       this.ownerStatus &&
       this.taxFiling &&
@@ -109,8 +120,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
       household_income,
       tax_filing,
       household_size,
+      utility,
     ]) => {
-      if (this.hideResult) {
+      if (!this.isFormComplete() || !utility) {
         // this is a special response type provided by Task to keep it in the INITIAL state
         return initialState;
       }
@@ -123,6 +135,8 @@ export class RewiringAmericaStateCalculator extends LitElement {
       });
       query.append('authority_types', 'federal');
       query.append('authority_types', 'state');
+      query.append('authority_types', 'utility');
+      query.set('utility', utility);
 
       return await fetchApi(
         this.apiKey,
@@ -138,10 +152,54 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this.householdIncome,
       this.taxFiling,
       this.householdSize,
+      this.utility,
     ],
   });
 
+  private _utilityOptionsTask = new Task<string[], OptionParam[]>(this, {
+    task: async ([zip]) => {
+      if (!zip) {
+        return initialState;
+      }
+      const query = new URLSearchParams({
+        'location[zip]': zip,
+      });
+      const utilityMap = await fetchApi(
+        this.apiKey,
+        this.apiHost,
+        '/api/v1/utilities',
+        query,
+      );
+
+      return Object.keys(utilityMap).map(id => ({
+        value: id,
+        label: utilityMap[id].name,
+      }));
+    },
+    onComplete: options => (this.utility = options[0].value),
+    args: () => [this.zip],
+  });
+
   override render() {
+    const utilityForm =
+      this.isFormComplete() &&
+      this._utilityOptionsTask.status === TaskStatus.COMPLETE &&
+      this._utilityOptionsTask.value
+        ? html` <div class="divider">
+            <h1 class="divider__section">
+              Incentives available to you in ${STATES[this.state]}
+            </h1>
+            <div class="spacer"></div>
+            <div class="divider__section card card-content">
+              ${utilityFormTemplate(
+                this.utility,
+                this._utilityOptionsTask.value,
+                newUtility => (this.utility = newUtility),
+              )}
+            </div>
+          </div>`
+        : nothing;
+
     return html`
       <div class="calculator">
         <div class="card card-content">
@@ -156,18 +214,22 @@ export class RewiringAmericaStateCalculator extends LitElement {
                   this.taxFiling,
                   this.householdSize,
                 ],
+                (event: InputEvent) => {
+                  this.zip = (event.target as HTMLInputElement).value;
+                },
                 (event: SubmitEvent) => this.submit(event),
               )}
         </div>
-        ${this.hideResult
-          ? nothing
-          : html`
+        ${utilityForm}
+        ${this.isFormComplete() && this.utility
+          ? html`
               ${this._task.render({
                 pending: loadingTemplate,
                 complete: results => stateIncentivesTemplate(results),
                 error: errorTemplate,
               })}
-            `}
+            `
+          : nothing}
         ${CALCULATOR_FOOTER}
       </div>
     `;
