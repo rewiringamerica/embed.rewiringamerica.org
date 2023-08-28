@@ -1,6 +1,7 @@
 import { css, html, nothing } from 'lit';
 import { APIResponse, Amount, Incentive } from './api/calculator-types-v1';
 import { exclamationPoint } from './icons';
+import { PROJECT_OPTIONS } from './calculator-form';
 
 export const stateIncentivesStyles = css`
   .incentive {
@@ -303,9 +304,10 @@ export const stateIncentivesTemplate = (
     ...response.pos_rebate_incentives,
     ...response.tax_credit_incentives,
   ].filter(i => i.eligible);
+  const selectedItems = PROJECT_OPTIONS[selectedProject]!.items;
 
-  const selected = allEligible.filter(i => i.item.type === selectedProject);
-  const other = allEligible.filter(i => i.item.type !== selectedProject);
+  const selected = allEligible.filter(i => selectedItems.includes(i.item.type));
+  const other = allEligible.filter(i => !selectedItems.includes(i.item.type));
 
   return html` ${atAGlanceTemplate(response, allEligible.length)}
   ${gridTemplate("Incentives you're interested in", selected)}

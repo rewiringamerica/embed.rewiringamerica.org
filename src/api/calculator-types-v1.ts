@@ -10,8 +10,24 @@ export interface Amount {
   unit?: string;
 }
 
+export type ItemType =
+  | 'battery_storage_installation'
+  | 'efficiency_rebates'
+  | 'electric_panel'
+  | 'electric_stove'
+  | 'electric_vehicle_charger'
+  | 'electric_wiring'
+  | 'geothermal_heating_installation'
+  | 'heat_pump_air_conditioner_heater'
+  | 'heat_pump_clothes_dryer'
+  | 'heat_pump_water_heater'
+  | 'new_electric_vehicle'
+  | 'rooftop_solar_installation'
+  | 'used_electric_vehicle'
+  | 'weatherization';
+
 export interface Item {
-  type: string;
+  type: ItemType;
   name: string;
   url: string;
 }

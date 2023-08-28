@@ -94,7 +94,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
   utility: string = '';
 
   @property({ type: String })
-  selectedProject: string = 'heat_pump_air_conditioner_heater';
+  selectedProject: string = 'hvac';
 
   submit(e: SubmitEvent) {
     e.preventDefault();

@@ -5,6 +5,7 @@ import { inputStyles } from './styles/input';
 import './currency-input';
 import '@shoelace-style/shoelace/dist/themes/light.css';
 import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
+import { PROJECTS } from './projects';
 
 const buttonStyles = css`
   button {
@@ -73,19 +74,6 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
   },
 );
 
-const PROJECT_OPTIONS: OptionParam[] = [
-  { value: 'heat_pump_clothes_dryer', label: 'Clothes dryer' },
-  {
-    value: 'heat_pump_air_conditioner_heater',
-    label: 'Heating, ventilation & cooling',
-  },
-  { value: 'new_electric_vehicle', label: 'New electric vehicle' },
-  { value: 'rooftop_solar_installation', label: 'Rooftop solar installation' },
-  { value: 'used_electric_vehicle', label: 'Used electric vehicle' },
-  { value: 'heat_pump_water_heater', label: 'Water heater' },
-  { value: 'weatherization', label: 'Weatherization' },
-];
-
 export const utilityFormTemplate = (
   utilityId: string,
   utilityOptions: OptionParam[],
@@ -143,7 +131,9 @@ export const formTemplate = (
           ${select({
             id: 'project',
             required: true,
-            options: PROJECT_OPTIONS,
+            options: Object.entries(PROJECTS)
+              .map(([value, data]) => ({ value, label: data.label }))
+              .sort((a, b) => a.label.localeCompare(b.label)),
             currentValue: project,
             tabIndex: 0,
           })}
