@@ -15,6 +15,7 @@ import {
   stateIncentivesStyles,
   cardStyles,
   dividerStyles,
+  separatorStyles,
 } from './state-incentive-details';
 import { OptionParam } from './select';
 import { STATES } from './states';
@@ -42,6 +43,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     ...formStyles,
     stateIncentivesStyles,
     dividerStyles,
+    separatorStyles,
   ];
 
   /* supported properties to control showing/hiding of each card in the widget */
@@ -91,6 +93,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: String })
   utility: string = '';
 
+  @property({ type: String })
+  selectedProject: string = 'heat_pump_air_conditioner_heater';
+
   submit(e: SubmitEvent) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
@@ -99,6 +104,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     this.householdIncome = (formData.get('household_income') as string) || '';
     this.taxFiling = (formData.get('tax_filing') as FilingStatus) || '';
     this.householdSize = (formData.get('household_size') as string) || '';
+    this.selectedProject = (formData.get('project') as string) || '';
   }
 
   isFormComplete() {
@@ -107,7 +113,8 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this.ownerStatus &&
       this.taxFiling &&
       this.householdIncome &&
-      this.householdSize
+      this.householdSize &&
+      this.selectedProject
     );
   }
 
@@ -208,12 +215,14 @@ export class RewiringAmericaStateCalculator extends LitElement {
             ? nothing
             : formTemplate(
                 [
+                  this.selectedProject,
                   this.zip,
                   this.ownerStatus,
                   this.householdIncome,
                   this.taxFiling,
                   this.householdSize,
                 ],
+                true,
                 (event: InputEvent) => {
                   this.zip = (event.target as HTMLInputElement).value;
                 },
@@ -223,9 +232,11 @@ export class RewiringAmericaStateCalculator extends LitElement {
         ${utilityForm}
         ${this.isFormComplete() && this.utility
           ? html`
+              <div class="separator"></div>
               ${this._task.render({
                 pending: loadingTemplate,
-                complete: results => stateIncentivesTemplate(results),
+                complete: results =>
+                  stateIncentivesTemplate(results, this.selectedProject),
                 error: errorTemplate,
               })}
             `

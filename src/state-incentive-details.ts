@@ -37,12 +37,6 @@ export const stateIncentivesStyles = css`
     line-height: 125%;
   }
 
-  .incentive__separator {
-    background: #e2e2e2;
-    width: 100%;
-    height: 1px;
-  }
-
   .incentive__blurb {
     color: #757575;
     line-height: 150%;
@@ -79,6 +73,42 @@ export const stateIncentivesStyles = css`
 
   .grid-3-2--align-start {
     align-items: start;
+  }
+
+  .grid-section-header {
+    color: #111;
+    text-align: center;
+
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 125%;
+  }
+
+  .summary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    flex: 1 0 0;
+    padding: 0.75rem;
+  }
+
+  .summary__caption {
+    color: #111;
+
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 125%;
+    letter-spacing: 0.03438rem;
+    text-transform: uppercase;
+  }
+
+  .summary__body {
+    color: #111;
+
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 165%;
   }
 `;
 
@@ -143,6 +173,14 @@ export const dividerStyles = css`
   }
 `;
 
+export const separatorStyles = css`
+  .separator {
+    background: #e2e2e2;
+    width: 100%;
+    height: 1px;
+  }
+`;
+
 /** To make the layout more realistic until we have descriptions in API */
 const DUMMY_TEXT =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices ' +
@@ -199,13 +237,13 @@ const incentiveBoxTemplate = (incentive: Incentive) => html`
             : nothing}
           ${incentive.program}
         </div>
-        <div class="incentive__separator"></div>
+        <div class="separator"></div>
         <div class="incentive__blurb">${DUMMY_TEXT}</div>
         ${startDateTemplate(incentive)}
         <a
           class="incentive__link-button"
           target="_blank"
-          href="${incentive.item_url}"
+          href="${incentive.item.url}"
         >
           Learn more
         </a>
@@ -214,9 +252,62 @@ const incentiveBoxTemplate = (incentive: Incentive) => html`
   </div>
 `;
 
-export const stateIncentivesTemplate = (response: APIResponse) =>
-  html` <div class="grid-3-2 grid-3-2--align-start">
-    ${[...response.pos_rebate_incentives, ...response.tax_credit_incentives]
-      .filter(i => i.eligible)
-      .map(incentiveBoxTemplate)}
-  </div>`;
+export const summaryBoxTemplate = (caption: string, body: string) => html`
+  <div class="card">
+    <div class="summary">
+      <div class="summary__caption">${caption}</div>
+      <div class="summary__body">${body}</div>
+    </div>
+  </div>
+`;
+
+export const atAGlanceTemplate = (
+  response: APIResponse,
+  eligibleCount: number,
+) => {
+  return html`
+    <h2 class="grid-section-header">Incentives at a glance</h2>
+    <div class="grid-3-2 grid-3-2--align-start">
+      ${summaryBoxTemplate(
+        'Total available incentives',
+        eligibleCount.toLocaleString(),
+      )}
+      ${summaryBoxTemplate(
+        'Upfront discounts',
+        `$${response.pos_savings.toLocaleString()}`,
+      )}
+      ${summaryBoxTemplate(
+        'Tax credits',
+        `$${response.tax_savings.toLocaleString()}`,
+      )}
+    </div>
+  `;
+};
+
+export const gridTemplate = (heading: string, incentives: Incentive[]) => {
+  return incentives.length > 0
+    ? html`
+        <h2 class="grid-section-header">${heading}</h2>
+        <div class="grid-3-2 grid-3-2--align-start">
+          ${incentives.map(incentiveBoxTemplate)}
+        </div>
+      `
+    : nothing;
+};
+
+export const stateIncentivesTemplate = (
+  response: APIResponse,
+  selectedProject: string,
+) => {
+  const allEligible = [
+    ...response.pos_rebate_incentives,
+    ...response.tax_credit_incentives,
+  ].filter(i => i.eligible);
+
+  const selected = allEligible.filter(i => i.item.type === selectedProject);
+  const other = allEligible.filter(i => i.item.type !== selectedProject);
+
+  return html` ${atAGlanceTemplate(response, allEligible.length)}
+  ${gridTemplate("Incentives you're interested in", selected)}
+  ${gridTemplate('Other incentives available to you', other)}`;
+};
