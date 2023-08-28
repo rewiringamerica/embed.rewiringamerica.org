@@ -16,9 +16,11 @@ import {
   cardStyles,
   dividerStyles,
   separatorStyles,
+  iconTabStyles,
 } from './state-incentive-details';
 import { OptionParam } from './select';
 import { STATES } from './states';
+import { Project } from './projects';
 
 const loadingTemplate = () => html`
   <div class="card card-content">Loading...</div>
@@ -44,6 +46,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     stateIncentivesStyles,
     dividerStyles,
     separatorStyles,
+    iconTabStyles,
   ];
 
   /* supported properties to control showing/hiding of each card in the widget */
@@ -94,7 +97,10 @@ export class RewiringAmericaStateCalculator extends LitElement {
   utility: string = '';
 
   @property({ type: String })
-  selectedProject: string = 'hvac';
+  selectedProject: Project = 'hvac';
+
+  @property({ type: String })
+  selectedOtherTab: Project = 'heat_pump_clothes_dryer';
 
   submit(e: SubmitEvent) {
     e.preventDefault();
@@ -104,7 +110,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     this.householdIncome = (formData.get('household_income') as string) || '';
     this.taxFiling = (formData.get('tax_filing') as FilingStatus) || '';
     this.householdSize = (formData.get('household_size') as string) || '';
-    this.selectedProject = (formData.get('project') as string) || '';
+    this.selectedProject = (formData.get('project') as Project) || '';
   }
 
   isFormComplete() {
@@ -236,7 +242,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
               ${this._task.render({
                 pending: loadingTemplate,
                 complete: results =>
-                  stateIncentivesTemplate(results, this.selectedProject),
+                  stateIncentivesTemplate(
+                    results,
+                    this.selectedProject,
+                    this.selectedOtherTab,
+                    newSelection => (this.selectedOtherTab = newSelection),
+                  ),
                 error: errorTemplate,
               })}
             `

@@ -8,7 +8,7 @@ import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 import { PROJECTS } from './projects';
 
 const buttonStyles = css`
-  button {
+  button.calculate {
     appearance: none;
     font-family: inherit;
     font-size: 16px;
@@ -25,7 +25,7 @@ const buttonStyles = css`
     width: 100%;
   }
 
-  button:hover {
+  button.calculate:hover {
     background-color: var(--ra-embed-primary-button-background-hover-color);
   }
 
@@ -244,7 +244,9 @@ export const formTemplate = (
           </label>
         </div>
         <div>
-          <button type="submit">Calculate! ${downIcon(18, 18)}</button>
+          <button class="calculate" type="submit">
+            Calculate! ${downIcon(18, 18)}
+          </button>
         </div>
       </div>
     </form>

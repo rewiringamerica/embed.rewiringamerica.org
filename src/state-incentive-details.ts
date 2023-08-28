@@ -1,7 +1,7 @@
 import { css, html, nothing } from 'lit';
 import { APIResponse, Amount, Incentive } from './api/calculator-types-v1';
 import { exclamationPoint } from './icons';
-import { PROJECT_OPTIONS } from './calculator-form';
+import { PROJECTS, Project } from './projects';
 
 export const stateIncentivesStyles = css`
   .incentive {
@@ -76,7 +76,22 @@ export const stateIncentivesStyles = css`
     align-items: start;
   }
 
-  .grid-section-header {
+  .grid-section {
+    & .card {
+      margin: 0;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .grid-section {
+      margin: 0 1rem;
+      min-width: 200px;
+    }
+  }
+
+  .grid-section__header {
+    margin-bottom: 1.5rem;
+
     color: #111;
     text-align: center;
 
@@ -167,9 +182,83 @@ export const dividerStyles = css`
       margin: 0 1rem;
       min-width: 200px;
 
+      & h1 {
+        text-align: center;
+      }
+
       & .card {
+        /* Margin is provided by the outer element */
         margin: 0;
       }
+    }
+  }
+`;
+
+export const iconTabStyles = css`
+  .icon-tab-bar {
+    display: flex;
+
+    /*
+     * Center the tabs horizontally, and let them scroll horizontally if
+     * they're wider than the container
+     */
+    justify-content: start;
+    width: min-content;
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 0 auto 1.5rem auto;
+  }
+
+  button.icon-tab {
+    /* Override default button styles */
+    background-color: transparent;
+    border: 0;
+    font-family: inherit;
+    padding: 0;
+    cursor: pointer;
+
+    min-width: 6rem;
+
+    /* Manage the gap between the icon and the caption */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+
+    & .background {
+      /* Get the icon centered in the rounded box */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 4rem;
+      height: 4rem;
+
+      border-radius: 0.75rem;
+      background: #fff;
+      box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+    }
+    & .caption {
+      color: #846f24;
+      text-align: center;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      line-height: 125%;
+      letter-spacing: 0.03438rem;
+      text-transform: uppercase;
+    }
+  }
+
+  button.icon-tab--selected {
+    cursor: default;
+
+    & .background {
+      background: var(--color-purple-500, #4a00c3);
+    }
+    & .caption {
+      color: var(--color-purple-500, #4a00c3);
+      font-weight: 700;
     }
   }
 `;
@@ -180,6 +269,12 @@ export const separatorStyles = css`
     width: 100%;
     height: 1px;
   }
+
+  @media only screen and (max-width: 600px) {
+    .separator {
+      display: none;
+    }
+  }
 `;
 
 /** To make the layout more realistic until we have descriptions in API */
@@ -189,6 +284,8 @@ const DUMMY_TEXT =
   'eget, pharetra at sapien mauris quis.';
 
 const nowrap = (text: string) => html`<span class="nowrap">${text}</span>`;
+
+const shortLabel = (p: Project) => PROJECTS[p].shortLabel ?? PROJECTS[p].label;
 
 const amountTemplate = (amount: Amount) =>
   amount.type === 'dollar_amount'
@@ -267,49 +364,113 @@ export const atAGlanceTemplate = (
   eligibleCount: number,
 ) => {
   return html`
-    <h2 class="grid-section-header">Incentives at a glance</h2>
-    <div class="grid-3-2 grid-3-2--align-start">
-      ${summaryBoxTemplate(
-        'Total available incentives',
-        eligibleCount.toLocaleString(),
-      )}
-      ${summaryBoxTemplate(
-        'Upfront discounts',
-        `$${response.pos_savings.toLocaleString()}`,
-      )}
-      ${summaryBoxTemplate(
-        'Tax credits',
-        `$${response.tax_savings.toLocaleString()}`,
-      )}
+    <div class="grid-section">
+      <h2 class="grid-section__header">Incentives at a glance</h2>
+      <div class="grid-3-2 grid-3-2--align-start">
+        ${summaryBoxTemplate(
+          'Total available incentives',
+          eligibleCount.toLocaleString(),
+        )}
+        ${summaryBoxTemplate(
+          'Upfront discounts',
+          `$${response.pos_savings.toLocaleString()}`,
+        )}
+        ${summaryBoxTemplate(
+          'Tax credits',
+          `$${response.tax_savings.toLocaleString()}`,
+        )}
+      </div>
     </div>
   `;
 };
 
-export const gridTemplate = (heading: string, incentives: Incentive[]) => {
+export const gridTemplate = (
+  heading: string,
+  incentives: Incentive[],
+  tabs: Project[],
+  selectedTab: Project,
+  onTabSelected: (newSelection: Project) => void,
+) => {
+  const iconTabs = tabs.map(project => {
+    const isSelected = project === selectedTab;
+    const selectedClass = isSelected ? 'icon-tab--selected' : '';
+    return html`
+      <button
+        class="icon-tab ${selectedClass}"
+        @click=${() => onTabSelected(project)}
+      >
+        <div class="background">${PROJECTS[project].icon(isSelected)}</div>
+        <div class="caption">${shortLabel(project)}</div>
+      </button>
+    `;
+  });
+
   return incentives.length > 0
     ? html`
-        <h2 class="grid-section-header">${heading}</h2>
-        <div class="grid-3-2 grid-3-2--align-start">
-          ${incentives.map(incentiveBoxTemplate)}
+        <div class="grid-section">
+          <h2 class="grid-section__header">${heading}</h2>
+          <div class="icon-tab-bar">${iconTabs}</div>
+          <div class="grid-3-2 grid-3-2--align-start">
+            ${incentives.map(incentiveBoxTemplate)}
+          </div>
         </div>
       `
     : nothing;
 };
 
+/**
+ * Renders the "at a glance" summary section, a grid of incentive cards about
+ * the project you selected in the main form, then a grid of tab-bar switchable
+ * incentive cards about other projects.
+ *
+ * @param selectedProject The project whose incentives should get hoisted into
+ * their own section above all the others.
+ * @param selectedOtherTab The project among the "others" section whose tab is
+ * currently selected.
+ */
 export const stateIncentivesTemplate = (
   response: APIResponse,
-  selectedProject: string,
+  selectedProject: Project,
+  selectedOtherTab: Project,
+  onTabSelected: (newSelection: Project) => void,
 ) => {
   const allEligible = [
     ...response.pos_rebate_incentives,
     ...response.tax_credit_incentives,
   ].filter(i => i.eligible);
-  const selectedItems = PROJECT_OPTIONS[selectedProject]!.items;
 
-  const selected = allEligible.filter(i => selectedItems.includes(i.item.type));
-  const other = allEligible.filter(i => !selectedItems.includes(i.item.type));
+  const incentivesByProject = Object.fromEntries(
+    Object.entries(PROJECTS).map(([project, info]) => [
+      project,
+      allEligible.filter(i => info.items.includes(i.item.type)),
+    ]),
+  ) as Record<Project, Incentive[]>;
+
+  // Only offer "other" tabs if there are incentives for that project.
+  const otherTabs = (
+    Object.entries(incentivesByProject) as [Project, Incentive[]][]
+  )
+    .filter(
+      ([project, incentives]) =>
+        project !== selectedProject && incentives.length > 0,
+    )
+    .sort(([a], [b]) => shortLabel(a).localeCompare(shortLabel(b)))
+    .map(([project]) => project);
 
   return html` ${atAGlanceTemplate(response, allEligible.length)}
-  ${gridTemplate("Incentives you're interested in", selected)}
-  ${gridTemplate('Other incentives available to you', other)}`;
+  ${gridTemplate(
+    "Incentives you're interested in",
+    incentivesByProject[selectedProject] ?? [],
+    [selectedProject],
+    selectedProject,
+    () => {},
+  )}
+  ${gridTemplate(
+    'Other incentives available to you',
+    incentivesByProject[selectedOtherTab] ?? [],
+    otherTabs,
+    // If a nonexistent tab is selected, pretend the first one is selected.
+    otherTabs.includes(selectedOtherTab) ? selectedOtherTab : otherTabs[0],
+    onTabSelected,
+  )}`;
 };
