@@ -329,12 +329,7 @@ const incentiveBoxTemplate = (incentive: Incentive) => html`
       <div class="incentive">
         <div class="incentive__chip">${formatIncentiveType(incentive)}</div>
         <div class="incentive__amount">${amountTemplate(incentive.amount)}</div>
-        <div class="incentive__title">
-          ${incentive.authority_name
-            ? html`${incentive.authority_name}<br />`
-            : nothing}
-          ${incentive.program}
-        </div>
+        <div class="incentive__title">${incentive.program}</div>
         <div class="separator"></div>
         <div class="incentive__blurb">${DUMMY_TEXT}</div>
         ${startDateTemplate(incentive)}
