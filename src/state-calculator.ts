@@ -236,21 +236,23 @@ export class RewiringAmericaStateCalculator extends LitElement {
               )}
         </div>
         ${utilityForm}
-        ${this.isFormComplete() && this.utility
-          ? html`
-              <div class="separator"></div>
-              ${this._task.render({
-                pending: loadingTemplate,
-                complete: results =>
-                  stateIncentivesTemplate(
-                    results,
-                    this.selectedProject,
-                    this.selectedOtherTab,
-                    newSelection => (this.selectedOtherTab = newSelection),
-                  ),
-                error: errorTemplate,
-              })}
-            `
+        ${this.isFormComplete()
+          ? this.utility
+            ? html`
+                <div class="separator"></div>
+                ${this._task.render({
+                  pending: loadingTemplate,
+                  complete: results =>
+                    stateIncentivesTemplate(
+                      results,
+                      this.selectedProject,
+                      this.selectedOtherTab,
+                      newSelection => (this.selectedOtherTab = newSelection),
+                    ),
+                  error: errorTemplate,
+                })}
+              `
+            : loadingTemplate()
           : nothing}
         ${CALCULATOR_FOOTER}
       </div>
