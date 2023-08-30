@@ -1,5 +1,5 @@
 import { css, html, nothing } from 'lit';
-import { APIResponse, Amount, Incentive } from './api/calculator-types-v1';
+import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { exclamationPoint } from './icons';
 import { PROJECTS, Project } from './projects';
 
@@ -33,7 +33,7 @@ export const stateIncentivesStyles = css`
     color: #846f24;
   }
 
-  .incentive__title {
+  .incentive__subtitle {
     font-weight: 500;
     line-height: 125%;
   }
@@ -43,7 +43,7 @@ export const stateIncentivesStyles = css`
     line-height: 150%;
   }
 
-  .incentive__amount {
+  .incentive__title {
     font-size: 1.5rem;
     line-height: 150%;
   }
@@ -283,26 +283,61 @@ const DUMMY_TEXT =
   'facilisis erat sit amet posuere. Nunc ex dolor, tincidunt sed efficitur ' +
   'eget, pharetra at sapien mauris quis.';
 
-const nowrap = (text: string) => html`<span class="nowrap">${text}</span>`;
-
 const shortLabel = (p: Project) => PROJECTS[p].shortLabel ?? PROJECTS[p].label;
 
-const amountTemplate = (amount: Amount) =>
-  amount.type === 'dollar_amount'
-    ? amount.maximum
-      ? nowrap(`Up to $${amount.maximum.toLocaleString()}`)
-      : `$${amount.number.toLocaleString()}`
-    : amount.type === 'percent'
-    ? amount.maximum
-      ? html`${nowrap(`${Math.round(amount.number * 100)}% of cost`)},
-        ${nowrap(`up to $${amount.maximum.toLocaleString()}`)}`
-      : `${Math.round(amount.number * 100)}% of cost`
-    : amount.type === 'dollars_per_unit'
-    ? amount.maximum
-      ? html`${nowrap(`$${amount.number.toLocaleString()}/${amount.unit}`)},
-        ${nowrap(`up to $${amount.maximum.toLocaleString()}`)} `
-      : `$${amount.number.toLocaleString()}/${amount.unit}`
-    : nothing;
+const titleTemplate = (incentive: Incentive) => {
+  const item = itemName(incentive.item.type);
+  const amount = incentive.amount;
+  if (amount.type === 'dollar_amount') {
+    return amount.maximum
+      ? `Up to $${amount.maximum.toLocaleString()} off ${item}`
+      : `$${amount.number.toLocaleString()} off ${item}`;
+  } else if (amount.type === 'percent') {
+    const percentStr = `${Math.round(amount.number * 100)}%`;
+    return amount.maximum
+      ? `${percentStr} of cost of ${item}, up to $${amount.maximum.toLocaleString()}`
+      : `${percentStr} of cost of ${item}`;
+  } else if (amount.type === 'dollars_per_unit') {
+    const perUnitStr = `$${amount.number.toLocaleString()}/${amount.unit}`;
+    return amount.maximum
+      ? `${perUnitStr} off ${item}, up to $${amount.maximum.toLocaleString()}`
+      : `${perUnitStr} off ${item}`;
+  } else {
+    return nothing;
+  }
+};
+
+/**
+ * TODO this is an internationalization sin. Figure out something better!
+ */
+const itemName = (itemType: ItemType) =>
+  itemType === 'battery_storage_installation'
+    ? 'battery storage'
+    : itemType === 'electric_panel'
+    ? 'an electric panel'
+    : itemType === 'electric_stove'
+    ? 'an electric/induction stove'
+    : itemType === 'electric_vehicle_charger'
+    ? 'an EV charger'
+    : itemType === 'electric_wiring'
+    ? 'electric wiring'
+    : itemType === 'geothermal_heating_installation'
+    ? 'geothermal heating installation'
+    : itemType === 'heat_pump_air_conditioner_heater'
+    ? 'a heat pump'
+    : itemType === 'heat_pump_clothes_dryer'
+    ? 'a heat pump clothes dryer'
+    : itemType === 'heat_pump_water_heater'
+    ? 'a heat pump water heater'
+    : itemType === 'new_electric_vehicle'
+    ? 'a new electric vehicle'
+    : itemType === 'rooftop_solar_installation'
+    ? 'rooftop solar'
+    : itemType === 'used_electric_vehicle'
+    ? 'a used electric vehicle'
+    : itemType === 'weatherization'
+    ? 'weatherization'
+    : null;
 
 const formatIncentiveType = (incentive: Incentive) =>
   incentive.type === 'tax_credit'
@@ -328,8 +363,8 @@ const incentiveBoxTemplate = (incentive: Incentive) => html`
     <div class="card-content">
       <div class="incentive">
         <div class="incentive__chip">${formatIncentiveType(incentive)}</div>
-        <div class="incentive__amount">${amountTemplate(incentive.amount)}</div>
-        <div class="incentive__title">${incentive.program}</div>
+        <div class="incentive__title">${titleTemplate(incentive)}</div>
+        <div class="incentive__subtitle">${incentive.program}</div>
         <div class="separator"></div>
         <div class="incentive__blurb">${DUMMY_TEXT}</div>
         ${startDateTemplate(incentive)}
