@@ -74,38 +74,6 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
   },
 );
 
-export const utilityFormTemplate = (
-  utilityId: string,
-  utilityOptions: OptionParam[],
-  onChange: (utilityId: string) => void,
-) => {
-  return html`
-    <form>
-      <div>
-        <label for="utility">
-          Electric Utility
-          <sl-tooltip
-            content="Choose the company you pay your electric bill to."
-            hoist
-          >
-            ${questionIcon(18, 18)}
-          </sl-tooltip>
-          <br />
-          ${select({
-            id: 'utility',
-            required: true,
-            options: utilityOptions,
-            currentValue: utilityId,
-            tabIndex: 0,
-            onChange: event =>
-              onChange((event.target as HTMLInputElement).value),
-          })}
-        </label>
-      </div>
-    </form>
-  `;
-};
-
 export const formTemplate = (
   [
     project,

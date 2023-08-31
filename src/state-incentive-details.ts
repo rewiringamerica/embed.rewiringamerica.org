@@ -82,7 +82,7 @@ export const stateIncentivesStyles = css`
     }
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 640px) {
     .grid-section {
       margin: 0 1rem;
       min-width: 200px;
@@ -140,7 +140,7 @@ export const cardStyles = css`
   }
 
   /* Extra small devices */
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 640px) {
     .card {
       margin: 0 1rem;
       min-width: 200px;
@@ -152,45 +152,6 @@ export const cardStyles = css`
     display: grid;
     grid-template-rows: min-content;
     gap: 1rem;
-  }
-`;
-
-export const dividerStyles = css`
-  .divider {
-    display: flex;
-    flex-wrap: wrap;
-
-    & h1 {
-      font-size: 2.25rem;
-      font-weight: 700;
-      line-height: 125%;
-    }
-
-    & .spacer {
-      flex-grow: 1;
-      height: 2rem;
-    }
-  }
-
-  .divider__section {
-    width: 25rem;
-  }
-
-  /* Extra small devices */
-  @media only screen and (max-width: 600px) {
-    .divider {
-      margin: 0 1rem;
-      min-width: 200px;
-
-      & h1 {
-        text-align: center;
-      }
-
-      & .card {
-        /* Margin is provided by the outer element */
-        margin: 0;
-      }
-    }
   }
 `;
 
@@ -270,7 +231,7 @@ export const separatorStyles = css`
     height: 1px;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 640px) {
     .separator {
       display: none;
     }

@@ -2,11 +2,7 @@ import { LitElement, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Task, TaskStatus, initialState } from '@lit-labs/task';
 import { baseStyles, gridStyles } from './styles';
-import {
-  formTemplate,
-  formStyles,
-  utilityFormTemplate,
-} from './calculator-form';
+import { formTemplate, formStyles } from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { CALCULATOR_FOOTER } from './calculator-footer';
 import { fetchApi } from './api/fetch';
@@ -14,13 +10,15 @@ import {
   stateIncentivesTemplate,
   stateIncentivesStyles,
   cardStyles,
-  dividerStyles,
   separatorStyles,
   iconTabStyles,
 } from './state-incentive-details';
 import { OptionParam } from './select';
-import { STATES } from './states';
 import { Project } from './projects';
+import {
+  utilitySelectorStyles,
+  utilitySelectorTemplate,
+} from './utility-selector';
 
 const loadingTemplate = () => html`
   <div class="card card-content">Loading...</div>
@@ -44,7 +42,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     gridStyles,
     ...formStyles,
     stateIncentivesStyles,
-    dividerStyles,
+    utilitySelectorStyles,
     separatorStyles,
     iconTabStyles,
   ];
@@ -198,19 +196,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this.isFormComplete() &&
       this._utilityOptionsTask.status === TaskStatus.COMPLETE &&
       this._utilityOptionsTask.value
-        ? html` <div class="divider">
-            <h1 class="divider__section">
-              Incentives available to you in ${STATES[this.state]}
-            </h1>
-            <div class="spacer"></div>
-            <div class="divider__section card card-content">
-              ${utilityFormTemplate(
-                this.utility,
-                this._utilityOptionsTask.value,
-                newUtility => (this.utility = newUtility),
-              )}
-            </div>
-          </div>`
+        ? utilitySelectorTemplate(
+            this.state,
+            this.utility,
+            this._utilityOptionsTask.value,
+            newUtility => (this.utility = newUtility),
+          )
         : nothing;
 
     return html`
