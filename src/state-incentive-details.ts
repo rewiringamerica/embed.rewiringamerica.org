@@ -238,12 +238,6 @@ export const separatorStyles = css`
   }
 `;
 
-/** To make the layout more realistic until we have descriptions in API */
-const DUMMY_TEXT =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices ' +
-  'facilisis erat sit amet posuere. Nunc ex dolor, tincidunt sed efficitur ' +
-  'eget, pharetra at sapien mauris quis.';
-
 const shortLabel = (p: Project) => PROJECTS[p].shortLabel ?? PROJECTS[p].label;
 
 const titleTemplate = (incentive: Incentive) => {
@@ -327,7 +321,7 @@ const incentiveBoxTemplate = (incentive: Incentive) => html`
         <div class="incentive__title">${titleTemplate(incentive)}</div>
         <div class="incentive__subtitle">${incentive.program}</div>
         <div class="separator"></div>
-        <div class="incentive__blurb">${DUMMY_TEXT}</div>
+        <div class="incentive__blurb">${incentive.short_description}</div>
         ${startDateTemplate(incentive)}
         <a
           class="incentive__link-button"

@@ -41,6 +41,7 @@ export interface Incentive {
   amount: Amount;
   start_date: number;
   end_date: number;
+  short_description?: string;
 
   eligible: boolean;
 }
