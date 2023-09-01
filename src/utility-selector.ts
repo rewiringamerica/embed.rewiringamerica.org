@@ -6,8 +6,22 @@ import { STATES } from './states';
 export const utilitySelectorStyles = css`
   .utility-selector {
     display: grid;
+    align-items: center;
+
+    & .map {
+      position: relative;
+      text-align: center;
+
+      & svg {
+        vertical-align: top;
+      }
+    }
 
     & h1 {
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
+
       font-weight: 700;
       line-height: 125%;
 
@@ -29,7 +43,8 @@ export const utilitySelectorStyles = css`
     .utility-selector {
       grid-template-columns: 1fr;
 
-      margin: 0 1rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
       min-width: 200px;
 
       & .card {
@@ -46,6 +61,7 @@ export const utilitySelectorStyles = css`
     }
   }
 
+  /* Large: bigger text, left-aligned */
   @media only screen and (min-width: 768px) {
     .utility-selector {
       & h1 {
@@ -95,7 +111,10 @@ export const utilitySelectorTemplate = (
   onChange: (utilityId: string) => void,
 ) =>
   html` <div class="utility-selector">
-    <h1>Incentives available to you in ${STATES[state]}</h1>
+    <div class="map">
+      ${STATES[state].icon()}
+      <h1>Incentives available to you in ${STATES[state].name}</h1>
+    </div>
     <div class="spacer"></div>
     <div class="card card-content selector">
       ${utilityFormTemplate(utilityId, utilityOptions, onChange)}
