@@ -96,6 +96,9 @@ function formatStartDate(start_date: number, type: IncentiveType) {
     } else {
       return html`${start_date.toString()}`;
     }
+  } else {
+    // while we technically don't expect another IncentiveType, fall back to date here if needed:
+    return html`${start_date.toString()}`;
   }
 }
 
