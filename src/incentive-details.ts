@@ -84,16 +84,18 @@ function formatAmount(amount: number, amount_type: AmountType) {
 }
 
 function formatStartDate(start_date: number, type: IncentiveType) {
-  if (start_date === 2022) {
-    return html`<em>Available Now!</em>`;
-  } else if (start_date === 2023) {
-    if (type === 'pos_rebate') {
-      return html`Late 2023`;
-    } else {
+  if (type === 'pos_rebate') {
+    // we hard-code 2024 for rebates because their availability is not yet certain
+    // FIXME: we should model the uncertainty explicitly rather than leaving it to frontend code
+    return html`2024`;
+  } else if (type === 'tax_credit') {
+    // for tax credits, the year is safe to use as data:
+    const thisYear = new Date().getFullYear();
+    if (start_date <= thisYear) {
       return html`<em>Available Now!</em>`;
+    } else {
+      return html`${start_date.toString()}`;
     }
-  } else {
-    return html`${start_date.toString()}`;
   }
 }
 
