@@ -73,8 +73,31 @@ export const stateIncentivesStyles = css`
     white-space: nowrap;
   }
 
-  .grid-3-2--align-start {
+  .grid-3-2-1 {
+    display: grid;
+    gap: 1rem;
+    align-items: end;
+  }
+  .grid-3-2-1--align-start {
     align-items: start;
+  }
+
+  @media only screen and (max-width: 640px) {
+    .grid-3-2-1 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media only screen and (min-width: 641px) and (max-width: 768px) {
+    .grid-3-2-1 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media only screen and (min-width: 769px) {
+    .grid-3-2-1 {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
   }
 
   .grid-section {
@@ -281,7 +304,7 @@ export const atAGlanceTemplate = (
   return html`
     <div class="grid-section">
       <h2 class="grid-section__header">Incentives at a glance</h2>
-      <div class="grid-3-2 grid-3-2--align-start">
+      <div class="grid-3-2-1 grid-3-2-1--align-start">
         ${summaryBoxTemplate(
           'Total available incentives',
           eligibleCount.toLocaleString(),
@@ -311,7 +334,7 @@ export const gridTemplate = (
         <div class="grid-section">
           <h2 class="grid-section__header">${heading}</h2>
           ${iconTabBarTemplate(tabs, selectedTab, onTabSelected)}
-          <div class="grid-3-2 grid-3-2--align-start">
+          <div class="grid-3-2-1 grid-3-2-1--align-start">
             ${incentives.map(incentiveBoxTemplate)}
           </div>
         </div>

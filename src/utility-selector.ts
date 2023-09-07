@@ -55,14 +55,14 @@ export const utilitySelectorStyles = css`
   }
 
   /* Medium and large: map and selector side by side */
-  @media only screen and (min-width: 640px) {
+  @media only screen and (min-width: 641px) {
     .utility-selector {
       grid-template-columns: 5fr 2fr 5fr;
     }
   }
 
   /* Large: bigger text, left-aligned */
-  @media only screen and (min-width: 768px) {
+  @media only screen and (min-width: 769px) {
     .utility-selector {
       & h1 {
         text-align: left;

@@ -1,7 +1,7 @@
 import { LitElement, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Task, TaskStatus, initialState } from '@lit-labs/task';
-import { baseStyles, gridStyles } from './styles';
+import { baseStyles } from './styles';
 import { formTemplate, formStyles } from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { CALCULATOR_FOOTER } from './calculator-footer';
@@ -39,7 +39,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
   static override styles = [
     baseStyles,
     cardStyles,
-    gridStyles,
     ...formStyles,
     stateIncentivesStyles,
     utilitySelectorStyles,
@@ -224,6 +223,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
                   this.zip = (event.target as HTMLInputElement).value;
                 },
                 (event: SubmitEvent) => this.submit(event),
+                'grid-3-2-1',
               )}
         </div>
         ${utilityForm}

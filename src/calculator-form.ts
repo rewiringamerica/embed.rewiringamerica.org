@@ -86,6 +86,7 @@ export const formTemplate = (
   showProjectField: boolean,
   onZipChange: (e: InputEvent) => void,
   onSubmit: (e: SubmitEvent) => void,
+  gridClass: string = 'grid-3-2',
 ) => {
   const projectField = showProjectField
     ? html`<div>
@@ -111,7 +112,7 @@ export const formTemplate = (
 
   return html`
     <form @submit=${onSubmit}>
-      <div class="grid-3-2">
+      <div class="${gridClass}">
         ${projectField}
         <div>
           <label for="zip">
