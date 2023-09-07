@@ -1,7 +1,8 @@
 import { css, html, nothing } from 'lit';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { exclamationPoint } from './icons';
-import { PROJECTS, Project } from './projects';
+import { PROJECTS, Project, shortLabel } from './projects';
+import { iconTabBarTemplate } from './icon-tab-bar';
 
 export const stateIncentivesStyles = css`
   .incentive {
@@ -155,75 +156,6 @@ export const cardStyles = css`
   }
 `;
 
-export const iconTabStyles = css`
-  .icon-tab-bar {
-    display: flex;
-
-    /*
-     * Center the tabs horizontally, and let them scroll horizontally if
-     * they're wider than the container
-     */
-    justify-content: start;
-    width: min-content;
-    max-width: 100%;
-    overflow-x: auto;
-    margin: 0 auto 1.5rem auto;
-  }
-
-  button.icon-tab {
-    /* Override default button styles */
-    background-color: transparent;
-    border: 0;
-    font-family: inherit;
-    padding: 0;
-    cursor: pointer;
-
-    min-width: 6rem;
-
-    /* Manage the gap between the icon and the caption */
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: center;
-    justify-content: center;
-
-    & .background {
-      /* Get the icon centered in the rounded box */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      width: 4rem;
-      height: 4rem;
-
-      border-radius: 0.75rem;
-      background: #fff;
-      box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
-    }
-    & .caption {
-      color: #846f24;
-      text-align: center;
-      font-size: 0.6875rem;
-      font-weight: 500;
-      line-height: 125%;
-      letter-spacing: 0.03438rem;
-      text-transform: uppercase;
-    }
-  }
-
-  button.icon-tab--selected {
-    cursor: default;
-
-    & .background {
-      background: var(--color-purple-500, #4a00c3);
-    }
-    & .caption {
-      color: var(--color-purple-500, #4a00c3);
-      font-weight: 700;
-    }
-  }
-`;
-
 export const separatorStyles = css`
   .separator {
     background: #e2e2e2;
@@ -237,8 +169,6 @@ export const separatorStyles = css`
     }
   }
 `;
-
-const shortLabel = (p: Project) => PROJECTS[p].shortLabel ?? PROJECTS[p].label;
 
 const titleTemplate = (incentive: Incentive) => {
   const item = itemName(incentive.item.type);
@@ -375,34 +305,18 @@ export const gridTemplate = (
   tabs: Project[],
   selectedTab: Project,
   onTabSelected: (newSelection: Project) => void,
-) => {
-  const iconTabs = tabs.map(project => {
-    const isSelected = project === selectedTab;
-    const selectedClass = isSelected ? 'icon-tab--selected' : '';
-    return html`
-      <button
-        class="icon-tab ${selectedClass}"
-        @click=${() => onTabSelected(project)}
-      >
-        <div class="background">${PROJECTS[project].icon(isSelected)}</div>
-        <div class="caption">${shortLabel(project)}</div>
-      </button>
-    `;
-  });
-
-  return incentives.length > 0
+) =>
+  incentives.length > 0
     ? html`
         <div class="grid-section">
           <h2 class="grid-section__header">${heading}</h2>
-          <div class="icon-tab-bar">${iconTabs}</div>
+          ${iconTabBarTemplate(tabs, selectedTab, onTabSelected)}
           <div class="grid-3-2 grid-3-2--align-start">
             ${incentives.map(incentiveBoxTemplate)}
           </div>
         </div>
       `
     : nothing;
-};
-
 /**
  * Renders the "at a glance" summary section, a grid of incentive cards about
  * the project you selected in the main form, then a grid of tab-bar switchable

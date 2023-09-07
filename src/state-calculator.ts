@@ -11,7 +11,6 @@ import {
   stateIncentivesStyles,
   cardStyles,
   separatorStyles,
-  iconTabStyles,
 } from './state-incentive-details';
 import { OptionParam } from './select';
 import { Project } from './projects';
@@ -19,6 +18,7 @@ import {
   utilitySelectorStyles,
   utilitySelectorTemplate,
 } from './utility-selector';
+import { iconTabBarStyles } from './icon-tab-bar';
 
 const loadingTemplate = () => html`
   <div class="card card-content">Loading...</div>
@@ -44,7 +44,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     stateIncentivesStyles,
     utilitySelectorStyles,
     separatorStyles,
-    iconTabStyles,
+    iconTabBarStyles,
   ];
 
   /* supported properties to control showing/hiding of each card in the widget */

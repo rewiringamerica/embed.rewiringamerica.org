@@ -13,6 +13,7 @@ export interface SelectParam {
   currentValue: string;
   tabIndex?: number;
   onChange?: (event: InputEvent) => void;
+  ariaLabel?: string;
 }
 
 export const option = ({ label, value }: OptionParam, selected: boolean) =>
@@ -25,6 +26,7 @@ export const select = ({
   currentValue,
   tabIndex,
   onChange,
+  ariaLabel,
 }: SelectParam) => {
   return html`
     <div class="select">
@@ -33,6 +35,7 @@ export const select = ({
         name="${id}"
         ?required=${required}
         tabindex="${ifDefined(tabIndex)}"
+        aria-label="${ifDefined(ariaLabel)}"
         @change=${onChange}
       >
         ${options.map(o => option(o, o.value === currentValue))}
