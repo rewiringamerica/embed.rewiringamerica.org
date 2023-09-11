@@ -1,4 +1,9 @@
-export type IncentiveType = 'tax_credit' | 'pos_rebate';
+export type IncentiveType =
+  | 'tax_credit'
+  | 'pos_rebate'
+  | 'rebate'
+  | 'account_credit'
+  | 'performance_rebate';
 export type AuthorityType = 'federal' | 'state' | 'utility';
 
 export type AmountType = 'dollar_amount' | 'percent' | 'dollars_per_unit';
@@ -47,8 +52,11 @@ export interface Incentive {
 }
 
 export interface APIResponse {
-  tax_savings: number;
-  pos_savings: number;
-  pos_rebate_incentives: Incentive[];
-  tax_credit_incentives: Incentive[];
+  savings: {
+    tax_credit: number;
+    pos_rebate: number;
+    rebate: number;
+    account_credit: number;
+  };
+  incentives: Incentive[];
 }

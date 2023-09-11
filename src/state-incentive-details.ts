@@ -25,6 +25,7 @@ export const stateIncentivesStyles = css`
     letter-spacing: 0.03438rem;
     line-height: 125%;
     padding: 0.25rem 0.625rem;
+    text-transform: uppercase;
     width: fit-content;
   }
 
@@ -73,23 +74,27 @@ export const stateIncentivesStyles = css`
     white-space: nowrap;
   }
 
-  .grid-3-2-1 {
+  .grid-3-2-1,
+  .grid-4-2-1 {
     display: grid;
     gap: 1rem;
     align-items: end;
   }
-  .grid-3-2-1--align-start {
+  .grid-3-2-1--align-start,
+  .grid-4-2-1--align-start {
     align-items: start;
   }
 
   @media only screen and (max-width: 640px) {
-    .grid-3-2-1 {
+    .grid-3-2-1,
+    .grid-4-2-1 {
       grid-template-columns: 1fr;
     }
   }
 
   @media only screen and (min-width: 641px) and (max-width: 768px) {
-    .grid-3-2-1 {
+    .grid-3-2-1,
+    .grid-4-2-1 {
       grid-template-columns: 1fr 1fr;
     }
   }
@@ -97,6 +102,9 @@ export const stateIncentivesStyles = css`
   @media only screen and (min-width: 769px) {
     .grid-3-2-1 {
       grid-template-columns: 1fr 1fr 1fr;
+    }
+    .grid-4-2-1 {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
     }
   }
 
@@ -249,20 +257,22 @@ const itemName = (itemType: ItemType) =>
 
 const formatIncentiveType = (incentive: Incentive) =>
   incentive.type === 'tax_credit'
-    ? 'TAX CREDIT'
-    : incentive.amount.type === 'dollar_amount'
-    ? 'FLAT-RATE REBATE'
-    : incentive.amount.type === 'percent'
-    ? 'COST REBATE'
-    : incentive.amount.type === 'dollars_per_unit'
-    ? 'CAPACITY REBATE'
-    : 'REBATE';
+    ? 'Tax credit'
+    : incentive.type === 'pos_rebate'
+    ? 'Upfront discount'
+    : incentive.type === 'rebate'
+    ? 'Rebate'
+    : incentive.type === 'account_credit'
+    ? 'Account credit'
+    : incentive.type === 'performance_rebate'
+    ? 'Performance rebate'
+    : 'Incentive';
 
 /** TODO get real dates in the data! */
 const startDateTemplate = (incentive: Incentive) =>
   incentive.type === 'pos_rebate'
     ? html`<div class="incentive__chip incentive__chip--warning">
-        ${exclamationPoint()} AVAILABLE EARLY 2024
+        ${exclamationPoint()} Available early 2024
       </div>`
     : nothing;
 
@@ -297,25 +307,26 @@ export const summaryBoxTemplate = (caption: string, body: string) => html`
   </div>
 `;
 
-export const atAGlanceTemplate = (
-  response: APIResponse,
-  eligibleCount: number,
-) => {
+export const atAGlanceTemplate = (response: APIResponse) => {
   return html`
     <div class="grid-section">
       <h2 class="grid-section__header">Incentives at a glance</h2>
-      <div class="grid-3-2-1 grid-3-2-1--align-start">
-        ${summaryBoxTemplate(
-          'Total available incentives',
-          eligibleCount.toLocaleString(),
-        )}
+      <div class="grid-4-2-1 grid-4-2-1--align-start">
         ${summaryBoxTemplate(
           'Upfront discounts',
-          `$${response.pos_savings.toLocaleString()}`,
+          `$${response.savings.pos_rebate.toLocaleString()}`,
+        )}
+        ${summaryBoxTemplate(
+          'Rebates',
+          `$${response.savings.rebate.toLocaleString()}`,
+        )}
+        ${summaryBoxTemplate(
+          'Account credits',
+          `$${response.savings.account_credit.toLocaleString()}`,
         )}
         ${summaryBoxTemplate(
           'Tax credits',
-          `$${response.tax_savings.toLocaleString()}`,
+          `$${response.savings.tax_credit.toLocaleString()}`,
         )}
       </div>
     </div>
@@ -356,10 +367,7 @@ export const stateIncentivesTemplate = (
   selectedOtherTab: Project,
   onTabSelected: (newSelection: Project) => void,
 ) => {
-  const allEligible = [
-    ...response.pos_rebate_incentives,
-    ...response.tax_credit_incentives,
-  ].filter(i => i.eligible);
+  const allEligible = response.incentives.filter(i => i.eligible);
 
   const incentivesByProject = Object.fromEntries(
     Object.entries(PROJECTS).map(([project, info]) => [
@@ -379,7 +387,7 @@ export const stateIncentivesTemplate = (
     .sort(([a], [b]) => shortLabel(a).localeCompare(shortLabel(b)))
     .map(([project]) => project);
 
-  return html` ${atAGlanceTemplate(response, allEligible.length)}
+  return html` ${atAGlanceTemplate(response)}
   ${gridTemplate(
     "Incentives you're interested in",
     incentivesByProject[selectedProject] ?? [],
