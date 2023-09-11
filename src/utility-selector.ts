@@ -92,6 +92,7 @@ const utilityFormTemplate = (
           ${select({
             id: 'utility',
             required: true,
+            disabled: utilityOptions.length < 2,
             options: utilityOptions,
             currentValue: utilityId,
             tabIndex: 0,
