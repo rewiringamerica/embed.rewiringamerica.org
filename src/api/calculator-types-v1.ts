@@ -42,6 +42,7 @@ export interface Incentive {
   authority_type: AuthorityType;
   authority_name: string | null;
   program: string;
+  program_url?: string;
   item: Item;
   amount: Amount;
   start_date: number;

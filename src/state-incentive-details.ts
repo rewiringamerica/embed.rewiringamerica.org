@@ -1,6 +1,6 @@
 import { css, html, nothing } from 'lit';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
-import { exclamationPoint } from './icons';
+import { exclamationPoint, upRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { iconTabBarTemplate } from './icon-tab-bar';
 
@@ -289,9 +289,10 @@ const incentiveBoxTemplate = (incentive: Incentive) => html`
         <a
           class="incentive__link-button"
           target="_blank"
-          href="${incentive.item.url}"
+          href="${incentive.program_url ?? incentive.item.url}"
         >
-          Learn more
+          ${incentive.program_url ? 'Visit site' : 'Learn more'}
+          ${incentive.program_url ? upRightArrow() : nothing}
         </a>
       </div>
     </div>
