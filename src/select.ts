@@ -1,7 +1,18 @@
 import { html, css } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
+
 import '@shoelace-style/shoelace/dist/themes/light.css';
+import '@shoelace-style/shoelace/dist/components/button/button.js';
+import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+import '@shoelace-style/shoelace/dist/components/input/input.js';
+import '@shoelace-style/shoelace/dist/components/option/option.js';
+import '@shoelace-style/shoelace/dist/components/rating/rating.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
+
+import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+
+// Set the base path to the folder you copied Shoelace's assets to
+setBasePath('/path/to/shoelace/dist');
 
 export interface OptionParam {
   label: string;
@@ -74,7 +85,10 @@ export const multiselect = ({
         placeholder="${ifDefined(placeholder)}"
         max-options-visible="${ifDefined(maxOptionsVisible)}"
         multiple
+        clearable
       >
+        <sl-icon slot="prefix" name="gear"></sl-icon>
+        <sl-icon slot="expand-icon" name="caret-down-fill"></sl-icon>
         ${options.map(o => multioption(o))}
       </sl-select>
       <span class="focus"></span>
@@ -89,19 +103,21 @@ export const selectStyles = css`
     --sl-input-font-family: var(--ra-embed-font-family);
     --sl-input-focus-ring-color: var(--select-focus);
     --sl-input-border-width: 1px;
-    --sl-input-background-color: #fff;
+    // --sl-input-background-color: #fff;
     --sl-input-border-radius-small: 4px;
     // --sl-input-focus-ring-offset: 1px;
-    // --sl-input-height-large
+    --sl-input-height-large : 100px;
+    --sl-input-label-font-size-large: 1.5rem;
   }
 
-  // .select--open sl-select, 
-  // .select__expand-icon {
-  //   --
-  // }
+  sl-select::parts(form-control) {
+    height: 100px;
+  }
 
   sl-select::parts(combobox) {
-    --height: 48px;
+    height: 48px;
+    border: var(--select-border);
+    font-family: var(--ra-embed-font-family);
   }
 
   sl-select::parts(expand-icon) {

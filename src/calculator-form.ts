@@ -146,6 +146,7 @@ export const formTemplate = (
           id: 'projects',
           options: PROJECT_OPTIONS,
           currentValues: projects,
+          maxOptionsVisible: 1,
         })}
       </label>
     </div>
