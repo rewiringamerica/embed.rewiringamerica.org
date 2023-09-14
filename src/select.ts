@@ -8,11 +8,10 @@ import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/rating/rating.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
-
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
 
 // Set the base path to the folder you copied Shoelace's assets to
-setBasePath('/path/to/shoelace/dist');
+setBasePath('././node_modules/@shoelace-style/shoelace/dist');
 
 export interface OptionParam {
   label: string;
