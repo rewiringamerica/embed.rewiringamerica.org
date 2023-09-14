@@ -88,7 +88,8 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
 // }
 
 export const formTemplate = (
-  [zip, ownerStatus, projects, householdIncome, taxFiling, householdSize]: Array<string>,
+  [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
+  projects: Array<string>,
   onSubmit: (e: SubmitEvent) => void,
 ) => html`
   <form @submit=${onSubmit}>
@@ -145,7 +146,6 @@ export const formTemplate = (
           id: 'projects',
           options: PROJECT_OPTIONS,
           currentValues: projects,
-          tabIndex: 0,
         })}
       </label>
     </div>

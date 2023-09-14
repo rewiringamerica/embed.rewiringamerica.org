@@ -74,8 +74,8 @@ export class RewiringAmericaCalculator extends LitElement {
   @property({ type: String, attribute: 'owner-status' })
   ownerStatus: OwnerStatus = 'homeowner';
 
-  @property({ type: String, attribute: 'projects'})
-  projects: string = 'heating'
+  @property({ type: Array, attribute: 'projects'})
+  projects: string[] = ['heating']
 
   @property({ type: String, attribute: 'household-income' })
   householdIncome: string = '0';
@@ -114,7 +114,6 @@ export class RewiringAmericaCalculator extends LitElement {
     task: async ([
       zip,
       owner_status,
-      projects,
       household_income,
       tax_filing,
       household_size,
@@ -126,7 +125,6 @@ export class RewiringAmericaCalculator extends LitElement {
       const query = new URLSearchParams({
         zip,
         owner_status,
-        projects,
         household_income,
         tax_filing,
         household_size,
@@ -142,7 +140,6 @@ export class RewiringAmericaCalculator extends LitElement {
     args: () => [
       this.zip,
       this.ownerStatus,
-      this.projects,
       this.householdIncome,
       this.taxFiling,
       this.householdSize,
@@ -160,11 +157,11 @@ export class RewiringAmericaCalculator extends LitElement {
                 [
                   this.zip,
                   this.ownerStatus,
-                  this.projects,
                   this.householdIncome,
                   this.taxFiling,
                   this.householdSize,
                 ],
+                this.projects,
                 (event: SubmitEvent) => this.submit(event),
               )}
         </div>

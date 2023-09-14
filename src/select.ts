@@ -19,19 +19,18 @@ export interface SelectParam {
 export interface MultiSelectParam {
   id: string;
   label?: string;
-  currentValues: string;
+  currentValues: string[];
   options: OptionParam[];
   helpText?: string;
   placeholder?: string;
   maxOptionsVisible?: number;
-  tabIndex?: number;
 }
 
 export const option = ({ label, value }: OptionParam, selected: boolean) =>
   html` <option value="${value}" ?selected=${selected}>${label}</option> `;
 
-export const multioption = ({ label, value }: OptionParam, selected: boolean) =>
-  html` <sl-option value="${value}" ?selected=${selected}>${label}</sl-option> `;
+export const multioption = ({ label, value }: OptionParam) =>
+  html` <sl-option value="${value}" >${label}</sl-option> `;
 
 export const select = ({
   id,
@@ -63,7 +62,6 @@ export const multiselect = ({
   helpText,
   placeholder,
   maxOptionsVisible,
-  tabIndex,
 }: MultiSelectParam) => {
   return html`
     <div>
@@ -71,13 +69,13 @@ export const multiselect = ({
         id="${id}"
         name="${id}"
         label="${ifDefined(label)}"
-        value="${currentValues}"
+        value="${currentValues.join(' ')}"
         help-text="${ifDefined(helpText)}"
         placeholder="${ifDefined(placeholder)}"
         max-options-visible="${ifDefined(maxOptionsVisible)}"
-        tabindex="${ifDefined(tabIndex)}"
+        multiple
       >
-        ${options.map(o => multioption(o, o.value === currentValues))}
+        ${options.map(o => multioption(o))}
       </sl-select>
       <span class="focus"></span>
     </div>
