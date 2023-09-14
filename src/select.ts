@@ -1,5 +1,7 @@
 import { html, css } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import '@shoelace-style/shoelace/dist/themes/light.css';
+import '@shoelace-style/shoelace/dist/components/select/select.js';
 
 export interface OptionParam {
   label: string;
@@ -14,8 +16,22 @@ export interface SelectParam {
   tabIndex?: number;
 }
 
+export interface MultiSelectParam {
+  id: string;
+  label?: string;
+  currentValues: string;
+  options: OptionParam[];
+  helpText?: string;
+  placeholder?: string;
+  maxOptionsVisible?: number;
+  tabIndex?: number;
+}
+
 export const option = ({ label, value }: OptionParam, selected: boolean) =>
   html` <option value="${value}" ?selected=${selected}>${label}</option> `;
+
+export const multioption = ({ label, value }: OptionParam, selected: boolean) =>
+  html` <sl-option value="${value}" ?selected=${selected}>${label}</sl-option> `;
 
 export const select = ({
   id,
@@ -39,8 +55,59 @@ export const select = ({
   `;
 };
 
+export const multiselect = ({
+  id,
+  label,
+  currentValues,
+  options,
+  helpText,
+  placeholder,
+  maxOptionsVisible,
+  tabIndex,
+}: MultiSelectParam) => {
+  return html`
+    <div>
+      <sl-select
+        id="${id}"
+        name="${id}"
+        label="${ifDefined(label)}"
+        value="${currentValues}"
+        help-text="${ifDefined(helpText)}"
+        placeholder="${ifDefined(placeholder)}"
+        max-options-visible="${ifDefined(maxOptionsVisible)}"
+        tabindex="${ifDefined(tabIndex)}"
+      >
+        ${options.map(o => multioption(o, o.value === currentValues))}
+      </sl-select>
+      <span class="focus"></span>
+    </div>
+  `;
+};
+
 export const selectStyles = css`
   /* // @link https://moderncss.dev/custom-select-styles-with-pure-css/ */
+
+  sl-select {
+    --sl-input-font-family: var(--ra-embed-font-family);
+    --sl-input-focus-ring-color: var(--select-focus);
+    --sl-input-border-width: 1px;
+    --sl-input-background-color: #fff;
+    --sl-input-border-radius-small: 4px;
+    // --sl-input-focus-ring-offset: 1px;
+    // --sl-input-height-large
+  }
+
+  // .select--open sl-select, 
+  // .select__expand-icon {
+  //   --
+  // }
+
+  sl-select::parts(combobox) {
+    --height: 48px;
+  }
+
+  sl-select::parts(expand-icon) {
+  }
 
   select {
     /*   // A reset of styles, including removing the default dropdown arrow */
@@ -137,15 +204,15 @@ export const selectStyles = css`
    * in the multiselect
    * Not supported crossbrowser
    */
-    /*   //   &:not(:disabled) option {
-  //     border-radius: 12px;
-  //     transition: 120ms all ease-in;
+   /*   //   &:not(:disabled) option {
+      //     border-radius: 12px;
+      //     transition: 120ms all ease-in;
 
-  //     &:checked {
-  //       background: linear-gradient(hsl(242, 61%, 76%), hsl(242, 61%, 71%));
-  //       padding-left: 0.5em;
-  //       color: black !important;
-  //     }
+      //     &:checked {
+        //       background: linear-gradient(hsl(242, 61%, 76%), hsl(242, 61%, 71%));
+        //       padding-left: 0.5em;
+        //       color: black !important;
+      //     }
   //   } */
   }
 
