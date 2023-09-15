@@ -19,8 +19,14 @@ import {
 } from './utility-selector';
 import { iconTabBarStyles } from './icon-tab-bar';
 
+import '@shoelace-style/shoelace/dist/components/spinner/spinner';
+
 const loadingTemplate = () => html`
-  <div class="card card-content">Loading...</div>
+  <div class="card card-content">
+    <div class="loading">
+      <sl-spinner></sl-spinner>
+    </div>
+  </div>
 `;
 
 const errorTemplate = (error: unknown) => html`

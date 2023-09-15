@@ -5,6 +5,11 @@ import { PROJECTS, Project, shortLabel } from './projects';
 import { iconTabBarTemplate } from './icon-tab-bar';
 
 export const stateIncentivesStyles = css`
+  .loading {
+    text-align: center;
+    font-size: 2rem;
+  }
+
   .incentive {
     display: flex;
     flex-direction: column;
