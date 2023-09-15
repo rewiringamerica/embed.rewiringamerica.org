@@ -84,7 +84,6 @@ export const formTemplate = (
     householdSize,
   ]: Array<string>,
   showProjectField: boolean,
-  onZipChange: (e: InputEvent) => void,
   onSubmit: (e: SubmitEvent) => void,
   gridClass: string = 'grid-3-2',
 ) => {
@@ -134,7 +133,6 @@ export const formTemplate = (
               maxlength="5"
               inputmode="numeric"
               pattern="[0-9]{5}"
-              @change=${onZipChange}
             />
           </label>
         </div>

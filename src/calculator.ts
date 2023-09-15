@@ -158,7 +158,6 @@ export class RewiringAmericaCalculator extends LitElement {
                   this.householdSize,
                 ],
                 false,
-                () => {}, // do nothing on zip change
                 (event: SubmitEvent) => this.submit(event),
               )}
         </div>
