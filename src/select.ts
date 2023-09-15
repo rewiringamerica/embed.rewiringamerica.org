@@ -1,6 +1,5 @@
 import { html, css } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
-
 import '@shoelace-style/shoelace/dist/themes/light.css';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
@@ -8,10 +7,6 @@ import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/rating/rating.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
-import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
-
-// Set the base path to the folder you copied Shoelace's assets to
-setBasePath('././node_modules/@shoelace-style/shoelace/dist');
 
 export interface OptionParam {
   label: string;
@@ -98,30 +93,7 @@ export const multiselect = ({
 export const selectStyles = css`
   /* // @link https://moderncss.dev/custom-select-styles-with-pure-css/ */
 
-  sl-select {
-    --sl-input-font-family: var(--ra-embed-font-family);
-    --sl-input-focus-ring-color: var(--select-focus);
-    --sl-input-border-width: 1px;
-    // --sl-input-background-color: #fff;
-    --sl-input-border-radius-small: 4px;
-    // --sl-input-focus-ring-offset: 1px;
-    --sl-input-height-large : 100px;
-    --sl-input-label-font-size-large: 1.5rem;
-  }
-
-  sl-select::parts(form-control) {
-    height: 100px;
-  }
-
-  sl-select::parts(combobox) {
-    height: 48px;
-    border: var(--select-border);
-    font-family: var(--ra-embed-font-family);
-  }
-
-  sl-select::parts(expand-icon) {
-  }
-
+  // select box right around selected option
   select {
     /*   // A reset of styles, including removing the default dropdown arrow */
     appearance: none;
@@ -217,15 +189,15 @@ export const selectStyles = css`
    * in the multiselect
    * Not supported crossbrowser
    */
-   /*   //   &:not(:disabled) option {
-      //     border-radius: 12px;
-      //     transition: 120ms all ease-in;
+    /*   //   &:not(:disabled) option {
+  //     border-radius: 12px;
+  //     transition: 120ms all ease-in;
 
-      //     &:checked {
-        //       background: linear-gradient(hsl(242, 61%, 76%), hsl(242, 61%, 71%));
-        //       padding-left: 0.5em;
-        //       color: black !important;
-      //     }
+  //     &:checked {
+  //       background: linear-gradient(hsl(242, 61%, 76%), hsl(242, 61%, 71%));
+  //       padding-left: 0.5em;
+  //       color: black !important;
+  //     }
   //   } */
   }
 
@@ -240,5 +212,45 @@ export const selectStyles = css`
     cursor: not-allowed;
     background-color: #eee;
     background-image: linear-gradient(to top, #ddd, #eee 33%);
+  }
+
+  sl-select {
+    --sl-input-height-medium: 3rem;
+  }
+
+  // parts go largest to smallest
+
+  // wraps label, input and helptext
+  sl-select::parts(form-control) {
+  }
+
+  // don't need we are using html label
+  sl-select::parts(form-control-label) {
+  }
+
+  // select wrapper
+  sl-select::parts(form-control-input) {
+
+  }
+
+  // help text
+  sl-select::parts(form-control-help-text) {
+
+  }
+
+  // The container the wraps the prefix, combobox, clear icon, and expand button.
+  sl-select::parts(combobox) {
+  }
+
+  // The container that wraps the prefix slot (geat icon?)
+  sl-select::parts(prefix) {
+  }
+
+  // selected option label
+  sl-select::parts(display-input) {
+  }
+
+  // the container where options are listed
+  sl-select::parts(listbox) {
   }
 `;
