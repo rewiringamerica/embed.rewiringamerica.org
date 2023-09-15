@@ -78,15 +78,6 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
   },
 );
 
-// export interface InputForm {
-//   zip: string;
-//   ownerStatus: string;
-//   projects: Array<string>;
-//   householdIncome: string;
-//   taxFiling: string;
-//   householdSize: string;
-// }
-
 export const formTemplate = (
   [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
   projects: Array<string>,
