@@ -1,5 +1,8 @@
 import { html, css } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import '@shoelace-style/shoelace/dist/themes/light.css';
+import '@shoelace-style/shoelace/dist/components/option/option.js';
+import '@shoelace-style/shoelace/dist/components/select/select.js';
 
 export interface OptionParam {
   label: string;
@@ -14,8 +17,21 @@ export interface SelectParam {
   tabIndex?: number;
 }
 
+export interface MultiSelectParam {
+  id: string;
+  label?: string;
+  currentValues: string[];
+  options: OptionParam[];
+  helpText?: string;
+  placeholder?: string;
+  maxOptionsVisible?: number;
+}
+
 export const option = ({ label, value }: OptionParam, selected: boolean) =>
   html` <option value="${value}" ?selected=${selected}>${label}</option> `;
+
+export const multioption = ({ label, value }: OptionParam) =>
+  html` <sl-option value="${value}" >${label}</sl-option> `;
 
 export const select = ({
   id,
@@ -34,6 +50,36 @@ export const select = ({
       >
         ${options.map(o => option(o, o.value === currentValue))}
       </select>
+      <span class="focus"></span>
+    </div>
+  `;
+};
+
+export const multiselect = ({
+  id,
+  label,
+  currentValues,
+  options,
+  helpText,
+  placeholder,
+  maxOptionsVisible,
+}: MultiSelectParam) => {
+  return html`
+    <div>
+      <sl-select
+        id="${id}"
+        name="${id}"
+        label="${ifDefined(label)}"
+        value="${currentValues.join(' ')}"
+        help-text="${ifDefined(helpText)}"
+        placeholder="${ifDefined(placeholder)}"
+        max-options-visible="${ifDefined(maxOptionsVisible)}"
+        multiple
+        clearable
+      >
+        <sl-icon slot="expand-icon" name="caret-down-fill"></sl-icon>
+        ${options.map(o => multioption(o))}
+      </sl-select>
       <span class="focus"></span>
     </div>
   `;
@@ -160,5 +206,34 @@ export const selectStyles = css`
     cursor: not-allowed;
     background-color: #eee;
     background-image: linear-gradient(to top, #ddd, #eee 33%);
+  }
+
+  sl-select {
+    --sl-input-height-medium: 3rem;
+  }
+  // parts go largest to smallest
+  // wraps label, input and helptext
+  sl-select::parts(form-control) {
+  }
+  // don't need we are using html label
+  sl-select::parts(form-control-label) {
+  }
+  // select wrapper
+  sl-select::parts(form-control-input) {
+  }
+  // help text
+  sl-select::parts(form-control-help-text) {
+  }
+  // The container the wraps the prefix, combobox, clear icon, and expand button.
+  sl-select::parts(combobox) {
+  }
+  // The container that wraps the prefix slot (geat icon?)
+  sl-select::parts(prefix) {
+  }
+  // selected option label
+  sl-select::parts(display-input) {
+  }
+  // the container where options are listed
+  sl-select::parts(listbox) {
   }
 `;

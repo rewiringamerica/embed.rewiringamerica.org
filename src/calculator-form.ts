@@ -1,6 +1,6 @@
 import { html, css } from 'lit';
 import { downIcon, questionIcon } from './icons';
-import { select, selectStyles, OptionParam } from './select';
+import { select, multiselect, selectStyles, OptionParam } from './select';
 import { inputStyles } from './styles/input';
 import './currency-input';
 import '@shoelace-style/shoelace/dist/themes/light.css';
@@ -57,6 +57,11 @@ const OWNER_STATUS_OPTIONS: OptionParam[] = [
   { value: 'renter', label: 'Renter' },
 ];
 
+const PROJECT_OPTIONS: OptionParam[] = [
+  { value: 'heating', label: 'Heating' },
+  { value: 'electrical', label: 'Electrical wiring' },
+];
+
 const TAX_FILING_OPTIONS: OptionParam[] = [
   { value: 'single', label: 'Single' },
   { value: 'joint', label: 'Married Filing Jointly' },
@@ -75,6 +80,7 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
 
 export const formTemplate = (
   [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
+  projects: Array<string>,
   onSubmit: (e: SubmitEvent) => void,
 ) => html`
   <form @submit=${onSubmit}>
@@ -116,6 +122,22 @@ export const formTemplate = (
             options: OWNER_STATUS_OPTIONS,
             currentValue: ownerStatus,
             tabIndex: 0,
+          })}
+        </label>
+      </div>
+      <div>
+        <label for="projects">
+          Projects
+          <sl-tooltip
+            content="Projects you want to work on."
+            hoist
+            >${questionIcon(18, 18)}</sl-tooltip
+          ><br />
+          ${multiselect({
+            id: 'projects',
+            options: PROJECT_OPTIONS,
+            currentValues: projects,
+            maxOptionsVisible: 1,
           })}
         </label>
       </div>
