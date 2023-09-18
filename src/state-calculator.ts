@@ -117,9 +117,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
     this.selectedProject = (formData.get('project') as Project) || '';
 
     // Zip is the only thing that determines what utilities are available, so
-    // only fetch utilities if zip has changed since last calculation.
-    const zipChanged = this.zip !== prevZip;
-    if (zipChanged) {
+    // only fetch utilities if zip has changed since last calculation, or if
+    // utilities haven't been fetched yet at all.
+    if (
+      this.zip !== prevZip ||
+      this._utilitiesTask.status !== TaskStatus.COMPLETE
+    ) {
       // This will run _task when it's done.
       this._utilitiesTask.run();
     } else {
