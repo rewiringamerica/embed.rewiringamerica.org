@@ -370,7 +370,7 @@ const gridTemplate = (
   selectedTab: Project,
   onTabSelected: (newSelection: Project) => void,
 ) =>
-  incentives.length > 0
+  tabs.length > 0 && incentives.length > 0
     ? html`
         <div class="grid-section">
           <h2 class="grid-section__header">${heading}</h2>
@@ -393,9 +393,11 @@ const gridTemplate = (
  */
 export const stateIncentivesTemplate = (
   response: APIResponse,
-  selectedProject: Project,
+  selectedProjects: Project[],
+  selectedProjectTab: Project,
   selectedOtherTab: Project,
   onTabSelected: (newSelection: Project) => void,
+  onOtherTabSelected: (newOtherSelection: Project) => void,
 ) => {
   const allEligible = response.incentives.filter(i => i.eligible);
 
@@ -412,7 +414,7 @@ export const stateIncentivesTemplate = (
   )
     .filter(
       ([project, incentives]) =>
-        project !== selectedProject && incentives.length > 0,
+        !selectedProjects.includes(project) && incentives.length > 0,
     )
     .sort(([a], [b]) => shortLabel(a).localeCompare(shortLabel(b)))
     .map(([project]) => project);
@@ -420,10 +422,10 @@ export const stateIncentivesTemplate = (
   return html` ${atAGlanceTemplate(response)}
   ${gridTemplate(
     "Incentives you're interested in",
-    incentivesByProject[selectedProject] ?? [],
-    [selectedProject],
-    selectedProject,
-    () => {},
+    incentivesByProject[selectedProjectTab] ?? [],
+    selectedProjects,
+    selectedProjects.includes(selectedProjectTab) ? selectedProjectTab : selectedProjects[0],
+    onTabSelected,
   )}
   ${gridTemplate(
     'Other incentives available to you',
@@ -431,6 +433,6 @@ export const stateIncentivesTemplate = (
     otherTabs,
     // If a nonexistent tab is selected, pretend the first one is selected.
     otherTabs.includes(selectedOtherTab) ? selectedOtherTab : otherTabs[0],
-    onTabSelected,
+    onOtherTabSelected,
   )}`;
 };

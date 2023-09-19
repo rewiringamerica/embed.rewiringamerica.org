@@ -1,4 +1,4 @@
-import { html, css } from 'lit';
+import { html, css, nothing } from 'lit';
 import { downIcon, questionIcon } from './icons';
 import { select, multiselect, selectStyles, OptionParam } from './select';
 import { inputStyles } from './styles/input';
@@ -58,11 +58,6 @@ const OWNER_STATUS_OPTIONS: OptionParam[] = [
   { value: 'renter', label: 'Renter' },
 ];
 
-const PROJECT_OPTIONS: OptionParam[] = [
-  { value: 'heating', label: 'Heating' },
-  { value: 'electrical', label: 'Electrical wiring' },
-];
-
 const TAX_FILING_OPTIONS: OptionParam[] = [
   { value: 'single', label: 'Single' },
   { value: 'joint', label: 'Married Filing Jointly' },
@@ -82,16 +77,16 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
 export const formTemplate = (
   [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
   projects: Array<string>,
+  showProjectField: boolean,
   onSubmit: (e: SubmitEvent) => void,
   gridClass: string = 'grid-3-2',
-) => html`
-  <form @submit=${onSubmit}>
-    <div class="${gridClass}">
-      <div>
-        <label for="project">
-          Project you're most interested in
+) => {
+  const projectField = showProjectField
+    ? html`<div>
+        <label for="projects">
+          Projects you're most interested in
           <sl-tooltip
-            content="Select the project you're most interested in."
+            content="Select the projects you're most interested in."
             hoist
             >${questionIcon(18, 18)}</sl-tooltip
           ><br />
@@ -104,108 +99,116 @@ export const formTemplate = (
             maxOptionsVisible: 1,
           })}
         </label>
+      </div> `
+    : nothing;
+
+  return html`
+    <form @submit=${onSubmit}>
+      <div class="${gridClass}">
+        ${projectField}
+        <div>
+          <label for="zip">
+            Zip
+            <sl-tooltip
+              content="Your zip code helps determine the amount of discounts and tax credits you qualify for."
+              hoist
+              >${questionIcon(18, 18)}</sl-tooltip
+            ><br />
+            <input
+              tabindex="0"
+              id="zip"
+              placeholder="12345"
+              name="zip"
+              required
+              type="text"
+              value="${zip}"
+              minlength="5"
+              maxlength="5"
+              inputmode="numeric"
+              pattern="[0-9]{5}"
+            />
+          </label>
+        </div>
+        <div>
+          <label for="owner_status">
+            Homeowners Status
+            <sl-tooltip
+              content="Homeowners and renters qualify for different incentives."
+              hoist
+              >${questionIcon(18, 18)}</sl-tooltip
+            ><br />
+            ${select({
+              id: 'owner_status',
+              required: true,
+              options: OWNER_STATUS_OPTIONS,
+              currentValue: ownerStatus,
+              tabIndex: 0,
+            })}
+          </label>
+        </div>
+        <div>
+          <label for="household_income">
+            Household Income
+            <sl-tooltip
+              content="Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse's income"
+              hoist
+              >${questionIcon(18, 18)}</sl-tooltip
+            ><br />
+            <ra-currency-input
+              id="household_income"
+              placeholder="$60,000"
+              name="household_income"
+              required
+              value=${householdIncome}
+              min="0"
+              max="100000000"
+            ></ra-currency-input>
+          </label>
+        </div>
+        <div>
+          <label for="tax_filing">
+            Tax Filing
+            <sl-tooltip hoist
+              ><div slot="content">
+                Select "Head of Household" if you have a child or relative
+                living with you, and you pay more than half the costs of your
+                home. Select "Joint" if you file your taxes as a married
+                couple."
+              </div>
+              ${questionIcon(18, 18)}</sl-tooltip
+            ><br />
+            ${select({
+              id: 'tax_filing',
+              required: true,
+              options: TAX_FILING_OPTIONS,
+              currentValue: taxFiling,
+              tabIndex: 0,
+            })}
+          </label>
+        </div>
+        <div>
+          <label for="household_size">
+            Household Size
+            <sl-tooltip
+              content="Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together."
+              hoist
+              >${questionIcon(18, 18)}</sl-tooltip
+            ><br />
+            ${select({
+              id: 'household_size',
+              required: true,
+              options: HOUSEHOLD_SIZE_OPTIONS,
+              currentValue: householdSize,
+              tabIndex: 0,
+            })}
+          </label>
+        </div>
+        <div>
+          <button class="calculate" type="submit">
+            Calculate! ${downIcon(18, 18)}
+          </button>
+        </div>
       </div>
-      <div>
-        <label for="zip">
-          Zip
-          <sl-tooltip
-            content="Your zip code helps determine the amount of discounts and tax credits you qualify for."
-            hoist
-            >${questionIcon(18, 18)}</sl-tooltip
-          ><br />
-          <input
-            tabindex="0"
-            id="zip"
-            placeholder="12345"
-            name="zip"
-            required
-            type="text"
-            value="${zip}"
-            minlength="5"
-            maxlength="5"
-            inputmode="numeric"
-            pattern="[0-9]{5}"
-          />
-        </label>
-      </div>
-      <div>
-        <label for="owner_status">
-          Homeowners Status
-          <sl-tooltip
-            content="Homeowners and renters qualify for different incentives."
-            hoist
-            >${questionIcon(18, 18)}</sl-tooltip
-          ><br />
-          ${select({
-            id: 'owner_status',
-            required: true,
-            options: OWNER_STATUS_OPTIONS,
-            currentValue: ownerStatus,
-            tabIndex: 0,
-          })}
-        </label>
-      </div>
-      <div>
-        <label for="household_income">
-          Household Income
-          <sl-tooltip
-            content="Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse's income"
-            hoist
-            >${questionIcon(18, 18)}</sl-tooltip
-          ><br />
-          <ra-currency-input
-            id="household_income"
-            placeholder="$60,000"
-            name="household_income"
-            required
-            value=${householdIncome}
-            min="0"
-            max="100000000"
-          ></ra-currency-input>
-        </label>
-      </div>
-      <div>
-        <label for="tax_filing">
-          Tax Filing
-          <sl-tooltip hoist
-            ><div slot="content">
-              Select "Head of Household" if you have a child or relative living
-              with you, and you pay more than half the costs of your home.
-              Select "Joint" if you file your taxes as a married couple."
-            </div>
-            ${questionIcon(18, 18)}</sl-tooltip
-          ><br />
-          ${select({
-            id: 'tax_filing',
-            required: true,
-            options: TAX_FILING_OPTIONS,
-            currentValue: taxFiling,
-            tabIndex: 0,
-          })}
-        </label>
-      </div>
-      <div>
-        <label for="household_size">
-          Household Size
-          <sl-tooltip
-            content="Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together."
-            hoist
-            >${questionIcon(18, 18)}</sl-tooltip
-          ><br />
-          ${select({
-            id: 'household_size',
-            required: true,
-            options: HOUSEHOLD_SIZE_OPTIONS,
-            currentValue: householdSize,
-            tabIndex: 0,
-          })}
-        </label>
-      </div>
-      <div>
-        <button class="calculate" type="submit">
-          Calculate! ${downIcon(18, 18)}
-        </button>
-      </div>
-    </div>
-  </form>
-`;
+    </form>
+  `;
+};

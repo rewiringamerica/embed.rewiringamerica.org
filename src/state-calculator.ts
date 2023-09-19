@@ -99,11 +99,14 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: String })
   utility: string = '';
 
-  @property({ type: String })
-  selectedProject: Project = 'hvac';
+  @property({ type: Array })
+  projects: Project[] = ['battery'];
 
   @property({ type: String })
-  selectedOtherTab: Project = 'heat_pump_clothes_dryer';
+  selectedProjectTab: Project = 'battery';
+
+  @property({ type: String })
+  selectedOtherTab: Project = 'battery';
 
   submit(e: SubmitEvent) {
     e.preventDefault();
@@ -114,7 +117,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     this.householdIncome = (formData.get('household_income') as string) || '';
     this.taxFiling = (formData.get('tax_filing') as FilingStatus) || '';
     this.householdSize = (formData.get('household_size') as string) || '';
-    this.selectedProject = (formData.get('project') as Project) || '';
+    this.projects = (formData.getAll('projects') as Project[]) || '';
 
     // Zip is the only thing that determines what utilities are available, so
     // only fetch utilities if zip has changed since last calculation, or if
@@ -137,7 +140,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this.taxFiling &&
       this.householdIncome &&
       this.householdSize &&
-      this.selectedProject
+      this.projects
     );
   }
 
@@ -206,13 +209,13 @@ export class RewiringAmericaStateCalculator extends LitElement {
             ? nothing
             : formTemplate(
                 [
-                  this.selectedProject,
                   this.zip,
                   this.ownerStatus,
                   this.householdIncome,
                   this.taxFiling,
                   this.householdSize,
                 ],
+                this.projects,
                 true,
                 (event: SubmitEvent) => this.submit(event),
                 'grid-3-2-1',
@@ -243,9 +246,11 @@ export class RewiringAmericaStateCalculator extends LitElement {
               ? nothing
               : stateIncentivesTemplate(
                   results,
-                  this.selectedProject,
+                  this.projects,
+                  this.selectedProjectTab,
                   this.selectedOtherTab,
-                  newSelection => (this.selectedOtherTab = newSelection),
+                  newSelection => (this.selectedProjectTab = newSelection),
+                  newOtherSelection => (this.selectedOtherTab = newOtherSelection),
                 ),
           error: errorTemplate,
         })}

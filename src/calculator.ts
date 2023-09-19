@@ -74,9 +74,6 @@ export class RewiringAmericaCalculator extends LitElement {
   @property({ type: String, attribute: 'owner-status' })
   ownerStatus: OwnerStatus = 'homeowner';
 
-  @property({ type: Array, attribute: 'projects' })
-  projects: string[] = ['heating'];
-
   @property({ type: String, attribute: 'household-income' })
   householdIncome: string = '0';
 
@@ -91,7 +88,6 @@ export class RewiringAmericaCalculator extends LitElement {
     const formData = new FormData(e.target as HTMLFormElement);
     this.zip = (formData.get('zip') as string) || '';
     this.ownerStatus = (formData.get('owner_status') as OwnerStatus) || '';
-    this.projects = (formData.get('projects') as string) || '';
     this.householdIncome = (formData.get('household_income') as string) || '';
     this.taxFiling = (formData.get('tax_filing') as FilingStatus) || '';
     this.householdSize = (formData.get('household_size') as string) || '';
@@ -101,7 +97,6 @@ export class RewiringAmericaCalculator extends LitElement {
     return !(
       this.zip &&
       this.ownerStatus &&
-      this.projects &&
       this.taxFiling &&
       this.householdIncome &&
       this.householdSize
@@ -155,14 +150,14 @@ export class RewiringAmericaCalculator extends LitElement {
             ? nothing
             : formTemplate(
                 [
-                  '',
                   this.zip,
                   this.ownerStatus,
                   this.householdIncome,
                   this.taxFiling,
                   this.householdSize,
                 ],
-                this.projects,
+                [],
+                false,
                 (event: SubmitEvent) => this.submit(event),
               )}
         </div>
