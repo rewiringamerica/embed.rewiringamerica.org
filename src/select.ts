@@ -15,6 +15,9 @@ export interface SelectParam {
   options: OptionParam[];
   currentValue: string;
   tabIndex?: number;
+  onChange?: (event: InputEvent) => void;
+  ariaLabel?: string;
+  disabled?: boolean;
 }
 
 export interface MultiSelectParam {
@@ -39,6 +42,9 @@ export const select = ({
   options,
   currentValue,
   tabIndex,
+  onChange,
+  ariaLabel,
+  disabled,
 }: SelectParam) => {
   return html`
     <div class="select">
@@ -46,7 +52,10 @@ export const select = ({
         id="${id}"
         name="${id}"
         ?required=${required}
+        ?disabled=${disabled}
         tabindex="${ifDefined(tabIndex)}"
+        aria-label="${ifDefined(ariaLabel)}"
+        @change=${onChange}
       >
         ${options.map(o => option(o, o.value === currentValue))}
       </select>
@@ -138,6 +147,10 @@ export const selectStyles = css`
     background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
 
     margin-top: 4px;
+  }
+
+  .select select[disabled] {
+    cursor: default;
   }
 
   .select select,
