@@ -74,8 +74,8 @@ export class RewiringAmericaCalculator extends LitElement {
   @property({ type: String, attribute: 'owner-status' })
   ownerStatus: OwnerStatus = 'homeowner';
 
-  @property({ type: Array, attribute: 'projects'})
-  projects: string[] = ['heating']
+  @property({ type: Array, attribute: 'projects' })
+  projects: string[] = ['heating'];
 
   @property({ type: String, attribute: 'household-income' })
   householdIncome: string = '0';
@@ -101,7 +101,7 @@ export class RewiringAmericaCalculator extends LitElement {
     return !(
       this.zip &&
       this.ownerStatus &&
-      this.projects && 
+      this.projects &&
       this.taxFiling &&
       this.householdIncome &&
       this.householdSize

@@ -34,7 +34,7 @@ export const option = ({ label, value }: OptionParam, selected: boolean) =>
   html` <option value="${value}" ?selected=${selected}>${label}</option> `;
 
 export const multioption = ({ label, value }: OptionParam) =>
-  html` <sl-option value="${value}" >${label}</sl-option> `;
+  html` <sl-option value="${value}">${label}</sl-option> `;
 
 export const select = ({
   id,
