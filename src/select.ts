@@ -222,31 +222,45 @@ export const selectStyles = css`
   }
 
   sl-select {
-    --sl-input-height-medium: 3rem;
+    --sl-input-height-medium: 2.8215rem;
+    --sl-input-focus-ring-color: var(--select-focus);
+    --sl-input-focus-ring-style: solid;
+    --sl-focus-ring-width: 1px;
+
+    --sl-input-border-width: 1px;
+    --sl-input-border-color-focus: var(--select-focus);
+
+    margin-top: 4px;
   }
   // parts go largest to smallest
+
   // wraps label, input and helptext
-  sl-select::parts(form-control) {
+  sl-select::part(form-control) {
   }
   // don't need we are using html label
-  sl-select::parts(form-control-label) {
+  sl-select::part(form-control-label) {
   }
   // select wrapper
-  sl-select::parts(form-control-input) {
+  sl-select::part(form-control-input) {
   }
   // help text
-  sl-select::parts(form-control-help-text) {
+  sl-select::part(form-control-help-text) {
   }
   // The container the wraps the prefix, combobox, clear icon, and expand button.
-  sl-select::parts(combobox) {
+  sl-select::part(combobox) {
   }
   // The container that wraps the prefix slot (geat icon?)
-  sl-select::parts(prefix) {
+  sl-select::part(prefix) {
   }
   // selected option label
-  sl-select::parts(display-input) {
+  sl-select::part(display-input) {
   }
   // the container where options are listed
-  sl-select::parts(listbox) {
+  sl-select::part(listbox) {
+  }
+
+  sl-select::part(expand-icon) {
+    width: 0.75em;
+    height: 0.5em;
   }
 `;
