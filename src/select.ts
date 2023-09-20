@@ -31,11 +31,6 @@ export interface SLSelectParam {
   ariaLabel?: string;
 }
 
-export interface SingleSelectParam extends SLSelectParam {
-  currentValue: string;
-  onChange?: (event: SlChangeEvent) => void;
-}
-
 export interface MultiSelectParam extends SLSelectParam {
   currentValues: string[];
   maxOptionsVisible?: number;
@@ -248,32 +243,6 @@ export const selectStyles = css`
     --sl-input-border-color-focus: var(--select-focus);
 
     margin-top: 4px;
-  }
-  // parts go largest to smallest
-
-  // wraps label, input and helptext
-  sl-select::part(form-control) {
-  }
-  // don't need we are using html label
-  sl-select::part(form-control-label) {
-  }
-  // select wrapper
-  sl-select::part(form-control-input) {
-  }
-  // help text
-  sl-select::part(form-control-help-text) {
-  }
-  // The container the wraps the prefix, combobox, clear icon, and expand button.
-  sl-select::part(combobox) {
-  }
-  // The container that wraps the prefix slot (geat icon?)
-  sl-select::part(prefix) {
-  }
-  // selected option label
-  sl-select::part(display-input) {
-  }
-  // the container where options are listed
-  sl-select::part(listbox) {
   }
 
   sl-select::part(expand-icon) {
