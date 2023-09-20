@@ -100,10 +100,10 @@ export class RewiringAmericaStateCalculator extends LitElement {
   utility: string = '';
 
   @property({ type: Array })
-  projects: Project[] = ['battery'];
+  projects: Project[] = [];
 
   @property({ type: String })
-  selectedProjectTab: Project = 'battery';
+  selectedProjectTab: Project | undefined;
 
   @property({ type: String })
   selectedOtherTab: Project = 'battery';
@@ -247,10 +247,11 @@ export class RewiringAmericaStateCalculator extends LitElement {
               : stateIncentivesTemplate(
                   results,
                   this.projects,
-                  this.selectedProjectTab,
-                  this.selectedOtherTab,
+                  newOtherSelection =>
+                    (this.selectedOtherTab = newOtherSelection),
                   newSelection => (this.selectedProjectTab = newSelection),
-                  newOtherSelection => (this.selectedOtherTab = newOtherSelection),
+                  this.selectedOtherTab,
+                  this.selectedProjectTab,
                 ),
           error: errorTemplate,
         })}

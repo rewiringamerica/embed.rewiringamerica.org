@@ -96,7 +96,9 @@ export const formTemplate = (
               .map(([value, data]) => ({ value, label: data.label }))
               .sort((a, b) => a.label.localeCompare(b.label)),
             currentValues: projects,
+            placeholder: 'None selected',
             maxOptionsVisible: 1,
+            placement: 'top',
           })}
         </label>
       </div> `

@@ -394,10 +394,10 @@ const gridTemplate = (
 export const stateIncentivesTemplate = (
   response: APIResponse,
   selectedProjects: Project[],
-  selectedProjectTab: Project,
-  selectedOtherTab: Project,
-  onTabSelected: (newSelection: Project) => void,
   onOtherTabSelected: (newOtherSelection: Project) => void,
+  onTabSelected: (newSelection: Project) => void,
+  selectedOtherTab: Project,
+  selectedProjectTab?: Project,
 ) => {
   const allEligible = response.incentives.filter(i => i.eligible);
 
@@ -419,16 +419,23 @@ export const stateIncentivesTemplate = (
     .sort(([a], [b]) => shortLabel(a).localeCompare(shortLabel(b)))
     .map(([project]) => project);
 
+  const projectTab = selectedProjectTab ?? selectedProjects[0];
+  const selectedIncentives = incentivesByProject[projectTab] ?? [];
+  const otherIncentivesLabel =
+    selectedIncentives.length == 0
+      ? 'Incentives available to you'
+      : 'Other incentives available to you';
+
   return html` ${atAGlanceTemplate(response)}
   ${gridTemplate(
     "Incentives you're interested in",
-    incentivesByProject[selectedProjectTab] ?? [],
+    selectedIncentives,
     selectedProjects,
-    selectedProjects.includes(selectedProjectTab) ? selectedProjectTab : selectedProjects[0],
+    selectedProjects.includes(projectTab) ? projectTab : selectedProjects[0],
     onTabSelected,
   )}
   ${gridTemplate(
-    'Other incentives available to you',
+    otherIncentivesLabel,
     incentivesByProject[selectedOtherTab] ?? [],
     otherTabs,
     // If a nonexistent tab is selected, pretend the first one is selected.

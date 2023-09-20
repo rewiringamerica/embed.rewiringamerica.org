@@ -35,7 +35,6 @@
     "cypress": "^12.6.0",
     "eslint": "^8.45.0",
     "parcel": "v2.8.3",
-    "parcel-reporter-static-files-copy": "^1.5.2",
     "postcss": "^8.4.21",
     "postcss-modules": "^6.0.0",
     "posthtml": "^0.16.6",

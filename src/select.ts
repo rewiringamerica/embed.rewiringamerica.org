@@ -20,13 +20,24 @@ export interface SelectParam {
   disabled?: boolean;
 }
 
-export interface MultiSelectParam {
+export interface SLSelectParam {
   id: string;
   label?: string;
-  currentValues: string[];
   options: OptionParam[];
   helpText?: string;
   placeholder?: string;
+  placement?: string;
+  required?: boolean;
+  ariaLabel?: string;
+}
+
+export interface SingleSelectParam extends SLSelectParam {
+  currentValue: string;
+  onChange?: (event: SlChangeEvent) => void;
+}
+
+export interface MultiSelectParam extends SLSelectParam {
+  currentValues: string[];
   maxOptionsVisible?: number;
 }
 
@@ -72,6 +83,7 @@ export const multiselect = ({
   helpText,
   placeholder,
   maxOptionsVisible,
+  placement,
 }: MultiSelectParam) => {
   return html`
     <div>
@@ -83,10 +95,12 @@ export const multiselect = ({
         help-text="${ifDefined(helpText)}"
         placeholder="${ifDefined(placeholder)}"
         max-options-visible="${ifDefined(maxOptionsVisible)}"
+        placement="${ifDefined(placement)}"
+        hoist
         multiple
         clearable
       >
-        <sl-icon slot="expand-icon" name="caret-down-fill"></sl-icon>
+        <sl-icon slot="expand-icon"></sl-icon>
         ${options.map(o => multioption(o))}
       </sl-select>
       <span class="focus"></span>
@@ -223,6 +237,9 @@ export const selectStyles = css`
 
   sl-select {
     --sl-input-height-medium: 2.8215rem;
+
+    --sl-input-font-family: var(--ra-embed-font-family);
+
     --sl-input-focus-ring-color: var(--select-focus);
     --sl-input-focus-ring-style: solid;
     --sl-focus-ring-width: 1px;
@@ -260,7 +277,11 @@ export const selectStyles = css`
   }
 
   sl-select::part(expand-icon) {
-    width: 0.75em;
-    height: 0.5em;
+    content: '';
+    justify-self: end;
+    width: 0.6em;
+    height: 0.4em;
+    background-color: var(--select-arrow);
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
   }
 `;
