@@ -93,7 +93,6 @@ export const multiselect = ({
         placement="${ifDefined(placement)}"
         hoist
         multiple
-        clearable
       >
         <sl-icon slot="expand-icon"></sl-icon>
         ${options.map(o => multioption(o))}
