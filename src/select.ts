@@ -28,7 +28,6 @@ export interface SLSelectParam {
   placeholder?: string;
   placement?: string;
   required?: boolean;
-  ariaLabel?: string;
 }
 
 export interface MultiSelectParam extends SLSelectParam {
