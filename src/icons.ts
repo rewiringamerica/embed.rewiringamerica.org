@@ -1,4 +1,4 @@
-import { html, svg } from 'lit';
+import { html } from 'lit';
 
 // FIXME: does this need to be nested like this?
 export const downIcon = (w: number, h: number) => html`<svg
@@ -106,10 +106,25 @@ export const exclamationPoint = (w: number = 16, h: number = 16) => html`<svg
   />
 </svg>`;
 
-export const upRightArrow = (
-  w: number = 20,
-  h: number = 20,
-) => svg`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 20 20" fill="none">
-<path d="M5.83325 14.1667L14.1666 5.83337" stroke="#4A00C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M5.83325 5.83337H14.1666V14.1667" stroke="#4A00C3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+export const upRightArrow = (w: number = 20, h: number = 20) => html`<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="${w}"
+  height="${h}"
+  viewBox="0 0 20 20"
+  fill="none"
+>
+  <path
+    d="M5.83325 14.1667L14.1666 5.83337"
+    stroke="#4A00C3"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M5.83325 5.83337H14.1666V14.1667"
+    stroke="#4A00C3"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
 </svg>`;

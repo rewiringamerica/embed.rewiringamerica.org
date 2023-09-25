@@ -48,6 +48,7 @@
     "default": {
       "source": [
         "src/calculator.ts",
+        "src/state-calculator.ts",
         "src/rewiring-fonts.css",
         "src/index.html",
         "src/rhode-island.html"
