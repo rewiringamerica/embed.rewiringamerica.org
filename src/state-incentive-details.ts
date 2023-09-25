@@ -116,10 +116,8 @@ export const stateIncentivesStyles = css`
     }
   }
 
-  .grid-section {
-    & .card {
-      margin: 0;
-    }
+  .grid-section .card {
+    margin: 0;
   }
 
   @media only screen and (max-width: 640px) {
