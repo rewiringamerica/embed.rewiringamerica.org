@@ -73,3 +73,58 @@ export const lightningBolt = (w: number = 38, h: number = 64) => html`<svg
     fill="#F9D65B"
   />
 </svg>`;
+
+export const exclamationPoint = (w: number = 16, h: number = 16) => html`<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="${w}"
+  height="${h}"
+  viewBox="0 0 16 16"
+  fill="none"
+>
+  <rect width="16" height="16" rx="2" fill="#846F24" />
+  <rect
+    x="9.12494"
+    y="8.12549"
+    width="2.25"
+    height="5.25"
+    rx="1.125"
+    transform="rotate(-180 9.12494 8.12549)"
+    fill="#FEF2CA"
+    stroke="#FEF2CA"
+    stroke-width="0.25"
+  />
+  <rect
+    x="9.12494"
+    y="13.1255"
+    width="2.25"
+    height="2.25"
+    rx="1.125"
+    transform="rotate(-180 9.12494 13.1255)"
+    fill="#FEF2CA"
+    stroke="#FEF2CA"
+    stroke-width="0.25"
+  />
+</svg>`;
+
+export const upRightArrow = (w: number = 20, h: number = 20) => html`<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="${w}"
+  height="${h}"
+  viewBox="0 0 20 20"
+  fill="none"
+>
+  <path
+    d="M5.83325 14.1667L14.1666 5.83337"
+    stroke="#4A00C3"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M5.83325 5.83337H14.1666V14.1667"
+    stroke="#4A00C3"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>`;
