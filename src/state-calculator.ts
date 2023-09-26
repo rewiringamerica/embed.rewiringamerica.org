@@ -21,6 +21,7 @@ import { iconTabBarStyles } from './icon-tab-bar';
 
 import '@shoelace-style/shoelace/dist/components/spinner/spinner';
 import { STATES } from './states';
+import { authorityLogosStyles } from './authority-logos';
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -50,6 +51,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     utilitySelectorStyles,
     separatorStyles,
     iconTabBarStyles,
+    authorityLogosStyles,
   ];
 
   /* supported properties to control showing/hiding of each card in the widget */
