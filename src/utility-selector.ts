@@ -7,36 +7,36 @@ export const utilitySelectorStyles = css`
   .utility-selector {
     display: grid;
     align-items: center;
+  }
 
-    & .map {
-      position: relative;
-      text-align: center;
+  .utility-selector__map {
+    position: relative;
+    text-align: center;
+  }
 
-      & svg {
-        vertical-align: top;
-      }
-    }
+  .utility-selector__map svg {
+    vertical-align: top;
+  }
 
-    & h1 {
-      position: absolute;
-      top: 50%;
-      transform: translate(0, -50%);
+  .utility-selector__title {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
 
-      font-weight: 700;
-      line-height: 125%;
+    font-weight: 700;
+    line-height: 125%;
 
-      text-align: center;
-      font-size: 1.75rem;
-    }
+    text-align: center;
+    font-size: 1.75rem;
+  }
 
-    & .spacer {
-      /* Only relevant on small layout */
-      height: 1.5rem;
-    }
+  .utility-selector__spacer {
+    /* Only relevant on small layout */
+    height: 1.5rem;
+  }
 
-    & .selector {
-      height: min-content;
-    }
+  .utility-selector__selector {
+    height: min-content;
   }
 
   /* Extra small devices: map above selector */
@@ -47,11 +47,11 @@ export const utilitySelectorStyles = css`
       margin-left: 1rem;
       margin-right: 1rem;
       min-width: 200px;
+    }
 
-      & .card {
-        /* Margin is provided by the outer element */
-        margin: 0;
-      }
+    .utility-selector .card {
+      /* Margin is provided by the outer element */
+      margin: 0;
     }
   }
 
@@ -64,11 +64,9 @@ export const utilitySelectorStyles = css`
 
   /* Large: bigger text, left-aligned */
   @media only screen and (min-width: 769px) {
-    .utility-selector {
-      & h1 {
-        text-align: left;
-        font-size: 2.25rem;
-      }
+    .utility-selector__title {
+      text-align: left;
+      font-size: 2.25rem;
     }
   }
 `;
@@ -121,12 +119,14 @@ export const utilitySelectorTemplate = (
   onChange: (utilityId: string) => void,
 ) =>
   html` <div class="utility-selector">
-    <div class="map">
+    <div class="utility-selector__map">
       ${stateInfo.icon()}
-      <h1>Incentives available to you in ${stateInfo.name}</h1>
+      <h1 class="utility-selector__title">
+        Incentives available to you in ${stateInfo.name}
+      </h1>
     </div>
-    <div class="spacer"></div>
-    <div class="card card-content selector">
+    <div class="utility-selector__spacer"></div>
+    <div class="card card-content utility-selector__selector">
       ${utilityFormTemplate(utilityId, utilityOptions, onChange)}
     </div>
   </div>`;

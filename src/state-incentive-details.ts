@@ -3,6 +3,7 @@ import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { exclamationPoint, questionIcon, upRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { iconTabBarTemplate } from './icon-tab-bar';
+import { authorityLogosTemplate } from './authority-logos';
 
 export const stateIncentivesStyles = css`
   .loading {
@@ -116,10 +117,8 @@ export const stateIncentivesStyles = css`
     }
   }
 
-  .grid-section {
-    & .card {
-      margin: 0;
-    }
+  .grid-section .card {
+    margin: 0;
   }
 
   @media only screen and (max-width: 640px) {

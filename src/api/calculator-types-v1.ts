@@ -53,6 +53,16 @@ export interface Incentive {
 }
 
 export interface APIResponse {
+  authorities: {
+    [authorityId: string]: {
+      name: string;
+      logo?: {
+        src: string;
+        width: number;
+        height: number;
+      };
+    };
+  };
   savings: {
     tax_credit: number;
     pos_rebate: number;
