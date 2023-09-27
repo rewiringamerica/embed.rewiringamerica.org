@@ -440,5 +440,6 @@ export const stateIncentivesTemplate = (
     // If a nonexistent tab is selected, pretend the first one is selected.
     otherTabs.includes(selectedOtherTab) ? selectedOtherTab : otherTabs[0],
     onOtherTabSelected,
-  )}`;
+  )}
+  ${authorityLogosTemplate(response)}`;
 };

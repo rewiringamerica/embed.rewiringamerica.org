@@ -1,4 +1,4 @@
-import { html, svg } from 'lit';
+import { html } from 'lit';
 
 // FIXME: does this need to be nested like this?
 export const downIcon = (w: number, h: number) => html`<svg

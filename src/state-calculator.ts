@@ -248,14 +248,14 @@ export class RewiringAmericaStateCalculator extends LitElement {
             this._utilitiesTask.status !== TaskStatus.COMPLETE
               ? nothing
               : stateIncentivesTemplate(
-                results,
-                this.projects,
-                newOtherSelection =>
-                  (this.selectedOtherTab = newOtherSelection),
-                newSelection => (this.selectedProjectTab = newSelection),
-                this.selectedOtherTab,
-                this.selectedProjectTab,
-              ),
+                  results,
+                  this.projects,
+                  newOtherSelection =>
+                    (this.selectedOtherTab = newOtherSelection),
+                  newSelection => (this.selectedProjectTab = newSelection),
+                  this.selectedOtherTab,
+                  this.selectedProjectTab,
+                ),
           error: errorTemplate,
         })}
         ${CALCULATOR_FOOTER}
