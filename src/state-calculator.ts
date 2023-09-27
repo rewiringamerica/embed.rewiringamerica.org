@@ -211,7 +211,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
             ? nothing
             : formTemplate(
                 [
-                  this.selectedProject,
                   this.zip,
                   this.ownerStatus,
                   this.householdIncome,
