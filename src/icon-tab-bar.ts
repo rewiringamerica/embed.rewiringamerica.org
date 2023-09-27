@@ -15,7 +15,7 @@ export const iconTabBarStyles = css`
     margin-bottom: 1.5rem;
   }
 
-  button.icon-tab {
+  .icon-tab {
     /* Override default button styles */
     background-color: transparent;
     font-family: inherit;
@@ -34,25 +34,25 @@ export const iconTabBarStyles = css`
     gap: 0.5rem;
     align-items: center;
     justify-content: center;
-
-    & .caption {
-      color: var(--color-purple-500, #4a00c3);
-      font-size: 1rem;
-      font-weight: 500;
-      line-height: 125%;
-      white-space: nowrap;
-    }
   }
 
-  button.icon-tab--selected {
+  .icon-tab--selected {
     cursor: default;
 
     background: var(--color-purple-500, #4a00c3);
     border-color: var(--color-purple-500, #4a00c3);
+  }
 
-    & .caption {
-      color: white;
-    }
+  .icon-tab__caption {
+    color: var(--color-purple-500, #4a00c3);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 125%;
+    white-space: nowrap;
+  }
+
+  .icon-tab__caption--selected {
+    color: white;
   }
 
   .icon-dropdown {
@@ -90,14 +90,17 @@ export const iconTabBarTemplate = (
 ) => {
   const iconTabs = tabs.map(project => {
     const isSelected = project === selectedTab;
-    const selectedClass = isSelected ? 'icon-tab--selected' : '';
+    const classes = (cls: string) =>
+      isSelected ? `${cls} ${cls}--selected` : cls;
     return html`
       <button
-        class="icon-tab ${selectedClass}"
+        class="${classes('icon-tab')}"
         @click=${() => onTabSelected(project)}
       >
         ${PROJECTS[project].icon(isSelected)}
-        <div class="caption">${shortLabel(project)}</div>
+        <div class="${classes('icon-tab__caption')}">
+          ${shortLabel(project)}
+        </div>
       </button>
     `;
   });

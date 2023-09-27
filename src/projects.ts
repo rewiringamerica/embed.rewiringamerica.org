@@ -143,6 +143,8 @@ export type Project =
   | 'cooking'
   | 'wiring';
 
+export const NO_PROJECT = '';
+
 export const shortLabel = (p: Project) =>
   PROJECTS[p].shortLabel ?? PROJECTS[p].label;
 

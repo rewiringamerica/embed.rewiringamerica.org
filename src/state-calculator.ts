@@ -21,6 +21,7 @@ import { iconTabBarStyles } from './icon-tab-bar';
 
 import '@shoelace-style/shoelace/dist/components/spinner/spinner';
 import { STATES } from './states';
+import { authorityLogosStyles } from './authority-logos';
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -50,6 +51,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     utilitySelectorStyles,
     separatorStyles,
     iconTabBarStyles,
+    authorityLogosStyles,
   ];
 
   /* supported properties to control showing/hiding of each card in the widget */
@@ -209,6 +211,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
             ? nothing
             : formTemplate(
                 [
+                  this.selectedProject,
                   this.zip,
                   this.ownerStatus,
                   this.householdIncome,
@@ -245,14 +248,14 @@ export class RewiringAmericaStateCalculator extends LitElement {
             this._utilitiesTask.status !== TaskStatus.COMPLETE
               ? nothing
               : stateIncentivesTemplate(
-                  results,
-                  this.projects,
-                  newOtherSelection =>
-                    (this.selectedOtherTab = newOtherSelection),
-                  newSelection => (this.selectedProjectTab = newSelection),
-                  this.selectedOtherTab,
-                  this.selectedProjectTab,
-                ),
+                results,
+                this.projects,
+                newOtherSelection =>
+                  (this.selectedOtherTab = newOtherSelection),
+                newSelection => (this.selectedProjectTab = newSelection),
+                this.selectedOtherTab,
+                this.selectedProjectTab,
+              ),
           error: errorTemplate,
         })}
         ${CALCULATOR_FOOTER}
