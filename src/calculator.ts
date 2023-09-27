@@ -12,7 +12,6 @@ import {
 } from './calculator-types';
 import { CALCULATOR_FOOTER } from './calculator-footer';
 import { fetchApi } from './api/fetch';
-import { NO_PROJECT } from './projects';
 
 const loadedTemplate = (
   results: ICalculatedIncentiveResults,
@@ -151,7 +150,6 @@ export class RewiringAmericaCalculator extends LitElement {
             ? nothing
             : formTemplate(
                 [
-                  NO_PROJECT,
                   this.zip,
                   this.ownerStatus,
                   this.householdIncome,
