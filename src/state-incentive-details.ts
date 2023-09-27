@@ -3,6 +3,7 @@ import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { exclamationPoint, questionIcon, upRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { iconTabBarTemplate } from './icon-tab-bar';
+import { authorityLogosTemplate } from './authority-logos';
 
 export const stateIncentivesStyles = css`
   .loading {
@@ -430,5 +431,6 @@ export const stateIncentivesTemplate = (
     // If a nonexistent tab is selected, pretend the first one is selected.
     otherTabs.includes(selectedOtherTab) ? selectedOtherTab : otherTabs[0],
     onTabSelected,
-  )}`;
+  )}
+  ${authorityLogosTemplate(response)}`;
 };
