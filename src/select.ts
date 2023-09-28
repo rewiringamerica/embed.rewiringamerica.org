@@ -3,6 +3,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import '@shoelace-style/shoelace/dist/themes/light.css';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
+import '@shoelace-style/shoelace/dist/components/dropdown/dropdown.js';
 
 export interface OptionParam {
   label: string;
