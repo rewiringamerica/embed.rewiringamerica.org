@@ -219,12 +219,28 @@ export class RewiringAmericaStateCalculator extends LitElement {
         query.set('utility', this.utility);
       }
 
-      return await fetchApi<APIResponse>(
+      const response = await fetchApi<APIResponse>(
         this.apiKey,
         this.apiHost,
         '/api/v1/calculator',
         query,
       );
+
+      // If the "state" attribute is set, enforce that some other state's
+      // incentives aren't shown. But if coverage.state is null, we won't show
+      // the error: we'll only be showing federal incentives in that case.
+      if (
+        this.state &&
+        response.coverage.state &&
+        response.coverage.state !== this.state
+      ) {
+        // Throw to put the task into the ERROR state for rendering.
+        throw new Error(
+          `That ZIP code is not in ${STATES[this.state]?.name ?? this.state}.`,
+        );
+      }
+
+      return response;
     },
     onComplete: () => {
       this.tempState = null;
@@ -251,6 +267,10 @@ export class RewiringAmericaStateCalculator extends LitElement {
     //
     // - The loading spinner, if either utilities or incentives are still
     //   loading.
+
+    const showLoading =
+      this._utilitiesTask.status === TaskStatus.PENDING ||
+      this._task.status === TaskStatus.PENDING;
 
     return html`
       <div class="calculator">
@@ -305,11 +325,8 @@ export class RewiringAmericaStateCalculator extends LitElement {
               ),
             ]
           : nothing}
-        ${this._utilitiesTask.status === TaskStatus.PENDING ||
-        this._task.status === TaskStatus.PENDING
-          ? loadingTemplate()
-          : nothing}
-        ${this._task.status === TaskStatus.ERROR
+        ${showLoading ? loadingTemplate() : nothing}
+        ${this._task.status === TaskStatus.ERROR && !showLoading
           ? errorTemplate(this._task.error)
           : nothing}
         ${CALCULATOR_FOOTER}
