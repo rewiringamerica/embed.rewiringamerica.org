@@ -71,17 +71,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: String, attribute: 'api-host' })
   apiHost: string = DEFAULT_CALCULATOR_API_HOST;
 
-  /**
-   * Property to customize the calculator for a particular state. Must be the
-   * two-letter code, uppercase (example: "NY").
-   *
-   * Currently the only customization is to display the name of the state.
-   * TODO: Have a nice error message if you enter a zip/address outside this
-   * state, if it's defined.
-   */
-  @property({ type: String, attribute: 'state' })
-  state: string = '';
-
   /* supported properties to allow pre-filling the form */
 
   @property({ type: String, attribute: 'zip' })
@@ -219,28 +208,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
         query.set('utility', this.utility);
       }
 
-      const response = await fetchApi<APIResponse>(
+      return fetchApi<APIResponse>(
         this.apiKey,
         this.apiHost,
         '/api/v1/calculator',
         query,
       );
-
-      // If the "state" attribute is set, enforce that some other state's
-      // incentives aren't shown. But if coverage.state is null, we won't show
-      // the error: we'll only be showing federal incentives in that case.
-      if (
-        this.state &&
-        response.coverage.state &&
-        response.coverage.state !== this.state
-      ) {
-        // Throw to put the task into the ERROR state for rendering.
-        throw new Error(
-          `That ZIP code is not in ${STATES[this.state]?.name ?? this.state}.`,
-        );
-      }
-
-      return response;
     },
     onComplete: () => {
       this.tempState = null;
