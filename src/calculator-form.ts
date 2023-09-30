@@ -176,6 +176,7 @@ export const formTemplate = (
             value=${householdIncome}
             min="0"
             max="100000000"
+            tabindex="-1"
           ></ra-currency-input>
         </div>
         <div>
