@@ -42,6 +42,8 @@ const buttonStyles = css`
     --sl-tooltip-line-height: var(--ra-embed-line-height);
     --sl-tooltip-font-weight: var(--ra-embed-font-weight);
     --sl-z-index-tooltip: 10000;
+    text-transform: none;
+    letter-spacing: normal
   }
 
   sl-tooltip::part(body) {
