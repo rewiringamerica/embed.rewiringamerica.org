@@ -71,6 +71,10 @@ export const baseStyles = css`
     /* input styles */
     --ra-input-border: 1px solid #cccccc;
     --ra-input-focus-color: blue;
+    --ra-input-padding: 0.5rem 1rem;
+    --ra-input-font-size: var(--ra-embed-font-size);
+    --ra-input-line-height: var(--ra-embed-line-height);
+    --ra-input-border-radius: 4px;
   }
 
   :host {

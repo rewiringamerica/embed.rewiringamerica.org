@@ -2,11 +2,11 @@ import { css } from 'lit';
 
 export const inputStyles = css`
   input {
-    padding: 8px;
-    font-size: 16px;
-    line-height: 28px;
+    padding: var(--ra-input-padding);
+    font-size: var(--ra-input-font-size);
+    line-height: var(--ra-input-line-height);
     border: var(--ra-input-border);
-    border-radius: 4px;
+    border-radius: var(--ra-input-border-radius);
     width: 100%;
     margin-top: 4px;
     margin-left: 0;
