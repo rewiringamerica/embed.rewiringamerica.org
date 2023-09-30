@@ -51,6 +51,14 @@ export const baseStyles = css`
     --ra-tooltip-border: var(--ra-embed-card-border);
     --ra-tooltip-box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
       rgba(0, 0, 0, 0.14) 0px 8px 10px 1px, rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
+    /* form label styles */
+    --ra-form-label-font-size: 16px;
+    --ra-form-label-line-height: 28px;
+    --ra-form-label-font-weight: 500;
+    --ra-form-label-font-style: normal;
+    --ra-form-label-margin: 0;
+    --ra-form-label-text-transform: none;
+    --ra-form-label-letter-spacing: normal;
   }
 
   :host {
@@ -99,11 +107,13 @@ export const baseStyles = css`
   }
 
   label {
-    font-size: 16px;
-    line-height: 28px;
-    font-weight: 500;
-    font-style: normal;
-    margin: 0;
+    font-size: var(--ra-form-label-font-size);
+    line-height: var(--ra-form-label-line-height);
+    font-weight: var(--ra-form-label-font-weight);
+    font-style: var(--ra-form-label-font-style);
+    margin: var(--ra-form-label-margin);
+    text-transform: var(--ra-form-label-text-transform);
+    letter-spacing: var(--ra-form-label-letter-spacing);
   }
 
   em {

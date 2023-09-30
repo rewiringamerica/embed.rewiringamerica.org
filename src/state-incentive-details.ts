@@ -8,10 +8,20 @@ import { authorityLogosTemplate } from './authority-logos';
 export const stateIncentivesStyles = css`
   /* for now, override these variables just for the state calculator */
   :host {
+    /* cards */
     --ra-embed-card-border: none;
     --ra-embed-card-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
     --ra-embed-card-border-radius: 0.75rem;
+    /* forms */
+    --ra-form-label-font-size: 11px;
+    --ra-form-label-line-height: 125%;
+    --ra-form-label-font-weight: 700;
+    --ra-form-label-font-style: normal;
+    --ra-form-label-margin: 0;
+    --ra-form-label-text-transform: uppercase;
+    --ra-form-label-letter-spacing: 0.55px;
   }
+
 
   .loading {
     text-align: center;

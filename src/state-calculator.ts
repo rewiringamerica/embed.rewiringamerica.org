@@ -290,7 +290,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
                   this.householdSize,
                 ],
                 this.projects,
-                true,
+                { showProjectField: true, tooltipSize: 13 },
                 (event: SubmitEvent) => this.submit(event),
                 'grid-3-2-1',
               )}

@@ -74,10 +74,15 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
   },
 );
 
+type FormOptions = {
+  showProjectField: boolean;
+  tooltipSize: number;
+}
+
 export const formTemplate = (
   [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
   projects: Array<string>,
-  showProjectField: boolean,
+  { showProjectField, tooltipSize }: FormOptions,
   onSubmit: (e: SubmitEvent) => void,
   gridClass: string = 'grid-3-2',
 ) => {
@@ -88,20 +93,20 @@ export const formTemplate = (
           <sl-tooltip
             content="Select the projects you're most interested in."
             hoist
-            >${questionIcon(18, 18)}</sl-tooltip
-          ><br />
-          ${multiselect({
-            id: 'projects',
-            options: Object.entries(PROJECTS)
-              .map(([value, data]) => ({ value, label: data.label }))
-              .sort((a, b) => a.label.localeCompare(b.label)),
-            currentValues: projects,
-            placeholder: 'None selected',
-            maxOptionsVisible: 1,
-            placement: 'top',
-          })}
-        </label>
-      </div> `
+            >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
+          >
+        <label>
+        ${multiselect({
+          id: 'projects',
+          options: Object.entries(PROJECTS)
+            .map(([value, data]) => ({ value, label: data.label }))
+            .sort((a, b) => a.label.localeCompare(b.label)),
+          currentValues: projects,
+          placeholder: 'None selected',
+          maxOptionsVisible: 1,
+          placement: 'top',
+        })}
+      </div>`
     : nothing;
 
   return html`
@@ -114,22 +119,23 @@ export const formTemplate = (
             <sl-tooltip
               content="Your zip code helps determine the amount of discounts and tax credits you qualify for."
               hoist
-              >${questionIcon(18, 18)}</sl-tooltip
-            ><br />
-            <input
-              tabindex="0"
-              id="zip"
-              placeholder="12345"
-              name="zip"
-              required
-              type="text"
-              value="${zip}"
-              minlength="5"
-              maxlength="5"
-              inputmode="numeric"
-              pattern="[0-9]{5}"
-            />
+              >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
+            >
           </label>
+          <br />
+          <input
+            tabindex="0"
+            id="zip"
+            placeholder="12345"
+            name="zip"
+            required
+            type="text"
+            value="${zip}"
+            minlength="5"
+            maxlength="5"
+            inputmode="numeric"
+            pattern="[0-9]{5}"
+          />
         </div>
         <div>
           <label for="owner_status">
@@ -137,16 +143,17 @@ export const formTemplate = (
             <sl-tooltip
               content="Homeowners and renters qualify for different incentives."
               hoist
-              >${questionIcon(18, 18)}</sl-tooltip
-            ><br />
-            ${select({
-              id: 'owner_status',
-              required: true,
-              options: OWNER_STATUS_OPTIONS,
-              currentValue: ownerStatus,
-              tabIndex: 0,
-            })}
+              >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
+            >
           </label>
+          <br />
+          ${select({
+            id: 'owner_status',
+            required: true,
+            options: OWNER_STATUS_OPTIONS,
+            currentValue: ownerStatus,
+            tabIndex: 0,
+          })}
         </div>
         <div>
           <label for="household_income">
@@ -154,18 +161,19 @@ export const formTemplate = (
             <sl-tooltip
               content="Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse's income"
               hoist
-              >${questionIcon(18, 18)}</sl-tooltip
-            ><br />
-            <ra-currency-input
-              id="household_income"
-              placeholder="$60,000"
-              name="household_income"
-              required
-              value=${householdIncome}
-              min="0"
-              max="100000000"
-            ></ra-currency-input>
+              >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
+            >
           </label>
+          <br />
+          <ra-currency-input
+            id="household_income"
+            placeholder="$60,000"
+            name="household_income"
+            required
+            value=${householdIncome}
+            min="0"
+            max="100000000"
+          ></ra-currency-input>
         </div>
         <div>
           <label for="tax_filing">
@@ -177,37 +185,39 @@ export const formTemplate = (
                 home. Select "Joint" if you file your taxes as a married
                 couple."
               </div>
-              ${questionIcon(18, 18)}</sl-tooltip
-            ><br />
-            ${select({
-              id: 'tax_filing',
-              required: true,
-              options: TAX_FILING_OPTIONS,
-              currentValue: taxFiling,
-              tabIndex: 0,
-            })}
+              ${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
+            >
           </label>
+          <br />
+          ${select({
+            id: 'tax_filing',
+            required: true,
+            options: TAX_FILING_OPTIONS,
+            currentValue: taxFiling,
+            tabIndex: 0,
+          })}
         </div>
         <div>
           <label for="household_size">
-            Household Size
+            Household size
             <sl-tooltip
               content="Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together."
               hoist
-              >${questionIcon(18, 18)}</sl-tooltip
-            ><br />
-            ${select({
-              id: 'household_size',
-              required: true,
-              options: HOUSEHOLD_SIZE_OPTIONS,
-              currentValue: householdSize,
-              tabIndex: 0,
-            })}
+              >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
+            >
           </label>
+          <br />
+          ${select({
+            id: 'household_size',
+            required: true,
+            options: HOUSEHOLD_SIZE_OPTIONS,
+            currentValue: householdSize,
+            tabIndex: 0,
+          })}
         </div>
         <div>
           <button class="primary" type="submit">
-            Calculate! ${downIcon(18, 18)}
+            Calculate! ${downIcon(tooltipSize, tooltipSize)}
           </button>
         </div>
       </div>
