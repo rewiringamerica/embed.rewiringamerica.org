@@ -60,9 +60,9 @@ const OWNER_STATUS_OPTIONS: OptionParam[] = [
 
 const TAX_FILING_OPTIONS: OptionParam[] = [
   { value: 'single', label: 'Single' },
-  { value: 'joint', label: 'Married Filing Jointly' },
-  { value: 'married_filing_separately', label: 'Married Filing Separately' },
-  { value: 'hoh', label: 'Head of Household' },
+  { value: 'joint', label: 'Married filing jointly' },
+  { value: 'married_filing_separately', label: 'Married filing separately' },
+  { value: 'hoh', label: 'Head of household' },
 ];
 
 const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
@@ -133,7 +133,7 @@ export const formTemplate = (
         </div>
         <div>
           <label for="owner_status">
-            Homeowners Status
+            Rent or own
             <sl-tooltip
               content="Homeowners and renters qualify for different incentives."
               hoist
@@ -150,7 +150,7 @@ export const formTemplate = (
         </div>
         <div>
           <label for="household_income">
-            Household Income
+            Household income
             <sl-tooltip
               content="Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse's income"
               hoist
@@ -169,7 +169,7 @@ export const formTemplate = (
         </div>
         <div>
           <label for="tax_filing">
-            Tax Filing
+            Tax filing
             <sl-tooltip hoist
               ><div slot="content">
                 Select "Head of Household" if you have a child or relative
