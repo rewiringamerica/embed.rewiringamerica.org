@@ -6,6 +6,7 @@ export const baseStyles = css`
     --rewiring-yellow: rgb(249, 214, 91);
     --rewiring-yellow-darker: rgb(242, 199, 46);
     --rewiring-purple: rgb(74, 0, 195);
+    --rewiring-purple-darker: rgb(56, 8, 151);
     --rewiring-light-purple: rgb(241, 237, 249);
   }
 

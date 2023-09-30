@@ -20,6 +20,10 @@ export const stateIncentivesStyles = css`
     --ra-form-label-margin: 0;
     --ra-form-label-text-transform: uppercase;
     --ra-form-label-letter-spacing: 0.55px;
+    /* button */
+    --ra-embed-primary-button-background-color: var(--rewiring-purple);
+    --ra-embed-primary-button-background-hover-color: var(--rewiring-purple-darker);
+    --ra-embed-primary-button-text-color: white;
   }
 
 

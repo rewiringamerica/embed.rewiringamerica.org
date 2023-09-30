@@ -1,4 +1,4 @@
-import { html, css, nothing } from 'lit';
+import { html, css, nothing, TemplateResult } from 'lit';
 import { downIcon, questionIcon } from './icons';
 import { select, multiselect, selectStyles, OptionParam } from './select';
 import { inputStyles } from './styles/input';
@@ -79,12 +79,13 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
 type FormOptions = {
   showProjectField: boolean;
   tooltipSize: number;
+  calculateButtonContent: TemplateResult;
 }
 
 export const formTemplate = (
   [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
   projects: Array<string>,
-  { showProjectField, tooltipSize }: FormOptions,
+  { showProjectField, tooltipSize, calculateButtonContent }: FormOptions,
   onSubmit: (e: SubmitEvent) => void,
   gridClass: string = 'grid-3-2',
 ) => {
@@ -219,7 +220,7 @@ export const formTemplate = (
         </div>
         <div>
           <button class="primary" type="submit">
-            Calculate! ${downIcon(tooltipSize, tooltipSize)}
+            ${calculateButtonContent}
           </button>
         </div>
       </div>
