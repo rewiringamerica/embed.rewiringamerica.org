@@ -6,6 +6,13 @@ import { iconTabBarTemplate } from './icon-tab-bar';
 import { authorityLogosTemplate } from './authority-logos';
 
 export const stateIncentivesStyles = css`
+  /* for now, override these variables just for the state calculator */
+  :host {
+    --ra-embed-card-border: none;
+    --ra-embed-card-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+    --ra-embed-card-border-radius: 0.75rem;
+  }
+
   .loading {
     text-align: center;
     font-size: 2rem;
@@ -180,8 +187,8 @@ export const cardStyles = css`
     margin: 0;
 
     border: var(--ra-embed-card-border);
-    border-radius: 0.5rem;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+    border-radius: var(--ra-embed-card-border-radius);
+    box-shadow: var(--ra-embed-card-shadow);
     background-color: var(--ra-embed-card-background);
     overflow: clip;
   }
