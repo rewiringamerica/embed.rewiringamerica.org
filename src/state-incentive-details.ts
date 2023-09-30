@@ -195,10 +195,17 @@ export const cardStyles = css`
   }
 
   .card-content {
-    padding: 1rem;
+    padding: 1.5rem;
     display: grid;
     grid-template-rows: min-content;
     gap: 1rem;
+  }
+
+  /* Extra small devices */
+  @media only screen and (max-width: 640px) {
+    .card-content {
+      padding: 1rem;
+    }
   }
 `;
 
