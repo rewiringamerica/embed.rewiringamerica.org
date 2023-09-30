@@ -12,7 +12,7 @@ export const stateIncentivesStyles = css`
     --ra-embed-card-border: none;
     --ra-embed-card-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
     --ra-embed-card-border-radius: 0.75rem;
-    /* forms */
+    /* labels */
     --ra-form-label-font-size: 11px;
     --ra-form-label-line-height: 125%;
     --ra-form-label-font-weight: 700;
@@ -24,6 +24,13 @@ export const stateIncentivesStyles = css`
     --ra-embed-primary-button-background-color: var(--rewiring-purple);
     --ra-embed-primary-button-background-hover-color: var(--rewiring-purple-darker);
     --ra-embed-primary-button-text-color: white;
+    /* select */
+    --ra-select-border: 1px solid #E2E2E2;
+    --ra-select-focus-color: var(--rewiring-purple);
+    --ra-select-background-image: none;
+    /* input */
+    --ra-input-border: 1px solid #E2E2E2;
+    --ra-input-focus-color: var(--rewiring-purple);
   }
 
 

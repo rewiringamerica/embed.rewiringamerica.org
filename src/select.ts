@@ -140,9 +140,9 @@ export const selectStyles = css`
     /* max-width: 30ch; */
 
     width: 100%;
-    border: var(--select-border);
-    border-radius: 4px;
-    padding: 8px;
+    border: var(--ra-select-border);
+    border-radius: var(--ra-select-border-radius);
+    padding: var(--ra-select-padding);
 
     /*   font-size: 1.25rem; */
     cursor: pointer;
@@ -150,8 +150,8 @@ export const selectStyles = css`
 
     /*   // Optional styles
   // remove for transparency */
-    background-color: #fff;
-    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+    background-color: var(--ra-select-background-color);
+    background-image: var(--ra-select-background-image);
 
     margin-top: 4px;
   }
@@ -169,9 +169,9 @@ export const selectStyles = css`
   .select:not(.select--multiple)::after {
     content: '';
     justify-self: end;
-    width: 0.6em;
+    width: 0.7em;
     height: 0.4em;
-    background-color: var(--select-arrow);
+    background-color: var(--ra-select-arrow-color);
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
   }
 
@@ -182,7 +182,7 @@ export const selectStyles = css`
     left: -1px;
     right: -1px;
     bottom: -1px;
-    border: 2px solid var(--select-focus);
+    border: 2px solid var(--ra-select-focus-color);
     border-radius: inherit;
   }
 
@@ -219,7 +219,7 @@ export const selectStyles = css`
     white-space: normal;
 
     // Only affects Chrome
-    outline-color: var(--select-focus);
+    outline-color: var(--ra-select-focus-color);
   }
 
   .select--disabled {

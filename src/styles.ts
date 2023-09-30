@@ -60,6 +60,17 @@ export const baseStyles = css`
     --ra-form-label-margin: 0;
     --ra-form-label-text-transform: none;
     --ra-form-label-letter-spacing: normal;
+    /* select styles */
+    --ra-select-border: 1px solid #cccccc;
+    --ra-select-background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+    --ra-select-border-radius: 4px;
+    --ra-select-background-color: #fff;
+    --ra-select-padding: 0.5rem 1rem;
+    --ra-select-arrow-color: #222;
+    --ra-select-focus-color: blue;
+    /* input styles */
+    --ra-input-border: 1px solid #cccccc;
+    --ra-input-focus-color: blue;
   }
 
   :host {
@@ -75,10 +86,6 @@ export const baseStyles = css`
     display: block; /* required for max-width to kick in */
     width: 100%;
     max-width: 1280px;
-    --select-border: 1px solid #cccccc;
-    --input-border: 1px solid #cccccc;
-    --select-arrow: #222;
-    --select-focus: blue;
   }
 
   * {

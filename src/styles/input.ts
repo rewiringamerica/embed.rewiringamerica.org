@@ -5,7 +5,7 @@ export const inputStyles = css`
     padding: 8px;
     font-size: 16px;
     line-height: 28px;
-    border: var(--input-border);
+    border: var(--ra-input-border);
     border-radius: 4px;
     width: 100%;
     margin-top: 4px;
@@ -14,7 +14,7 @@ export const inputStyles = css`
   }
 
   input:focus {
-    box-shadow: 0 0 0 2px var(--select-focus) inset;
+    box-shadow: 0 0 0 2px var(--ra-input-focus-color) inset;
     outline: none;
   }
 `;
