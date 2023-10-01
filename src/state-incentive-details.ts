@@ -22,19 +22,20 @@ export const stateIncentivesStyles = css`
     --ra-form-label-letter-spacing: 0.55px;
     /* button */
     --ra-embed-primary-button-background-color: var(--rewiring-purple);
-    --ra-embed-primary-button-background-hover-color: var(--rewiring-purple-darker);
+    --ra-embed-primary-button-background-hover-color: var(
+      --rewiring-purple-darker
+    );
     --ra-embed-primary-button-text-color: white;
     /* select */
-    --ra-select-border: 1px solid #E2E2E2;
+    --ra-select-border: 1px solid #e2e2e2;
     --ra-select-focus-color: var(--rewiring-purple);
     --ra-select-background-image: none;
     --ra-select-margin: 0;
     /* input */
-    --ra-input-border: 1px solid #E2E2E2;
+    --ra-input-border: 1px solid #e2e2e2;
     --ra-input-focus-color: var(--rewiring-purple);
     --ra-input-margin: 0;
   }
-
 
   .loading {
     text-align: center;

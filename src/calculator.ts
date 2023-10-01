@@ -161,7 +161,11 @@ export class RewiringAmericaCalculator extends LitElement {
                   this.householdSize,
                 ],
                 [],
-                { tooltipSize: 18, showProjectField: false, calculateButtonContent },
+                {
+                  tooltipSize: 18,
+                  showProjectField: false,
+                  calculateButtonContent,
+                },
                 (event: SubmitEvent) => this.submit(event),
               )}
         </div>

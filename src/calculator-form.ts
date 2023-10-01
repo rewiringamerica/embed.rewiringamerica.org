@@ -43,7 +43,7 @@ const buttonStyles = css`
     --sl-tooltip-font-weight: var(--ra-embed-font-weight);
     --sl-z-index-tooltip: 10000;
     text-transform: none;
-    letter-spacing: normal
+    letter-spacing: normal;
   }
 
   sl-tooltip::part(body) {
@@ -80,7 +80,7 @@ type FormOptions = {
   showProjectField: boolean;
   tooltipSize: number;
   calculateButtonContent: TemplateResult;
-}
+};
 
 export const formTemplate = (
   [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
