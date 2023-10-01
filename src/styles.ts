@@ -68,6 +68,7 @@ export const baseStyles = css`
     --ra-select-padding: 0.5rem 1rem;
     --ra-select-arrow-color: #222;
     --ra-select-focus-color: blue;
+    --ra-select-margin: 4px 0 0 0;
     /* input styles */
     --ra-input-border: 1px solid #cccccc;
     --ra-input-focus-color: blue;
@@ -75,6 +76,7 @@ export const baseStyles = css`
     --ra-input-font-size: var(--ra-embed-font-size);
     --ra-input-line-height: var(--ra-embed-line-height);
     --ra-input-border-radius: 4px;
+    --ra-input-margin: 4px 0 0 0;
   }
 
   :host {
@@ -119,6 +121,7 @@ export const baseStyles = css`
   }
 
   label {
+    display: block;
     font-size: var(--ra-form-label-font-size);
     line-height: var(--ra-form-label-line-height);
     font-weight: var(--ra-form-label-font-weight);

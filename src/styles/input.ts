@@ -8,9 +8,7 @@ export const inputStyles = css`
     border: var(--ra-input-border);
     border-radius: var(--ra-input-border-radius);
     width: 100%;
-    margin-top: 4px;
-    margin-left: 0;
-    margin-right: 0;
+    margin: var(--ra-input-margin);
   }
 
   input:focus {

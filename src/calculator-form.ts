@@ -101,6 +101,7 @@ export const formTemplate = (
         <label>
         ${multiselect({
           id: 'projects',
+          required: true,
           options: Object.entries(PROJECTS)
             .map(([value, data]) => ({ value, label: data.label }))
             .sort((a, b) => a.label.localeCompare(b.label)),
@@ -125,7 +126,7 @@ export const formTemplate = (
               >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
             >
           </label>
-          <br />
+
           <input
             tabindex="0"
             id="zip"
@@ -149,7 +150,7 @@ export const formTemplate = (
               >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
             >
           </label>
-          <br />
+
           ${select({
             id: 'owner_status',
             required: true,
@@ -167,7 +168,7 @@ export const formTemplate = (
               >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
             >
           </label>
-          <br />
+
           <ra-currency-input
             id="household_income"
             placeholder="$60,000"
@@ -192,7 +193,7 @@ export const formTemplate = (
               ${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
             >
           </label>
-          <br />
+
           ${select({
             id: 'tax_filing',
             required: true,
@@ -210,7 +211,7 @@ export const formTemplate = (
               >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
             >
           </label>
-          <br />
+
           ${select({
             id: 'household_size',
             required: true,

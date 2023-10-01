@@ -153,7 +153,7 @@ export const selectStyles = css`
     background-color: var(--ra-select-background-color);
     background-image: var(--ra-select-background-image);
 
-    margin-top: 4px;
+    margin: var(--ra-select-margin);
   }
 
   .select select[disabled] {

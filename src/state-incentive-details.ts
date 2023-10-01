@@ -14,10 +14,10 @@ export const stateIncentivesStyles = css`
     --ra-embed-card-border-radius: 0.75rem;
     /* labels */
     --ra-form-label-font-size: 11px;
-    --ra-form-label-line-height: 125%;
+    --ra-form-label-line-height: 20px;
     --ra-form-label-font-weight: 700;
     --ra-form-label-font-style: normal;
-    --ra-form-label-margin: 0;
+    --ra-form-label-margin: 0 0 8px 0;
     --ra-form-label-text-transform: uppercase;
     --ra-form-label-letter-spacing: 0.55px;
     /* button */
@@ -28,9 +28,11 @@ export const stateIncentivesStyles = css`
     --ra-select-border: 1px solid #E2E2E2;
     --ra-select-focus-color: var(--rewiring-purple);
     --ra-select-background-image: none;
+    --ra-select-margin: 0;
     /* input */
     --ra-input-border: 1px solid #E2E2E2;
     --ra-input-focus-color: var(--rewiring-purple);
+    --ra-input-margin: 0;
   }
 
 
