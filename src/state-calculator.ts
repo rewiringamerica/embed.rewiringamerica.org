@@ -251,6 +251,17 @@ export class RewiringAmericaStateCalculator extends LitElement {
     },
   });
 
+  override updated() {
+    if (
+      this._utilitiesTask.status === TaskStatus.COMPLETE &&
+      this._task.status === TaskStatus.COMPLETE
+    ) {
+      // if the utility selector is shown, prefer to scroll there, otherwise scroll to at a glance:
+      const results = this.shadowRoot?.querySelector('#utility-selector, #at-a-glance');
+      results?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
   override render() {
     // If we have incentives loaded, use coverage.state from that to determine
     // which state outline to show. Otherwise, look at the "tempState" override,
