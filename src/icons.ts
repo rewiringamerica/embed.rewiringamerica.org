@@ -1,26 +1,24 @@
 import { html } from 'lit';
 
-// FIXME: does this need to be nested like this?
 export const downIcon = (w: number, h: number) => html`<svg
+  xmlns="http://www.w3.org/2000/svg"
   focusable="false"
   aria-hidden="true"
-  viewBox="0 0 24 24"
-  style="width: ${w}px; height: ${h}px; opacity: 0.5; fill: currentColor; vertical-align: text-top;"
+  viewBox="0 0 17 15"
+  style="width: ${w}px; height: ${h}px; opacity: 0.5; fill: none; vertical-align: text-top;"
 >
-  <svg viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M1.90137 1.92651L8.98672 7.62669C9.0241 7.65676 9.07756 7.65605 9.11413 7.62499L15.8241 1.92651"
-      stroke="black"
-      stroke-width="2"
-      stroke-linecap="round"
-    ></path>
-    <path
-      d="M1.90137 7.67859L8.98672 13.3788C9.0241 13.4088 9.07756 13.4081 9.11413 13.3771L15.8241 7.67859"
-      stroke="black"
-      stroke-width="2"
-      stroke-linecap="round"
-    ></path>
-  </svg>
+  <path
+    d="M1.90137 1.92651L8.98672 7.62669C9.0241 7.65676 9.07756 7.65605 9.11413 7.62499L15.8241 1.92651"
+    stroke="black"
+    stroke-width="2"
+    stroke-linecap="round"
+  ></path>
+  <path
+    d="M1.90137 7.67859L8.98672 13.3788C9.0241 13.4088 9.07756 13.4081 9.11413 13.3771L15.8241 7.67859"
+    stroke="black"
+    stroke-width="2"
+    stroke-linecap="round"
+  ></path>
 </svg>`;
 
 export const questionIcon = (w: number, h: number) => html`<svg
