@@ -122,6 +122,8 @@ export const selectStyles = css`
 
     /*   // Remove focus outline, will add on alternate element */
     outline: none;
+
+    color: var(--ra-embed-text-color);
   }
 
   /*   // Remove dropdown arrow in IE10 & IE11
