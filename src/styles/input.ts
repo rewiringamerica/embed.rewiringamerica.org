@@ -2,6 +2,7 @@ import { css } from 'lit';
 
 export const inputStyles = css`
   input {
+    font-family: inherit;
     padding: var(--ra-input-padding);
     font-size: var(--ra-input-font-size);
     line-height: var(--ra-input-line-height);
