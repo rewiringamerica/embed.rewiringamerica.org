@@ -14,7 +14,8 @@
     "serve:widget": "parcel serve ./src/*.html --dist-dir build",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "lint": "prettier --check . && eslint ."
+    "lint": "prettier --check . && eslint .",
+    "prepare": "husky install"
   },
   "browserslist": {
     "production": [
@@ -34,6 +35,8 @@
     "@typescript-eslint/parser": "^6.1.0",
     "cypress": "^12.6.0",
     "eslint": "^8.45.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "parcel": "v2.8.3",
     "postcss": "^8.4.21",
     "postcss-modules": "^6.0.0",
@@ -59,5 +62,8 @@
       "sourceMap": false,
       "publicUrl": "./"
     }
+  },
+  "lint-staged": {
+    "**/*.{js,ts,json,md,css,html}": "prettier --write"
   }
 }
