@@ -139,6 +139,7 @@ export const formTemplate = (
             maxlength="5"
             inputmode="numeric"
             pattern="[0-9]{5}"
+            autocomplete="postal-code"
           />
         </div>
         <div>
