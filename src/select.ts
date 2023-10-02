@@ -72,6 +72,7 @@ export const select = ({
 export const multiselect = ({
   id,
   label,
+  labelSlot,
   currentValues,
   options,
   helpText,
@@ -93,6 +94,7 @@ export const multiselect = ({
         hoist
         multiple
       >
+        ${labelSlot ?? nothing}
         <sl-icon slot="expand-icon"></sl-icon>
         ${options.map(o => multioption(o))}
       </sl-select>
