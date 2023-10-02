@@ -1,4 +1,4 @@
-import { html, css } from 'lit';
+import { html, css, nothing, HTMLTemplateResult } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import '@shoelace-style/shoelace/dist/themes/light.css';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
@@ -23,6 +23,7 @@ export interface SelectParam {
 export interface SLSelectParam {
   id: string;
   label?: string;
+  labelSlot?: HTMLTemplateResult;
   options: OptionParam[];
   helpText?: string;
   placeholder?: string;
