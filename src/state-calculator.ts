@@ -98,7 +98,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
   selectedProjectTab: Project | undefined;
 
   @property({ type: String })
-  selectedOtherTab: Project = 'battery';
+  selectedOtherTab: Project | undefined;
 
   /**
    * This is a hack to deal with a quirk of the UI.

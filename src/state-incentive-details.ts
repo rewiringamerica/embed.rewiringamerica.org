@@ -395,7 +395,7 @@ export const stateIncentivesTemplate = (
   selectedProjects: Project[],
   onOtherTabSelected: (newOtherSelection: Project) => void,
   onTabSelected: (newSelection: Project) => void,
-  selectedOtherTab: Project,
+  selectedOtherTab?: Project,
   selectedProjectTab?: Project,
 ) => {
   const allEligible = response.incentives.filter(i => i.eligible);
@@ -406,6 +406,11 @@ export const stateIncentivesTemplate = (
       allEligible.filter(i => info.items.includes(i.item.type)),
     ]),
   ) as Record<Project, Incentive[]>;
+
+  const nonSelectedProjects = Object.entries(PROJECTS)
+    .filter(([project, _]) => !selectedProjects.includes(project as Project))
+    .sort(([a], [b]) => shortLabel(a).localeCompare(shortLabel(b)))
+    .map(([project, _]) => project);
 
   // Only offer "other" tabs if there are incentives for that project.
   const otherTabs = (
@@ -418,8 +423,21 @@ export const stateIncentivesTemplate = (
     .sort(([a], [b]) => shortLabel(a).localeCompare(shortLabel(b)))
     .map(([project]) => project);
 
-  const projectTab = selectedProjectTab ?? selectedProjects[0];
+  const projectTab =
+    selectedProjectTab &&
+    selectedProjects.includes(selectedProjectTab as Project)
+      ? selectedProjectTab
+      : selectedProjects[0];
+  const otherTab =
+    selectedOtherTab &&
+    nonSelectedProjects.includes(selectedOtherTab as Project)
+      ? selectedOtherTab
+      : nonSelectedProjects[0];
+
   const selectedIncentives = incentivesByProject[projectTab] ?? [];
+  const selectedOtherIncentives =
+    incentivesByProject[otherTab as Project] ?? [];
+
   const otherIncentivesLabel =
     selectedIncentives.length == 0
       ? 'Incentives available to you'
@@ -430,15 +448,15 @@ export const stateIncentivesTemplate = (
     "Incentives you're interested in",
     selectedIncentives,
     selectedProjects,
-    selectedProjects.includes(projectTab) ? projectTab : selectedProjects[0],
+    projectTab,
     onTabSelected,
   )}
   ${gridTemplate(
     otherIncentivesLabel,
-    incentivesByProject[selectedOtherTab] ?? [],
+    selectedOtherIncentives,
     otherTabs,
     // If a nonexistent tab is selected, pretend the first one is selected.
-    otherTabs.includes(selectedOtherTab) ? selectedOtherTab : otherTabs[0],
+    otherTab as Project,
     onOtherTabSelected,
   )}
   ${authorityLogosTemplate(response)}`;
