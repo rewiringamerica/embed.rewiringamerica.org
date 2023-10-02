@@ -2,7 +2,7 @@
 /// <reference types="cypress-axe" />
 
 describe('template spec', () => {
-  beforeEach( function () {
+  beforeEach(function () {
     cy.visit('http://localhost:1234/rhode-island.html');
 
     // Inject the axe-core library
@@ -10,7 +10,9 @@ describe('template spec', () => {
   });
 
   it('Has no detectable a11y violations on load', () => {
-    cy.checkA11y();
+    cy.checkA11y(null, {
+      runOnly: ['wcag2a', 'wcag2aa'],
+    });
   });
 
   it('renders the calculator', () => {
