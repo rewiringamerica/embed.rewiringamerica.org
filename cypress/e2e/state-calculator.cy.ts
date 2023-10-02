@@ -12,7 +12,7 @@ describe('template spec', () => {
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .find('sl-select#projects')
-      .invoke('attr', 'value', 'battery');
+      .invoke('attr', 'value', 'hvac');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
