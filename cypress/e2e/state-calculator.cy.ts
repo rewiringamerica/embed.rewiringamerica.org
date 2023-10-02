@@ -11,6 +11,11 @@ describe('template spec', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
+      .find('sl-select#projects')
+      .select('battery');
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
       .find('input#zip')
       .type('02859{enter}');
 
