@@ -98,7 +98,7 @@ export const formTemplate = (
             hoist
             >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
           >
-        <label>
+        </label>
         ${multiselect({
           id: 'projects',
           required: true,
