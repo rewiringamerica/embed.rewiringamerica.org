@@ -378,7 +378,7 @@ const atAGlanceTemplate = (response: APIResponse) => {
         ${summaryBoxTemplate(
           'Upfront discounts',
           `$${response.savings.pos_rebate.toLocaleString()}`,
-          "Money saved on a project's upfront costs.",
+          'Money saved on a project’s upfront costs.',
         )}
         ${summaryBoxTemplate(
           'Rebates',
@@ -479,7 +479,7 @@ export const stateIncentivesTemplate = (
 
   return html` ${atAGlanceTemplate(response)}
   ${gridTemplate(
-    "Incentives you're interested in",
+    'Incentives you’re interested in',
     selectedIncentives,
     selectedProjects,
     projectTab,

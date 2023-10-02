@@ -47,7 +47,7 @@ describe('template spec', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains("Incentives you're interested in");
+      .contains('Incentives you’re interested in');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
