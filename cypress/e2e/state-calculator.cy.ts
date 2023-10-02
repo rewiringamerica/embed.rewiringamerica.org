@@ -21,7 +21,7 @@ describe('template spec', () => {
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .find('select#utility')
-      .should("exist");
+      .should('exist');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
@@ -49,6 +49,6 @@ describe('template spec', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains("Other incentives available to you");
+      .contains('Other incentives available to you');
   });
 });

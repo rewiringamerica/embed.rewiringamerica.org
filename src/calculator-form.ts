@@ -75,13 +75,7 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
 );
 
 export const formTemplate = (
-  [
-    zip, 
-    ownerStatus, 
-    householdIncome, 
-    taxFiling, 
-    householdSize,
-  ]: Array<string>,
+  [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
   projects: Array<string>,
   showProjectField: boolean,
   onSubmit: (e: SubmitEvent) => void,

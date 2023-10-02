@@ -145,12 +145,14 @@ export class RewiringAmericaStateCalculator extends LitElement {
 
   override async firstUpdated() {
     // Give the browser a chance to paint
-    await new Promise((r) => setTimeout(r, 0));
+    await new Promise(r => setTimeout(r, 0));
     const select = this.renderRoot.querySelector('sl-select');
-    const combobox = this.renderRoot.querySelector('sl-select')?.renderRoot.querySelector('div.select__combobox');
+    const combobox = this.renderRoot
+      .querySelector('sl-select')
+      ?.renderRoot.querySelector('div.select__combobox');
 
     select?.addEventListener('keydown', event => {
-      if (event.key === "Tab" && select.open) {
+      if (event.key === 'Tab' && select.open) {
         event.preventDefault();
         event.stopPropagation();
         select.hide();
@@ -159,7 +161,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     });
 
     combobox?.addEventListener('keydown', event => {
-      if (event.key === "Tab" && select?.open) {
+      if (event.key === 'Tab' && select?.open) {
         event.preventDefault();
         event.stopPropagation();
         select.hide();
