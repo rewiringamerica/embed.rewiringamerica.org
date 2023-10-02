@@ -1,5 +1,8 @@
 import { html, css } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import '@shoelace-style/shoelace/dist/themes/light.css';
+import '@shoelace-style/shoelace/dist/components/option/option.js';
+import '@shoelace-style/shoelace/dist/components/select/select.js';
 
 export interface OptionParam {
   label: string;
@@ -17,8 +20,26 @@ export interface SelectParam {
   disabled?: boolean;
 }
 
+export interface SLSelectParam {
+  id: string;
+  label?: string;
+  options: OptionParam[];
+  helpText?: string;
+  placeholder?: string;
+  placement?: string;
+  required?: boolean;
+}
+
+export interface MultiSelectParam extends SLSelectParam {
+  currentValues: string[];
+  maxOptionsVisible?: number;
+}
+
 export const option = ({ label, value }: OptionParam, selected: boolean) =>
   html` <option value="${value}" ?selected=${selected}>${label}</option> `;
+
+export const multioption = ({ label, value }: OptionParam) =>
+  html` <sl-option value="${value}">${label}</sl-option> `;
 
 export const select = ({
   id,
@@ -43,6 +64,38 @@ export const select = ({
       >
         ${options.map(o => option(o, o.value === currentValue))}
       </select>
+      <span class="focus"></span>
+    </div>
+  `;
+};
+
+export const multiselect = ({
+  id,
+  label,
+  currentValues,
+  options,
+  helpText,
+  placeholder,
+  maxOptionsVisible,
+  placement,
+}: MultiSelectParam) => {
+  return html`
+    <div>
+      <sl-select
+        id="${id}"
+        name="${id}"
+        label="${ifDefined(label)}"
+        value="${currentValues.join(' ')}"
+        help-text="${ifDefined(helpText)}"
+        placeholder="${ifDefined(placeholder)}"
+        max-options-visible="${ifDefined(maxOptionsVisible)}"
+        placement="${ifDefined(placement)}"
+        hoist
+        multiple
+      >
+        <sl-icon slot="expand-icon"></sl-icon>
+        ${options.map(o => multioption(o))}
+      </sl-select>
       <span class="focus"></span>
     </div>
   `;
@@ -173,5 +226,29 @@ export const selectStyles = css`
     cursor: not-allowed;
     background-color: #eee;
     background-image: linear-gradient(to top, #ddd, #eee 33%);
+  }
+
+  sl-select {
+    --sl-input-height-medium: 2.8215rem;
+
+    --sl-input-font-family: var(--ra-embed-font-family);
+
+    --sl-input-focus-ring-color: var(--select-focus);
+    --sl-input-focus-ring-style: solid;
+    --sl-focus-ring-width: 1px;
+
+    --sl-input-border-width: 1px;
+    --sl-input-border-color-focus: var(--select-focus);
+
+    margin-top: 4px;
+  }
+
+  sl-select::part(expand-icon) {
+    content: '';
+    justify-self: end;
+    width: 0.6em;
+    height: 0.4em;
+    background-color: var(--select-arrow);
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
   }
 `;

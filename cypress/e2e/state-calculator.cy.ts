@@ -11,6 +11,11 @@ describe('template spec', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
+      .find('sl-select#projects')
+      .invoke('attr', 'value', 'hvac');
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
       .find('input#zip')
       .type('02859{enter}');
 
@@ -21,7 +26,7 @@ describe('template spec', () => {
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .find('select#utility')
-      .should("exist");
+      .should('exist');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
@@ -49,6 +54,6 @@ describe('template spec', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains("Other incentives available to you");
+      .contains('Other incentives available to you');
   });
 });

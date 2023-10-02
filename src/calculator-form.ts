@@ -1,6 +1,6 @@
 import { html, css, nothing } from 'lit';
 import { downIcon, questionIcon } from './icons';
-import { select, selectStyles, OptionParam } from './select';
+import { select, multiselect, selectStyles, OptionParam } from './select';
 import { inputStyles } from './styles/input';
 import './currency-input';
 import '@shoelace-style/shoelace/dist/themes/light.css';
@@ -75,35 +75,30 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
 );
 
 export const formTemplate = (
-  [
-    project,
-    zip,
-    ownerStatus,
-    householdIncome,
-    taxFiling,
-    householdSize,
-  ]: Array<string>,
+  [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
+  projects: Array<string>,
   showProjectField: boolean,
   onSubmit: (e: SubmitEvent) => void,
   gridClass: string = 'grid-3-2',
 ) => {
   const projectField = showProjectField
     ? html`<div>
-        <label for="project">
-          Project you're most interested in
+        <label for="projects">
+          Projects you're most interested in
           <sl-tooltip
-            content="Select the project you're most interested in."
+            content="Select the projects you're most interested in."
             hoist
             >${questionIcon(18, 18)}</sl-tooltip
           ><br />
-          ${select({
-            id: 'project',
-            required: true,
+          ${multiselect({
+            id: 'projects',
             options: Object.entries(PROJECTS)
               .map(([value, data]) => ({ value, label: data.label }))
               .sort((a, b) => a.label.localeCompare(b.label)),
-            currentValue: project,
-            tabIndex: 0,
+            currentValues: projects,
+            placeholder: 'None selected',
+            maxOptionsVisible: 1,
+            placement: 'top',
           })}
         </label>
       </div> `

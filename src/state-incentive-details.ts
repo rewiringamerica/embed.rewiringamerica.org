@@ -369,7 +369,7 @@ const gridTemplate = (
   selectedTab: Project,
   onTabSelected: (newSelection: Project) => void,
 ) =>
-  incentives.length > 0
+  tabs.length > 0 && incentives.length > 0
     ? html`
         <div class="grid-section">
           <h2 class="grid-section__header">${heading}</h2>
@@ -392,9 +392,11 @@ const gridTemplate = (
  */
 export const stateIncentivesTemplate = (
   response: APIResponse,
-  selectedProject: Project,
-  selectedOtherTab: Project,
+  selectedProjects: Project[],
+  onOtherTabSelected: (newOtherSelection: Project) => void,
   onTabSelected: (newSelection: Project) => void,
+  selectedOtherTab?: Project,
+  selectedProjectTab?: Project,
 ) => {
   const allEligible = response.incentives.filter(i => i.eligible);
 
@@ -405,32 +407,57 @@ export const stateIncentivesTemplate = (
     ]),
   ) as Record<Project, Incentive[]>;
 
+  const nonSelectedProjects = Object.entries(PROJECTS)
+    .filter(([project, _]) => !selectedProjects.includes(project as Project))
+    .sort(([a], [b]) => shortLabel(a).localeCompare(shortLabel(b)))
+    .map(([project, _]) => project);
+
   // Only offer "other" tabs if there are incentives for that project.
   const otherTabs = (
     Object.entries(incentivesByProject) as [Project, Incentive[]][]
   )
     .filter(
       ([project, incentives]) =>
-        project !== selectedProject && incentives.length > 0,
+        !selectedProjects.includes(project) && incentives.length > 0,
     )
     .sort(([a], [b]) => shortLabel(a).localeCompare(shortLabel(b)))
     .map(([project]) => project);
 
+  const projectTab =
+    selectedProjectTab &&
+    selectedProjects.includes(selectedProjectTab as Project)
+      ? selectedProjectTab
+      : selectedProjects[0];
+  const otherTab =
+    selectedOtherTab &&
+    nonSelectedProjects.includes(selectedOtherTab as Project)
+      ? selectedOtherTab
+      : nonSelectedProjects[0];
+
+  const selectedIncentives = incentivesByProject[projectTab] ?? [];
+  const selectedOtherIncentives =
+    incentivesByProject[otherTab as Project] ?? [];
+
+  const otherIncentivesLabel =
+    selectedIncentives.length == 0
+      ? 'Incentives available to you'
+      : 'Other incentives available to you';
+
   return html` ${atAGlanceTemplate(response)}
   ${gridTemplate(
     "Incentives you're interested in",
-    incentivesByProject[selectedProject] ?? [],
-    [selectedProject],
-    selectedProject,
-    () => {},
+    selectedIncentives,
+    selectedProjects,
+    projectTab,
+    onTabSelected,
   )}
   ${gridTemplate(
-    'Other incentives available to you',
-    incentivesByProject[selectedOtherTab] ?? [],
+    otherIncentivesLabel,
+    selectedOtherIncentives,
     otherTabs,
     // If a nonexistent tab is selected, pretend the first one is selected.
-    otherTabs.includes(selectedOtherTab) ? selectedOtherTab : otherTabs[0],
-    onTabSelected,
+    otherTab as Project,
+    onOtherTabSelected,
   )}
   ${authorityLogosTemplate(response)}`;
 };

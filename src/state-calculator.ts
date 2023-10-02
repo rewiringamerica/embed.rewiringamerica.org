@@ -91,11 +91,14 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: String })
   utility: string = '';
 
-  @property({ type: String })
-  selectedProject: Project = 'hvac';
+  @property({ type: Array })
+  projects: Project[] = [];
 
   @property({ type: String })
-  selectedOtherTab: Project = 'heat_pump_clothes_dryer';
+  selectedProjectTab: Project | undefined;
+
+  @property({ type: String })
+  selectedOtherTab: Project | undefined;
 
   /**
    * This is a hack to deal with a quirk of the UI.
@@ -124,7 +127,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     this.householdIncome = (formData.get('household_income') as string) || '';
     this.taxFiling = (formData.get('tax_filing') as FilingStatus) || '';
     this.householdSize = (formData.get('household_size') as string) || '';
-    this.selectedProject = (formData.get('project') as Project) || '';
+    this.projects = (formData.getAll('projects') as Project[]) || '';
 
     // Zip is the only thing that determines what utilities are available, so
     // only fetch utilities if zip has changed since last calculation, or if
@@ -140,6 +143,33 @@ export class RewiringAmericaStateCalculator extends LitElement {
     }
   }
 
+  override async firstUpdated() {
+    // Give the browser a chance to paint
+    await new Promise(r => setTimeout(r, 0));
+    const select = this.renderRoot.querySelector('sl-select');
+    const combobox = this.renderRoot
+      .querySelector('sl-select')
+      ?.renderRoot.querySelector('div.select__combobox');
+
+    select?.addEventListener('keydown', event => {
+      if (event.key === 'Tab' && select.open) {
+        event.preventDefault();
+        event.stopPropagation();
+        select.hide();
+        select.displayInput.focus({ preventScroll: true });
+      }
+    });
+
+    combobox?.addEventListener('keydown', event => {
+      if (event.key === 'Tab' && select?.open) {
+        event.preventDefault();
+        event.stopPropagation();
+        select.hide();
+        select.displayInput.focus({ preventScroll: true });
+      }
+    });
+  }
+
   isFormComplete() {
     return !!(
       this.zip &&
@@ -147,7 +177,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this.taxFiling &&
       this.householdIncome &&
       this.householdSize &&
-      this.selectedProject
+      this.projects
     );
   }
 
@@ -253,13 +283,13 @@ export class RewiringAmericaStateCalculator extends LitElement {
             ? nothing
             : formTemplate(
                 [
-                  this.selectedProject,
                   this.zip,
                   this.ownerStatus,
                   this.householdIncome,
                   this.taxFiling,
                   this.householdSize,
                 ],
+                this.projects,
                 true,
                 (event: SubmitEvent) => this.submit(event),
                 'grid-3-2-1',
@@ -292,9 +322,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
               html`<div class="separator"></div>`,
               stateIncentivesTemplate(
                 this._task.value!,
-                this.selectedProject,
+                this.projects,
+                newOtherSelection =>
+                  (this.selectedOtherTab = newOtherSelection),
+                newSelection => (this.selectedProjectTab = newSelection),
                 this.selectedOtherTab,
-                newSelection => (this.selectedOtherTab = newSelection),
+                this.selectedProjectTab,
               ),
             ]
           : nothing}
