@@ -14,7 +14,7 @@
     "serve:widget": "parcel serve ./src/*.html --dist-dir build",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "lint": "prettier --check . && eslint .",
+    "lint": "tsc --noEmit && prettier --check . && eslint .",
     "prepare": "husky install"
   },
   "browserslist": {

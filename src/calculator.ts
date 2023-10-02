@@ -12,7 +12,6 @@ import {
 } from './calculator-types';
 import { CALCULATOR_FOOTER } from './calculator-footer';
 import { fetchApi } from './api/fetch';
-import { NO_PROJECT } from './projects';
 import { downIcon } from './icons';
 
 const loadedTemplate = (
@@ -126,7 +125,7 @@ export class RewiringAmericaCalculator extends LitElement {
         tax_filing,
         household_size,
       });
-      return await fetchApi(
+      return await fetchApi<ICalculatedIncentiveResults>(
         this.apiKey,
         this.apiHost,
         '/api/v0/calculator',

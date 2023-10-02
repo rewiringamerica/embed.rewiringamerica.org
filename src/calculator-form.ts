@@ -1,5 +1,5 @@
 import { html, css, nothing, TemplateResult } from 'lit';
-import { downIcon, questionIcon } from './icons';
+import { questionIcon } from './icons';
 import { select, multiselect, selectStyles, OptionParam } from './select';
 import { inputStyles } from './styles/input';
 import './currency-input';
