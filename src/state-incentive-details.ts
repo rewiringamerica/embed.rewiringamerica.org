@@ -446,7 +446,7 @@ export const stateIncentivesTemplate = (
   ) as Record<Project, Incentive[]>;
 
   const nonSelectedProjects = (Object.keys(PROJECTS) as Project[])
-    .filter(project => !selectedProjects.includes(project as Project))
+    .filter(project => !selectedProjects.includes(project))
     .sort((a, b) => shortLabel(a).localeCompare(shortLabel(b)));
 
   // Only offer "other" tabs if there are incentives for that project.
@@ -461,19 +461,16 @@ export const stateIncentivesTemplate = (
     .map(([project]) => project);
 
   const projectTab =
-    selectedProjectTab &&
-    selectedProjects.includes(selectedProjectTab as Project)
+    selectedProjectTab && selectedProjects.includes(selectedProjectTab)
       ? selectedProjectTab
       : selectedProjects[0];
   const otherTab =
-    selectedOtherTab &&
-    nonSelectedProjects.includes(selectedOtherTab as Project)
+    selectedOtherTab && nonSelectedProjects.includes(selectedOtherTab)
       ? selectedOtherTab
       : nonSelectedProjects[0];
 
   const selectedIncentives = incentivesByProject[projectTab] ?? [];
-  const selectedOtherIncentives =
-    incentivesByProject[otherTab as Project] ?? [];
+  const selectedOtherIncentives = incentivesByProject[otherTab] ?? [];
 
   const otherIncentivesLabel =
     selectedIncentives.length === 0
@@ -493,7 +490,7 @@ export const stateIncentivesTemplate = (
     selectedOtherIncentives,
     otherTabs,
     // If a nonexistent tab is selected, pretend the first one is selected.
-    otherTab as Project,
+    otherTab,
     onOtherTabSelected,
   )}
   ${authorityLogosTemplate(response)}`;
