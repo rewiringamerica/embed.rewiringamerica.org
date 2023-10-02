@@ -235,12 +235,12 @@ export const selectStyles = css`
 
     --sl-input-font-family: var(--ra-embed-font-family);
 
-    --sl-input-focus-ring-color: var(--select-focus);
+    --sl-input-focus-ring-color: var(--ra-select-focus-color);
     --sl-input-focus-ring-style: solid;
     --sl-focus-ring-width: 1px;
 
     --sl-input-border-width: 1px;
-    --sl-input-border-color-focus: var(--select-focus);
+    --sl-input-border-color-focus: var(--ra-select-focus-color);
 
     margin-top: 4px;
   }
@@ -250,7 +250,7 @@ export const selectStyles = css`
     justify-self: end;
     width: 0.6em;
     height: 0.4em;
-    background-color: var(--select-arrow);
+    background-color: var(--ra-select-arrow-color);
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
   }
 `;
