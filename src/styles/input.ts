@@ -16,4 +16,8 @@ export const inputStyles = css`
     box-shadow: 0 0 0 2px var(--ra-input-focus-color) inset;
     outline: none;
   }
+
+  input[inputmode='numeric'] {
+    font-variant-numeric: tabular-nums;
+  }
 `;
