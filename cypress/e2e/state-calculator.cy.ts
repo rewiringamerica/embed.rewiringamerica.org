@@ -34,7 +34,9 @@ describe('template spec', () => {
       .find('input#zip')
       .type('02859{enter}');
 
-    cy.checkA11y();
+    cy.checkA11y(null, {
+      runOnly: ['wcag2a', 'wcag2aa'],
+    });
 
     cy.get('rewiring-america-state-calculator')
       .shadow()

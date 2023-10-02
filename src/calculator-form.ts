@@ -89,18 +89,18 @@ export const formTemplate = (
   onSubmit: (e: SubmitEvent) => void,
   gridClass: string = 'grid-3-2',
 ) => {
+  const labelSlot = html`<label slot="label">
+    Projects you're most interested in
+    <sl-tooltip content="Select the projects you're most interested in." hoist
+      >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
+    ></label
+  >`;
+
   const projectField = showProjectField
     ? html`<div>
-        <label for="projects">
-          Projects you're most interested in
-          <sl-tooltip
-            content="Select the projects you're most interested in."
-            hoist
-            >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-          >
-        </label>
         ${multiselect({
           id: 'projects',
+          labelSlot,
           required: true,
           options: Object.entries(PROJECTS)
             .map(([value, data]) => ({ value, label: data.label }))
