@@ -22,6 +22,7 @@ import { iconTabBarStyles } from './icon-tab-bar';
 import '@shoelace-style/shoelace/dist/components/spinner/spinner';
 import { STATES } from './states';
 import { authorityLogosStyles } from './authority-logos';
+import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -70,17 +71,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: String, attribute: 'api-host' })
   apiHost: string = DEFAULT_CALCULATOR_API_HOST;
 
-  /**
-   * Property to customize the calculator for a particular state. Must be the
-   * two-letter code, uppercase (example: "NY").
-   *
-   * Currently the only customization is to display the name of the state.
-   * TODO: Have a nice error message if you enter a zip/address outside this
-   * state, if it's defined.
-   */
-  @property({ type: String, attribute: 'state' })
-  state: string = '';
-
   /* supported properties to allow pre-filling the form */
 
   @property({ type: String, attribute: 'zip' })
@@ -109,6 +99,24 @@ export class RewiringAmericaStateCalculator extends LitElement {
 
   @property({ type: String })
   selectedOtherTab: Project = 'battery';
+
+  /**
+   * This is a hack to deal with a quirk of the UI.
+   *
+   * Specifically:
+   *
+   * - Rendering the utility selector / map outline requires knowing what state
+   *   the user is in, to know which outline to show.
+   * - That state is unknown until the /calculator response is available.
+   * - When the user changes the utility selector, the /calculator response is
+   *   unavailable while it's loading. But we want to continue showing the
+   *   utility selector / map outline.
+   *
+   * This property thus temporarily remembers the state from the last completed
+   * /calculator response, when the utility selector is changed. It's cleared
+   * when the /calculator response arrives.
+   */
+  tempState: string | null = null;
 
   submit(e: SubmitEvent) {
     e.preventDefault();
@@ -177,22 +185,33 @@ export class RewiringAmericaStateCalculator extends LitElement {
       const query = new URLSearchParams({
         'location[zip]': this.zip,
       });
-      const utilityMap = await fetchApi(
-        this.apiKey,
-        this.apiHost,
-        '/api/v1/utilities',
-        query,
-      );
 
-      return Object.keys(utilityMap).map(id => ({
-        value: id,
-        label: utilityMap[id].name,
-      }));
+      try {
+        const utilityMap = await fetchApi<APIUtilitiesResponse>(
+          this.apiKey,
+          this.apiHost,
+          '/api/v1/utilities',
+          query,
+        );
+
+        return Object.keys(utilityMap).map(id => ({
+          value: id,
+          label: utilityMap[id].name,
+        }));
+      } catch (_) {
+        // Just use an empty utilities list if there's an error.
+        return [];
+      }
     },
     onComplete: options => {
-      // Preserve the previous utility selection if it's still available.
-      if (!options.map(o => o.value).includes(this.utility)) {
-        this.utility = options[0].value;
+      if (options.length === 0) {
+        this.utility = '';
+      } else {
+        // Preserve the previous utility selection if it's still available.
+        // Select the first option in the list otherwise.
+        if (!options.map(o => o.value).includes(this.utility)) {
+          this.utility = options[0].value;
+        }
       }
       this._task.run();
     },
@@ -213,21 +232,47 @@ export class RewiringAmericaStateCalculator extends LitElement {
         tax_filing: this.taxFiling,
         household_size: this.householdSize,
       });
-      query.append('authority_types', 'federal');
-      query.append('authority_types', 'state');
-      query.append('authority_types', 'utility');
-      query.set('utility', this.utility);
+      if (this.utility) {
+        query.set('utility', this.utility);
+      }
 
-      return await fetchApi(
+      return fetchApi<APIResponse>(
         this.apiKey,
         this.apiHost,
         '/api/v1/calculator',
         query,
       );
     },
+    onComplete: () => {
+      this.tempState = null;
+    },
   });
 
   override render() {
+    // If we have incentives loaded, use coverage.state from that to determine
+    // which state outline to show. Otherwise, look at the "tempState" override,
+    // which is set when the utility selector is changed.
+    const highlightedState =
+      this._task.status === TaskStatus.COMPLETE
+        ? this._task.value?.coverage.state
+        : this.tempState;
+
+    // Show the following elements below the form:
+    //
+    // - The utility selector/map, if we know what state the user's ZIP is
+    //   located in, we have an outline map of that state, and the options for
+    //   utilities are finished loading.
+    //
+    // - The incentive results with a separator line above, if both the
+    //   incentives and utilities are finished loading.
+    //
+    // - The loading spinner, if either utilities or incentives are still
+    //   loading.
+
+    const showLoading =
+      this._utilitiesTask.status === TaskStatus.PENDING ||
+      this._task.status === TaskStatus.PENDING;
+
     return html`
       <div class="calculator">
         <div class="card card-content">
@@ -248,40 +293,46 @@ export class RewiringAmericaStateCalculator extends LitElement {
                 'grid-3-2-1',
               )}
         </div>
-        ${this._utilitiesTask.render({
-          pending: loadingTemplate,
-          complete: options =>
-            utilitySelectorTemplate(
-              STATES[this.state],
-              this.utility,
-              options,
-              newUtility => {
-                this.utility = newUtility;
-                this._task.run();
-              },
-            ),
-          error: errorTemplate,
-        })}
-        ${this._task.status !== TaskStatus.INITIAL &&
-        this._utilitiesTask.status === TaskStatus.COMPLETE
-          ? html`<div class="separator"></div>`
+        ${
+          // This is defensive against the possibility that the backend and
+          // frontend have support for different sets of states. (Backend support
+          // means knowing utilities and incentives for a state; frontend support
+          // means having an outline map and name for a state.)
+          this._utilitiesTask.status === TaskStatus.COMPLETE &&
+          this._utilitiesTask.value!.length > 0 &&
+          highlightedState &&
+          highlightedState in STATES
+            ? utilitySelectorTemplate(
+                STATES[highlightedState],
+                this.utility,
+                this._utilitiesTask.value!,
+                newUtility => {
+                  this.utility = newUtility;
+                  this.tempState = highlightedState;
+                  this._task.run();
+                },
+              )
+            : nothing
+        }
+        ${this._utilitiesTask.status === TaskStatus.COMPLETE &&
+        this._task.status === TaskStatus.COMPLETE
+          ? [
+              html`<div class="separator"></div>`,
+              stateIncentivesTemplate(
+                this._task.value!,
+                this.projects,
+                newOtherSelection =>
+                  (this.selectedOtherTab = newOtherSelection),
+                newSelection => (this.selectedProjectTab = newSelection),
+                this.selectedOtherTab,
+                this.selectedProjectTab,
+              ),
+            ]
           : nothing}
-        ${this._task.render({
-          pending: loadingTemplate,
-          complete: results =>
-            this._utilitiesTask.status !== TaskStatus.COMPLETE
-              ? nothing
-              : stateIncentivesTemplate(
-                  results,
-                  this.projects,
-                  newOtherSelection =>
-                    (this.selectedOtherTab = newOtherSelection),
-                  newSelection => (this.selectedProjectTab = newSelection),
-                  this.selectedOtherTab,
-                  this.selectedProjectTab,
-                ),
-          error: errorTemplate,
-        })}
+        ${showLoading ? loadingTemplate() : nothing}
+        ${this._task.status === TaskStatus.ERROR && !showLoading
+          ? errorTemplate(this._task.error)
+          : nothing}
         ${CALCULATOR_FOOTER}
       </div>
     `;

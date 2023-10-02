@@ -2,12 +2,12 @@
  * Fetches a response from the Incentives API. Handles turning an error response
  * into an exception with a useful message.
  */
-export async function fetchApi(
+export async function fetchApi<R>(
   apiKey: string,
   apiHost: string,
   path: string,
   query: URLSearchParams,
-) {
+): Promise<R> {
   const url = new URL(apiHost);
   url.pathname = path;
   url.search = query.toString();

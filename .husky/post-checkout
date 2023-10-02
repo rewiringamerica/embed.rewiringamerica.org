@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+CHANGED=$(git diff "$1" "$2" --stat -- ./yarn.lock | wc -l)
+if (( CHANGED > 0 )); then
+    echo "📦 yarn.lock changed. Run yarn install to bring your dependencies up to date."
+fi
