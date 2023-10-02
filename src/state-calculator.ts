@@ -275,6 +275,8 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this._utilitiesTask.status === TaskStatus.PENDING ||
       this._task.status === TaskStatus.PENDING;
 
+    const calculateButtonContent = html`Calculate`;
+
     return html`
       <div class="calculator">
         <div class="card card-content">
@@ -290,7 +292,11 @@ export class RewiringAmericaStateCalculator extends LitElement {
                   this.householdSize,
                 ],
                 this.projects,
-                true,
+                {
+                  showProjectField: true,
+                  tooltipSize: 13,
+                  calculateButtonContent,
+                },
                 (event: SubmitEvent) => this.submit(event),
                 'grid-3-2-1',
               )}

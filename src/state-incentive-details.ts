@@ -6,6 +6,37 @@ import { iconTabBarTemplate } from './icon-tab-bar';
 import { authorityLogosTemplate } from './authority-logos';
 
 export const stateIncentivesStyles = css`
+  /* for now, override these variables just for the state calculator */
+  :host {
+    /* cards */
+    --ra-embed-card-border: none;
+    --ra-embed-card-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+    --ra-embed-card-border-radius: 0.75rem;
+    /* labels */
+    --ra-form-label-font-size: 11px;
+    --ra-form-label-line-height: 20px;
+    --ra-form-label-font-weight: 700;
+    --ra-form-label-font-style: normal;
+    --ra-form-label-margin: 0 0 8px 0;
+    --ra-form-label-text-transform: uppercase;
+    --ra-form-label-letter-spacing: 0.55px;
+    /* button */
+    --ra-embed-primary-button-background-color: var(--rewiring-purple);
+    --ra-embed-primary-button-background-hover-color: var(
+      --rewiring-purple-darker
+    );
+    --ra-embed-primary-button-text-color: white;
+    /* select */
+    --ra-select-border: 1px solid #e2e2e2;
+    --ra-select-focus-color: var(--rewiring-purple);
+    --ra-select-background-image: none;
+    --ra-select-margin: 0;
+    /* input */
+    --ra-input-border: 1px solid #e2e2e2;
+    --ra-input-focus-color: var(--rewiring-purple);
+    --ra-input-margin: 0;
+  }
+
   .loading {
     text-align: center;
     font-size: 2rem;
@@ -180,8 +211,8 @@ export const cardStyles = css`
     margin: 0;
 
     border: var(--ra-embed-card-border);
-    border-radius: 0.5rem;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+    border-radius: var(--ra-embed-card-border-radius);
+    box-shadow: var(--ra-embed-card-shadow);
     background-color: var(--ra-embed-card-background);
     overflow: clip;
   }
@@ -195,10 +226,17 @@ export const cardStyles = css`
   }
 
   .card-content {
-    padding: 1rem;
+    padding: 1.5rem;
     display: grid;
     grid-template-rows: min-content;
     gap: 1rem;
+  }
+
+  /* Extra small devices */
+  @media only screen and (max-width: 640px) {
+    .card-content {
+      padding: 1rem;
+    }
   }
 `;
 

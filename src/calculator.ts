@@ -12,6 +12,8 @@ import {
 } from './calculator-types';
 import { CALCULATOR_FOOTER } from './calculator-footer';
 import { fetchApi } from './api/fetch';
+import { NO_PROJECT } from './projects';
+import { downIcon } from './icons';
 
 const loadedTemplate = (
   results: ICalculatedIncentiveResults,
@@ -142,6 +144,8 @@ export class RewiringAmericaCalculator extends LitElement {
   });
 
   override render() {
+    const calculateButtonContent = html`Calculate! ${downIcon(18, 18)}`;
+
     return html`
       <div class="calculator">
         <div class="card card-content">
@@ -157,7 +161,11 @@ export class RewiringAmericaCalculator extends LitElement {
                   this.householdSize,
                 ],
                 [],
-                false,
+                {
+                  tooltipSize: 18,
+                  showProjectField: false,
+                  calculateButtonContent,
+                },
                 (event: SubmitEvent) => this.submit(event),
               )}
         </div>
