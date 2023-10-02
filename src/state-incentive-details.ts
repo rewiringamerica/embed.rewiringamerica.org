@@ -70,7 +70,7 @@ export const stateIncentivesStyles = css`
   .incentive__chip--warning {
     background-color: #fef2ca;
     padding: 0.1875rem 0.625rem 0.1875rem 0.1875rem;
-    color: #846f24;
+    color: #806c23; // spec is #846f24 but this was not WCAG 2.1 AA compliant
   }
 
   .incentive__subtitle {

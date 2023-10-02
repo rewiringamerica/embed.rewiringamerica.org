@@ -10,9 +10,11 @@ describe('template spec', () => {
   });
 
   it('Has no detectable a11y violations on load', () => {
-    cy.checkA11y(null, {
-      runOnly: ['wcag2a', 'wcag2aa'],
-    });
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .checkA11y(null, {
+        runOnly: ['wcag2a', 'wcag2aa'],
+      });
   });
 
   it('renders the calculator', () => {
@@ -33,10 +35,6 @@ describe('template spec', () => {
       .shadow()
       .find('input#zip')
       .type('02859{enter}');
-
-    cy.checkA11y(null, {
-      runOnly: ['wcag2a', 'wcag2aa'],
-    });
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
@@ -74,5 +72,15 @@ describe('template spec', () => {
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .contains('Other incentives available to you');
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .contains('Incentive data brought to you by');
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .checkA11y(null, {
+        runOnly: ['wcag2a', 'wcag2aa'],
+      });
   });
 });
