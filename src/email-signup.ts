@@ -16,7 +16,9 @@ export async function submitEmailSignup(
 ): Promise<boolean> {
   try {
     localStorage.setItem(LOCAL_STORAGE_KEY, 'true');
-  } catch (_) {}
+  } catch (_) {
+    // Ignore; proceed with submitting
+  }
 
   try {
     const url = new URL(apiHost);

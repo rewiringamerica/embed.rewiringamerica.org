@@ -141,6 +141,7 @@ export const formTemplate = (
           placeholder="you@example.com"
           name="email"
           type="email"
+          autocomplete="email"
         />
       </div>`
     : nothing;
