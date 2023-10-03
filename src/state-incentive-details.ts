@@ -6,6 +6,37 @@ import { iconTabBarTemplate } from './icon-tab-bar';
 import { authorityLogosTemplate } from './authority-logos';
 
 export const stateIncentivesStyles = css`
+  /* for now, override these variables just for the state calculator */
+  :host {
+    /* cards */
+    --ra-embed-card-border: none;
+    --ra-embed-card-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+    --ra-embed-card-border-radius: 0.75rem;
+    /* labels */
+    --ra-form-label-font-size: 11px;
+    --ra-form-label-line-height: 20px;
+    --ra-form-label-font-weight: 700;
+    --ra-form-label-font-style: normal;
+    --ra-form-label-margin: 0 0 8px 0;
+    --ra-form-label-text-transform: uppercase;
+    --ra-form-label-letter-spacing: 0.55px;
+    /* button */
+    --ra-embed-primary-button-background-color: var(--rewiring-purple);
+    --ra-embed-primary-button-background-hover-color: var(
+      --rewiring-purple-darker
+    );
+    --ra-embed-primary-button-text-color: white;
+    /* select */
+    --ra-select-border: 1px solid #e2e2e2;
+    --ra-select-focus-color: var(--rewiring-purple);
+    --ra-select-background-image: none;
+    --ra-select-margin: 0;
+    /* input */
+    --ra-input-border: 1px solid #e2e2e2;
+    --ra-input-focus-color: var(--rewiring-purple);
+    --ra-input-margin: 0;
+  }
+
   .loading {
     text-align: center;
     font-size: 2rem;
@@ -39,7 +70,7 @@ export const stateIncentivesStyles = css`
   .incentive__chip--warning {
     background-color: #fef2ca;
     padding: 0.1875rem 0.625rem 0.1875rem 0.1875rem;
-    color: #846f24;
+    color: #806c23; // spec is #846f24 but this was not WCAG 2.1 AA compliant
   }
 
   .incentive__subtitle {
@@ -83,18 +114,21 @@ export const stateIncentivesStyles = css`
     white-space: nowrap;
   }
 
+  .grid-2-2-1,
   .grid-3-2-1,
   .grid-4-2-1 {
     display: grid;
     gap: 1rem;
     align-items: end;
   }
+  .grid-2-2-1--align-start,
   .grid-3-2-1--align-start,
   .grid-4-2-1--align-start {
     align-items: start;
   }
 
   @media only screen and (max-width: 640px) {
+    .grid-2-2-1,
     .grid-3-2-1,
     .grid-4-2-1 {
       grid-template-columns: 1fr;
@@ -102,6 +136,7 @@ export const stateIncentivesStyles = css`
   }
 
   @media only screen and (min-width: 641px) and (max-width: 768px) {
+    .grid-2-2-1,
     .grid-3-2-1,
     .grid-4-2-1 {
       grid-template-columns: 1fr 1fr;
@@ -109,6 +144,9 @@ export const stateIncentivesStyles = css`
   }
 
   @media only screen and (min-width: 769px) {
+    .grid-2-2-1 {
+      grid-template-columns: 1fr 1fr;
+    }
     .grid-3-2-1 {
       grid-template-columns: 1fr 1fr 1fr;
     }
@@ -180,8 +218,8 @@ export const cardStyles = css`
     margin: 0;
 
     border: var(--ra-embed-card-border);
-    border-radius: 0.5rem;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
+    border-radius: var(--ra-embed-card-border-radius);
+    box-shadow: var(--ra-embed-card-shadow);
     background-color: var(--ra-embed-card-background);
     overflow: clip;
   }
@@ -195,10 +233,17 @@ export const cardStyles = css`
   }
 
   .card-content {
-    padding: 1rem;
+    padding: 1.5rem;
     display: grid;
     grid-template-rows: min-content;
     gap: 1rem;
+  }
+
+  /* Extra small devices */
+  @media only screen and (max-width: 640px) {
+    .card-content {
+      padding: 1rem;
+    }
   }
 `;
 
@@ -340,7 +385,7 @@ const atAGlanceTemplate = (response: APIResponse) => {
         ${summaryBoxTemplate(
           'Upfront discounts',
           `$${response.savings.pos_rebate.toLocaleString()}`,
-          "Money saved on a project's upfront costs.",
+          'Money saved on a project’s upfront costs.',
         )}
         ${summaryBoxTemplate(
           'Rebates',
@@ -395,7 +440,7 @@ export const stateIncentivesTemplate = (
   selectedProjects: Project[],
   onOtherTabSelected: (newOtherSelection: Project) => void,
   onTabSelected: (newSelection: Project) => void,
-  selectedOtherTab: Project,
+  selectedOtherTab?: Project,
   selectedProjectTab?: Project,
 ) => {
   const allEligible = response.incentives.filter(i => i.eligible);
@@ -406,6 +451,10 @@ export const stateIncentivesTemplate = (
       allEligible.filter(i => info.items.includes(i.item.type)),
     ]),
   ) as Record<Project, Incentive[]>;
+
+  const nonSelectedProjects = (Object.keys(PROJECTS) as Project[])
+    .filter(project => !selectedProjects.includes(project))
+    .sort((a, b) => shortLabel(a).localeCompare(shortLabel(b)));
 
   // Only offer "other" tabs if there are incentives for that project.
   const otherTabs = (
@@ -418,27 +467,38 @@ export const stateIncentivesTemplate = (
     .sort(([a], [b]) => shortLabel(a).localeCompare(shortLabel(b)))
     .map(([project]) => project);
 
-  const projectTab = selectedProjectTab ?? selectedProjects[0];
+  const projectTab =
+    selectedProjectTab && selectedProjects.includes(selectedProjectTab)
+      ? selectedProjectTab
+      : selectedProjects[0];
+  const otherTab =
+    selectedOtherTab && nonSelectedProjects.includes(selectedOtherTab)
+      ? selectedOtherTab
+      : nonSelectedProjects[0];
+
   const selectedIncentives = incentivesByProject[projectTab] ?? [];
+  const selectedOtherIncentives = incentivesByProject[otherTab] ?? [];
+
   const otherIncentivesLabel =
-    selectedIncentives.length == 0
+    selectedIncentives.length === 0
       ? 'Incentives available to you'
       : 'Other incentives available to you';
 
   return html` ${atAGlanceTemplate(response)}
   ${gridTemplate(
-    "Incentives you're interested in",
+    'Incentives you’re interested in',
     selectedIncentives,
     selectedProjects,
-    selectedProjects.includes(projectTab) ? projectTab : selectedProjects[0],
+    projectTab,
     onTabSelected,
   )}
   ${gridTemplate(
     otherIncentivesLabel,
-    incentivesByProject[selectedOtherTab] ?? [],
+    selectedOtherIncentives,
     otherTabs,
     // If a nonexistent tab is selected, pretend the first one is selected.
-    otherTabs.includes(selectedOtherTab) ? selectedOtherTab : otherTabs[0],
+    otherTab,
     onOtherTabSelected,
-  )}`;
+  )}
+  ${authorityLogosTemplate(response)}`;
 };

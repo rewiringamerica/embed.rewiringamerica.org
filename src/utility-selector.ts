@@ -87,18 +87,16 @@ const utilityFormTemplate = (
           >
             ${questionIcon(18, 18)}
           </sl-tooltip>
-          <br />
-          ${select({
-            id: 'utility',
-            required: true,
-            disabled: utilityOptions.length < 2,
-            options: utilityOptions,
-            currentValue: utilityId,
-            tabIndex: 0,
-            onChange: event =>
-              onChange((event.target as HTMLInputElement).value),
-          })}
         </label>
+        ${select({
+          id: 'utility',
+          required: true,
+          disabled: utilityOptions.length < 2,
+          options: utilityOptions,
+          currentValue: utilityId,
+          tabIndex: 0,
+          onChange: event => onChange((event.target as HTMLInputElement).value),
+        })}
       </div>
     </form>
   `;

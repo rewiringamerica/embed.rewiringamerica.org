@@ -6,6 +6,7 @@ export const baseStyles = css`
     --rewiring-yellow: rgb(249, 214, 91);
     --rewiring-yellow-darker: rgb(242, 199, 46);
     --rewiring-purple: rgb(74, 0, 195);
+    --rewiring-purple-darker: rgb(56, 8, 151);
     --rewiring-light-purple: rgb(241, 237, 249);
   }
 
@@ -51,6 +52,31 @@ export const baseStyles = css`
     --ra-tooltip-border: var(--ra-embed-card-border);
     --ra-tooltip-box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px -3px,
       rgba(0, 0, 0, 0.14) 0px 8px 10px 1px, rgba(0, 0, 0, 0.12) 0px 3px 14px 2px;
+    /* form label styles */
+    --ra-form-label-font-size: 16px;
+    --ra-form-label-line-height: 28px;
+    --ra-form-label-font-weight: 500;
+    --ra-form-label-font-style: normal;
+    --ra-form-label-margin: 0;
+    --ra-form-label-text-transform: none;
+    --ra-form-label-letter-spacing: normal;
+    /* select styles */
+    --ra-select-border: 1px solid #cccccc;
+    --ra-select-background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+    --ra-select-border-radius: 4px;
+    --ra-select-background-color: #fff;
+    --ra-select-padding: 0.5rem 1rem;
+    --ra-select-arrow-color: #222;
+    --ra-select-focus-color: blue;
+    --ra-select-margin: 4px 0 0 0;
+    /* input styles */
+    --ra-input-border: 1px solid #cccccc;
+    --ra-input-focus-color: blue;
+    --ra-input-padding: 0.5rem 1rem;
+    --ra-input-font-size: var(--ra-embed-font-size);
+    --ra-input-line-height: var(--ra-embed-line-height);
+    --ra-input-border-radius: 4px;
+    --ra-input-margin: 4px 0 0 0;
   }
 
   :host {
@@ -66,10 +92,6 @@ export const baseStyles = css`
     display: block; /* required for max-width to kick in */
     width: 100%;
     max-width: 1280px;
-    --select-border: 1px solid #cccccc;
-    --input-border: 1px solid #cccccc;
-    --select-arrow: #222;
-    --select-focus: blue;
   }
 
   * {
@@ -99,11 +121,14 @@ export const baseStyles = css`
   }
 
   label {
-    font-size: 16px;
-    line-height: 28px;
-    font-weight: 500;
-    font-style: normal;
-    margin: 0;
+    display: block;
+    font-size: var(--ra-form-label-font-size);
+    line-height: var(--ra-form-label-line-height);
+    font-weight: var(--ra-form-label-font-weight);
+    font-style: var(--ra-form-label-font-style);
+    margin: var(--ra-form-label-margin);
+    text-transform: var(--ra-form-label-text-transform);
+    letter-spacing: var(--ra-form-label-letter-spacing);
   }
 
   em {

@@ -52,6 +52,12 @@ export interface Incentive {
   eligible: boolean;
 }
 
+export type APIUtilitiesResponse = {
+  [utilityId: string]: {
+    name: string;
+  };
+};
+
 export interface APIResponse {
   authorities: {
     [authorityId: string]: {
@@ -62,6 +68,10 @@ export interface APIResponse {
         height: number;
       };
     };
+  };
+  coverage: {
+    state: string | null;
+    utility: string | null;
   };
   savings: {
     tax_credit: number;

@@ -54,6 +54,7 @@ export const authorityLogosTemplate = (response: APIResponse) => {
     .map(
       auth =>
         html`<img
+          alt="${auth.name}"
           src="${auth.logo!.src}"
           width="${auth.logo!.width}"
           height="${auth.logo!.height}"

@@ -28,6 +28,13 @@ For better or worse, using BEM to keep CSS manageable. This may be overkill sinc
 
 The CSS font-face does not seem to apply if fonts are loaded by the Shadow DOM's styles, so a separate font stylesheet is provided for these.
 
+# Accessibility
+
+To allow this calculator to be embedded on state government websites, we require compliance with WCAG 2.1 AA accessibility guidelines.
+We use `cypress-axe` to maintain a baseline of automated conformance, and periodically review against a
+[Voluntary Product Accessibility Template](https://www.itic.org/policy/accessibility/vpat) for steps that can only be assessed manually.
+Any significant UI changes or additions will need to be manually reviewed against the VPAT.
+
 # Hosting
 
 This site is deployed using the [embed-rewiring-america](https://vercel.com/rewiring-america/embed-rewiringamerica-org) project on Vercel. The domain `embed.rewiringamerica.org` points to Vercel and is [configured in Google Domains](https://domains.google.com/registrar/rewiringamerica.org/dns).

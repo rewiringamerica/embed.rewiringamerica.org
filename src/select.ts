@@ -1,4 +1,4 @@
-import { html, css } from 'lit';
+import { html, css, nothing, HTMLTemplateResult } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import '@shoelace-style/shoelace/dist/themes/light.css';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
@@ -23,6 +23,7 @@ export interface SelectParam {
 export interface SLSelectParam {
   id: string;
   label?: string;
+  labelSlot?: HTMLTemplateResult;
   options: OptionParam[];
   helpText?: string;
   placeholder?: string;
@@ -72,6 +73,7 @@ export const select = ({
 export const multiselect = ({
   id,
   label,
+  labelSlot,
   currentValues,
   options,
   helpText,
@@ -93,6 +95,7 @@ export const multiselect = ({
         hoist
         multiple
       >
+        ${labelSlot ?? nothing}
         <sl-icon slot="expand-icon"></sl-icon>
         ${options.map(o => multioption(o))}
       </sl-select>
@@ -122,6 +125,8 @@ export const selectStyles = css`
 
     /*   // Remove focus outline, will add on alternate element */
     outline: none;
+
+    color: var(--ra-embed-text-color);
   }
 
   /*   // Remove dropdown arrow in IE10 & IE11
@@ -140,9 +145,9 @@ export const selectStyles = css`
     /* max-width: 30ch; */
 
     width: 100%;
-    border: var(--select-border);
-    border-radius: 4px;
-    padding: 8px;
+    border: var(--ra-select-border);
+    border-radius: var(--ra-select-border-radius);
+    padding: var(--ra-select-padding);
 
     /*   font-size: 1.25rem; */
     cursor: pointer;
@@ -150,10 +155,10 @@ export const selectStyles = css`
 
     /*   // Optional styles
   // remove for transparency */
-    background-color: #fff;
-    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+    background-color: var(--ra-select-background-color);
+    background-image: var(--ra-select-background-image);
 
-    margin-top: 4px;
+    margin: var(--ra-select-margin);
   }
 
   .select select[disabled] {
@@ -169,9 +174,9 @@ export const selectStyles = css`
   .select:not(.select--multiple)::after {
     content: '';
     justify-self: end;
-    width: 0.6em;
+    width: 0.7em;
     height: 0.4em;
-    background-color: var(--select-arrow);
+    background-color: var(--ra-select-arrow-color);
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
   }
 
@@ -182,7 +187,7 @@ export const selectStyles = css`
     left: -1px;
     right: -1px;
     bottom: -1px;
-    border: 2px solid var(--select-focus);
+    border: 2px solid var(--ra-select-focus-color);
     border-radius: inherit;
   }
 
@@ -219,7 +224,7 @@ export const selectStyles = css`
     white-space: normal;
 
     // Only affects Chrome
-    outline-color: var(--select-focus);
+    outline-color: var(--ra-select-focus-color);
   }
 
   .select--disabled {
@@ -233,12 +238,12 @@ export const selectStyles = css`
 
     --sl-input-font-family: var(--ra-embed-font-family);
 
-    --sl-input-focus-ring-color: var(--select-focus);
+    --sl-input-focus-ring-color: var(--ra-select-focus-color);
     --sl-input-focus-ring-style: solid;
     --sl-focus-ring-width: 1px;
 
     --sl-input-border-width: 1px;
-    --sl-input-border-color-focus: var(--select-focus);
+    --sl-input-border-color-focus: var(--ra-select-focus-color);
 
     margin-top: 4px;
   }
@@ -248,7 +253,7 @@ export const selectStyles = css`
     justify-self: end;
     width: 0.6em;
     height: 0.4em;
-    background-color: var(--select-arrow);
+    background-color: var(--ra-select-arrow-color);
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
   }
 `;
