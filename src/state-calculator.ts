@@ -299,7 +299,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
                   calculateButtonContent,
                 },
                 (event: SubmitEvent) => this.submit(event),
-                'grid-3-2-1',
+                'grid-2-2-1',
               )}
         </div>
         ${

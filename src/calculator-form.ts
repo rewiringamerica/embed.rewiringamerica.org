@@ -29,6 +29,10 @@ const buttonStyles = css`
     background-color: var(--ra-embed-primary-button-background-hover-color);
   }
 
+  .grid-right-column {
+    grid-column: -2 / -1;
+  }
+
   /* shoelace style overrides */
   sl-tooltip {
     --max-width: var(--ra-tooltip-max-width);
@@ -220,7 +224,7 @@ export const formTemplate = (
             tabIndex: 0,
           })}
         </div>
-        <div>
+        <div class="grid-right-column">
           <button class="primary" type="submit">
             ${calculateButtonContent}
           </button>

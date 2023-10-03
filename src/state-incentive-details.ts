@@ -114,18 +114,21 @@ export const stateIncentivesStyles = css`
     white-space: nowrap;
   }
 
+  .grid-2-2-1,
   .grid-3-2-1,
   .grid-4-2-1 {
     display: grid;
     gap: 1rem;
     align-items: end;
   }
+  .grid-2-2-1--align-start,
   .grid-3-2-1--align-start,
   .grid-4-2-1--align-start {
     align-items: start;
   }
 
   @media only screen and (max-width: 640px) {
+    .grid-2-2-1,
     .grid-3-2-1,
     .grid-4-2-1 {
       grid-template-columns: 1fr;
@@ -133,6 +136,7 @@ export const stateIncentivesStyles = css`
   }
 
   @media only screen and (min-width: 641px) and (max-width: 768px) {
+    .grid-2-2-1,
     .grid-3-2-1,
     .grid-4-2-1 {
       grid-template-columns: 1fr 1fr;
@@ -140,6 +144,9 @@ export const stateIncentivesStyles = css`
   }
 
   @media only screen and (min-width: 769px) {
+    .grid-2-2-1 {
+      grid-template-columns: 1fr 1fr;
+    }
     .grid-3-2-1 {
       grid-template-columns: 1fr 1fr 1fr;
     }
