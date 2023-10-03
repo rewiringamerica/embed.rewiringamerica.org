@@ -1,8 +1,8 @@
-import { html, css, nothing, HTMLTemplateResult } from 'lit';
+import { html, css, unsafeCSS, nothing, HTMLTemplateResult } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import '@shoelace-style/shoelace/dist/themes/light.css';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
+import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
 
 export interface OptionParam {
   label: string;
@@ -105,6 +105,8 @@ export const multiselect = ({
 };
 
 export const selectStyles = css`
+  ${unsafeCSS(shoelaceTheme)}
+
   /* // @link https://moderncss.dev/custom-select-styles-with-pure-css/ */
 
   select {
