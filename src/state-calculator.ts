@@ -24,6 +24,7 @@ import { STATES } from './states';
 import { authorityLogosStyles } from './authority-logos';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { SlSelect } from '@shoelace-style/shoelace';
+import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -64,6 +65,11 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: Boolean, attribute: 'hide-details' })
   hideDetails: boolean = false;
 
+  /* supported property to show the email signup field */
+
+  @property({ type: Boolean, attribute: 'show-email' })
+  showEmail: boolean = false;
+
   /* supported properties to control which API path and key is used to load the calculator results */
 
   @property({ type: String, attribute: 'api-key' })
@@ -101,6 +107,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: String })
   selectedOtherTab: Project | undefined;
 
+  @property({ type: Boolean })
+  wasEmailSubmitted: boolean = wasEmailSubmitted();
+
   /**
    * This is a hack to deal with a quirk of the UI.
    *
@@ -129,6 +138,13 @@ export class RewiringAmericaStateCalculator extends LitElement {
     this.taxFiling = (formData.get('tax_filing') as FilingStatus) || '';
     this.householdSize = (formData.get('household_size') as string) || '';
     this.projects = (formData.getAll('projects') as Project[]) || '';
+
+    const email = (formData.get('email') || '') as string;
+    if (email && !this.wasEmailSubmitted) {
+      submitEmailSignup(this.apiHost, this.apiKey, email, this.zip);
+      // This hides the email field
+      this.wasEmailSubmitted = true;
+    }
 
     // Zip is the only thing that determines what utilities are available, so
     // only fetch utilities if zip has changed since last calculation, or if
@@ -294,6 +310,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
                 ],
                 this.projects,
                 {
+                  showEmailField: this.showEmail && !this.wasEmailSubmitted,
                   showProjectField: true,
                   tooltipSize: 13,
                   calculateButtonContent,
