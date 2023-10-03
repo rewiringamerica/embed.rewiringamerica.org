@@ -1,7 +1,11 @@
 const LOCAL_STORAGE_KEY = 'calc-email-submitted';
 
 export function wasEmailSubmitted(): boolean {
-  return localStorage.getItem(LOCAL_STORAGE_KEY) !== null;
+  try {
+    return localStorage.getItem(LOCAL_STORAGE_KEY) !== null;
+  } catch (_) {
+    return false;
+  }
 }
 
 export async function submitEmailSignup(
@@ -10,12 +14,14 @@ export async function submitEmailSignup(
   email: string,
   zip: string,
 ): Promise<boolean> {
-  localStorage.setItem(LOCAL_STORAGE_KEY, 'true');
-
-  const url = new URL(apiHost);
-  url.pathname = '/email-signup';
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEY, 'true');
+  } catch (_) {}
 
   try {
+    const url = new URL(apiHost);
+    url.pathname = '/email-signup';
+
     const response = await fetch(url, {
       method: 'POST',
       body: JSON.stringify({ email, zip }),
