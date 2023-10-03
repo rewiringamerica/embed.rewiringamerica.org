@@ -94,8 +94,8 @@ export const formTemplate = (
   gridClass: string = 'grid-3-2',
 ) => {
   const labelSlot = html`<label slot="label">
-    Projects you're most interested in
-    <sl-tooltip content="Select the projects you're most interested in." hoist
+    Projects you’re most interested in
+    <sl-tooltip content="Select the projects you’re most interested in." hoist
       >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
     ></label
   >`;
@@ -168,7 +168,7 @@ export const formTemplate = (
           <label for="household_income">
             Household income
             <sl-tooltip
-              content="Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse's income"
+              content="Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income."
               hoist
               >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
             >
