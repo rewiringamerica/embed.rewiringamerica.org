@@ -1,6 +1,7 @@
 import { LitElement, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Task, TaskStatus, initialState } from '@lit-labs/task';
+import scrollIntoView from 'scroll-into-view-if-needed';
 import { baseStyles } from './styles';
 import { formTemplate, formStyles } from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
@@ -257,8 +258,17 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this._task.status === TaskStatus.COMPLETE
     ) {
       // if the utility selector is shown, prefer to scroll there, otherwise scroll to at a glance:
-      const results = this.shadowRoot?.querySelector('#utility-selector, #at-a-glance');
-      results?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const results = this.shadowRoot?.querySelector(
+        '#utility-selector, #at-a-glance',
+      );
+      if (results) {
+        scrollIntoView(results, {
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'nearest',
+          scrollMode: 'if-needed',
+        });
+      }
     }
   }
 
