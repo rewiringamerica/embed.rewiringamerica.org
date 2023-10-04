@@ -90,6 +90,7 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
 );
 
 type FormOptions = {
+  showEmailField?: boolean;
   showProjectField: boolean;
   tooltipSize: number;
   calculateButtonContent: TemplateResult;
@@ -98,7 +99,12 @@ type FormOptions = {
 export const formTemplate = (
   [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
   projects: Array<string>,
-  { showProjectField, tooltipSize, calculateButtonContent }: FormOptions,
+  {
+    showEmailField,
+    showProjectField,
+    tooltipSize,
+    calculateButtonContent,
+  }: FormOptions,
   onSubmit: (e: SubmitEvent) => void,
   gridClass: string = 'grid-3-2',
 ) => {
@@ -123,6 +129,20 @@ export const formTemplate = (
           maxOptionsVisible: 1,
           placement: 'top',
         })}
+      </div>`
+    : nothing;
+
+  const emailField = showEmailField
+    ? html`<div>
+        <label for="email"> Email address (optional) </label>
+        <input
+          tabindex="0"
+          id="email"
+          placeholder="you@example.com"
+          name="email"
+          type="email"
+          autocomplete="email"
+        />
       </div>`
     : nothing;
 
@@ -234,6 +254,7 @@ export const formTemplate = (
             tabIndex: 0,
           })}
         </div>
+        ${emailField}
         <div class="grid-right-column">
           <button class="primary" type="submit">
             ${calculateButtonContent}
