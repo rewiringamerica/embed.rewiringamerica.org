@@ -1,9 +1,9 @@
-import { html, css, nothing, TemplateResult } from 'lit';
+import { html, css, unsafeCSS, nothing, TemplateResult } from 'lit';
 import { questionIcon } from './icons';
 import { select, multiselect, selectStyles, OptionParam } from './select';
 import { inputStyles } from './styles/input';
 import './currency-input';
-import '@shoelace-style/shoelace/dist/themes/light.css';
+import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
 import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 import { PROJECTS } from './projects';
 
@@ -57,7 +57,16 @@ const buttonStyles = css`
   }
 `;
 
-export const formStyles = [inputStyles, buttonStyles, selectStyles];
+const tooltipStyles = css`
+  ${unsafeCSS(shoelaceTheme)}
+`;
+
+export const formStyles = [
+  tooltipStyles,
+  inputStyles,
+  buttonStyles,
+  selectStyles,
+];
 
 const OWNER_STATUS_OPTIONS: OptionParam[] = [
   { value: 'homeowner', label: 'Homeowner' },
@@ -81,6 +90,7 @@ const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
 );
 
 type FormOptions = {
+  showEmailField?: boolean;
   showProjectField: boolean;
   tooltipSize: number;
   calculateButtonContent: TemplateResult;
@@ -89,7 +99,12 @@ type FormOptions = {
 export const formTemplate = (
   [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
   projects: Array<string>,
-  { showProjectField, tooltipSize, calculateButtonContent }: FormOptions,
+  {
+    showEmailField,
+    showProjectField,
+    tooltipSize,
+    calculateButtonContent,
+  }: FormOptions,
   onSubmit: (e: SubmitEvent) => void,
   gridClass: string = 'grid-3-2',
 ) => {
@@ -114,6 +129,20 @@ export const formTemplate = (
           maxOptionsVisible: 1,
           placement: 'top',
         })}
+      </div>`
+    : nothing;
+
+  const emailField = showEmailField
+    ? html`<div>
+        <label for="email"> Email address (optional) </label>
+        <input
+          tabindex="0"
+          id="email"
+          placeholder="you@example.com"
+          name="email"
+          type="email"
+          autocomplete="email"
+        />
       </div>`
     : nothing;
 
@@ -225,6 +254,7 @@ export const formTemplate = (
             tabIndex: 0,
           })}
         </div>
+        ${emailField}
         <div class="grid-right-column">
           <button class="primary" type="submit">
             ${calculateButtonContent}
