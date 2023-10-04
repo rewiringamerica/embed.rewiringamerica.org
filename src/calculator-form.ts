@@ -1,9 +1,9 @@
-import { html, css, nothing, TemplateResult } from 'lit';
+import { html, css, unsafeCSS, nothing, TemplateResult } from 'lit';
 import { questionIcon } from './icons';
 import { select, multiselect, selectStyles, OptionParam } from './select';
 import { inputStyles } from './styles/input';
 import './currency-input';
-import '@shoelace-style/shoelace/dist/themes/light.css';
+import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
 import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 import { PROJECTS } from './projects';
 
@@ -57,7 +57,16 @@ const buttonStyles = css`
   }
 `;
 
-export const formStyles = [inputStyles, buttonStyles, selectStyles];
+const tooltipStyles = css`
+  ${unsafeCSS(shoelaceTheme)}
+`;
+
+export const formStyles = [
+  tooltipStyles,
+  inputStyles,
+  buttonStyles,
+  selectStyles,
+];
 
 const OWNER_STATUS_OPTIONS: OptionParam[] = [
   { value: 'homeowner', label: 'Homeowner' },

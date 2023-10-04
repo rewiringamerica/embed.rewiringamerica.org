@@ -10,7 +10,7 @@
     "lit": "^2.6.1"
   },
   "scripts": {
-    "build:widget": "parcel build --target default",
+    "build:widget": "parcel build --target default --no-scope-hoist",
     "serve:widget": "parcel serve ./src/*.html --dist-dir build",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
@@ -30,10 +30,11 @@
     ]
   },
   "devDependencies": {
-    "axe-core": "^4.8.2",
+    "@parcel/transformer-inline-string": "2.8.3",
     "@swc/helpers": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
+    "axe-core": "^4.8.2",
     "cypress": "^12.6.0",
     "cypress-axe": "^1.5.0",
     "eslint": "^8.45.0",
