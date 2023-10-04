@@ -12,6 +12,7 @@ export const utilitySelectorStyles = css`
   .utility-selector__map {
     position: relative;
     text-align: center;
+    max-width: 100%;
   }
 
   .utility-selector__map svg {
@@ -52,6 +53,7 @@ export const utilitySelectorStyles = css`
     .utility-selector .card {
       /* Margin is provided by the outer element */
       margin: 0;
+      max-width: 100%;
     }
   }
 
