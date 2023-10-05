@@ -451,27 +451,27 @@ export const stateIncentivesTemplate = (
       allEligible.filter(i => info.items.includes(i.item.type)),
     ]),
   ) as Record<Project, Incentive[]>;
-  const eligibleProjects = (
+  const projectsWithIncentives = (
     Object.entries(incentivesByProject) as [Project, Incentive[]][]
   )
     .filter(([, incentives]) => incentives.length > 0)
     .map(([project]) => project);
 
-  const eligibleSelectedProjects = selectedProjects
-    .filter(project => eligibleProjects.includes(project))
+  const interestedProjects = selectedProjects
+    .filter(project => projectsWithIncentives.includes(project))
     .sort((a, b) => shortLabel(a).localeCompare(shortLabel(b)));
-  const eligibleNonSelectedProjects = eligibleProjects
-    .filter(project => !eligibleSelectedProjects.includes(project))
+  const otherProjects = projectsWithIncentives
+    .filter(project => !interestedProjects.includes(project))
     .sort((a, b) => shortLabel(a).localeCompare(shortLabel(b)));
 
   const projectTab =
-    selectedProjectTab && eligibleSelectedProjects.includes(selectedProjectTab)
+    selectedProjectTab && interestedProjects.includes(selectedProjectTab)
       ? selectedProjectTab
-      : eligibleSelectedProjects[0];
+      : interestedProjects[0];
   const otherTab =
-    selectedOtherTab && eligibleNonSelectedProjects.includes(selectedOtherTab)
+    selectedOtherTab && otherProjects.includes(selectedOtherTab)
       ? selectedOtherTab
-      : eligibleNonSelectedProjects[0];
+      : otherProjects[0];
 
   const selectedIncentives = incentivesByProject[projectTab] ?? [];
   const selectedOtherIncentives = incentivesByProject[otherTab] ?? [];
@@ -485,14 +485,14 @@ export const stateIncentivesTemplate = (
   ${gridTemplate(
     'Incentives you’re interested in',
     selectedIncentives,
-    eligibleSelectedProjects,
+    interestedProjects,
     projectTab,
     onTabSelected,
   )}
   ${gridTemplate(
     otherIncentivesLabel,
     selectedOtherIncentives,
-    eligibleNonSelectedProjects,
+    otherProjects,
     // If a nonexistent tab is selected, pretend the first one is selected.
     otherTab,
     onOtherTabSelected,
