@@ -454,8 +454,8 @@ export const stateIncentivesTemplate = (
   const eligibleProjects = (
     Object.entries(incentivesByProject) as [Project, Incentive[]][]
   )
-    .filter(([_, incentives]) => incentives.length > 0)
-    .map(([project, _]) => project);
+    .filter(([, incentives]) => incentives.length > 0)
+    .map(([project]) => project);
 
   const eligibleSelectedProjects = selectedProjects
     .filter(project => eligibleProjects.includes(project))
