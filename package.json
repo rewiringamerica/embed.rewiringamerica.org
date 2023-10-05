@@ -7,8 +7,7 @@
     "@shoelace-style/shoelace": "^2.4.0",
     "autonumeric": "^4.8.1",
     "element-internals-polyfill": "^1.3.4",
-    "lit": "^2.6.1",
-    "scroll-into-view-if-needed": "^3.1.0"
+    "lit": "^2.6.1"
   },
   "scripts": {
     "build:widget": "parcel build --target default --no-scope-hoist",
