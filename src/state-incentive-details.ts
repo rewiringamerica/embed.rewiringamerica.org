@@ -379,7 +379,7 @@ const summaryBoxTemplate = (
 
 const atAGlanceTemplate = (response: APIResponse) => {
   return html`
-    <div class="grid-section" id="at-a-glance">
+    <div class="grid-section">
       <h2 class="grid-section__header">Incentives at a glance</h2>
       <div class="grid-4-2-1 grid-4-2-1--align-start">
         ${summaryBoxTemplate(
