@@ -61,7 +61,7 @@ export const select = ({
         help-text="${ifDefined(helpText)}"
         placeholder="${ifDefined(placeholder)}"
         placement="${ifDefined(placement)}"
-        @sl-change=${onChange}
+        @sl-change=${ifDefined(onChange)}
         ${required ? 'required' : ''}
         ${disabled ? 'disabled' : ''}
         hoist

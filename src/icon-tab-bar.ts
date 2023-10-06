@@ -120,7 +120,6 @@ export const iconTabBarTemplate = (
         options,
         onChange: event =>
           onTabSelected((event.target as HTMLInputElement).value as Project),
-        ariaLabel: 'Project',
       })}
     </div>
   `;
