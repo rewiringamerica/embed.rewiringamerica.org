@@ -42,7 +42,7 @@ describe('template spec', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .find('select#utility')
+      .find('sl-select#utility')
       .should('exist');
 
     cy.get('rewiring-america-state-calculator')
