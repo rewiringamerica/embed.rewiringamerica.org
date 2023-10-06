@@ -52,11 +52,25 @@ export interface Incentive {
   eligible: boolean;
 }
 
-export type APIUtilitiesResponse = {
-  [utilityId: string]: {
-    name: string;
-  };
-};
+export interface APILocation {
+  state: string;
+}
+
+// TODO delete the first option once API PR #161 is deployed to prod
+export type APIUtilitiesResponse =
+  | {
+      [utilityId: string]: {
+        name: string;
+      };
+    }
+  | {
+      location: APILocation;
+      utilities: {
+        [utilityId: string]: {
+          name: string;
+        };
+      };
+    };
 
 export interface APIResponse {
   authorities: {

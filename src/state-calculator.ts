@@ -206,12 +206,17 @@ export class RewiringAmericaStateCalculator extends LitElement {
       });
 
       try {
-        const utilityMap = await fetchApi<APIUtilitiesResponse>(
+        const response = await fetchApi<APIUtilitiesResponse>(
           this.apiKey,
           this.apiHost,
           '/api/v1/utilities',
           query,
         );
+
+        const utilityMap =
+          'utilities' in response
+            ? (response.utilities as Record<string, { name: string }>)
+            : response;
 
         return Object.keys(utilityMap).map(id => ({
           value: id,
