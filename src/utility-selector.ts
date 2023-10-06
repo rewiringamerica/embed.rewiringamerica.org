@@ -96,7 +96,6 @@ const utilityFormTemplate = (
           disabled: utilityOptions.length < 2,
           options: utilityOptions,
           currentValue: utilityId,
-          tabIndex: 0,
           onChange: event => onChange((event.target as HTMLInputElement).value),
         })}
       </div>

@@ -190,7 +190,6 @@ export const formTemplate = (
             required: true,
             options: OWNER_STATUS_OPTIONS,
             currentValue: ownerStatus,
-            tabIndex: 0,
           })}
         </div>
         <div>
@@ -233,7 +232,6 @@ export const formTemplate = (
             required: true,
             options: TAX_FILING_OPTIONS,
             currentValue: taxFiling,
-            tabIndex: 0,
           })}
         </div>
         <div>
@@ -251,7 +249,6 @@ export const formTemplate = (
             required: true,
             options: HOUSEHOLD_SIZE_OPTIONS,
             currentValue: householdSize,
-            tabIndex: 0,
           })}
         </div>
         ${emailField}
