@@ -23,7 +23,6 @@ import '@shoelace-style/shoelace/dist/components/spinner/spinner';
 import { STATES } from './states';
 import { authorityLogosStyles } from './authority-logos';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
-import { SlSelect } from '@shoelace-style/shoelace';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 
 const loadingTemplate = () => html`
@@ -160,30 +159,33 @@ export class RewiringAmericaStateCalculator extends LitElement {
     }
   }
 
-  override async firstUpdated() {
-    // Give the browser a chance to paint
+  override async updated() {
     await new Promise(r => setTimeout(r, 0));
-    const select = this.renderRoot.querySelector('sl-select') as SlSelect;
-    const combobox = this.renderRoot
-      .querySelector('sl-select')
-      ?.renderRoot.querySelector('div.select__combobox') as HTMLElement;
+    if (!this.renderRoot) {
+      return;
+    }
+    this.renderRoot.querySelectorAll('sl-select').forEach(currSelect => {
+      const combobox = currSelect.renderRoot.querySelector(
+        'div.select__combobox',
+      ) as HTMLElement;
 
-    select?.addEventListener('keydown', event => {
-      if (event.key === 'Tab' && select.open) {
-        event.preventDefault();
-        event.stopPropagation();
-        select.hide();
-        select.displayInput.focus({ preventScroll: true });
-      }
-    });
+      currSelect.addEventListener('keydown', event => {
+        if (event.key === 'Tab' && currSelect.open) {
+          event.preventDefault();
+          event.stopPropagation();
+          currSelect.hide();
+          currSelect.displayInput.focus({ preventScroll: true });
+        }
+      });
 
-    combobox?.addEventListener('keydown', event => {
-      if (event.key === 'Tab' && select?.open) {
-        event.preventDefault();
-        event.stopPropagation();
-        select.hide();
-        select.displayInput.focus({ preventScroll: true });
-      }
+      combobox?.addEventListener('keydown', event => {
+        if (event.key === 'Tab' && currSelect.open) {
+          event.preventDefault();
+          event.stopPropagation();
+          currSelect.hide();
+          currSelect.displayInput.focus({ preventScroll: true });
+        }
+      });
     });
   }
 
