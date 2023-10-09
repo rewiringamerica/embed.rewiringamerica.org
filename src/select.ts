@@ -20,6 +20,7 @@ export interface SLSelectParam {
   placement?: string;
   required?: boolean;
   disabled?: boolean;
+  ariaLabel?: string;
   onChange?: (event: SlChangeEvent) => void;
 }
 
@@ -48,6 +49,7 @@ export const select = ({
   placement,
   currentValue,
   onChange,
+  ariaLabel,
   required = true,
   disabled = false,
 }: SingleSelectParam) => {
@@ -62,6 +64,7 @@ export const select = ({
         placeholder="${ifDefined(placeholder)}"
         placement="${ifDefined(placement)}"
         @sl-change=${ifDefined(onChange)}
+        aria-label="${ifDefined(ariaLabel)}"
         ${required ? 'required' : ''}
         ${disabled ? 'disabled' : ''}
         hoist

@@ -115,6 +115,7 @@ export const iconTabBarTemplate = (
     <div class="icon-dropdown">
       ${select({
         id: 'project-selector',
+        ariaLabel: 'Project',
         required: true,
         currentValue: selectedTab,
         options,
