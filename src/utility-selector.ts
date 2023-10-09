@@ -78,20 +78,21 @@ const utilityFormTemplate = (
   utilityOptions: OptionParam[],
   onChange: (utilityId: string) => void,
 ) => {
+  const labelSlot = html`<label slot="label">
+    Electric Utility
+    <sl-tooltip
+      content="Choose the company you pay your electric bill to."
+      hoist
+    >
+      ${questionIcon(18, 18)}
+    </sl-tooltip>
+  </label>`;
   return html`
     <form>
       <div>
-        <label for="utility">
-          Electric Utility
-          <sl-tooltip
-            content="Choose the company you pay your electric bill to."
-            hoist
-          >
-            ${questionIcon(18, 18)}
-          </sl-tooltip>
-        </label>
         ${select({
           id: 'utility',
+          labelSlot,
           required: true,
           disabled: utilityOptions.length < 2,
           options: utilityOptions,
