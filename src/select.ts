@@ -3,21 +3,11 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
+import { SlChangeEvent } from '@shoelace-style/shoelace';
 
 export interface OptionParam {
   label: string;
   value: string;
-}
-
-export interface SelectParam {
-  id: string;
-  required: boolean;
-  options: OptionParam[];
-  currentValue: string;
-  tabIndex?: number;
-  onChange?: (event: InputEvent) => void;
-  ariaLabel?: string;
-  disabled?: boolean;
 }
 
 export interface SLSelectParam {
@@ -29,6 +19,13 @@ export interface SLSelectParam {
   placeholder?: string;
   placement?: string;
   required?: boolean;
+  disabled?: boolean;
+  ariaLabel?: string;
+  onChange?: (event: SlChangeEvent) => void;
+}
+
+export interface SingleSelectParam extends SLSelectParam {
+  currentValue: string;
 }
 
 export interface MultiSelectParam extends SLSelectParam {
@@ -36,35 +33,43 @@ export interface MultiSelectParam extends SLSelectParam {
   maxOptionsVisible?: number;
 }
 
-export const option = ({ label, value }: OptionParam, selected: boolean) =>
-  html` <option value="${value}" ?selected=${selected}>${label}</option> `;
-
-export const multioption = ({ label, value }: OptionParam) =>
-  html` <sl-option value="${value}">${label}</sl-option> `;
+export const option = ({ label, value }: OptionParam) =>
+  html` <sl-option value="${value}"> ${label} </sl-option> `;
 
 export const select = ({
   id,
-  required,
+  label,
+  labelSlot,
   options,
+  helpText,
+  placeholder,
+  placement,
   currentValue,
-  tabIndex,
   onChange,
   ariaLabel,
-  disabled,
-}: SelectParam) => {
+  required = true,
+  disabled = false,
+}: SingleSelectParam) => {
   return html`
-    <div class="select">
-      <select
+    <div>
+      <sl-select
         id="${id}"
         name="${id}"
-        ?required=${required}
-        ?disabled=${disabled}
-        tabindex="${ifDefined(tabIndex)}"
+        label="${ifDefined(label)}"
+        value="${currentValue}"
+        help-text="${ifDefined(helpText)}"
+        placeholder="${ifDefined(placeholder)}"
+        placement="${ifDefined(placement)}"
+        @sl-change=${ifDefined(onChange)}
         aria-label="${ifDefined(ariaLabel)}"
-        @change=${onChange}
+        ${required ? 'required' : ''}
+        ${disabled ? 'disabled' : ''}
+        hoist
       >
-        ${options.map(o => option(o, o.value === currentValue))}
-      </select>
+        ${labelSlot ?? nothing}
+        <sl-icon slot="expand-icon"></sl-icon>
+        ${options.map(o => option(o))}
+      </sl-select>
       <span class="focus"></span>
     </div>
   `;
@@ -97,7 +102,7 @@ export const multiselect = ({
       >
         ${labelSlot ?? nothing}
         <sl-icon slot="expand-icon"></sl-icon>
-        ${options.map(o => multioption(o))}
+        ${options.map(o => option(o))}
       </sl-select>
       <span class="focus"></span>
     </div>

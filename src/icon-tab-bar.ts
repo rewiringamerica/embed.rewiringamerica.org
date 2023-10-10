@@ -115,12 +115,12 @@ export const iconTabBarTemplate = (
     <div class="icon-dropdown">
       ${select({
         id: 'project-selector',
+        ariaLabel: 'Project',
         required: true,
         currentValue: selectedTab,
         options,
         onChange: event =>
           onTabSelected((event.target as HTMLInputElement).value as Project),
-        ariaLabel: 'Project',
       })}
     </div>
   `;

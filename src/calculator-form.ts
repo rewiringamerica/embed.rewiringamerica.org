@@ -96,6 +96,19 @@ type FormOptions = {
   calculateButtonContent: TemplateResult;
 };
 
+export const label = (
+  labelText: string,
+  tooltipText: string,
+  tooltipSize: number,
+) => {
+  return html`<label slot="label">
+    ${labelText}
+    <sl-tooltip content="${tooltipText}" hoist
+      >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
+    >
+  </label>`;
+};
+
 export const formTemplate = (
   [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
   projects: Array<string>,
@@ -108,18 +121,17 @@ export const formTemplate = (
   onSubmit: (e: SubmitEvent) => void,
   gridClass: string = 'grid-3-2',
 ) => {
-  const labelSlot = html`<label slot="label">
-    Projects you’re most interested in
-    <sl-tooltip content="Select the projects you’re most interested in." hoist
-      >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-    ></label
-  >`;
+  const projectsLabelSlot = label(
+    'Projects you’re most interested in',
+    'Select the projects you’re most interested in.',
+    tooltipSize,
+  );
 
   const projectField = showProjectField
     ? html`<div>
         ${multiselect({
           id: 'projects',
-          labelSlot,
+          labelSlot: projectsLabelSlot,
           required: true,
           options: Object.entries(PROJECTS)
             .map(([value, data]) => ({ value, label: data.label }))
@@ -145,6 +157,24 @@ export const formTemplate = (
         />
       </div>`
     : nothing;
+
+  const ownersLabelSlot = label(
+    'Rent or own',
+    'Homeowners and renters qualify for different incentives.',
+    tooltipSize,
+  );
+
+  const taxFilingLabelSlot = label(
+    'Tax filing',
+    'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
+    tooltipSize,
+  );
+
+  const householdSizeLabelSlot = label(
+    'Household size',
+    'Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.',
+    tooltipSize,
+  );
 
   return html`
     <form @submit=${onSubmit}>
@@ -176,21 +206,12 @@ export const formTemplate = (
           />
         </div>
         <div>
-          <label for="owner_status">
-            Rent or own
-            <sl-tooltip
-              content="Homeowners and renters qualify for different incentives."
-              hoist
-              >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-            >
-          </label>
-
           ${select({
             id: 'owner_status',
+            labelSlot: ownersLabelSlot,
             required: true,
             options: OWNER_STATUS_OPTIONS,
             currentValue: ownerStatus,
-            tabIndex: 0,
           })}
         </div>
         <div>
@@ -215,43 +236,21 @@ export const formTemplate = (
           ></ra-currency-input>
         </div>
         <div>
-          <label for="tax_filing">
-            Tax filing
-            <sl-tooltip hoist
-              ><div slot="content">
-                Select "Head of Household" if you have a child or relative
-                living with you, and you pay more than half the costs of your
-                home. Select "Joint" if you file your taxes as a married
-                couple."
-              </div>
-              ${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-            >
-          </label>
-
           ${select({
             id: 'tax_filing',
+            labelSlot: taxFilingLabelSlot,
             required: true,
             options: TAX_FILING_OPTIONS,
             currentValue: taxFiling,
-            tabIndex: 0,
           })}
         </div>
         <div>
-          <label for="household_size">
-            Household size
-            <sl-tooltip
-              content="Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together."
-              hoist
-              >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-            >
-          </label>
-
           ${select({
             id: 'household_size',
+            labelSlot: householdSizeLabelSlot,
             required: true,
             options: HOUSEHOLD_SIZE_OPTIONS,
             currentValue: householdSize,
-            tabIndex: 0,
           })}
         </div>
         ${emailField}
