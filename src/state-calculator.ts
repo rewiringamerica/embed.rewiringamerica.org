@@ -24,7 +24,7 @@ import { STATES } from './states';
 import { authorityLogosStyles } from './authority-logos';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
-import { SlSelect } from '@shoelace-style/shoelace';
+import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -160,7 +160,14 @@ export class RewiringAmericaStateCalculator extends LitElement {
     }
   }
 
-  handleTabDown(e: KeyboardEvent, select: SlSelect) {
+  handleTabDown(e: KeyboardEvent) {
+    const target = e.target as Node;
+    const selectTarget = target.parentNode as SlSelect;
+    const comboTarget = target.getRootNode() as ShadowRoot;
+    const comboSelectTarget = comboTarget.host as SlSelect;
+
+    const select =
+      selectTarget instanceof SlSelect ? selectTarget : comboSelectTarget;
     if (e.key === 'Tab' && select.open) {
       e.preventDefault();
       e.stopPropagation();
@@ -179,12 +186,8 @@ export class RewiringAmericaStateCalculator extends LitElement {
         'div.select__combobox',
       ) as HTMLElement;
 
-      currSelect.addEventListener('keydown', event =>
-        this.handleTabDown(event, currSelect),
-      );
-      combobox?.addEventListener('keydown', event =>
-        this.handleTabDown(event, currSelect),
-      );
+      currSelect.addEventListener('keydown', this.handleTabDown);
+      combobox?.addEventListener('keydown', this.handleTabDown);
     });
   }
 
