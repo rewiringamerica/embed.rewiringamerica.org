@@ -96,6 +96,19 @@ type FormOptions = {
   calculateButtonContent: TemplateResult;
 };
 
+export const label = (
+  labelText: string,
+  toolTipText: string,
+  tooltipSize: number,
+) => {
+  return html`<label slot="label">
+    ${labelText}
+    <sl-tooltip content="${toolTipText}" hoist
+      >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
+    >
+  </label>`;
+};
+
 export const formTemplate = (
   [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
   projects: Array<string>,
@@ -108,12 +121,11 @@ export const formTemplate = (
   onSubmit: (e: SubmitEvent) => void,
   gridClass: string = 'grid-3-2',
 ) => {
-  const projectsLabelSlot = html`<label slot="label">
-    Projects you’re most interested in
-    <sl-tooltip content="Select the projects you’re most interested in." hoist
-      >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-    ></label
-  >`;
+  const projectsLabelSlot = label(
+    'Projects you’re most interested in',
+    'Select the projects you’re most interested in.',
+    tooltipSize,
+  );
 
   const projectField = showProjectField
     ? html`<div>
@@ -146,35 +158,23 @@ export const formTemplate = (
       </div>`
     : nothing;
 
-  const ownersLabelSlot = html`<label slot="label">
-    Rent or own
-    <sl-tooltip
-      content="Homeowners and renters qualify for different incentives."
-      hoist
-      >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-    >
-  </label>`;
+  const ownersLabelSlot = label(
+    'Rent or own',
+    'Homeowners and renters qualify for different incentives.',
+    tooltipSize,
+  );
 
-  const taxFilingLabelSlot = html`<label slot="label">
-    Tax filing
-    <sl-tooltip hoist
-      ><div slot="content">
-        Select "Head of Household" if you have a child or relative living with
-        you, and you pay more than half the costs of your home. Select "Joint"
-        if you file your taxes as a married couple."
-      </div>
-      ${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-    >
-  </label>`;
+  const taxFilingLabelSlot = label(
+    'Tax filing',
+    'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
+    tooltipSize,
+  );
 
-  const householdSizeLabelSlot = html`<label slot="label">
-    Household size
-    <sl-tooltip
-      content="Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together."
-      hoist
-      >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-    >
-  </label>`;
+  const householdSizeLabelSlot = label(
+    'Household size',
+    'Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.',
+    tooltipSize,
+  );
 
   return html`
     <form @submit=${onSubmit}>

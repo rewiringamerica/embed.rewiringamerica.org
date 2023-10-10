@@ -33,11 +33,8 @@ export interface MultiSelectParam extends SLSelectParam {
   maxOptionsVisible?: number;
 }
 
-export const singleoption = ({ label, value }: OptionParam) =>
+export const option = ({ label, value }: OptionParam) =>
   html` <sl-option value="${value}"> ${label} </sl-option> `;
-
-export const multioption = ({ label, value }: OptionParam) =>
-  html` <sl-option value="${value}">${label}</sl-option> `;
 
 export const select = ({
   id,
@@ -71,7 +68,7 @@ export const select = ({
       >
         ${labelSlot ?? nothing}
         <sl-icon slot="expand-icon"></sl-icon>
-        ${options.map(o => singleoption(o))}
+        ${options.map(o => option(o))}
       </sl-select>
       <span class="focus"></span>
     </div>
@@ -105,7 +102,7 @@ export const multiselect = ({
       >
         ${labelSlot ?? nothing}
         <sl-icon slot="expand-icon"></sl-icon>
-        ${options.map(o => multioption(o))}
+        ${options.map(o => option(o))}
       </sl-select>
       <span class="focus"></span>
     </div>

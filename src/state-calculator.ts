@@ -24,6 +24,7 @@ import { STATES } from './states';
 import { authorityLogosStyles } from './authority-logos';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
+import { SlSelect } from '@shoelace-style/shoelace';
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -159,6 +160,15 @@ export class RewiringAmericaStateCalculator extends LitElement {
     }
   }
 
+  handleTabDown(e: KeyboardEvent, select: SlSelect) {
+    if (e.key === 'Tab' && select.open) {
+      e.preventDefault();
+      e.stopPropagation();
+      select.hide();
+      select.displayInput.focus({ preventScroll: true });
+    }
+  }
+
   override async updated() {
     await new Promise(r => setTimeout(r, 0));
     if (!this.renderRoot) {
@@ -169,23 +179,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
         'div.select__combobox',
       ) as HTMLElement;
 
-      currSelect.addEventListener('keydown', event => {
-        if (event.key === 'Tab' && currSelect.open) {
-          event.preventDefault();
-          event.stopPropagation();
-          currSelect.hide();
-          currSelect.displayInput.focus({ preventScroll: true });
-        }
-      });
-
-      combobox?.addEventListener('keydown', event => {
-        if (event.key === 'Tab' && currSelect.open) {
-          event.preventDefault();
-          event.stopPropagation();
-          currSelect.hide();
-          currSelect.displayInput.focus({ preventScroll: true });
-        }
-      });
+      currSelect.addEventListener('keydown', event =>
+        this.handleTabDown(event, currSelect),
+      );
+      combobox?.addEventListener('keydown', event =>
+        this.handleTabDown(event, currSelect),
+      );
     });
   }
 
