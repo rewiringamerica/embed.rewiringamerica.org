@@ -98,12 +98,12 @@ type FormOptions = {
 
 export const label = (
   labelText: string,
-  toolTipText: string,
+  tooltipText: string,
   tooltipSize: number,
 ) => {
   return html`<label slot="label">
     ${labelText}
-    <sl-tooltip content="${toolTipText}" hoist
+    <sl-tooltip content="${tooltipText}" hoist
       >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
     >
   </label>`;
