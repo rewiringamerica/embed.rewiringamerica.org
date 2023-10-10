@@ -1,6 +1,6 @@
 import { css, html, nothing } from 'lit';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
-import { exclamationPoint, questionIcon, upRightArrow } from './icons';
+import { exclamationPoint, upRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { iconTabBarTemplate } from './icon-tab-bar';
 import { authorityLogosTemplate } from './authority-logos';
@@ -176,41 +176,6 @@ export const stateIncentivesStyles = css`
     font-weight: 500;
     line-height: 125%;
   }
-
-  .summary {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-    flex: 1 0 0;
-    padding: 0.75rem;
-  }
-
-  .summary__title {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .summary__caption {
-    color: #111;
-
-    font-size: 0.6875rem;
-    font-weight: 700;
-    line-height: 125%;
-    letter-spacing: 0.03438rem;
-    text-transform: uppercase;
-  }
-
-  .summary__body {
-    color: #111;
-
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 165%;
-  }
 `;
 
 export const cardStyles = css`
@@ -359,54 +324,6 @@ const incentiveCardTemplate = (incentive: Incentive) => html`
   </div>
 `;
 
-const summaryBoxTemplate = (
-  caption: string,
-  body: string,
-  tooltip: string,
-) => html`
-  <div class="card">
-    <div class="summary">
-      <div class="summary__title">
-        <span class="summary__caption"> ${caption} </span>
-        <sl-tooltip content="${tooltip}" hoist>
-          ${questionIcon(18, 18)}
-        </sl-tooltip>
-      </div>
-      <div class="summary__body">${body}</div>
-    </div>
-  </div>
-`;
-
-const atAGlanceTemplate = (response: APIResponse) => {
-  return html`
-    <div class="grid-section">
-      <h2 class="grid-section__header">Incentives at a glance</h2>
-      <div class="grid-4-2-1 grid-4-2-1--align-start">
-        ${summaryBoxTemplate(
-          'Upfront discounts',
-          `$${response.savings.pos_rebate.toLocaleString()}`,
-          'Money saved on a project’s upfront costs.',
-        )}
-        ${summaryBoxTemplate(
-          'Rebates',
-          `$${response.savings.rebate.toLocaleString()}`,
-          'Money paid back to you after a project is completed.',
-        )}
-        ${summaryBoxTemplate(
-          'Account credits',
-          `$${response.savings.account_credit.toLocaleString()}`,
-          'Money credited to your utility account, going towards paying your next bills.',
-        )}
-        ${summaryBoxTemplate(
-          'Tax credits',
-          `$${response.savings.tax_credit.toLocaleString()}`,
-          'Your taxes may be reduced by up to this amount.',
-        )}
-      </div>
-    </div>
-  `;
-};
-
 const gridTemplate = (
   heading: string,
   incentives: Incentive[],
@@ -426,9 +343,9 @@ const gridTemplate = (
       `
     : nothing;
 /**
- * Renders the "at a glance" summary section, a grid of incentive cards about
- * the project you selected in the main form, then a grid of tab-bar switchable
- * incentive cards about other projects.
+ * Renders a grid of tab-bar switchable incentive cards about the projects you
+ * selected in the main form, then a grid of tab-bar switchable incentive cards
+ * about other projects.
  *
  * @param selectedProject The project whose incentives should get hoisted into
  * their own section above all the others.
@@ -481,8 +398,7 @@ export const stateIncentivesTemplate = (
       ? 'Incentives available to you'
       : 'Other incentives available to you';
 
-  return html` ${atAGlanceTemplate(response)}
-  ${gridTemplate(
+  return html`${gridTemplate(
     'Incentives you’re interested in',
     selectedIncentives,
     interestedProjects,
