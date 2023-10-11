@@ -4,6 +4,7 @@ import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
 import { SlChangeEvent } from '@shoelace-style/shoelace';
+import { live } from 'lit/directives/live';
 
 export interface OptionParam {
   label: string;
@@ -56,7 +57,7 @@ export const select = ({
         id="${id}"
         name="${id}"
         label="${ifDefined(label)}"
-        value="${currentValue}"
+        .value=${live(currentValue)}
         help-text="${ifDefined(helpText)}"
         placeholder="${ifDefined(placeholder)}"
         placement="${ifDefined(placement)}"
@@ -92,7 +93,7 @@ export const multiselect = ({
         id="${id}"
         name="${id}"
         label="${ifDefined(label)}"
-        value="${currentValues.join(' ')}"
+        .value=${live(currentValues)}
         help-text="${ifDefined(helpText)}"
         placeholder="${ifDefined(placeholder)}"
         max-options-visible="${ifDefined(maxOptionsVisible)}"

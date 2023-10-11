@@ -1,11 +1,9 @@
-const LOCAL_STORAGE_KEY = 'calc-email-submitted';
+import { safeLocalStorage } from './safe-local-storage';
+
+const LOCAL_STORAGE_KEY = 'RA-calc-email-submitted';
 
 export function wasEmailSubmitted(): boolean {
-  try {
-    return localStorage.getItem(LOCAL_STORAGE_KEY) !== null;
-  } catch (_) {
-    return false;
-  }
+  return safeLocalStorage.getItem(LOCAL_STORAGE_KEY) !== null;
 }
 
 export async function submitEmailSignup(
@@ -14,11 +12,7 @@ export async function submitEmailSignup(
   email: string,
   zip: string,
 ): Promise<boolean> {
-  try {
-    localStorage.setItem(LOCAL_STORAGE_KEY, 'true');
-  } catch (_) {
-    // Ignore; proceed with submitting
-  }
+  safeLocalStorage.setItem(LOCAL_STORAGE_KEY, true);
 
   try {
     const url = new URL(apiHost);
