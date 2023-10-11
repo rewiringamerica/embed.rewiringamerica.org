@@ -82,9 +82,7 @@ export interface APIResponse {
     state: string | null;
     utility: string | null;
   };
-  location: {
-    state: string;
-  };
+  location: APILocation;
   savings: {
     tax_credit: number;
     pos_rebate: number;
