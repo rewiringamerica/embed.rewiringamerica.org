@@ -1,6 +1,6 @@
 import { safeLocalStorage } from './safe-local-storage';
 
-const LOCAL_STORAGE_KEY = 'calc-email-submitted';
+const LOCAL_STORAGE_KEY = 'RA-calc-email-submitted';
 
 export function wasEmailSubmitted(): boolean {
   return safeLocalStorage.getItem(LOCAL_STORAGE_KEY) !== null;
