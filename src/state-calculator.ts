@@ -76,8 +76,13 @@ const handleTabDown = (e: KeyboardEvent) => {
 };
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
+const DEFAULT_ZIP = '';
+const DEFAULT_OWNER_STATUS: OwnerStatus = 'homeowner';
+const DEFAULT_TAX_FILING: FilingStatus = 'single';
+const DEFAULT_HOUSEHOLD_INCOME = '0';
+const DEFAULT_HOUSEHOLD_SIZE = '1';
 
-const FORM_VALUES_LOCAL_STORAGE_KEY = 'calc-form-values';
+const FORM_VALUES_LOCAL_STORAGE_KEY = 'RA-calc-form-values';
 type SavedFormValues = Partial<{
   zip: string;
   ownerStatus: OwnerStatus;
@@ -145,22 +150,28 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: String, attribute: 'state' })
   state: string = '';
 
-  /* supported properties to allow pre-filling the form */
+  /* supported properties to allow pre-filling the form
+   *
+   * These can be overridden by values stored in local storage, which is why
+   * they can't use the "attribute" property in the decorator.
+   */
 
-  @property({ type: String })
-  zip: string = '';
+  @property({ type: String }) // attribute: 'zip'
+  zip: string = DEFAULT_ZIP;
 
-  @property({ type: String })
-  ownerStatus: OwnerStatus = 'homeowner';
+  @property({ type: String }) // attribute: 'owner-status'
+  ownerStatus: OwnerStatus = DEFAULT_OWNER_STATUS;
 
-  @property({ type: String })
-  householdIncome: string = '0';
+  @property({ type: String }) // attribute: 'household-income'
+  householdIncome: string = DEFAULT_HOUSEHOLD_INCOME;
 
-  @property({ type: String })
-  taxFiling: FilingStatus = 'single';
+  @property({ type: String }) // attribute: 'tax-filing'
+  taxFiling: FilingStatus = DEFAULT_TAX_FILING;
 
-  @property({ type: String })
-  householdSize: string = '1';
+  @property({ type: String }) // attribute: 'household-size'
+  householdSize: string = DEFAULT_HOUSEHOLD_SIZE;
+
+  /* internal properties */
 
   @property({ type: String })
   utility: string = '';
@@ -198,17 +209,23 @@ export class RewiringAmericaStateCalculator extends LitElement {
     );
     const attr = (k: string) => this.attributes.getNamedItem(k)?.value;
 
-    this.zip = formValues?.zip ?? attr('zip') ?? '';
+    this.zip = formValues?.zip ?? attr('zip') ?? DEFAULT_ZIP;
     this.ownerStatus =
       formValues?.ownerStatus ??
-      ((attr('owner-status') ?? 'homeowner') as OwnerStatus);
+      (attr('owner-status') as OwnerStatus) ??
+      DEFAULT_OWNER_STATUS;
     this.householdIncome =
-      formValues?.householdIncome ?? attr('household-income') ?? '0';
+      formValues?.householdIncome ??
+      attr('household-income') ??
+      DEFAULT_HOUSEHOLD_INCOME;
     this.householdSize =
-      formValues?.householdSize ?? attr('household-size') ?? '1';
+      formValues?.householdSize ??
+      attr('household-size') ??
+      DEFAULT_HOUSEHOLD_SIZE;
     this.taxFiling =
       formValues?.taxFiling ??
-      ((attr('tax-filing') ?? 'single') as FilingStatus);
+      (attr('tax-filing') as FilingStatus) ??
+      DEFAULT_TAX_FILING;
     this.projects = formValues?.projects ?? [];
   }
 
