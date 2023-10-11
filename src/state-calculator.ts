@@ -24,7 +24,7 @@ import { STATES } from './states';
 import { authorityLogosStyles } from './authority-logos';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
-import { SlSelect } from '@shoelace-style/shoelace';
+import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -41,6 +41,38 @@ const errorTemplate = (error: unknown) => html`
       : 'Error loading incentives.'}
   </div>
 `;
+
+/**
+ * We need to add event listeners to handle the tab down keyboard event in
+ * order to gracefully jump out of an open SlSelect dropdown. There are two
+ * different scenarios in which we have to add an event listener:
+ *
+ * 1) When any select is open and the dropdown appears, but without having
+ *    clicked on any of the options
+ * 2) When a multiselect is open and the dropdown appears, and option(s)
+ *    have been selected or de-selected
+ *
+ * In both cases, we have to find the parent SlSelect node that the event is
+ * triggered against. In the first case, the target is the first select option
+ * which is highlighted, so the SlSelect node is simply the parent node of
+ * the target. In the second case, the target is the input element, which is
+ * nested under a shadow root, which itself is a child of the SlSelect node.
+ */
+const handleTabDown = (e: KeyboardEvent) => {
+  const target = e.target as Node;
+  const selectTarget = target.parentNode as SlSelect;
+  const comboTarget = target.getRootNode() as ShadowRoot;
+  const comboSelectTarget = comboTarget.host as SlSelect;
+
+  const select =
+    selectTarget instanceof SlSelect ? selectTarget : comboSelectTarget;
+  if (e.key === 'Tab' && select.open) {
+    e.preventDefault();
+    e.stopPropagation();
+    select.hide();
+    select.displayInput.focus({ preventScroll: true });
+  }
+};
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
 
@@ -160,15 +192,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
     }
   }
 
-  handleTabDown(e: KeyboardEvent, select: SlSelect) {
-    if (e.key === 'Tab' && select.open) {
-      e.preventDefault();
-      e.stopPropagation();
-      select.hide();
-      select.displayInput.focus({ preventScroll: true });
-    }
-  }
-
   override async updated() {
     await new Promise(r => setTimeout(r, 0));
     if (!this.renderRoot) {
@@ -179,12 +202,8 @@ export class RewiringAmericaStateCalculator extends LitElement {
         'div.select__combobox',
       ) as HTMLElement;
 
-      currSelect.addEventListener('keydown', event =>
-        this.handleTabDown(event, currSelect),
-      );
-      combobox?.addEventListener('keydown', event =>
-        this.handleTabDown(event, currSelect),
-      );
+      currSelect.addEventListener('keydown', handleTabDown);
+      combobox?.addEventListener('keydown', handleTabDown);
     });
   }
 
