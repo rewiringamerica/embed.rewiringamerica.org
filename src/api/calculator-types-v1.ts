@@ -56,21 +56,16 @@ export interface APILocation {
   state: string;
 }
 
-// TODO delete the first option once API PR #161 is deployed to prod
-export type APIUtilitiesResponse =
-  | {
-      [utilityId: string]: {
-        name: string;
-      };
-    }
-  | {
-      location: APILocation;
-      utilities: {
-        [utilityId: string]: {
-          name: string;
-        };
-      };
-    };
+export interface APIUtilityMap {
+  [utilityId: string]: {
+    name: string;
+  };
+}
+
+export interface APIUtilitiesResponse {
+  location: APILocation;
+  utilities: APIUtilityMap;
+}
 
 export interface APIResponse {
   authorities: {
@@ -87,6 +82,7 @@ export interface APIResponse {
     state: string | null;
     utility: string | null;
   };
+  location: APILocation;
   savings: {
     tax_credit: number;
     pos_rebate: number;

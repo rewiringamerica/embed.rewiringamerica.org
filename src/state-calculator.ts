@@ -110,6 +110,10 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: String, attribute: 'api-host' })
   apiHost: string = DEFAULT_CALCULATOR_API_HOST;
 
+  /* supported property to allow restricting the calculator to ZIPs in a specific state */
+  @property({ type: String, attribute: 'state' })
+  state: string = '';
+
   /* supported properties to allow pre-filling the form */
 
   @property({ type: String, attribute: 'zip' })
@@ -141,24 +145,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
 
   @property({ type: Boolean })
   wasEmailSubmitted: boolean = wasEmailSubmitted();
-
-  /**
-   * This is a hack to deal with a quirk of the UI.
-   *
-   * Specifically:
-   *
-   * - Rendering the utility selector / map outline requires knowing what state
-   *   the user is in, to know which outline to show.
-   * - That state is unknown until the /calculator response is available.
-   * - When the user changes the utility selector, the /calculator response is
-   *   unavailable while it's loading. But we want to continue showing the
-   *   utility selector / map outline.
-   *
-   * This property thus temporarily remembers the state from the last completed
-   * /calculator response, when the utility selector is changed. It's cleared
-   * when the /calculator response arrives.
-   */
-  tempState: string | null = null;
 
   submit(e: SubmitEvent) {
     e.preventDefault();
@@ -225,36 +211,33 @@ export class RewiringAmericaStateCalculator extends LitElement {
         'location[zip]': this.zip,
       });
 
-      try {
-        const response = await fetchApi<APIUtilitiesResponse>(
-          this.apiKey,
-          this.apiHost,
-          '/api/v1/utilities',
-          query,
+      const response = await fetchApi<APIUtilitiesResponse>(
+        this.apiKey,
+        this.apiHost,
+        '/api/v1/utilities',
+        query,
+      );
+
+      // If our "state" attribute is set, enforce that the entered location is
+      // in that state.
+      if (this.state && this.state !== response.location.state) {
+        // Throw to put the task into the ERROR state for rendering.
+        throw new Error(
+          `That ZIP code is not in ${STATES[this.state]?.name ?? this.state}.`,
         );
-
-        const utilityMap =
-          'utilities' in response
-            ? (response.utilities as Record<string, { name: string }>)
-            : response;
-
-        return Object.keys(utilityMap).map(id => ({
-          value: id,
-          label: utilityMap[id].name,
-        }));
-      } catch (_) {
-        // Just use an empty utilities list if there's an error.
-        return [];
       }
+
+      return response;
     },
-    onComplete: options => {
-      if (options.length === 0) {
+    onComplete: response => {
+      const ids = Object.keys(response.utilities);
+      if (ids.length === 0) {
         this.utility = '';
       } else {
         // Preserve the previous utility selection if it's still available.
         // Select the first option in the list otherwise.
-        if (!options.map(o => o.value).includes(this.utility)) {
-          this.utility = options[0].value;
+        if (!ids.includes(this.utility)) {
+          this.utility = ids[0];
         }
       }
       this._task.run();
@@ -287,20 +270,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
         query,
       );
     },
-    onComplete: () => {
-      this.tempState = null;
-    },
   });
 
   override render() {
-    // If we have incentives loaded, use coverage.state from that to determine
-    // which state outline to show. Otherwise, look at the "tempState" override,
-    // which is set when the utility selector is changed.
-    const highlightedState =
-      this._task.status === TaskStatus.COMPLETE
-        ? this._task.value?.coverage.state
-        : this.tempState;
-
     // Show the following elements below the form:
     //
     // - The utility selector/map, if we know what state the user's ZIP is
@@ -312,6 +284,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
     //
     // - The loading spinner, if either utilities or incentives are still
     //   loading.
+    //
+    // - An error message, if nothing is currently loading and either fetch
+    //   errored out.
 
     const showLoading =
       this._utilitiesTask.status === TaskStatus.PENDING ||
@@ -350,16 +325,15 @@ export class RewiringAmericaStateCalculator extends LitElement {
           // means knowing utilities and incentives for a state; frontend support
           // means having an outline map and name for a state.)
           this._utilitiesTask.status === TaskStatus.COMPLETE &&
-          this._utilitiesTask.value!.length > 0 &&
-          highlightedState &&
-          highlightedState in STATES
+          this._utilitiesTask.value &&
+          Object.keys(this._utilitiesTask.value.utilities).length > 0 &&
+          this._utilitiesTask.value.location.state in STATES
             ? utilitySelectorTemplate(
-                STATES[highlightedState],
+                STATES[this._utilitiesTask.value.location.state],
                 this.utility,
-                this._utilitiesTask.value!,
+                this._utilitiesTask.value.utilities,
                 newUtility => {
                   this.utility = newUtility;
-                  this.tempState = highlightedState;
                   this._task.run();
                 },
               )
@@ -381,7 +355,11 @@ export class RewiringAmericaStateCalculator extends LitElement {
             ]
           : nothing}
         ${showLoading ? loadingTemplate() : nothing}
-        ${this._task.status === TaskStatus.ERROR && !showLoading
+        ${showLoading
+          ? nothing
+          : this._utilitiesTask.status === TaskStatus.ERROR
+          ? errorTemplate(this._utilitiesTask.error)
+          : this._task.status === TaskStatus.ERROR
           ? errorTemplate(this._task.error)
           : nothing}
         ${CALCULATOR_FOOTER}

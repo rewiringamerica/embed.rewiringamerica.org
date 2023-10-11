@@ -1,7 +1,8 @@
 import { css, html } from 'lit';
 import { questionIcon } from './icons';
-import { OptionParam, select } from './select';
+import { select } from './select';
 import { StateInfo } from './states';
+import { APIUtilityMap } from './api/calculator-types-v1';
 
 export const utilitySelectorStyles = css`
   .utility-selector {
@@ -75,7 +76,7 @@ export const utilitySelectorStyles = css`
 
 const utilityFormTemplate = (
   utilityId: string,
-  utilityOptions: OptionParam[],
+  utilities: APIUtilityMap,
   onChange: (utilityId: string) => void,
 ) => {
   const labelSlot = html`<label slot="label">
@@ -87,6 +88,12 @@ const utilityFormTemplate = (
       ${questionIcon(18, 18)}
     </sl-tooltip>
   </label>`;
+
+  const utilityOptions = Object.entries(utilities).map(([id, info]) => ({
+    value: id,
+    label: info.name,
+  }));
+
   return html`
     <form>
       <div>
@@ -115,7 +122,7 @@ const utilityFormTemplate = (
 export const utilitySelectorTemplate = (
   stateInfo: StateInfo,
   utilityId: string,
-  utilityOptions: OptionParam[],
+  utilities: APIUtilityMap,
   onChange: (utilityId: string) => void,
 ) =>
   html` <div class="utility-selector">
@@ -127,6 +134,6 @@ export const utilitySelectorTemplate = (
     </div>
     <div class="utility-selector__spacer"></div>
     <div class="card card-content utility-selector__selector">
-      ${utilityFormTemplate(utilityId, utilityOptions, onChange)}
+      ${utilityFormTemplate(utilityId, utilities, onChange)}
     </div>
   </div>`;
