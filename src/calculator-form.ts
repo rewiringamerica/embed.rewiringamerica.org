@@ -230,7 +230,7 @@ export const formTemplate = (
             placeholder="$60,000"
             name="household_income"
             required
-            value=${householdIncome}
+            .value=${live(householdIncome)}
             min="0"
             max="100000000"
             tabindex="-1"
