@@ -1,4 +1,4 @@
-import { LitElement, html, nothing } from 'lit';
+import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Task, TaskStatus, initialState } from '@lit-labs/task';
 import { baseStyles } from './styles';
@@ -25,6 +25,7 @@ import { authorityLogosStyles } from './authority-logos';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
+import { safeLocalStorage } from './safe-local-storage';
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -75,6 +76,40 @@ const handleTabDown = (e: KeyboardEvent) => {
 };
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
+const DEFAULT_ZIP = '';
+const DEFAULT_OWNER_STATUS: OwnerStatus = 'homeowner';
+const DEFAULT_TAX_FILING: FilingStatus = 'single';
+const DEFAULT_HOUSEHOLD_INCOME = '0';
+const DEFAULT_HOUSEHOLD_SIZE = '1';
+
+const FORM_VALUES_LOCAL_STORAGE_KEY = 'RA-calc-form-values';
+type SavedFormValues = Partial<{
+  zip: string;
+  ownerStatus: OwnerStatus;
+  householdIncome: string;
+  householdSize: string;
+  taxFiling: FilingStatus;
+  projects: Project[];
+}>;
+
+const formTitleStyles = css`
+  .form-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form-title__reset {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    color: var(--rewiring-purple);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 125%;
+  }
+`;
 
 @customElement('rewiring-america-state-calculator')
 export class RewiringAmericaStateCalculator extends LitElement {
@@ -87,6 +122,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     separatorStyles,
     iconTabBarStyles,
     authorityLogosStyles,
+    formTitleStyles,
   ];
 
   /* supported properties to control showing/hiding of each card in the widget */
@@ -114,22 +150,28 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: String, attribute: 'state' })
   state: string = '';
 
-  /* supported properties to allow pre-filling the form */
+  /* supported properties to allow pre-filling the form
+   *
+   * These can be overridden by values stored in local storage, which is why
+   * they can't use the "attribute" property in the decorator.
+   */
 
-  @property({ type: String, attribute: 'zip' })
-  zip: string = '';
+  @property({ type: String }) // attribute: 'zip'
+  zip: string = DEFAULT_ZIP;
 
-  @property({ type: String, attribute: 'owner-status' })
-  ownerStatus: OwnerStatus = 'homeowner';
+  @property({ type: String }) // attribute: 'owner-status'
+  ownerStatus: OwnerStatus = DEFAULT_OWNER_STATUS;
 
-  @property({ type: String, attribute: 'household-income' })
-  householdIncome: string = '0';
+  @property({ type: String }) // attribute: 'household-income'
+  householdIncome: string = DEFAULT_HOUSEHOLD_INCOME;
 
-  @property({ type: String, attribute: 'tax-filing' })
-  taxFiling: FilingStatus = 'single';
+  @property({ type: String }) // attribute: 'tax-filing'
+  taxFiling: FilingStatus = DEFAULT_TAX_FILING;
 
-  @property({ type: String, attribute: 'household-size' })
-  householdSize: string = '1';
+  @property({ type: String }) // attribute: 'household-size'
+  householdSize: string = DEFAULT_HOUSEHOLD_SIZE;
+
+  /* internal properties */
 
   @property({ type: String })
   utility: string = '';
@@ -146,6 +188,47 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: Boolean })
   wasEmailSubmitted: boolean = wasEmailSubmitted();
 
+  /**
+   * Called when the component is added to the DOM. At this point the values of
+   * the HTML attributes are available, so we can initialize the properties
+   * representing form values.
+   */
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.initFormProperties();
+  }
+
+  /**
+   * Populate the properties that hold form values from saved values if
+   * available, then from HTML attributes if defined, and default values
+   * otherwise.
+   */
+  initFormProperties(): void {
+    const formValues = safeLocalStorage.getItem<SavedFormValues>(
+      FORM_VALUES_LOCAL_STORAGE_KEY,
+    );
+    const attr = (k: string) => this.attributes.getNamedItem(k)?.value;
+
+    this.zip = formValues?.zip ?? attr('zip') ?? DEFAULT_ZIP;
+    this.ownerStatus =
+      formValues?.ownerStatus ??
+      (attr('owner-status') as OwnerStatus) ??
+      DEFAULT_OWNER_STATUS;
+    this.householdIncome =
+      formValues?.householdIncome ??
+      attr('household-income') ??
+      DEFAULT_HOUSEHOLD_INCOME;
+    this.householdSize =
+      formValues?.householdSize ??
+      attr('household-size') ??
+      DEFAULT_HOUSEHOLD_SIZE;
+    this.taxFiling =
+      formValues?.taxFiling ??
+      (attr('tax-filing') as FilingStatus) ??
+      DEFAULT_TAX_FILING;
+    this.projects = formValues?.projects ?? [];
+  }
+
   submit(e: SubmitEvent) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
@@ -156,6 +239,8 @@ export class RewiringAmericaStateCalculator extends LitElement {
     this.taxFiling = (formData.get('tax_filing') as FilingStatus) || '';
     this.householdSize = (formData.get('household_size') as string) || '';
     this.projects = (formData.getAll('projects') as Project[]) || '';
+
+    this.saveFormValues();
 
     const email = (formData.get('email') || '') as string;
     if (email && !this.wasEmailSubmitted) {
@@ -176,6 +261,22 @@ export class RewiringAmericaStateCalculator extends LitElement {
     } else {
       this._task.run();
     }
+  }
+
+  saveFormValues() {
+    safeLocalStorage.setItem<SavedFormValues>(FORM_VALUES_LOCAL_STORAGE_KEY, {
+      zip: this.zip,
+      ownerStatus: this.ownerStatus,
+      householdIncome: this.householdIncome,
+      householdSize: this.householdSize,
+      taxFiling: this.taxFiling,
+      projects: this.projects,
+    });
+  }
+
+  resetFormValues() {
+    safeLocalStorage.removeItem(FORM_VALUES_LOCAL_STORAGE_KEY);
+    this.initFormProperties();
   }
 
   override async updated() {
@@ -297,7 +398,17 @@ export class RewiringAmericaStateCalculator extends LitElement {
     return html`
       <div class="calculator">
         <div class="card card-content">
-          <h1>Your household info</h1>
+          <div class="form-title">
+            <h1 class="form-title__text">Your household info</h1>
+            <div>
+              <button
+                class="form-title__reset"
+                @click=${() => this.resetFormValues()}
+              >
+                Reset calculator
+              </button>
+            </div>
+          </div>
           ${this.hideForm
             ? nothing
             : formTemplate(

@@ -1,4 +1,5 @@
 import { html, css, unsafeCSS, nothing, TemplateResult } from 'lit';
+import { live } from 'lit/directives/live';
 import { questionIcon } from './icons';
 import { select, multiselect, selectStyles, OptionParam } from './select';
 import { inputStyles } from './styles/input';
@@ -197,7 +198,7 @@ export const formTemplate = (
             name="zip"
             required
             type="text"
-            value="${zip}"
+            .value=${live(zip)}
             minlength="5"
             maxlength="5"
             inputmode="numeric"
@@ -229,7 +230,7 @@ export const formTemplate = (
             placeholder="$60,000"
             name="household_income"
             required
-            value=${householdIncome}
+            .value=${live(householdIncome)}
             min="0"
             max="100000000"
             tabindex="-1"

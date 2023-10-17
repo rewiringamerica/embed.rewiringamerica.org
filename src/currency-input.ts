@@ -86,6 +86,7 @@ export class CurrencyInput extends LitElement {
     }
     if (changedProperties.has('value')) {
       this.autonumeric?.set(this.value);
+      this.internals?.setFormValue(this.value);
     }
   }
 
