@@ -282,34 +282,6 @@ export const selectStyles = css`
     margin-top: 4px;
   }
 
-  // select__prefix {
-  //   margin-inline-end: var(--sl-input-spacing-small);
-  // }
-
-  // select__combobox {
-  //   margin-inline-end: var(--sl-input-spacing-small);
-  // }
-
-  // .select--medium {
-  //   margin-inline-end: var(--sl-input-spacing-small);
-  // }
-  // //.select--medium .select__prefix::slotted(*)
-  // .select--medium .select__prefix::slotted(*) {
-  //   margin-inline-end: var(--sl-input-spacing-x-small);
-  // }
-
-  // .select--medium .select__prefix::slotted(*) {
-  //   margin-inline-end: var(--sl-input-spacing-small);
-  // }
-
-  // .select__prefix::slotted(*) {
-  //   margin-inline-end: var(--sl-spacing-x-small);
-  // }
-
-  // .form-control-input .select--medium .select__prefix::slotted(*) {
-  //   margin-inline-end: var(--sl-spacing-x-small);
-  // }
-
   sl-select::part(expand-icon) {
     content: '';
     justify-self: end;
@@ -317,5 +289,10 @@ export const selectStyles = css`
     height: 0.4em;
     background-color: var(--ra-select-arrow-color);
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  }
+
+  sl-select::part(prefix) {
+    margin-inline-start: 0.75rem;
+    margin-inline-end: 0.5rem;
   }
 `;
