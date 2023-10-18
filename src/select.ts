@@ -291,8 +291,7 @@ export const selectStyles = css`
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
   }
 
-  sl-select::part(prefix) {
-    margin-inline-start: 0.75rem;
-    margin-inline-end: 0.5rem;
+  sl-select#project-selector::part(prefix) {
+    margin-inline-end: -0.5rem;
   }
 `;
