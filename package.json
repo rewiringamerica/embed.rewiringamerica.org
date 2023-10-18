@@ -10,8 +10,8 @@
     "lit": "^2.6.1"
   },
   "scripts": {
-    "build:widget": "parcel build --target default --no-scope-hoist",
-    "serve:widget": "parcel serve ./src/*.html --dist-dir build",
+    "build:widget": "NODE_ENV=production parcel build --target default",
+    "serve:widget": "NODE_ENV=development parcel serve ./src/*.html --dist-dir build",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "lint": "tsc --noEmit && prettier --check . && eslint .",
@@ -41,6 +41,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "parcel": "v2.8.3",
+    "parcel-reporter-static-files-copy": "^1.5.3",
     "postcss": "^8.4.21",
     "postcss-modules": "^6.0.0",
     "posthtml": "^0.16.6",
@@ -66,6 +67,22 @@
       "publicUrl": "./"
     }
   },
+  "staticFiles": [
+    {
+      "staticPath": "static/icons",
+      "distDir": "dist/assets/icons",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "staticPath": "static/icons",
+      "distDir": "build/assets/icons",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  ],
   "lint-staged": {
     "**/*.{js,ts,json,md,css,html}": "prettier --write"
   }

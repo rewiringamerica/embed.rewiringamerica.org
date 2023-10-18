@@ -108,6 +108,7 @@ export const iconTabBarTemplate = (
   const options = tabs.map(project => ({
     value: project,
     label: PROJECTS[project].label,
+    iconFileName: PROJECTS[project].iconFileName,
   }));
 
   return html`
@@ -119,6 +120,7 @@ export const iconTabBarTemplate = (
         required: true,
         currentValue: selectedTab,
         options,
+        iconLibrary: 'ra-narrow-view-icons',
         onChange: event =>
           onTabSelected((event.target as HTMLInputElement).value as Project),
       })}

@@ -26,6 +26,16 @@ import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 import { safeLocalStorage } from './safe-local-storage';
+import { registerIconLibrary } from '@shoelace-style/shoelace/dist/utilities/icon-library.js';
+
+registerIconLibrary('ra-narrow-view-icons', {
+  resolver: name => `/assets/icons/${name}.svg`,
+  mutator: svg => {
+    svg.setAttribute('fill', 'currentColor');
+    svg.setAttribute('width', '20');
+    svg.setAttribute('height', '20');
+  },
+});
 
 const loadingTemplate = () => html`
   <div class="card card-content">
