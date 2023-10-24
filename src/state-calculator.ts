@@ -28,10 +28,11 @@ import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 import { safeLocalStorage } from './safe-local-storage';
 import { registerIconLibrary } from '@shoelace-style/shoelace/dist/utilities/icon-library.js';
 
-registerIconLibrary('ra-narrow-view-icons', {
+export const RA_ICON_LIBRARY = 'ra-narrow-view-icons';
+
+registerIconLibrary(RA_ICON_LIBRARY, {
   resolver: name => `/assets/icons/${name}.svg`,
   mutator: svg => {
-    svg.setAttribute('fill', 'currentColor');
     svg.setAttribute('width', '20');
     svg.setAttribute('height', '20');
   },
@@ -302,6 +303,25 @@ export class RewiringAmericaStateCalculator extends LitElement {
       currSelect.addEventListener('keydown', handleTabDown);
       combobox?.addEventListener('keydown', handleTabDown);
     });
+
+    const multiselect = this.renderRoot.querySelector(
+      '.multiselect-prefix-icon-tag',
+    ) as SlSelect;
+
+    if (multiselect) {
+      multiselect.getTag = option => {
+        const name = option
+          .querySelector('sl-icon[slot="prefix"]')
+          ?.getAttribute('name');
+
+        return `
+          <sl-tag removable>
+            <sl-icon name="${name}" library="${RA_ICON_LIBRARY}" style="padding-inline-end: .5rem;"></sl-icon>
+            ${option.getTextLabel()}
+          </sl-tag>
+        `;
+      };
+    }
   }
 
   isFormComplete() {

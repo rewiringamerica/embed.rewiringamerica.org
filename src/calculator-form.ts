@@ -135,12 +135,17 @@ export const formTemplate = (
           labelSlot: projectsLabelSlot,
           required: true,
           options: Object.entries(PROJECTS)
-            .map(([value, data]) => ({ value, label: data.label }))
+            .map(([value, data]) => ({
+              value,
+              label: data.label,
+              iconFileName: data.iconFileName,
+            }))
             .sort((a, b) => a.label.localeCompare(b.label)),
           currentValues: projects,
           placeholder: 'None selected',
           maxOptionsVisible: 1,
           placement: 'top',
+          iconLibrary: 'ra-narrow-view-icons',
         })}
       </div>`
     : nothing;

@@ -112,6 +112,7 @@ export const multiselect = ({
   placeholder,
   maxOptionsVisible,
   placement,
+  iconLibrary,
 }: MultiSelectParam) => {
   return html`
     <div>
@@ -126,10 +127,11 @@ export const multiselect = ({
         placement="${ifDefined(placement)}"
         hoist
         multiple
+        class="multiselect-prefix-icon-tag"
       >
         ${labelSlot ?? nothing}
         <sl-icon slot="expand-icon"></sl-icon>
-        ${options.map(o => option(o))}
+        ${options.map(o => option(o, iconLibrary))}
       </sl-select>
       <span class="focus"></span>
     </div>
