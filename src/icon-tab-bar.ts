@@ -1,6 +1,7 @@
 import { css, html } from 'lit';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { select } from './select';
+import { RA_ICON_LIBRARY } from './state-calculator';
 
 export const iconTabBarStyles = css`
   .icon-tab-bar {
@@ -108,6 +109,7 @@ export const iconTabBarTemplate = (
   const options = tabs.map(project => ({
     value: project,
     label: PROJECTS[project].label,
+    iconFileName: PROJECTS[project].iconFileName,
   }));
 
   return html`
@@ -119,6 +121,7 @@ export const iconTabBarTemplate = (
         required: true,
         currentValue: selectedTab,
         options,
+        iconLibrary: RA_ICON_LIBRARY,
         onChange: event =>
           onTabSelected((event.target as HTMLInputElement).value as Project),
       })}

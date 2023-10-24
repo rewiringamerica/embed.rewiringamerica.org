@@ -130,6 +130,7 @@ type ProjectInfo = {
   label: string;
   shortLabel?: string;
   icon: (selected: boolean, w?: number, h?: number) => TemplateResult<2>;
+  iconFileName: string;
   items: ItemType[];
 };
 
@@ -157,6 +158,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     items: ['heat_pump_clothes_dryer'],
     label: 'Clothes dryer',
     icon: CLOTHES_DRYER_ICON,
+    iconFileName: 'clothes-dryer',
   },
   hvac: {
     items: [
@@ -166,6 +168,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     label: 'Heating, ventilation & cooling',
     shortLabel: 'HVAC',
     icon: HVAC_ICON,
+    iconFileName: 'hvac',
   },
   ev: {
     items: [
@@ -176,32 +179,38 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     label: 'Electric vehicle',
     shortLabel: 'EV',
     icon: EV_ICON,
+    iconFileName: 'ev',
   },
   solar: {
     items: ['rooftop_solar_installation'],
     label: 'Solar',
     icon: SOLAR_ICON,
+    iconFileName: 'solar',
   },
   battery: {
     items: ['battery_storage_installation'],
     label: 'Battery storage',
     icon: BATTERY_ICON,
+    iconFileName: 'battery',
   },
   heat_pump_water_heater: {
     items: ['heat_pump_water_heater'],
     label: 'Water heater',
     icon: WATER_HEATER_ICON,
+    iconFileName: 'water-heater',
   },
   cooking: {
     items: ['electric_stove'],
     label: 'Cooking stove/range',
     shortLabel: 'Cooking',
     icon: COOKING_ICON,
+    iconFileName: 'cooking',
   },
   wiring: {
     items: ['electric_panel', 'electric_wiring'],
     label: 'Electrical wiring',
     shortLabel: 'Electrical',
     icon: ELECTRICAL_WIRING_ICON,
+    iconFileName: 'electrical-wiring',
   },
 };
