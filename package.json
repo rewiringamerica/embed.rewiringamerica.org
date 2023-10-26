@@ -10,8 +10,8 @@
     "lit": "^2.6.1"
   },
   "scripts": {
-    "build:widget": "NODE_ENV=production parcel build --target default",
-    "serve:widget": "NODE_ENV=development parcel serve ./src/*.html --dist-dir build",
+    "build:widget": "NODE_ENV=production JS_HOST=https://embed.rewiringamerica.org parcel build --target default",
+    "serve:widget": "NODE_ENV=development JS_HOST=http://localhost:1234 parcel serve ./src/*.html --dist-dir build",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "lint": "tsc --noEmit && prettier --check . && eslint .",

@@ -145,7 +145,7 @@ export const formTemplate = (
           placeholder: 'None selected',
           maxOptionsVisible: 1,
           placement: 'top',
-          iconLibrary: 'ra-narrow-view-icons',
+          iconPath: '/assets/icons/',
         })}
       </div>`
     : nothing;

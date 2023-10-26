@@ -24,7 +24,7 @@ export interface SLSelectParam {
   disabled?: boolean;
   ariaLabel?: string;
   onChange?: (event: SlChangeEvent) => void;
-  iconLibrary?: string;
+  iconPath?: string;
 }
 
 export interface SingleSelectParam extends SLSelectParam {
@@ -38,14 +38,13 @@ export interface MultiSelectParam extends SLSelectParam {
 
 export const option = (
   { label, value, iconFileName }: OptionParam,
-  iconLibrary?: string,
+  iconPath?: string,
 ) => {
   const iconElement =
-    iconFileName && iconLibrary
+    iconFileName && iconPath
       ? html`<sl-icon
-          library="${iconLibrary}"
           slot="prefix"
-          name="${iconFileName}"
+          src="${process.env.JS_HOST}${iconPath}${iconFileName}.svg"
         ></sl-icon>`
       : nothing;
 
@@ -65,15 +64,15 @@ export const select = ({
   currentValue,
   onChange,
   ariaLabel,
-  iconLibrary,
+  iconPath,
   required = true,
   disabled = false,
 }: SingleSelectParam) => {
-  const prefixIcon = iconLibrary
+  const prefixIcon = iconPath
     ? html`<sl-icon
-        library="${iconLibrary}"
-        name="${options.find(option => option.value === currentValue)
-          ?.iconFileName}"
+        src="${process.env.JS_HOST}${iconPath}${options.find(
+          option => option.value === currentValue,
+        )?.iconFileName}.svg"
         slot="prefix"
       ></sl-icon>`
     : nothing;
@@ -95,7 +94,7 @@ export const select = ({
       >
         ${prefixIcon} ${labelSlot ?? nothing}
         <sl-icon slot="expand-icon"></sl-icon>
-        ${options.map(o => option(o, iconLibrary))}
+        ${options.map(o => option(o, iconPath))}
       </sl-select>
       <span class="focus"></span>
     </div>
@@ -112,7 +111,7 @@ export const multiselect = ({
   placeholder,
   maxOptionsVisible,
   placement,
-  iconLibrary,
+  iconPath,
 }: MultiSelectParam) => {
   return html`
     <div>
@@ -131,7 +130,7 @@ export const multiselect = ({
       >
         ${labelSlot ?? nothing}
         <sl-icon slot="expand-icon"></sl-icon>
-        ${options.map(o => option(o, iconLibrary))}
+        ${options.map(o => option(o, iconPath))}
       </sl-select>
       <span class="focus"></span>
     </div>
