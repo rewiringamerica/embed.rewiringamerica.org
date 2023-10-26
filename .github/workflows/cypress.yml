@@ -34,3 +34,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Incentive API key substituted in at build time
           REWIRING_AMERICA_API_KEY: ${{ secrets.REWIRING_AMERICA_API_KEY }}
+          JS_HOST: http://localhost:1234
