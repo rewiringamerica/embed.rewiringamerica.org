@@ -96,6 +96,9 @@ export const iconTabBarTemplate = (
     return html`
       <button
         class="${classes('icon-tab')}"
+        role="tab"
+        aria-selected="${isSelected}"
+        aria-label="${PROJECTS[project].label}"
         @click=${() => onTabSelected(project)}
       >
         ${PROJECTS[project].icon(isSelected)}
@@ -113,7 +116,7 @@ export const iconTabBarTemplate = (
   }));
 
   return html`
-    <div class="icon-tab-bar">${iconTabs}</div>
+    <div class="icon-tab-bar" role="tablist">${iconTabs}</div>
     <div class="icon-dropdown">
       ${select({
         id: 'project-selector',
