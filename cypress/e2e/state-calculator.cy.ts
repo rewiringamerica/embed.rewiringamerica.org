@@ -55,7 +55,7 @@ describe('template spec', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('$1,250/ton off a heat pump');
+      .contains('$1,000/ton off a heat pump');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
