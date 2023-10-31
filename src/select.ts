@@ -24,7 +24,6 @@ export interface SLSelectParam {
   disabled?: boolean;
   ariaLabel?: string;
   onChange?: (event: SlChangeEvent) => void;
-  iconPath?: string;
 }
 
 export interface SingleSelectParam extends SLSelectParam {
@@ -35,10 +34,6 @@ export interface MultiSelectParam extends SLSelectParam {
   currentValues: string[];
   maxOptionsVisible?: number;
 }
-
-export const imageHost = process.env.VERCEL_URL
-  ? 'https://' + process.env.VERCEL_URL
-  : process.env.JS_HOST;
 
 export const option = ({ label, value, iconURL }: OptionParam) => {
   const iconElement = iconURL
