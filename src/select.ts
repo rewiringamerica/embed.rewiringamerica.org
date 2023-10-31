@@ -9,7 +9,7 @@ import { live } from 'lit/directives/live';
 export interface OptionParam {
   label: string;
   value: string;
-  iconFileName?: string;
+  iconURL?: URL;
 }
 
 export interface SLSelectParam {
@@ -40,17 +40,10 @@ export const imageHost = process.env.VERCEL_URL
   ? 'https://' + process.env.VERCEL_URL
   : process.env.JS_HOST;
 
-export const option = (
-  { label, value, iconFileName }: OptionParam,
-  iconPath?: string,
-) => {
-  const iconElement =
-    iconFileName && iconPath
-      ? html`<sl-icon
-          slot="prefix"
-          src="${imageHost}${iconPath}${iconFileName}.svg"
-        ></sl-icon>`
-      : nothing;
+export const option = ({ label, value, iconURL }: OptionParam) => {
+  const iconElement = iconURL
+    ? html`<sl-icon slot="prefix" src="${iconURL}"></sl-icon>`
+    : nothing;
 
   return html`
     <sl-option value="${value}"> ${label} ${iconElement} </sl-option>
@@ -68,18 +61,14 @@ export const select = ({
   currentValue,
   onChange,
   ariaLabel,
-  iconPath,
   required = true,
   disabled = false,
 }: SingleSelectParam) => {
-  const prefixIcon = iconPath
-    ? html`<sl-icon
-        src="${imageHost}${iconPath}${options.find(
-          option => option.value === currentValue,
-        )?.iconFileName}.svg"
-        slot="prefix"
-      ></sl-icon>`
+  const currentOption = options.find(option => option.value === currentValue);
+  const prefixIcon = currentOption?.iconURL
+    ? html`<sl-icon src="${currentOption.iconURL}" slot="prefix"></sl-icon>`
     : nothing;
+
   return html`
     <div>
       <sl-select
@@ -98,7 +87,7 @@ export const select = ({
       >
         ${prefixIcon} ${labelSlot ?? nothing}
         <sl-icon slot="expand-icon"></sl-icon>
-        ${options.map(o => option(o, iconPath))}
+        ${options.map(o => option(o))}
       </sl-select>
       <span class="focus"></span>
     </div>
@@ -115,7 +104,6 @@ export const multiselect = ({
   placeholder,
   maxOptionsVisible,
   placement,
-  iconPath,
 }: MultiSelectParam) => {
   return html`
     <div>
@@ -134,7 +122,7 @@ export const multiselect = ({
       >
         ${labelSlot ?? nothing}
         <sl-icon slot="expand-icon"></sl-icon>
-        ${options.map(o => option(o, iconPath))}
+        ${options.map(o => option(o))}
       </sl-select>
       <span class="focus"></span>
     </div>

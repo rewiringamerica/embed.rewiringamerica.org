@@ -27,8 +27,6 @@ import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 import { safeLocalStorage } from './safe-local-storage';
 
-export const RA_ICONS_PATH = '/assets/icons/';
-
 const loadingTemplate = () => html`
   <div class="card card-content">
     <div class="loading">
