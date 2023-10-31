@@ -36,6 +36,8 @@ export interface MultiSelectParam extends SLSelectParam {
   maxOptionsVisible?: number;
 }
 
+export const imageHost = process.env.VERCEL_URL ?? process.env.JS_HOST;
+
 export const option = (
   { label, value, iconFileName }: OptionParam,
   iconPath?: string,
@@ -44,7 +46,7 @@ export const option = (
     iconFileName && iconPath
       ? html`<sl-icon
           slot="prefix"
-          src="${process.env.JS_HOST}${iconPath}${iconFileName}.svg"
+          src="${imageHost}${iconPath}${iconFileName}.svg"
         ></sl-icon>`
       : nothing;
 
@@ -70,7 +72,7 @@ export const select = ({
 }: SingleSelectParam) => {
   const prefixIcon = iconPath
     ? html`<sl-icon
-        src="${process.env.JS_HOST}${iconPath}${options.find(
+        src="${imageHost}${iconPath}${options.find(
           option => option.value === currentValue,
         )?.iconFileName}.svg"
         slot="prefix"
