@@ -36,7 +36,9 @@ export interface MultiSelectParam extends SLSelectParam {
   maxOptionsVisible?: number;
 }
 
-export const imageHost = process.env.VERCEL_URL ?? process.env.JS_HOST;
+export const imageHost = process.env.VERCEL_URL
+  ? 'https://' + process.env.VERCEL_URL
+  : process.env.JS_HOST;
 
 export const option = (
   { label, value, iconFileName }: OptionParam,
