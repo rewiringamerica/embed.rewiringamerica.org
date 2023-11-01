@@ -21,6 +21,9 @@ export class CurrencyInput extends LitElement {
   @property({ type: Boolean })
   required = false;
 
+  @property({ type: String, attribute: 'inputid' })
+  inputId = '';
+
   // this is optional because it can't exist until the input is rendered
   private autonumeric?: AutoNumeric;
 
@@ -98,6 +101,7 @@ export class CurrencyInput extends LitElement {
       <input
         ${ref(this.inputRefChanged)}
         type="text"
+        id=${this.inputId}
         inputmode="numeric"
         @change=${this.onChange}
         placeholder=${this.placeholder}
