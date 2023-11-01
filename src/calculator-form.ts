@@ -26,7 +26,8 @@ const buttonStyles = css`
     width: 100%;
   }
 
-  button.primary:hover {
+  button.primary:hover,
+  button.primary:focus {
     background-color: var(--ra-embed-primary-button-background-hover-color);
   }
 
