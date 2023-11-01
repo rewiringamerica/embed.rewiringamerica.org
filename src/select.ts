@@ -267,6 +267,8 @@ export const selectStyles = css`
     --sl-input-border-width: 1px;
     --sl-input-border-color-focus: var(--ra-select-focus-color);
 
+    --sl-font-sans: var(--ra-embed-font-family);
+
     margin-top: 4px;
   }
 
