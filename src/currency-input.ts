@@ -46,24 +46,14 @@ export class CurrencyInput extends LitElement {
     }
   }
 
-  onKeydown(event: KeyboardEvent) {
-    // this simulates submit on the host form, just like if you hit Enter in a regular <input>
-    if (event.key === 'Enter') {
-      const element: CurrencyInput = event.target as CurrencyInput;
-      element.internals?.form?.requestSubmit();
-    }
-  }
-
   override connectedCallback() {
     super.connectedCallback();
     this.internals = this.attachInternals();
     this.internals?.setFormValue(this.value);
-    this.addEventListener('keydown', this.onKeydown);
   }
 
   override disconnectedCallback() {
     this.autonumeric?.detach();
-    this.removeEventListener('keydown', this.onKeydown);
     super.disconnectedCallback();
   }
 
@@ -92,6 +82,10 @@ export class CurrencyInput extends LitElement {
 
   updateAutonumericOptions() {
     this.autonumeric?.update({
+      // Prevent autonumeric from populating the field with "$" when focusing
+      // it while empty. (That would suppress the browser's "fill out this
+      // field" indicator.)
+      emptyInputBehavior: 'press',
       minimumValue: this.min.toString(),
       maximumValue: this.max.toString(),
       decimalPlaces: 0,
