@@ -138,14 +138,13 @@ export const formTemplate = (
             .map(([value, data]) => ({
               value,
               label: data.label,
-              iconFileName: data.iconFileName,
+              iconURL: data.iconURL,
             }))
             .sort((a, b) => a.label.localeCompare(b.label)),
           currentValues: projects,
           placeholder: 'None selected',
           maxOptionsVisible: 1,
           placement: 'top',
-          iconLibrary: 'ra-narrow-view-icons',
         })}
       </div>`
     : nothing;

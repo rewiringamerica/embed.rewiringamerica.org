@@ -26,17 +26,6 @@ import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 import { safeLocalStorage } from './safe-local-storage';
-import { registerIconLibrary } from '@shoelace-style/shoelace/dist/utilities/icon-library.js';
-
-export const RA_ICON_LIBRARY = 'ra-narrow-view-icons';
-
-registerIconLibrary(RA_ICON_LIBRARY, {
-  resolver: name => `/assets/icons/${name}.svg`,
-  mutator: svg => {
-    svg.setAttribute('width', '20');
-    svg.setAttribute('height', '20');
-  },
-});
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -310,13 +299,13 @@ export class RewiringAmericaStateCalculator extends LitElement {
 
     if (multiselect) {
       multiselect.getTag = option => {
-        const name = option
+        const src = option
           .querySelector('sl-icon[slot="prefix"]')
-          ?.getAttribute('name');
+          ?.getAttribute('src');
 
         return `
           <sl-tag removable>
-            <sl-icon name="${name}" library="${RA_ICON_LIBRARY}" style="padding-inline-end: .5rem;"></sl-icon>
+            <sl-icon src="${src}" style="padding-inline-end: .5rem;"></sl-icon>
             ${option.getTextLabel()}
           </sl-tag>
         `;

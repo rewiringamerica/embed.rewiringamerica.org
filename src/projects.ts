@@ -130,7 +130,8 @@ type ProjectInfo = {
   label: string;
   shortLabel?: string;
   icon: (selected: boolean, w?: number, h?: number) => TemplateResult<2>;
-  iconFileName: string;
+  // The first argument for the URL must be a string literal for the correct Parcel behavior: https://parceljs.org/languages/javascript/#url-dependencies
+  iconURL: URL;
   items: ItemType[];
 };
 
@@ -158,7 +159,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     items: ['heat_pump_clothes_dryer'],
     label: 'Clothes dryer',
     icon: CLOTHES_DRYER_ICON,
-    iconFileName: 'clothes-dryer',
+    iconURL: new URL('/static/icons/clothes-dryer.svg', import.meta.url),
   },
   hvac: {
     items: [
@@ -168,7 +169,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     label: 'Heating, ventilation & cooling',
     shortLabel: 'HVAC',
     icon: HVAC_ICON,
-    iconFileName: 'hvac',
+    iconURL: new URL('/static/icons/hvac.svg', import.meta.url),
   },
   ev: {
     items: [
@@ -179,38 +180,38 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     label: 'Electric vehicle',
     shortLabel: 'EV',
     icon: EV_ICON,
-    iconFileName: 'ev',
+    iconURL: new URL('/static/icons/ev.svg', import.meta.url),
   },
   solar: {
     items: ['rooftop_solar_installation'],
     label: 'Solar',
     icon: SOLAR_ICON,
-    iconFileName: 'solar',
+    iconURL: new URL('/static/icons/solar.svg', import.meta.url),
   },
   battery: {
     items: ['battery_storage_installation'],
     label: 'Battery storage',
     icon: BATTERY_ICON,
-    iconFileName: 'battery',
+    iconURL: new URL('/static/icons/battery.svg', import.meta.url),
   },
   heat_pump_water_heater: {
     items: ['heat_pump_water_heater'],
     label: 'Water heater',
     icon: WATER_HEATER_ICON,
-    iconFileName: 'water-heater',
+    iconURL: new URL('/static/icons/water-heater.svg', import.meta.url),
   },
   cooking: {
     items: ['electric_stove'],
     label: 'Cooking stove/range',
     shortLabel: 'Cooking',
     icon: COOKING_ICON,
-    iconFileName: 'cooking',
+    iconURL: new URL('/static/icons/cooking.svg', import.meta.url),
   },
   wiring: {
     items: ['electric_panel', 'electric_wiring'],
     label: 'Electrical wiring',
     shortLabel: 'Electrical',
     icon: ELECTRICAL_WIRING_ICON,
-    iconFileName: 'electrical-wiring',
+    iconURL: new URL('/static/icons/electrical-wiring.svg', import.meta.url),
   },
 };
