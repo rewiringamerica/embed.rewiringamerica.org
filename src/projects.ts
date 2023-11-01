@@ -130,6 +130,7 @@ type ProjectInfo = {
   label: string;
   shortLabel?: string;
   icon: (selected: boolean, w?: number, h?: number) => TemplateResult<2>;
+  // The first argument for the URL must be a string literal for the correct Parcel behavior: https://parceljs.org/languages/javascript/#url-dependencies
   iconURL: URL;
   items: ItemType[];
 };
