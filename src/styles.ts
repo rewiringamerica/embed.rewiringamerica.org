@@ -120,7 +120,8 @@ export const baseStyles = css`
     margin: 0;
   }
 
-  label {
+  label,
+  div.select-label {
     display: block;
     font-size: var(--ra-form-label-font-size);
     line-height: var(--ra-form-label-line-height);

@@ -1,12 +1,12 @@
 import { html, css, unsafeCSS, nothing, TemplateResult } from 'lit';
 import { live } from 'lit/directives/live';
-import { questionIcon } from './icons';
 import { select, multiselect, selectStyles, OptionParam } from './select';
 import { inputStyles } from './styles/input';
 import './currency-input';
 import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
 import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 import { PROJECTS } from './projects';
+import { tooltipButton } from './tooltip';
 
 const buttonStyles = css`
   button.primary {
@@ -34,6 +34,10 @@ const buttonStyles = css`
   .grid-right-column {
     grid-column: -2 / -1;
   }
+`;
+
+const tooltipStyles = css`
+  ${unsafeCSS(shoelaceTheme)}
 
   /* shoelace style overrides */
   sl-tooltip {
@@ -56,11 +60,18 @@ const buttonStyles = css`
     box-shadow: var(--ra-tooltip-box-shadow);
     border-radius: var(--sl-tooltip-border-radius);
     border: var(--ra-tooltip-border);
+    pointer-events: auto;
   }
-`;
 
-const tooltipStyles = css`
-  ${unsafeCSS(shoelaceTheme)}
+  /* This button is just an icon; make everything else disappear */
+  button.tooltip-icon {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+
+    cursor: pointer;
+    vertical-align: middle;
+  }
 `;
 
 export const formStyles = [
@@ -103,12 +114,11 @@ export const label = (
   tooltipText: string,
   tooltipSize: number,
 ) => {
-  return html`<label slot="label">
-    ${labelText}
-    <sl-tooltip content="${tooltipText}" hoist
-      >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-    >
-  </label>`;
+  return html`
+    <div class="select-label" slot="label">
+      ${labelText} ${tooltipButton(tooltipText, tooltipSize)}
+    </div>
+  `;
 };
 
 export const formTemplate = (
@@ -189,11 +199,10 @@ export const formTemplate = (
         <div>
           <label for="zip">
             Zip
-            <sl-tooltip
-              content="Your zip code helps determine the amount of discounts and tax credits you qualify for."
-              hoist
-              >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-            >
+            ${tooltipButton(
+              'Your zip code helps determine the amount of discounts and tax credits you qualify for.',
+              tooltipSize,
+            )}
           </label>
 
           <input
@@ -223,11 +232,10 @@ export const formTemplate = (
         <div>
           <label for="household_income">
             Household income
-            <sl-tooltip
-              content="Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income."
-              hoist
-              >${questionIcon(tooltipSize, tooltipSize)}</sl-tooltip
-            >
+            ${tooltipButton(
+              'Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
+              tooltipSize,
+            )}
           </label>
 
           <ra-currency-input
