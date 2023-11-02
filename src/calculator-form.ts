@@ -231,9 +231,9 @@ export const formTemplate = (
           </label>
 
           <ra-currency-input
-            id="household_income"
             placeholder="$60,000"
             name="household_income"
+            inputid="household_income"
             required
             .value=${live(householdIncome)}
             min="0"
