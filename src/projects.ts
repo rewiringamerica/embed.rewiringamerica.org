@@ -246,7 +246,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
   },
   wiring: {
     items: ['electric_panel', 'electric_wiring'],
-    label: 'Electrical wiring',
+    label: 'Electrical panel & wiring',
     shortLabel: 'Electrical',
     icon: ELECTRICAL_WIRING_ICON,
     iconURL: new URL('/static/icons/electrical-wiring.svg', import.meta.url),
