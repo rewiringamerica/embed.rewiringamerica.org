@@ -278,6 +278,8 @@ const itemName = (itemType: ItemType) =>
     ? 'a used electric vehicle'
     : itemType === 'weatherization'
     ? 'weatherization'
+    : itemType === 'efficiency_rebates'
+    ? 'an energy efficiency retrofit'
     : null;
 
 const formatIncentiveType = (incentive: Incentive) =>

@@ -126,6 +126,42 @@ const WATER_HEATER_ICON = (selected: boolean, w: number = 20, h: number = 20) =>
   )}"/>
   </svg>`;
 
+const WEATHERIZATION_ICON = (
+  selected: boolean,
+  w: number = 20,
+  h: number = 20,
+) => svg`<svg width="${w}" height="${h}" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M2.25 3C2.25 2.58579 2.58579 2.25 3 2.25H7C7.41421 2.25 7.75 2.58579 7.75 3C7.75 3.41421 7.41421 3.75 7 3.75H3.75V7C3.75 7.41421 3.41421 7.75 3 7.75C2.58579 7.75 2.25 7.41421 2.25 7V3Z"
+      fill="${color(selected)}"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M17 17.75L13 17.75C12.5858 17.75 12.25 17.4142 12.25 17C12.25 16.5858 12.5858 16.25 13 16.25L16.25 16.25L16.25 13C16.25 12.5858 16.5858 12.25 17 12.25C17.4142 12.25 17.75 12.5858 17.75 13L17.75 17C17.75 17.1989 17.671 17.3897 17.5303 17.5303C17.3897 17.671 17.1989 17.75 17 17.75Z"
+      fill="${color(selected)}"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M17.5303 2.46967C17.671 2.61032 17.75 2.80109 17.75 3L17.75 7C17.75 7.41421 17.4142 7.75 17 7.75C16.5858 7.75 16.25 7.41421 16.25 7L16.25 3.75L13 3.75C12.5858 3.75 12.25 3.41421 12.25 3C12.25 2.58579 12.5858 2.25 13 2.25L17 2.25C17.1989 2.25 17.3897 2.32902 17.5303 2.46967Z"
+      fill="${color(selected)}"
+    />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M2.25 17L2.25 13C2.25 12.5858 2.58579 12.25 3 12.25C3.41421 12.25 3.75 12.5858 3.75 13L3.75 16.25L7 16.25C7.41421 16.25 7.75 16.5858 7.75 17C7.75 17.4142 7.41421 17.75 7 17.75L3 17.75C2.80109 17.75 2.61032 17.671 2.46967 17.5303C2.32902 17.3897 2.25 17.1989 2.25 17Z"
+      fill="${color(selected)}"
+    />
+    <path
+      d="M5.96853 9.1284L9.66555 5.80108C9.8557 5.62995 10.1444 5.62995 10.3345 5.80108L14.0315 9.1284C14.3721 9.43495 14.1553 10 13.697 10H13V14H11V11H9.00003V14H7.00003V10H6.30301C5.84477 10 5.62792 9.43495 5.96853 9.1284Z"
+      fill="${color(selected)}"
+    />
+  </svg>
+`;
+
 type ProjectInfo = {
   label: string;
   shortLabel?: string;
@@ -143,7 +179,8 @@ export type Project =
   | 'battery'
   | 'heat_pump_water_heater'
   | 'cooking'
-  | 'wiring';
+  | 'wiring'
+  | 'weatherization_and_efficiency';
 
 export const NO_PROJECT = '';
 
@@ -213,5 +250,12 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     shortLabel: 'Electrical',
     icon: ELECTRICAL_WIRING_ICON,
     iconURL: new URL('/static/icons/electrical-wiring.svg', import.meta.url),
+  },
+  weatherization_and_efficiency: {
+    items: ['weatherization', 'efficiency_rebates'],
+    label: 'Weatherization & Efficiency',
+    shortLabel: 'Weatherization',
+    icon: WEATHERIZATION_ICON,
+    iconURL: new URL('/static/icons/weatherization.svg', import.meta.url),
   },
 };
