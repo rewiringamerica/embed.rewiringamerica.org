@@ -253,7 +253,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
   },
   weatherization_and_efficiency: {
     items: ['weatherization', 'efficiency_rebates'],
-    label: 'Weatherization & Efficiency',
+    label: 'Weatherization & efficiency',
     shortLabel: 'Weatherization',
     icon: WEATHERIZATION_ICON,
     iconURL: new URL('/static/icons/weatherization.svg', import.meta.url),
