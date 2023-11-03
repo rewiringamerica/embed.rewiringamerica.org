@@ -2,14 +2,18 @@ import { HTMLTemplateResult, html } from 'lit';
 import { questionIcon } from './icons';
 import SlTooltip from '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 
-function toggleTooltip(event: MouseEvent) {
-  // The target may be a descendant of the tooltip; find the tooltip itself.
-  let target = event.target as HTMLElement;
+/** Finds the first SlTooltip ancestor of the given element. */
+function findTooltipAncestor(element: HTMLElement): SlTooltip {
+  let target = element;
   while (!(target instanceof SlTooltip)) {
     target = target.parentElement!;
   }
+  return target;
+}
 
-  const tooltip = target as SlTooltip;
+function toggleTooltip(event: MouseEvent) {
+  // The target may be a descendant of the tooltip; find the tooltip itself.
+  const tooltip = findTooltipAncestor(event.target as HTMLElement);
   if (tooltip.open) {
     tooltip.hide();
   } else {
@@ -18,12 +22,18 @@ function toggleTooltip(event: MouseEvent) {
   event.stopPropagation();
 }
 
+function hideTooltip(event: FocusEvent) {
+  const tooltip = findTooltipAncestor(event.target as HTMLElement);
+  tooltip.hide();
+  event.stopPropagation();
+}
+
 /**
  * When a tooltip is shown, add a one-time mousedown listener to the document
  * that dismisses any open tooltips.
  */
 function onTooltipShow(showEvent: CustomEvent) {
-  // Calling abort() on this will remove the event listeners
+  // Calling abort() on this will remove the event listener
   const abortController = new AbortController();
   const tooltip = showEvent.target as SlTooltip;
 
@@ -59,6 +69,7 @@ export function tooltipButton(
         type="button"
         title="More information"
         @click=${toggleTooltip}
+        @blur=${hideTooltip}
       >
         ${questionIcon(iconSize, iconSize)}
       </button>
