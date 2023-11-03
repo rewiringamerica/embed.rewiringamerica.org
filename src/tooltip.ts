@@ -57,7 +57,7 @@ export function tooltipButton(
       <button
         class="tooltip-icon"
         type="button"
-        aria-description="More information"
+        title="More information"
         @click=${toggleTooltip}
       >
         ${questionIcon(iconSize, iconSize)}
