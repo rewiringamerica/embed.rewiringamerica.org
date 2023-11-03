@@ -14,7 +14,6 @@ export interface OptionParam {
 
 export interface SLSelectParam {
   id: string;
-  label?: string;
   labelSlot?: HTMLTemplateResult;
   options: OptionParam[];
   helpText?: string;
@@ -47,7 +46,6 @@ export const option = ({ label, value, iconURL }: OptionParam) => {
 
 export const select = ({
   id,
-  label,
   labelSlot,
   options,
   helpText,
@@ -69,7 +67,6 @@ export const select = ({
       <sl-select
         id="${id}"
         name="${id}"
-        label="${ifDefined(label)}"
         .value=${live(currentValue)}
         help-text="${ifDefined(helpText)}"
         placeholder="${ifDefined(placeholder)}"
@@ -91,7 +88,6 @@ export const select = ({
 
 export const multiselect = ({
   id,
-  label,
   labelSlot,
   currentValues,
   options,
@@ -105,7 +101,6 @@ export const multiselect = ({
       <sl-select
         id="${id}"
         name="${id}"
-        label="${ifDefined(label)}"
         .value=${live(currentValues)}
         help-text="${ifDefined(helpText)}"
         placeholder="${ifDefined(placeholder)}"

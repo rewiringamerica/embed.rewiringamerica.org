@@ -1,8 +1,8 @@
 import { css, html } from 'lit';
-import { questionIcon } from './icons';
 import { select } from './select';
 import { StateInfo } from './states';
 import { APIUtilityMap } from './api/calculator-types-v1';
+import { tooltipButton } from './tooltip';
 
 export const utilitySelectorStyles = css`
   .utility-selector {
@@ -81,12 +81,7 @@ const utilityFormTemplate = (
 ) => {
   const labelSlot = html`<label slot="label">
     Electric Utility
-    <sl-tooltip
-      content="Choose the company you pay your electric bill to."
-      hoist
-    >
-      ${questionIcon(18, 18)}
-    </sl-tooltip>
+    ${tooltipButton('Choose the company you pay your electric bill to.', 13)}
   </label>`;
 
   const utilityOptions = Object.entries(utilities).map(([id, info]) => ({
