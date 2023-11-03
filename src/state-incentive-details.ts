@@ -328,6 +328,7 @@ const incentiveCardTemplate = (incentive: Incentive) => html`
 
 const gridTemplate = (
   heading: string,
+  htmlId: string,
   incentives: Incentive[],
   tabs: Project[],
   selectedTab: Project,
@@ -335,7 +336,7 @@ const gridTemplate = (
 ) =>
   tabs.length > 0 && incentives.length > 0
     ? html`
-        <div class="grid-section">
+        <div class="grid-section" id="${htmlId}">
           <h2 class="grid-section__header">${heading}</h2>
           ${iconTabBarTemplate(tabs, selectedTab, onTabSelected)}
           <div class="grid-3-2-1 grid-3-2-1--align-start">
@@ -402,6 +403,7 @@ export const stateIncentivesTemplate = (
 
   return html`${gridTemplate(
     'Incentives you’re interested in',
+    'interested-incentives',
     selectedIncentives,
     interestedProjects,
     projectTab,
@@ -409,6 +411,7 @@ export const stateIncentivesTemplate = (
   )}
   ${gridTemplate(
     otherIncentivesLabel,
+    'other-incentives',
     selectedOtherIncentives,
     otherProjects,
     // If a nonexistent tab is selected, pretend the first one is selected.

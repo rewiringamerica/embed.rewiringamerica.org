@@ -120,7 +120,7 @@ export const utilitySelectorTemplate = (
   utilities: APIUtilityMap,
   onChange: (utilityId: string) => void,
 ) =>
-  html` <div class="utility-selector">
+  html` <div class="utility-selector" id="utility-selector">
     <div class="utility-selector__map">
       ${stateInfo.icon()}
       <h1 class="utility-selector__title">
