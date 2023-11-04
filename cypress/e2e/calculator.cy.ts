@@ -1,4 +1,4 @@
-describe('template spec', () => {
+describe('rewiring-america-calculator', () => {
   it('passes', () => {
     cy.visit('http://localhost:1234');
     cy.get('rewiring-america-calculator').should('exist');

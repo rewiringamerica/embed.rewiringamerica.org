@@ -280,6 +280,26 @@ export class RewiringAmericaStateCalculator extends LitElement {
       (attr('tax-filing') as FilingStatus) ??
       DEFAULT_TAX_FILING;
     this.projects = formValues?.projects ?? [];
+
+    if (
+      formValues?.zip ||
+      formValues?.ownerStatus ||
+      formValues?.householdIncome ||
+      formValues?.householdSize ||
+      formValues?.taxFiling ||
+      formValues?.projects
+    ) {
+      // don't send this event immediately because nobody will be there to catch it
+      requestIdleCallback(() => {
+        this.dispatchEvent(
+          new CustomEvent('calculator-prefilled', {
+            bubbles: true,
+            composed: true,
+            detail: { formValues },
+          }),
+        );
+      });
+    }
   }
 
   submit(e: SubmitEvent) {
@@ -315,6 +335,14 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this.lastLoadFrom = 'calculate';
       this._task.run();
     }
+
+    this.dispatchEvent(
+      new CustomEvent('calculator-submitted', {
+        bubbles: true,
+        composed: true,
+        detail: { formData },
+      }),
+    );
   }
 
   saveFormValues() {
@@ -331,6 +359,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
   resetFormValues() {
     safeLocalStorage.removeItem(FORM_VALUES_LOCAL_STORAGE_KEY);
     this.initFormProperties();
+    this.dispatchEvent(
+      new Event('calculator-reset', { bubbles: true, composed: true }),
+    );
   }
 
   /**
