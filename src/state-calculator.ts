@@ -26,6 +26,7 @@ import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 import { safeLocalStorage } from './safe-local-storage';
+import scrollIntoView from 'scroll-into-view-if-needed';
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -36,7 +37,7 @@ const loadingTemplate = () => html`
 `;
 
 const errorTemplate = (error: unknown) => html`
-  <div class="card card-content">
+  <div class="card card-content" id="error-message">
     ${typeof error === 'object' && error && 'message' in error && error.message
       ? error.message
       : 'Error loading incentives.'}
@@ -73,6 +74,25 @@ const handleTabDown = (e: KeyboardEvent) => {
     select.hide();
     select.displayInput.focus({ preventScroll: true });
   }
+};
+
+/**
+ * Waits for the next event loop (to allow the DOM to update following an
+ * update of reactive properties), then scrolls to the element matching the
+ * given selector.
+ */
+const waitAndScrollTo = (shadowRoot: ShadowRoot, selector: string) => {
+  setTimeout(() => {
+    const target = shadowRoot.querySelector(selector);
+    if (target) {
+      scrollIntoView(target, {
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'nearest',
+        scrollMode: 'if-needed',
+      });
+    }
+  }, 0);
 };
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
@@ -189,6 +209,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
   wasEmailSubmitted: boolean = wasEmailSubmitted();
 
   /**
+   * Whether the last run of _task was a result of hitting the Calculate button
+   * (i.e. submitting the top-level form) or changing the utility selector.
+   */
+  lastLoadFrom: 'calculate' | 'utility-selector' = 'calculate';
+
+  /**
    * Called when the component is added to the DOM. At this point the values of
    * the HTML attributes are available, so we can initialize the properties
    * representing form values.
@@ -259,6 +285,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
       // This will run _task when it's done.
       this._utilitiesTask.run();
     } else {
+      this.lastLoadFrom = 'calculate';
       this._task.run();
     }
   }
@@ -360,8 +387,10 @@ export class RewiringAmericaStateCalculator extends LitElement {
           this.utility = ids[0];
         }
       }
+      this.lastLoadFrom = 'calculate';
       this._task.run();
     },
+    onError: () => waitAndScrollTo(this.shadowRoot!, '#error-message'),
   });
 
   private _task = new Task(this, {
@@ -390,6 +419,14 @@ export class RewiringAmericaStateCalculator extends LitElement {
         query,
       );
     },
+    onComplete: () =>
+      waitAndScrollTo(
+        this.shadowRoot!,
+        this.lastLoadFrom === 'calculate'
+          ? '#utility-selector, #interested-incentives, #other-incentives'
+          : '#interested-incentives, #other-incentives',
+      ),
+    onError: () => waitAndScrollTo(this.shadowRoot!, '#error-message'),
   });
 
   override render() {
@@ -464,6 +501,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
                 this._utilitiesTask.value.utilities,
                 newUtility => {
                   this.utility = newUtility;
+                  this.lastLoadFrom = 'utility-selector';
                   this._task.run();
                 },
               )
