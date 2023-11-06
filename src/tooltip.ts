@@ -1,4 +1,5 @@
 import { HTMLTemplateResult, html } from 'lit';
+import { msg } from '@lit/localize';
 import { questionIcon } from './icons';
 import SlTooltip from '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 
@@ -42,7 +43,7 @@ export function tooltipButton(
       <button
         class="tooltip-icon"
         type="button"
-        title="More information"
+        title="${msg('More information', { desc: 'button caption' })}"
         @click=${toggleTooltip}
         @blur=${hideTooltip}
       >

@@ -1,4 +1,5 @@
 import { css, html, nothing } from 'lit';
+import { msg } from '@lit/localize';
 import { APIResponse } from './api/calculator-types-v1';
 
 export const authorityLogosStyles = css`
@@ -61,9 +62,12 @@ export const authorityLogosTemplate = (response: APIResponse) => {
         />`,
     );
 
+  const title = msg('Incentive data brought to you by', {
+    desc: 'followed by authority logos',
+  });
   return html`
     <div class="authority-logos">
-      <h2>Incentive data brought to you by</h2>
+      <h2>${title}</h2>
       <div class="authority-logos__container">${logos}</div>
     </div>
   `;

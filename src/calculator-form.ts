@@ -7,6 +7,7 @@ import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/ligh
 import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 import { PROJECTS } from './projects';
 import { tooltipButton } from './tooltip';
+import { msg, str } from '@lit/localize';
 
 const buttonStyles = css`
   button.primary {
@@ -81,26 +82,29 @@ export const formStyles = [
   selectStyles,
 ];
 
-const OWNER_STATUS_OPTIONS: OptionParam[] = [
-  { value: 'homeowner', label: 'Homeowner' },
-  { value: 'renter', label: 'Renter' },
+const OWNER_STATUS_OPTIONS: () => OptionParam[] = () => [
+  { value: 'homeowner', label: msg('Homeowner') },
+  { value: 'renter', label: msg('Renter') },
 ];
 
-const TAX_FILING_OPTIONS: OptionParam[] = [
-  { value: 'single', label: 'Single' },
-  { value: 'joint', label: 'Married filing jointly' },
-  { value: 'married_filing_separately', label: 'Married filing separately' },
-  { value: 'hoh', label: 'Head of household' },
-];
-
-const HOUSEHOLD_SIZE_OPTIONS: OptionParam[] = [1, 2, 3, 4, 5, 6, 7, 8].map(
-  count => {
-    return {
-      label: `${count} ${count === 1 ? 'person' : 'people'}`,
-      value: count.toString(),
-    } as OptionParam;
+const TAX_FILING_OPTIONS: () => OptionParam[] = () => [
+  { value: 'single', label: msg('Single') },
+  { value: 'joint', label: msg('Married filing jointly') },
+  {
+    value: 'married_filing_separately',
+    label: msg('Married filing separately'),
   },
-);
+  { value: 'hoh', label: msg('Head of household') },
+];
+
+const HOUSEHOLD_SIZE_OPTIONS: () => OptionParam[] = () =>
+  [1, 2, 3, 4, 5, 6, 7, 8].map(count => ({
+    label:
+      count === 1
+        ? msg('1 person')
+        : msg(str`${count} people`, { desc: 'count is greater than 1' }),
+    value: count.toString(),
+  }));
 
 type FormOptions = {
   showEmailField?: boolean;
@@ -134,8 +138,8 @@ export const formTemplate = (
   gridClass: string = 'grid-3-2',
 ) => {
   const projectsLabelSlot = label(
-    'Projects you’re most interested in',
-    'Select the projects you’re most interested in.',
+    msg('Projects you’re most interested in'),
+    msg('Select the projects you’re most interested in.'),
     tooltipSize,
   );
 
@@ -148,12 +152,12 @@ export const formTemplate = (
           options: Object.entries(PROJECTS)
             .map(([value, data]) => ({
               value,
-              label: data.label,
+              label: data.label(),
               iconURL: data.iconURL,
             }))
             .sort((a, b) => a.label.localeCompare(b.label)),
           currentValues: projects,
-          placeholder: 'None selected',
+          placeholder: msg('None selected'),
           maxOptionsVisible: 1,
           placement: 'top',
         })}
@@ -162,11 +166,13 @@ export const formTemplate = (
 
   const emailField = showEmailField
     ? html`<div>
-        <label for="email"> Email address (optional) </label>
+        <label for="email">${msg('Email address (optional)')}</label>
         <input
           tabindex="0"
           id="email"
-          placeholder="you@example.com"
+          placeholder="${msg('you@example.com', {
+            desc: 'example email address',
+          })}"
           name="email"
           type="email"
           autocomplete="email"
@@ -175,20 +181,24 @@ export const formTemplate = (
     : nothing;
 
   const ownersLabelSlot = label(
-    'Rent or own',
-    'Homeowners and renters qualify for different incentives.',
+    msg('Rent or own', { desc: 'form field label' }),
+    msg('Homeowners and renters qualify for different incentives.'),
     tooltipSize,
   );
 
   const taxFilingLabelSlot = label(
-    'Tax filing',
-    'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
+    msg('Tax filing', { desc: 'form field label' }),
+    msg(
+      'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
+    ),
     tooltipSize,
   );
 
   const householdSizeLabelSlot = label(
-    'Household size',
-    'Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.',
+    msg('Household size'),
+    msg(
+      'Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.',
+    ),
     tooltipSize,
   );
 
@@ -198,9 +208,11 @@ export const formTemplate = (
         ${projectField}
         <div>
           <label for="zip">
-            Zip
+            ${msg('Zip', { desc: 'as in zip code' })}
             ${tooltipButton(
-              'Your zip code helps determine the amount of discounts and tax credits you qualify for.',
+              msg(
+                'Your zip code helps determine the amount of discounts and tax credits you qualify for.',
+              ),
               tooltipSize,
             )}
           </label>
@@ -225,15 +237,17 @@ export const formTemplate = (
             id: 'owner_status',
             labelSlot: ownersLabelSlot,
             required: true,
-            options: OWNER_STATUS_OPTIONS,
+            options: OWNER_STATUS_OPTIONS(),
             currentValue: ownerStatus,
           })}
         </div>
         <div>
           <label for="household_income">
-            Household income
+            ${msg('Household income')}
             ${tooltipButton(
-              'Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
+              msg(
+                'Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
+              ),
               tooltipSize,
             )}
           </label>
@@ -254,7 +268,7 @@ export const formTemplate = (
             id: 'tax_filing',
             labelSlot: taxFilingLabelSlot,
             required: true,
-            options: TAX_FILING_OPTIONS,
+            options: TAX_FILING_OPTIONS(),
             currentValue: taxFiling,
           })}
         </div>
@@ -263,7 +277,7 @@ export const formTemplate = (
             id: 'household_size',
             labelSlot: householdSizeLabelSlot,
             required: true,
-            options: HOUSEHOLD_SIZE_OPTIONS,
+            options: HOUSEHOLD_SIZE_OPTIONS(),
             currentValue: householdSize,
           })}
         </div>

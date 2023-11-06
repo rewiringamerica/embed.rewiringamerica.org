@@ -1,4 +1,5 @@
 import { css, html, nothing } from 'lit';
+import { msg, str } from '@lit/localize';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { exclamationPoint, upRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
@@ -231,18 +232,40 @@ const titleTemplate = (incentive: Incentive) => {
   const amount = incentive.amount;
   if (amount.type === 'dollar_amount') {
     return amount.maximum
-      ? `Up to $${amount.maximum.toLocaleString()} off ${item}`
-      : `$${amount.number.toLocaleString()} off ${item}`;
+      ? msg(str`Up to $${amount.maximum.toLocaleString()} off ${item}`, {
+          desc: 'e.g. "up to $3000 off a heat pump',
+        })
+      : msg(str`$${amount.number.toLocaleString()} off ${item}`, {
+          desc: 'e.g. "$3000 off a heat pump"',
+        });
   } else if (amount.type === 'percent') {
     const percentStr = `${Math.round(amount.number * 100)}%`;
     return amount.maximum
-      ? `${percentStr} of cost of ${item}, up to $${amount.maximum.toLocaleString()}`
-      : `${percentStr} of cost of ${item}`;
+      ? msg(
+          str`${percentStr} of cost of ${item}, up to $${amount.maximum.toLocaleString()}`,
+          {
+            desc: 'e.g. "50% of cost of a heat pump, up to $3000"',
+          },
+        )
+      : msg(str`${percentStr} of cost of ${item}`, {
+          desc: 'e.g. "50% of cost of a heat pump"',
+        });
   } else if (amount.type === 'dollars_per_unit') {
-    const perUnitStr = `$${amount.number.toLocaleString()}/${amount.unit}`;
     return amount.maximum
-      ? `${perUnitStr} off ${item}, up to $${amount.maximum.toLocaleString()}`
-      : `${perUnitStr} off ${item}`;
+      ? msg(
+          str`$${amount.number.toLocaleString()}/${
+            amount.unit
+          } off ${item}, up to $${amount.maximum.toLocaleString()}`,
+          {
+            desc: 'e.g. "$1000/ton off a heat pump, up to $3000"',
+          },
+        )
+      : msg(
+          str`$${amount.number.toLocaleString()}/${amount.unit} off ${item}`,
+          {
+            desc: 'e.g. "$1000/ton off a heat pump',
+          },
+        );
   } else {
     return nothing;
   }
@@ -253,53 +276,69 @@ const titleTemplate = (incentive: Incentive) => {
  */
 const itemName = (itemType: ItemType) =>
   itemType === 'battery_storage_installation'
-    ? 'battery storage'
+    ? msg('battery storage', { desc: 'e.g. "$100 off [this string]"' })
     : itemType === 'electric_panel'
-    ? 'an electric panel'
+    ? msg('an electric panel', {
+        desc: 'e.g. "$100 off [this string]"',
+      })
     : itemType === 'electric_stove'
-    ? 'an electric/induction stove'
+    ? msg('an electric/induction stove', {
+        desc: 'e.g. "$100 off [this string]"',
+      })
     : itemType === 'electric_vehicle_charger'
-    ? 'an EV charger'
+    ? msg('an EV charger', { desc: 'e.g. "$100 off [this string]"' })
     : itemType === 'electric_wiring'
-    ? 'electric wiring'
+    ? msg('electric wiring', { desc: 'e.g. "$100 off [this string]"' })
     : itemType === 'geothermal_heating_installation'
-    ? 'geothermal heating installation'
+    ? msg('geothermal heating installation', {
+        desc: 'e.g. "$100 off [this string]"',
+      })
     : itemType === 'heat_pump_air_conditioner_heater'
-    ? 'a heat pump'
+    ? msg('a heat pump', { desc: 'e.g. "$100 off [this string]"' })
     : itemType === 'heat_pump_clothes_dryer'
-    ? 'a heat pump clothes dryer'
+    ? msg('a heat pump clothes dryer', {
+        desc: 'e.g. "$100 off [this string]"',
+      })
     : itemType === 'heat_pump_water_heater'
-    ? 'a heat pump water heater'
+    ? msg('a heat pump water heater', {
+        desc: 'e.g. "$100 off [this string]"',
+      })
     : itemType === 'new_electric_vehicle'
-    ? 'a new electric vehicle'
+    ? msg('a new electric vehicle', {
+        desc: 'e.g. "$100 off [this string]"',
+      })
     : itemType === 'rooftop_solar_installation'
-    ? 'rooftop solar'
+    ? msg('rooftop solar', { desc: 'e.g. "$100 off [this string]"' })
     : itemType === 'used_electric_vehicle'
-    ? 'a used electric vehicle'
+    ? msg('a used electric vehicle', {
+        desc: 'e.g. "$100 off [this string]"',
+      })
     : itemType === 'weatherization'
-    ? 'weatherization'
+    ? msg('weatherization', { desc: 'e.g. "$100 off [this string]"' })
     : itemType === 'efficiency_rebates'
-    ? 'an energy efficiency retrofit'
+    ? msg('an energy efficiency retrofit', {
+        desc: 'e.g. "$100 off [this string]"',
+      })
     : null;
 
 const formatIncentiveType = (incentive: Incentive) =>
   incentive.type === 'tax_credit'
-    ? 'Tax credit'
+    ? msg('Tax credit')
     : incentive.type === 'pos_rebate'
-    ? 'Upfront discount'
+    ? msg('Upfront discount')
     : incentive.type === 'rebate'
-    ? 'Rebate'
+    ? msg('Rebate')
     : incentive.type === 'account_credit'
-    ? 'Account credit'
+    ? msg('Account credit')
     : incentive.type === 'performance_rebate'
-    ? 'Performance rebate'
-    : 'Incentive';
+    ? msg('Performance rebate')
+    : msg('Incentive');
 
 /** TODO get real dates in the data! */
 const startDateTemplate = (incentive: Incentive) =>
   incentive.type === 'pos_rebate'
     ? html`<div class="incentive__chip incentive__chip--warning">
-        ${exclamationPoint()} Available early 2024
+        ${exclamationPoint()} ${msg('Available early 2024')}
       </div>`
     : nothing;
 
@@ -318,7 +357,7 @@ const incentiveCardTemplate = (incentive: Incentive) => html`
           target="_blank"
           href="${incentive.program_url ?? incentive.item.url}"
         >
-          ${incentive.program_url ? 'Visit site' : 'Learn more'}
+          ${incentive.program_url ? msg('Visit site') : msg('Learn more')}
           ${incentive.program_url ? upRightArrow() : nothing}
         </a>
       </div>
@@ -398,11 +437,11 @@ export const stateIncentivesTemplate = (
 
   const otherIncentivesLabel =
     selectedIncentives.length === 0
-      ? 'Incentives available to you'
-      : 'Other incentives available to you';
+      ? msg('Incentives available to you')
+      : msg('Other incentives available to you');
 
   return html`${gridTemplate(
-    'Incentives you’re interested in',
+    msg('Incentives you’re interested in'),
     'interested-incentives',
     selectedIncentives,
     interestedProjects,

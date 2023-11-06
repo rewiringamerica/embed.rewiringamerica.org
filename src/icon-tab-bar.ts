@@ -1,4 +1,5 @@
 import { css, html } from 'lit';
+import { msg } from '@lit/localize';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { select } from './select';
 
@@ -110,7 +111,7 @@ export const iconTabBarTemplate = (
 
   const options = tabs.map(project => ({
     value: project,
-    label: PROJECTS[project].label,
+    label: PROJECTS[project].label(),
     iconURL: PROJECTS[project].iconURL,
   }));
 
@@ -119,7 +120,7 @@ export const iconTabBarTemplate = (
     <div class="icon-dropdown">
       ${select({
         id: 'project-selector',
-        ariaLabel: 'Project',
+        ariaLabel: msg('Project', { desc: 'label for a selector input' }),
         required: true,
         currentValue: selectedTab,
         options,

@@ -1,4 +1,5 @@
 import { TemplateResult, html } from 'lit';
+import { msg } from '@lit/localize';
 
 const RI_ICON = () => html`<svg
   width="312"
@@ -16,7 +17,7 @@ const RI_ICON = () => html`<svg
 </svg> `;
 
 export type StateInfo = {
-  name: string;
+  name: () => string;
   icon: () => TemplateResult<1>;
 };
 
@@ -25,7 +26,7 @@ export type StateInfo = {
  */
 export const STATES: Record<string, StateInfo> = {
   RI: {
-    name: 'Rhode Island',
+    name: () => msg('Rhode Island'),
     icon: RI_ICON,
   },
 };

@@ -1,4 +1,5 @@
 import { css, html } from 'lit';
+import { msg, str } from '@lit/localize';
 import { select } from './select';
 import { StateInfo } from './states';
 import { APIUtilityMap } from './api/calculator-types-v1';
@@ -124,7 +125,7 @@ export const utilitySelectorTemplate = (
     <div class="utility-selector__map">
       ${stateInfo.icon()}
       <h1 class="utility-selector__title">
-        Incentives available to you in ${stateInfo.name}
+        ${msg(str`Incentives available to you in ${stateInfo.name()}`)}
       </h1>
     </div>
     <div class="utility-selector__spacer"></div>
