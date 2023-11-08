@@ -81,8 +81,11 @@ const utilityFormTemplate = (
   onChange: (utilityId: string) => void,
 ) => {
   const labelSlot = html`<label slot="label">
-    Electric Utility
-    ${tooltipButton('Choose the company you pay your electric bill to.', 13)}
+    ${msg('Electric Utility', { desc: 'as in utility company' })}
+    ${tooltipButton(
+      msg('Choose the company you pay your electric bill to.'),
+      13,
+    )}
   </label>`;
 
   const utilityOptions = Object.entries(utilities).map(([id, info]) => ({
