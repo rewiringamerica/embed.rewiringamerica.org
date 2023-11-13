@@ -205,7 +205,10 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'geothermal_heating_installation',
     ],
     label: () => msg('Heating, ventilation & cooling'),
-    shortLabel: () => msg('HVAC'),
+    shortLabel: () =>
+      msg('HVAC', {
+        desc: 'short label for "heating, ventilation & cooling"',
+      }),
     icon: HVAC_ICON,
     iconURL: new URL('/static/icons/hvac.svg', import.meta.url),
   },
@@ -216,13 +219,13 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'electric_vehicle_charger',
     ],
     label: () => msg('Electric vehicle'),
-    shortLabel: () => msg('EV'),
+    shortLabel: () => msg('EV', { desc: 'short label for "electric vehicle"' }),
     icon: EV_ICON,
     iconURL: new URL('/static/icons/ev.svg', import.meta.url),
   },
   solar: {
     items: ['rooftop_solar_installation'],
-    label: () => msg('Solar'),
+    label: () => msg('Solar', { desc: 'i.e. rooftop solar' }),
     icon: SOLAR_ICON,
     iconURL: new URL('/static/icons/solar.svg', import.meta.url),
   },
@@ -249,7 +252,8 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
   wiring: {
     items: ['electric_panel', 'electric_wiring'],
     label: () => msg('Electrical panel & wiring'),
-    shortLabel: () => msg('Electrical'),
+    shortLabel: () =>
+      msg('Electrical', { desc: 'short for "electrical panel and wiring"' }),
     icon: ELECTRICAL_WIRING_ICON,
     iconURL: new URL('/static/icons/electrical-wiring.svg', import.meta.url),
   },
