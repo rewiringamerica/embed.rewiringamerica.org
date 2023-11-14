@@ -10,22 +10,22 @@
 <target>Secadora</target></trans-unit>
 <trans-unit id="s5a2b25d2a25ce5b9">
   <source>Heating, ventilation &amp; cooling</source>
-<target>Calefacción, ventilación y refrigeración</target></trans-unit>
+<target>Sistemas de climatización</target></trans-unit>
 <trans-unit id="sb6975fd8aa3fa26f">
   <source>HVAC</source>
 
-  <note from="lit-localize">short label for "heating, ventilation &amp; cooling"</note><target>Calefacción, ventilación y aire acondicionado (HVAC)</target></trans-unit>
+  <note from="lit-localize">short label for "heating, ventilation &amp; cooling"</note><target>Climatización</target></trans-unit>
 <trans-unit id="s26946b3c896d36d6">
   <source>Electric vehicle</source>
 <target>Vehículo eléctrico</target></trans-unit>
 <trans-unit id="s08fb6007b5965c82">
   <source>EV</source>
 
-  <note from="lit-localize">short label for "electric vehicle"</note><target>Vehículo eléctrico (EV)</target></trans-unit>
+  <note from="lit-localize">short label for "electric vehicle"</note><target>Vehículo eléctrico</target></trans-unit>
 <trans-unit id="sfe16afc784bb9d76">
   <source>Solar</source>
 
-  <note from="lit-localize">i.e. rooftop solar</note><target>Energía solar</target></trans-unit>
+  <note from="lit-localize">i.e. rooftop solar</note><target>Tejado solar</target></trans-unit>
 <trans-unit id="sa413e4572603726f">
   <source>Battery storage</source>
 <target>Almacenamiento de baterías</target></trans-unit>
