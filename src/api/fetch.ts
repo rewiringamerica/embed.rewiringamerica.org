@@ -1,3 +1,5 @@
+import { msg } from '@lit/localize';
+
 /**
  * Fetches a response from the Incentives API. Handles turning an error response
  * into an exception with a useful message.
@@ -33,7 +35,7 @@ export async function fetchApi<R>(
       }
     } catch (e) {
       // if we couldn't get anything off the response, just go with something generic:
-      message = 'Error loading incentives.';
+      message = msg('Error loading incentives.');
     }
     throw new Error(message);
   }

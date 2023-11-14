@@ -1,4 +1,5 @@
 import { css, html } from 'lit';
+import { msg, str } from '@lit/localize';
 import { select } from './select';
 import { StateInfo } from './states';
 import { APIUtilityMap } from './api/calculator-types-v1';
@@ -80,8 +81,11 @@ const utilityFormTemplate = (
   onChange: (utilityId: string) => void,
 ) => {
   const labelSlot = html`<label slot="label">
-    Electric Utility
-    ${tooltipButton('Choose the company you pay your electric bill to.', 13)}
+    ${msg('Electric Utility', { desc: 'as in utility company' })}
+    ${tooltipButton(
+      msg('Choose the company you pay your electric bill to.'),
+      13,
+    )}
   </label>`;
 
   const utilityOptions = Object.entries(utilities).map(([id, info]) => ({
@@ -124,7 +128,7 @@ export const utilitySelectorTemplate = (
     <div class="utility-selector__map">
       ${stateInfo.icon()}
       <h1 class="utility-selector__title">
-        Incentives available to you in ${stateInfo.name}
+        ${msg(str`Incentives available to you in ${stateInfo.name()}`)}
       </h1>
     </div>
     <div class="utility-selector__spacer"></div>

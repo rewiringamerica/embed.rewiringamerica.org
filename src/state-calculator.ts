@@ -27,6 +27,7 @@ import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 import { safeLocalStorage } from './safe-local-storage';
 import scrollIntoView from 'scroll-into-view-if-needed';
+import { localized, msg, str } from '@lit/localize';
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -40,7 +41,7 @@ const errorTemplate = (error: unknown) => html`
   <div class="card card-content" id="error-message">
     ${typeof error === 'object' && error && 'message' in error && error.message
       ? error.message
-      : 'Error loading incentives.'}
+      : msg('Error loading incentives.')}
   </div>
 `;
 
@@ -132,6 +133,7 @@ const formTitleStyles = css`
 `;
 
 @customElement('rewiring-america-state-calculator')
+@localized()
 export class RewiringAmericaStateCalculator extends LitElement {
   static override styles = [
     baseStyles,
@@ -369,9 +371,8 @@ export class RewiringAmericaStateCalculator extends LitElement {
       // in that state.
       if (this.state && this.state !== response.location.state) {
         // Throw to put the task into the ERROR state for rendering.
-        throw new Error(
-          `That ZIP code is not in ${STATES[this.state]?.name ?? this.state}.`,
-        );
+        const stateCodeOrName = STATES[this.state]?.name() ?? this.state;
+        throw new Error(msg(str`That ZIP code is not in ${stateCodeOrName}.`));
       }
 
       return response;
@@ -449,19 +450,19 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this._utilitiesTask.status === TaskStatus.PENDING ||
       this._task.status === TaskStatus.PENDING;
 
-    const calculateButtonContent = html`Calculate`;
+    const calculateButtonContent = msg(html`Calculate`);
 
     return html`
       <div class="calculator">
         <div class="card card-content">
           <div class="form-title">
-            <h1 class="form-title__text">Your household info</h1>
+            <h1 class="form-title__text">${msg('Your household info')}</h1>
             <div>
               <button
                 class="form-title__reset"
                 @click=${() => this.resetFormValues()}
               >
-                Reset calculator
+                ${msg('Reset calculator')}
               </button>
             </div>
           </div>
@@ -530,7 +531,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
           : this._task.status === TaskStatus.ERROR
           ? errorTemplate(this._task.error)
           : nothing}
-        ${CALCULATOR_FOOTER}
+        ${CALCULATOR_FOOTER()}
       </div>
     `;
   }
