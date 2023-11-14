@@ -29,3 +29,6 @@ yarn-error.log*
 # cypress
 cypress/videos/*.mp4
 cypress/screenshots/*
+
+# lit-localize generated
+generated
