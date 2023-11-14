@@ -31,7 +31,7 @@
     ]
   },
   "devDependencies": {
-    "@parcel/transformer-inline-string": "2.8.3",
+    "@parcel/transformer-inline-string": "2.10.2",
     "@swc/helpers": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
@@ -41,7 +41,7 @@
     "eslint": "^8.45.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "parcel": "v2.8.3",
+    "parcel": "^2.10.2",
     "parcel-reporter-static-files-copy": "^1.5.3",
     "postcss": "^8.4.21",
     "postcss-modules": "^6.0.0",
