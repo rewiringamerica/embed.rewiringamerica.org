@@ -15,19 +15,32 @@ async function allXlfFiles(projectRoot) {
  * Resolves import specifiers starting with `locales:` by running lit-localize
  * to generate strings files, and pointing Parcel at the generated files.
  *
+ * The generated files are in Parcel's cache directory (configured in
+ * lit-localize.json) so that they don't trigger Parcel's watcher, which could
+ * result in an infinite loop of rebuilding. Yes this is silly, but Parcel does
+ * not have an official way to make the watcher ignore some files.
+ *
  * NB: this is not a Typescript file! (Parcel doesn't support plugins written
  * in TS.) No type checking!
  */
 export default new Resolver({
   async resolve({ specifier, options: { projectRoot } }) {
     if (specifier.startsWith('locales:')) {
-      await promisify(exec)('npx lit-localize build');
-
       const locale = specifier.substring('locales:'.length);
+
+      const litConfig = JSON.parse(
+        await promisify(fs.readFile)(
+          path.join(projectRoot, 'lit-localize.json'),
+          'utf-8',
+        ),
+      );
+
       const filePath =
         locale === 'config'
-          ? path.join(projectRoot, 'generated/locales.ts')
-          : path.join(projectRoot, `generated/strings/${locale}.ts`);
+          ? path.join(projectRoot, litConfig.output.localeCodesModule)
+          : path.join(projectRoot, litConfig.output.outputDir, `${locale}.ts`);
+
+      await promisify(exec)('npx lit-localize build\n');
 
       return {
         // Rebuild if an XLIFF file changes, or the lit-localize config.
