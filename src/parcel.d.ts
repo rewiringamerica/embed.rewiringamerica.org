@@ -11,6 +11,7 @@ declare module 'bundle-text:*' {
 declare module 'locales:config' {
   export const sourceLocale: string;
   export const targetLocales: string[];
+  export const allLocales: string[];
 }
 declare module 'locales:*' {
   import { TemplateMap } from '@lit/localize';

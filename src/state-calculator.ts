@@ -28,7 +28,7 @@ import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 import { safeLocalStorage } from './safe-local-storage';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { configureLocalization, localized, msg, str } from '@lit/localize';
-import { sourceLocale, targetLocales } from 'locales:config';
+import { sourceLocale, targetLocales, allLocales } from 'locales:config';
 
 // See scripts/parcel-resolver-locale.mjs for how this import is resolved.
 const { setLocale } = configureLocalization({
@@ -166,8 +166,8 @@ export class RewiringAmericaStateCalculator extends LitElement {
    * text that came from API responses will not change until the next API
    * fetch completes.
    */
-  @property({ type: String, attribute: 'language' })
-  language: string = 'en';
+  @property({ type: String, attribute: 'lang' })
+  override lang: string = this.getDefaultLanguage();
 
   /* supported properties to control showing/hiding of each card in the widget */
 
@@ -237,6 +237,13 @@ export class RewiringAmericaStateCalculator extends LitElement {
    * (i.e. submitting the top-level form) or changing the utility selector.
    */
   lastLoadFrom: 'calculate' | 'utility-selector' = 'calculate';
+
+  private getDefaultLanguage() {
+    const closestLang =
+      (this.closest('[lang]') as HTMLElement | null)?.lang?.split('-')?.[0] ??
+      '';
+    return allLocales.includes(closestLang) ? closestLang : 'en';
+  }
 
   /**
    * Called when the component is added to the DOM. At this point the values of
@@ -335,7 +342,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
    * and this is the only async part of the component lifecycle we can hook.
    */
   protected override async scheduleUpdate(): Promise<void> {
-    await setLocale(this.language);
+    await setLocale(this.lang);
     super.scheduleUpdate();
   }
 
@@ -388,7 +395,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     autoRun: false,
     task: async () => {
       const query = new URLSearchParams({
-        language: this.language,
+        language: this.lang,
         'location[zip]': this.zip,
       });
 
@@ -435,7 +442,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
       }
 
       const query = new URLSearchParams({
-        language: this.language,
+        language: this.lang,
         'location[zip]': this.zip,
         owner_status: this.ownerStatus,
         household_income: this.householdIncome,
