@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+<file target-language="es" source-language="en" original="lit-localize-inputs" datatype="plaintext">
+<body>
+<trans-unit id="sab07cf2bfae8483f">
+  <source>Privacy Policy</source>
+<target>Política de privacidad</target></trans-unit>
+<trans-unit id="sd02402d1aaffcb1d">
+  <source>Clothes dryer</source>
+<target>Secadora</target></trans-unit>
+<trans-unit id="s5a2b25d2a25ce5b9">
+  <source>Heating, ventilation &amp; cooling</source>
+<target>Sistemas de climatización</target></trans-unit>
+<trans-unit id="sb6975fd8aa3fa26f">
+  <source>HVAC</source>
+
+  <note from="lit-localize">short label for "heating, ventilation &amp; cooling"</note><target>Climatización</target></trans-unit>
+<trans-unit id="s26946b3c896d36d6">
+  <source>Electric vehicle</source>
+<target>Vehículo eléctrico</target></trans-unit>
+<trans-unit id="s08fb6007b5965c82">
+  <source>EV</source>
+
+  <note from="lit-localize">short label for "electric vehicle"</note><target>Vehículo eléctrico</target></trans-unit>
+<trans-unit id="sfe16afc784bb9d76">
+  <source>Solar</source>
+
+  <note from="lit-localize">i.e. rooftop solar</note><target>Tejado solar</target></trans-unit>
+<trans-unit id="sa413e4572603726f">
+  <source>Battery storage</source>
+<target>Almacenamiento de baterías</target></trans-unit>
+<trans-unit id="s7bd0de02e230dc75">
+  <source>Water heater</source>
+<target>Calentador de agua</target></trans-unit>
+<trans-unit id="s12603afef80b713c">
+  <source>Cooking stove/range</source>
+<target>Estufa/cocina</target></trans-unit>
+<trans-unit id="s6c8911fbc526fb43">
+  <source>Electrical panel &amp; wiring</source>
+<target>Tablero eléctrico y cableado</target></trans-unit>
+<trans-unit id="se94a76041107bbf3">
+  <source>Electrical</source>
+
+  <note from="lit-localize">short for "electrical panel and wiring"</note><target>Eléctrico</target></trans-unit>
+<trans-unit id="s39aa50b686d665a8">
+  <source>Weatherization &amp; efficiency</source>
+<target>Impermeabilización y eficiencia energética</target></trans-unit>
+<trans-unit id="sf459faf797f733a9">
+  <source>Weatherization</source>
+<target>Impermeabilización</target></trans-unit>
+<trans-unit id="s3ec21e39dec13351">
+  <source>Homeowner</source>
+<target>Propietario</target></trans-unit>
+<trans-unit id="sf05c1c17e90b0ddd">
+  <source>Renter</source>
+<target>Inquilino</target></trans-unit>
+<trans-unit id="sbe4508f09222c889">
+  <source>Single</source>
+<target>Soltero</target></trans-unit>
+<trans-unit id="sc026bbb64721085f">
+  <source>Married filing jointly</source>
+<target>Casado que presenta una declaración conjunta</target></trans-unit>
+<trans-unit id="s9fc7054353f62fda">
+  <source>Married filing separately</source>
+<target>Casado que presenta una declaración por separado</target></trans-unit>
+<trans-unit id="se0f90ce39968b1d5">
+  <source>Head of household</source>
+<target>Cabeza de familia</target></trans-unit>
+<trans-unit id="s5c876c284d9dca41">
+  <source>1 person</source>
+<target>1 persona</target></trans-unit>
+<trans-unit id="s6c11cef729833743">
+  <source>Projects you’re most interested in</source>
+<target>Los proyectos en los que tiene lo más interés</target></trans-unit>
+<trans-unit id="s32d01049634239fe">
+  <source>Select the projects you’re most interested in.</source>
+<target>Selecciona los proyectos en los que tiene lo más interés</target></trans-unit>
+<trans-unit id="sbc39ee880f922370">
+  <source>None selected</source>
+<target>Ninguno seleccionado</target></trans-unit>
+<trans-unit id="sdb1f28de105f079e">
+  <source>Email address (optional)</source>
+<target>Dirección de correo electrónico (opcional)</target></trans-unit>
+<trans-unit id="sc5b20cb72269bc4f">
+  <source>Homeowners and renters qualify for different incentives.</source>
+<target>Los propietarios y inquilinos califican para diferentes incentivos.</target></trans-unit>
+<trans-unit id="sb694f3d582a0dbb9">
+  <source>Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.</source>
+<target>Selecciona "Cabeza de familia" si tienes un hijo o pariente que vive contigo y pagas más de la mitad de los gastos de tu hogar. Selecciona "Conjunta" si declaras tus impuestos como pareja casada.</target></trans-unit>
+<trans-unit id="s82397872ac9bddcf">
+  <source>Household size</source>
+<target>Tamaño del hogar</target></trans-unit>
+<trans-unit id="sb1b20a59970ba607">
+  <source>Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.</source>
+<target>Incluye a cualquier persona con la que vivas y que reclames como dependiente en tus impuestos, y a tu cónyuge o pareja si presentas impuestos conjuntos.</target></trans-unit>
+<trans-unit id="sb932cf0734934406">
+  <source>Your zip code helps determine the amount of discounts and tax credits you qualify for.</source>
+<target>Tu código postal ayuda a determinar la cantidad de descuentos y créditos fiscales para los que calificas.</target></trans-unit>
+<trans-unit id="s459781c939bc83e5">
+  <source>Household income</source>
+<target>Ingresos del hogar</target></trans-unit>
+<trans-unit id="s1f0dc611dbdf4115">
+  <source>Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.</source>
+<target>Ingresa tus ingresos brutos (ingresos antes de impuestos). Incluye salarios y sueldos, además de otras formas de ingresos, como pensiones, intereses, dividendos e ingresos por alquiler. Si estás casado y presentas una declaración conjunta, incluye los ingresos de tu cónyuge.</target></trans-unit>
+<trans-unit id="s2ef277dcb08bbedd">
+  <source>Error loading incentives.</source>
+<target>Error al cargar los incentivos.</target></trans-unit>
+<trans-unit id="sa8693630efda6dd3">
+  <source>Tax credit</source>
+<target>Crédito fiscal</target></trans-unit>
+<trans-unit id="sabd5662f3f0a76be">
+  <source>Upfront discount</source>
+<target>Descuento por adelantado</target></trans-unit>
+<trans-unit id="s60d7e5b7ccbd7162">
+  <source>Rebate</source>
+<target>Reembolso</target></trans-unit>
+<trans-unit id="se581b8fe2e188251">
+  <source>Account credit</source>
+<target>Crédito de cuenta</target></trans-unit>
+<trans-unit id="s1be88e157547cb24">
+  <source>Performance rebate</source>
+<target>Reembolso por rendimiento</target></trans-unit>
+<trans-unit id="sb661e8297dd681e2">
+  <source>Incentive</source>
+<target>Incentivo</target></trans-unit>
+<trans-unit id="s8f3dd000e1f39ea9">
+  <source>Available early 2024</source>
+<target>Disponible a principios de 2024</target></trans-unit>
+<trans-unit id="sd99647a59a6f456f">
+  <source>Visit site</source>
+<target>Visitar sitio web</target></trans-unit>
+<trans-unit id="s31f1afc1bfe1cb3a">
+  <source>Learn more</source>
+<target>Más información</target></trans-unit>
+<trans-unit id="sa173afe1a200b396">
+  <source>Incentives available to you</source>
+<target>Incentivos disponibles para ti</target></trans-unit>
+<trans-unit id="s8b29a87eb1bdd138">
+  <source>Other incentives available to you</source>
+<target>Otros incentivos disponibles para ti</target></trans-unit>
+<trans-unit id="s5a3995571bdf3fd4">
+  <source>Incentives you’re interested in</source>
+<target>Incentivos en los que tiene interés</target></trans-unit>
+<trans-unit id="sb9e8a9bfc8bcf398">
+  <source>Rhode Island</source>
+<target>Rhode Island</target></trans-unit>
+<trans-unit id="sfc7214f623fe475d">
+  <source>Choose the company you pay your electric bill to.</source>
+<target>Selecciona la empresa a la que pagas tu factura de electricidad.</target></trans-unit>
+<trans-unit id="s0431bc6ba110a52b">
+  <source>Incentives available to you in <x id="0" equiv-text="${stateInfo.name()}"/></source>
+<target>Incentivos disponibles para ti en <x id="0" equiv-text="${stateInfo.name()}"/></target></trans-unit>
+<trans-unit id="sae79f47e1f8205fc">
+  <source>That ZIP code is not in <x id="0" equiv-text="${stateCodeOrName}"/>.</source>
+<target>Ese código postal no está en <x id="0" equiv-text="${stateCodeOrName}"/>.</target></trans-unit>
+<trans-unit id="hfe81d5d73a35a2cf">
+  <source>Calculate</source>
+<target>Calcular</target></trans-unit>
+<trans-unit id="s57fde82075d7665d">
+  <source>Your household info</source>
+<target>Información de tu hogar</target></trans-unit>
+<trans-unit id="s64eaba74733e24c0">
+  <source>Reset calculator</source>
+<target>Reiniciar la calculadora</target></trans-unit>
+<trans-unit id="sd4647caeb94889ec">
+  <source>Terms</source>
+  <note from="lit-localize">as in terms of service</note>
+<target>Términos</target></trans-unit>
+<trans-unit id="s12c2889034735d5e">
+  <source>Electric Utility</source>
+  <note from="lit-localize">as in utility company</note>
+<target>Empresa de servicios eléctricos</target></trans-unit>
+<trans-unit id="se4572a1a2528a7d4">
+  <source>Zip</source>
+  <note from="lit-localize">as in zip code</note>
+<target>Código postal</target></trans-unit>
+<trans-unit id="s9eba0933010df96e">
+  <source>More information</source>
+  <note from="lit-localize">button caption</note>
+<target>Más información</target></trans-unit>
+<trans-unit id="s2e599ea4064cdc68">
+  <source><x id="0" equiv-text="${count}"/> people</source>
+  <note from="lit-localize">count is greater than 1</note>
+<target><x id="0" equiv-text="${count}"/> personas</target></trans-unit>
+<trans-unit id="s32c12fdb56f0a68f">
+  <source>battery storage</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>almacenamiento de baterías</target></trans-unit>
+<trans-unit id="s17af9148fccf3e8f">
+  <source>an electric panel</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>un tablero eléctrico</target></trans-unit>
+<trans-unit id="sbd6f35e4bb46fc68">
+  <source>an electric/induction stove</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>una estufa eléctrica/inducción</target></trans-unit>
+<trans-unit id="s8e7e52ad112342ab">
+  <source>an EV charger</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>un cargador de vehículos eléctricos</target></trans-unit>
+<trans-unit id="se518d56b2bb45670">
+  <source>electric wiring</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>cableado</target></trans-unit>
+<trans-unit id="s13c6836e829c6f0d">
+  <source>geothermal heating installation</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>instalación de calefacción geotérmica</target></trans-unit>
+<trans-unit id="s36d20a4420aa2314">
+  <source>a heat pump</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>una bomba de calor</target></trans-unit>
+<trans-unit id="s48b23a6c3431c19e">
+  <source>a heat pump clothes dryer</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>una secadora con bomba de calor</target></trans-unit>
+<trans-unit id="s7a73c90a7c3b43b4">
+  <source>a heat pump water heater</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>un calentador de agua con bomba de calor</target></trans-unit>
+<trans-unit id="s9afee25dcf31efc1">
+  <source>a new electric vehicle</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>un vehículo eléctrico nuevo</target></trans-unit>
+<trans-unit id="s16c70c46d6c9d383">
+  <source>rooftop solar</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>tejado solar</target></trans-unit>
+<trans-unit id="s07ecbff17886eb50">
+  <source>a used electric vehicle</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>un vehículo eléctrico usado</target></trans-unit>
+<trans-unit id="sf844ac31d5fba2c9">
+  <source>weatherization</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>impermeabilización</target></trans-unit>
+<trans-unit id="saf510e2c8ddfc21a">
+  <source>an energy efficiency retrofit</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+<target>una renovación de eficiencia energética</target></trans-unit>
+<trans-unit id="sd01d1a3738143465">
+  <source>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${amount.unit}"/> off <x id="2" equiv-text="${item}"/></source>
+  <note from="lit-localize">e.g. "$1000/ton off a heat pump</note>
+<target>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${amount.unit}"/> de descuento en <x id="2" equiv-text="${item}"/></target></trans-unit>
+<trans-unit id="sbc6f031a2851e3fd">
+  <source>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${amount.unit}"/> off <x id="2" equiv-text="${item}"/>, up to $<x id="3" equiv-text="${amount.maximum.toLocaleString()}"/></source>
+  <note from="lit-localize">e.g. "$1000/ton off a heat pump, up to $3000"</note>
+<target>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${amount.unit}"/> de descuento en <x id="2" equiv-text="${item}"/>, hasta $<x id="3" equiv-text="${amount.maximum.toLocaleString()}"/></target></trans-unit>
+<trans-unit id="s4b3298c4c6db9310">
+  <source>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/> off <x id="1" equiv-text="${item}"/></source>
+  <note from="lit-localize">e.g. "$3000 off a heat pump"</note>
+<target>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/> de descuento en <x id="1" equiv-text="${item}"/></target></trans-unit>
+<trans-unit id="s79fd9ba9e498d3da">
+  <source><x id="0" equiv-text="${percentStr}"/> of cost of <x id="1" equiv-text="${item}"/>, up to $<x id="2" equiv-text="${amount.maximum.toLocaleString()}"/></source>
+  <note from="lit-localize">e.g. "50% of cost of a heat pump, up to $3000"</note>
+<target><x id="0" equiv-text="${percentStr}"/> del costo de <x id="1" equiv-text="${item}"/>, hasta $<x id="2" equiv-text="${amount.maximum.toLocaleString()}"/></target></trans-unit>
+<trans-unit id="s2c430b6a8a07370e">
+  <source><x id="0" equiv-text="${percentStr}"/> of cost of <x id="1" equiv-text="${item}"/></source>
+  <note from="lit-localize">e.g. "50% of cost of a heat pump"</note>
+<target><x id="0" equiv-text="${percentStr}"/> del costo de <x id="1" equiv-text="${item}"/></target></trans-unit>
+<trans-unit id="s6cfe26dfc562d2a2">
+  <source>Up to $<x id="0" equiv-text="${amount.maximum.toLocaleString()}"/> off <x id="1" equiv-text="${item}"/></source>
+  <note from="lit-localize">e.g. "up to $3000 off a heat pump</note>
+<target>Hasta $<x id="0" equiv-text="${amount.maximum.toLocaleString()}"/> de descuento en <x id="1" equiv-text="${item}"/></target></trans-unit>
+<trans-unit id="s24ea3f43230aae41">
+  <source>you@example.com</source>
+  <note from="lit-localize">example email address</note>
+<target>tú@example.com</target></trans-unit>
+<trans-unit id="s50e95c2064db3522">
+  <source>Calculator by</source>
+  <note from="lit-localize">followed by "Rewiring America"</note>
+<target>Calculadora por</target></trans-unit>
+<trans-unit id="sf8cc1792fb011b80">
+  <source>Incentive data brought to you by</source>
+  <note from="lit-localize">followed by authority logos</note>
+<target>Datos de incentivos proporcionados por</target></trans-unit>
+<trans-unit id="sfa7338035e1ef173">
+  <source>Rent or own</source>
+  <note from="lit-localize">form field label</note>
+<target>Alquilar o poseer</target></trans-unit>
+<trans-unit id="safb8e695c2fc2dc3">
+  <source>Tax filing</source>
+  <note from="lit-localize">form field label</note>
+<target>Declaración de impuestos</target></trans-unit>
+<trans-unit id="s282049f502eac1de">
+  <source>Project</source>
+  <note from="lit-localize">label for a selector input</note>
+<target>Proyecto</target></trans-unit>
+<trans-unit id="sc373af4c1a974b57">
+  <source>Cooking</source>
+  <note from="lit-localize">short label for stove/range incentives</note>
+<target>Cocina</target></trans-unit>
+</body>
+</file>
+</xliff>
