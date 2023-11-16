@@ -27,7 +27,20 @@ import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 import { safeLocalStorage } from './safe-local-storage';
 import scrollIntoView from 'scroll-into-view-if-needed';
-import { localized, msg, str } from '@lit/localize';
+import { configureLocalization, localized, msg, str } from '@lit/localize';
+import { sourceLocale, targetLocales, allLocales } from 'locales:config';
+
+// See scripts/parcel-resolver-locale.mjs for how this import is resolved.
+const { setLocale } = configureLocalization({
+  sourceLocale,
+  targetLocales,
+  loadLocale: locale =>
+    locale === 'es'
+      ? import('locales:es')
+      : (() => {
+          throw new Error(`unknown locale ${locale}`);
+        })(),
+});
 
 const loadingTemplate = () => html`
   <div class="card card-content">
@@ -147,6 +160,15 @@ export class RewiringAmericaStateCalculator extends LitElement {
     formTitleStyles,
   ];
 
+  /**
+   * Property to control display language. Changing this dynamically is not
+   * supported: UI labels and such will change immediately, but user-visible
+   * text that came from API responses will not change until the next API
+   * fetch completes.
+   */
+  @property({ type: String, attribute: 'lang' })
+  override lang: string = this.getDefaultLanguage();
+
   /* supported properties to control showing/hiding of each card in the widget */
 
   @property({ type: Boolean, attribute: 'hide-form' })
@@ -215,6 +237,13 @@ export class RewiringAmericaStateCalculator extends LitElement {
    * (i.e. submitting the top-level form) or changing the utility selector.
    */
   lastLoadFrom: 'calculate' | 'utility-selector' = 'calculate';
+
+  private getDefaultLanguage() {
+    const closestLang =
+      (this.closest('[lang]') as HTMLElement | null)?.lang?.split('-')?.[0] ??
+      '';
+    return allLocales.includes(closestLang) ? closestLang : 'en';
+  }
 
   /**
    * Called when the component is added to the DOM. At this point the values of
@@ -308,6 +337,15 @@ export class RewiringAmericaStateCalculator extends LitElement {
     this.initFormProperties();
   }
 
+  /**
+   * Make sure the locale is set before rendering begins. setLocale() is async
+   * and this is the only async part of the component lifecycle we can hook.
+   */
+  protected override async scheduleUpdate(): Promise<void> {
+    await setLocale(this.lang);
+    super.scheduleUpdate();
+  }
+
   override async updated() {
     await new Promise(r => setTimeout(r, 0));
     if (!this.renderRoot) {
@@ -357,6 +395,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     autoRun: false,
     task: async () => {
       const query = new URLSearchParams({
+        language: this.lang,
         'location[zip]': this.zip,
       });
 
@@ -403,6 +442,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
       }
 
       const query = new URLSearchParams({
+        language: this.lang,
         'location[zip]': this.zip,
         owner_status: this.ownerStatus,
         household_income: this.householdIncome,
