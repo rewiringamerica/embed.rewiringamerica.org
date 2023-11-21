@@ -169,14 +169,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: String, attribute: 'lang' })
   override lang: string = this.getDefaultLanguage();
 
-  /* supported properties to control showing/hiding of each card in the widget */
-
-  @property({ type: Boolean, attribute: 'hide-form' })
-  hideForm: boolean = false;
-
-  @property({ type: Boolean, attribute: 'hide-details' })
-  hideDetails: boolean = false;
-
   /* supported property to show the email signup field */
 
   @property({ type: Boolean, attribute: 'show-email' })
@@ -506,26 +498,24 @@ export class RewiringAmericaStateCalculator extends LitElement {
               </button>
             </div>
           </div>
-          ${this.hideForm
-            ? nothing
-            : formTemplate(
-                [
-                  this.zip,
-                  this.ownerStatus,
-                  this.householdIncome,
-                  this.taxFiling,
-                  this.householdSize,
-                ],
-                this.projects,
-                {
-                  showEmailField: this.showEmail && !this.wasEmailSubmitted,
-                  showProjectField: true,
-                  tooltipSize: 13,
-                  calculateButtonContent,
-                },
-                (event: SubmitEvent) => this.submit(event),
-                'grid-2-2-1',
-              )}
+          ${formTemplate(
+            [
+              this.zip,
+              this.ownerStatus,
+              this.householdIncome,
+              this.taxFiling,
+              this.householdSize,
+            ],
+            this.projects,
+            {
+              showEmailField: this.showEmail && !this.wasEmailSubmitted,
+              showProjectField: true,
+              tooltipSize: 13,
+              calculateButtonContent,
+            },
+            (event: SubmitEvent) => this.submit(event),
+            'grid-2-2-1',
+          )}
         </div>
         ${
           // This is defensive against the possibility that the backend and
