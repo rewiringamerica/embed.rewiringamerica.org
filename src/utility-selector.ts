@@ -126,7 +126,11 @@ export const utilitySelectorTemplate = (
 ) =>
   html` <div class="utility-selector" id="utility-selector">
     <div class="utility-selector__map">
-      <img class="utility-selector__outline" src=${stateInfo.iconURL} />
+      <img
+        class="utility-selector__outline"
+        src=${stateInfo.iconURL}
+        aria-hidden="true"
+      />
       <h1 class="utility-selector__title">
         ${msg(str`Incentives available to you in ${stateInfo.name()}`)}
       </h1>
