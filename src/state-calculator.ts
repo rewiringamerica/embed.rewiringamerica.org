@@ -126,6 +126,12 @@ type SavedFormValues = Partial<{
   projects: Project[];
 }>;
 
+declare module './safe-local-storage' {
+  interface SafeLocalStorageMap {
+    [FORM_VALUES_LOCAL_STORAGE_KEY]: SavedFormValues;
+  }
+}
+
 const formTitleStyles = css`
   .form-title {
     display: flex;
@@ -253,9 +259,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
    * otherwise.
    */
   initFormProperties(): void {
-    const formValues = safeLocalStorage.getItem<SavedFormValues>(
-      FORM_VALUES_LOCAL_STORAGE_KEY,
-    );
+    const formValues = safeLocalStorage.getItem(FORM_VALUES_LOCAL_STORAGE_KEY);
     const attr = (k: string) => this.attributes.getNamedItem(k)?.value;
 
     this.zip = formValues?.zip ?? attr('zip') ?? DEFAULT_ZIP;
@@ -314,7 +318,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
   }
 
   saveFormValues() {
-    safeLocalStorage.setItem<SavedFormValues>(FORM_VALUES_LOCAL_STORAGE_KEY, {
+    safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, {
       zip: this.zip,
       ownerStatus: this.ownerStatus,
       householdIncome: this.householdIncome,

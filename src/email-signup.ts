@@ -2,6 +2,12 @@ import { safeLocalStorage } from './safe-local-storage';
 
 const LOCAL_STORAGE_KEY = 'RA-calc-email-submitted';
 
+declare module './safe-local-storage' {
+  interface SafeLocalStorageMap {
+    [LOCAL_STORAGE_KEY]: boolean;
+  }
+}
+
 export function wasEmailSubmitted(): boolean {
   return safeLocalStorage.getItem(LOCAL_STORAGE_KEY) !== null;
 }
