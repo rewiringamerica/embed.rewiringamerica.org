@@ -290,6 +290,18 @@
   <source>Cooking</source>
   <note from="lit-localize">short label for stove/range incentives</note>
 <target>Cocina</target></trans-unit>
+<trans-unit id="sf3affd5c9f2915e0">
+  <source>Connecticut</source>
+  <target>Connecticut</target>
+</trans-unit>
+<trans-unit id="s2800ea3a8c83c188">
+  <source>New York</source>
+  <target>Nueva York</target>
+</trans-unit>
+<trans-unit id="sb5b955a693af9c2e">
+  <source>Virginia</source>
+  <target>Virginia</target>
+</trans-unit>
 </body>
 </file>
 </xliff>
