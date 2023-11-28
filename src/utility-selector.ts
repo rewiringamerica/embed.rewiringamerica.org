@@ -17,7 +17,7 @@ export const utilitySelectorStyles = css`
     max-width: 100%;
   }
 
-  .utility-selector__map svg {
+  .utility-selector__outline {
     vertical-align: top;
   }
 
@@ -126,7 +126,7 @@ export const utilitySelectorTemplate = (
 ) =>
   html` <div class="utility-selector" id="utility-selector">
     <div class="utility-selector__map">
-      ${stateInfo.icon()}
+      <img class="utility-selector__outline" src=${stateInfo.iconURL} />
       <h1 class="utility-selector__title">
         ${msg(str`Incentives available to you in ${stateInfo.name()}`)}
       </h1>
