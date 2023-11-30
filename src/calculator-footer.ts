@@ -4,7 +4,7 @@ import { msg } from '@lit/localize';
 const toNbsp = (s: string) => s.replace(' ', '\u00a0');
 
 export const CALCULATOR_FOOTER = () => html`<slot name="footer">
-  <div class="calculator__footer">
+  <div class="calculator-footer">
     <p>
       ${toNbsp(
         msg('Calculator by', { desc: 'followed by "Rewiring America"' }),

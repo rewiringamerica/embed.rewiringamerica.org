@@ -178,8 +178,8 @@ export class RewiringAmericaCalculator extends LitElement {
                 error: errorTemplate,
               })}
             `}
-        ${CALCULATOR_FOOTER()}
       </div>
+      ${CALCULATOR_FOOTER()}
     `;
   }
 }
