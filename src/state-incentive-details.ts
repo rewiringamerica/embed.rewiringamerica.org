@@ -381,10 +381,12 @@ const incentiveCardTemplate = (incentive: Incentive) => html`
   </div>
 `;
 
-function scrollToForm() {
-  // "this" is the rewiring-america-state-calculator element
-  // TODO: how do we help Typescript to know this?
-  scrollIntoView(this.shadowRoot.querySelector('.calculator'), {
+function scrollToForm(this: RewiringAmericaStateCalculator) {
+  const calculator = this.shadowRoot?.querySelector('.calculator');
+  if (!calculator) {
+    return;
+  }
+  scrollIntoView(calculator, {
     behavior: 'smooth',
     block: 'start',
     inline: 'start',
