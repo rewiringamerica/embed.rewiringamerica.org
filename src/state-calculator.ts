@@ -315,6 +315,16 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this.lastLoadFrom = 'calculate';
       this._task.run();
     }
+
+    this.dispatchEvent(
+      new CustomEvent('calculator-submitted', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          formData: Object.fromEntries(formData.entries()),
+        },
+      }),
+    );
   }
 
   saveFormValues() {
@@ -331,6 +341,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
   resetFormValues() {
     safeLocalStorage.removeItem(FORM_VALUES_LOCAL_STORAGE_KEY);
     this.initFormProperties();
+    this.dispatchEvent(
+      new Event('calculator-reset', { bubbles: true, composed: true }),
+    );
   }
 
   /**

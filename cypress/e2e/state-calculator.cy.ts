@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 /// <reference types="cypress-axe" />
 
-describe('template spec', () => {
+describe('rewiring-america-state-calculator', () => {
   beforeEach(function () {
     cy.visit('http://localhost:1234/rhode-island.html');
 

@@ -51,6 +51,17 @@ The calculator component supports the following attributes to customize its beha
 
 Values are pre-populated from attributes on page load, and when the user clicks "Reset calculator".
 
+### Events
+
+The calculator components dispatches custom events when the form is submitted and reset. Their `target` is the calculator component. You can listen for them with `addEventListener()`. These events are not cancelable.
+
+When the event is dispatched, the form submission or reset has already happened, and you don't need to do anything. These events are exposed for analytics purposes.
+
+| Event name             | `detail`                                                                                                                                                                                  |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `calculator-submitted` | The key `formData` contains an object with the form data that was submitted. Possible keys are `zip`, `owner_status`, `household_income`, `household_size`, `tax_filing`, and `projects`. |
+| `calculator-reset`     | None                                                                                                                                                                                      |
+
 ## Running / building
 
 ### Run a development server
