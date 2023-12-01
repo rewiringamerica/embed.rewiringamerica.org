@@ -120,7 +120,6 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .find('button.text')
       .contains('Back to calculator')
       .click();
 

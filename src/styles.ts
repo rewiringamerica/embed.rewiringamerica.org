@@ -101,7 +101,7 @@ export const baseStyles = css`
 
   h1 {
     font-size: 24px;
-    line-height: 40px;
+    line-height: 125%;
     font-weight: 500;
     margin: 0;
     text-wrap: balance;
@@ -109,14 +109,14 @@ export const baseStyles = css`
 
   h2 {
     font-size: 22px;
-    line-height: 24px;
+    line-height: 125%;
     font-weight: 500;
     margin: 0;
   }
 
   p {
     font-size: 16px;
-    line-height: 28px;
+    line-height: 150%;
     font-weight: normal;
     font-style: normal;
     margin: 0;
