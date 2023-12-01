@@ -578,8 +578,8 @@ export class RewiringAmericaStateCalculator extends LitElement {
           : this._task.status === TaskStatus.ERROR
           ? errorTemplate(this._task.error)
           : nothing}
-        ${CALCULATOR_FOOTER()}
       </div>
+      ${CALCULATOR_FOOTER()}
     `;
   }
 }

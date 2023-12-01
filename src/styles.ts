@@ -142,9 +142,10 @@ export const baseStyles = css`
     grid-template-rows: min-content;
   }
 
-  .calculator__footer {
+  .calculator-footer {
     min-width: 200px;
     text-align: center;
+    margin-top: 16px;
   }
 
   /* Extra small devices */
