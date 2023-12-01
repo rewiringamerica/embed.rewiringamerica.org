@@ -397,13 +397,15 @@ function scrollToForm(this: RewiringAmericaStateCalculator) {
 // TODO: don't reuse card CSS here, make something standalone
 const noResultsTemplate = () => html`<div class="card card--null">
   <div class="card-content card-content--null">
-    <!-- TODO: extract these strings for translation -->
-    <h1>No incentives available for this project</h1>
+    <h1>${msg('No incentives available for this project')}</h1>
     <p>
-      This could be because there are no incentives in your area, or you don’t
-      financially qualify for any incentives.
+      ${msg(
+        'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
+      )}
     </p>
-    <button class="text" @click=${scrollToForm}>Back to calculator</button>
+    <button class="text" @click=${scrollToForm}>
+      ${msg('Back to calculator')}
+    </button>
   </div>
 </div>`;
 
