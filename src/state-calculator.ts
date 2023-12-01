@@ -321,7 +321,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
-          formData: Object.fromEntries(formData.entries()),
+          // Preserve projects as an array
+          formData: Object.fromEntries(
+            Array.from(formData.keys()).map(k =>
+              k === 'projects' ? [k, formData.getAll(k)] : [k, formData.get(k)],
+            ),
+          ),
         },
       }),
     );
