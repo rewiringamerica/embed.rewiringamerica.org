@@ -45,7 +45,7 @@ describe('rewiring-america-state-calculator events', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .find('.form-title__reset')
+      .contains('Reset calculator')
       .click()
       .then(() => {
         expect(reset).to.be.calledOnce;

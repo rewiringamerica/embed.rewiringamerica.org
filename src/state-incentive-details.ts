@@ -403,7 +403,7 @@ const noResultsTemplate = () => html`<div class="card card--null">
         'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
       )}
     </p>
-    <button class="text" @click=${scrollToForm}>
+    <button class="text-button" @click=${scrollToForm}>
       ${msg('Back to calculator')}
     </button>
   </div>

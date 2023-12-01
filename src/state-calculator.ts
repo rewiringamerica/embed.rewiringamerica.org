@@ -137,18 +137,6 @@ const formTitleStyles = css`
     display: flex;
     justify-content: space-between;
   }
-
-  .form-title__reset {
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-
-    color: var(--rewiring-purple);
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 125%;
-  }
 `;
 
 @customElement('rewiring-america-state-calculator')
@@ -513,7 +501,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
             <h1 class="form-title__text">${msg('Your household info')}</h1>
             <div>
               <button
-                class="form-title__reset"
+                class="text-button"
                 @click=${() => this.resetFormValues()}
               >
                 ${msg('Reset calculator')}
