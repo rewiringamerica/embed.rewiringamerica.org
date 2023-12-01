@@ -35,3 +35,48 @@
 //     }
 //   }
 // }
+
+// this stops VS Code yelling about the following `declare global`
+export {};
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Cypress {
+    interface Chainable {
+      isInViewport(): void;
+      isNotInViewport(): void;
+    }
+  }
+}
+
+Cypress.Commands.add(
+  'isNotInViewport',
+  {
+    prevSubject: 'element',
+  },
+  (element: JQuery<HTMLElement>) => {
+    cy.wrap(element).then($el => {
+      cy.window().then(window => {
+        const bottom = Cypress.$(window).height();
+        const rect = $el[0].getBoundingClientRect();
+        expect(rect.top > bottom || rect.bottom <= 0).to.be.true;
+      });
+    });
+  },
+);
+
+Cypress.Commands.add(
+  'isInViewport',
+  {
+    prevSubject: 'element',
+  },
+  (element: JQuery<HTMLElement>) => {
+    cy.wrap(element).then($el => {
+      cy.window().then(window => {
+        const bottom = Cypress.$(window).height();
+        const rect = $el[0].getBoundingClientRect();
+        expect(rect.top >= 0 && rect.top < bottom).to.be.true;
+      });
+    });
+  },
+);
