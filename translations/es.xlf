@@ -132,9 +132,6 @@
 <trans-unit id="s31f1afc1bfe1cb3a">
   <source>Learn more</source>
 <target>Más información</target></trans-unit>
-<trans-unit id="sa173afe1a200b396">
-  <source>Incentives available to you</source>
-<target>Incentivos disponibles para ti</target></trans-unit>
 <trans-unit id="s8b29a87eb1bdd138">
   <source>Other incentives available to you</source>
 <target>Otros incentivos disponibles para ti</target></trans-unit>
@@ -301,6 +298,18 @@
 <trans-unit id="sb5b955a693af9c2e">
   <source>Virginia</source>
   <target>Virginia</target>
+</trans-unit>
+<trans-unit id="sd779d8c944d0ab51">
+  <source>No incentives available for this project</source>
+  <target>No hay incentivos disponibles para este proyecto.</target>
+</trans-unit>
+<trans-unit id="s67ef2eb5002eaaa5">
+  <source>This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.</source>
+  <target>Esto podría deberse a que no hay incentivos en su área o no califica financieramente para ningún incentivo.</target>
+</trans-unit>
+<trans-unit id="sdc1f8a2139793221">
+  <source>Back to calculator</source>
+  <target>Volver a la calculadora</target>
 </trans-unit>
 </body>
 </file>

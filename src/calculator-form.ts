@@ -32,6 +32,29 @@ const buttonStyles = css`
     background-color: var(--ra-embed-primary-button-background-hover-color);
   }
 
+  button.text-button {
+    appearance: none;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+    text-decoration: none;
+
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    cursor: pointer;
+
+    color: var(--rewiring-purple);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 125%;
+  }
+
+  button.text-button:hover {
+    text-decoration: underline;
+  }
+
   .grid-right-column {
     grid-column: -2 / -1;
   }

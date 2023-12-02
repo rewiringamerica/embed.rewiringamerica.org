@@ -5,6 +5,8 @@ import { exclamationPoint, upRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { iconTabBarTemplate } from './icon-tab-bar';
 import { authorityLogosTemplate } from './authority-logos';
+import { RewiringAmericaStateCalculator } from './state-calculator';
+import scrollIntoView from 'scroll-into-view-if-needed';
 
 export const stateIncentivesStyles = css`
   /* for now, override these variables just for the state calculator */
@@ -13,6 +15,8 @@ export const stateIncentivesStyles = css`
     --ra-embed-card-border: none;
     --ra-embed-card-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
     --ra-embed-card-border-radius: 0.75rem;
+    --ra-embed-card-shadow--null: none;
+    --ra-embed-card-background--null: var(--rewiring-light-yellow);
     /* labels */
     --ra-form-label-font-size: 11px;
     --ra-form-label-line-height: 20px;
@@ -190,6 +194,11 @@ export const cardStyles = css`
     overflow: clip;
   }
 
+  .card--null {
+    background-color: var(--ra-embed-card-background--null);
+    box-shadow: var(--ra-embed-card-shadow--null);
+  }
+
   /* Extra small devices */
   @media only screen and (max-width: 640px) {
     .card {
@@ -210,6 +219,13 @@ export const cardStyles = css`
     .card-content {
       padding: 1rem;
     }
+  }
+
+  .card-content--null {
+    padding: 2rem 0;
+    text-align: center;
+    max-width: 312px;
+    margin: 0 auto;
   }
 `;
 
@@ -365,6 +381,39 @@ const incentiveCardTemplate = (incentive: Incentive) => html`
   </div>
 `;
 
+function scrollToForm(this: RewiringAmericaStateCalculator) {
+  const calculator = this.shadowRoot?.querySelector('.calculator');
+  if (!calculator) {
+    return;
+  }
+  scrollIntoView(calculator, {
+    behavior: 'smooth',
+    block: 'start',
+    inline: 'start',
+    scrollMode: 'always',
+  });
+}
+
+// TODO: don't reuse card CSS here, make something standalone
+const noResultsTemplate = () => html`<div class="card card--null">
+  <div class="card-content card-content--null">
+    <h1>${msg('No incentives available for this project')}</h1>
+    <p>
+      ${msg(
+        'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
+      )}
+    </p>
+    <button class="text-button" @click=${scrollToForm}>
+      ${msg('Back to calculator')}
+    </button>
+  </div>
+</div>`;
+
+const cardCollectionTemplate = (incentives: Incentive[]) =>
+  html`<div class="grid-3-2-1 grid-3-2-1--align-start">
+    ${incentives.map(incentiveCardTemplate)}
+  </div>`;
+
 const gridTemplate = (
   heading: string,
   htmlId: string,
@@ -373,14 +422,14 @@ const gridTemplate = (
   selectedTab: Project,
   onTabSelected: (newSelection: Project) => void,
 ) =>
-  tabs.length > 0 && incentives.length > 0
+  tabs.length > 0
     ? html`
         <div class="grid-section" id="${htmlId}">
           <h2 class="grid-section__header">${heading}</h2>
           ${iconTabBarTemplate(tabs, selectedTab, onTabSelected)}
-          <div class="grid-3-2-1 grid-3-2-1--align-start">
-            ${incentives.map(incentiveCardTemplate)}
-          </div>
+          ${incentives.length > 0
+            ? cardCollectionTemplate(incentives)
+            : noResultsTemplate()}
         </div>
       `
     : nothing;
@@ -410,15 +459,17 @@ export const stateIncentivesTemplate = (
       allEligible.filter(i => info.items.includes(i.item.type)),
     ]),
   ) as Record<Project, Incentive[]>;
+
   const projectsWithIncentives = (
     Object.entries(incentivesByProject) as [Project, Incentive[]][]
   )
     .filter(([, incentives]) => incentives.length > 0)
     .map(([project]) => project);
 
-  const interestedProjects = selectedProjects
-    .filter(project => projectsWithIncentives.includes(project))
-    .sort((a, b) => shortLabel(a).localeCompare(shortLabel(b)));
+  const interestedProjects = selectedProjects.sort((a, b) =>
+    shortLabel(a).localeCompare(shortLabel(b)),
+  );
+
   const otherProjects = projectsWithIncentives
     .filter(project => !interestedProjects.includes(project))
     .sort((a, b) => shortLabel(a).localeCompare(shortLabel(b)));
@@ -427,6 +478,7 @@ export const stateIncentivesTemplate = (
     selectedProjectTab && interestedProjects.includes(selectedProjectTab)
       ? selectedProjectTab
       : interestedProjects[0];
+
   const otherTab =
     selectedOtherTab && otherProjects.includes(selectedOtherTab)
       ? selectedOtherTab
@@ -434,11 +486,6 @@ export const stateIncentivesTemplate = (
 
   const selectedIncentives = incentivesByProject[projectTab] ?? [];
   const selectedOtherIncentives = incentivesByProject[otherTab] ?? [];
-
-  const otherIncentivesLabel =
-    selectedIncentives.length === 0
-      ? msg('Incentives available to you')
-      : msg('Other incentives available to you');
 
   return html`${gridTemplate(
     msg('Incentives you’re interested in'),
@@ -449,7 +496,7 @@ export const stateIncentivesTemplate = (
     onTabSelected,
   )}
   ${gridTemplate(
-    otherIncentivesLabel,
+    msg('Other incentives available to you'),
     'other-incentives',
     selectedOtherIncentives,
     otherProjects,

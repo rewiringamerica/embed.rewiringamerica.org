@@ -8,6 +8,7 @@ export const baseStyles = css`
     --rewiring-purple: rgb(74, 0, 195);
     --rewiring-purple-darker: rgb(56, 8, 151);
     --rewiring-light-purple: rgb(241, 237, 249);
+    --rewiring-light-yellow: rgb(254, 242, 202);
   }
 
   /* these are documented as themable and should be backwards compatible if changed */
@@ -100,21 +101,22 @@ export const baseStyles = css`
 
   h1 {
     font-size: 24px;
-    line-height: 40px;
+    line-height: 125%;
     font-weight: 500;
     margin: 0;
+    text-wrap: balance;
   }
 
   h2 {
     font-size: 22px;
-    line-height: 24px;
+    line-height: 125%;
     font-weight: 500;
     margin: 0;
   }
 
   p {
     font-size: 16px;
-    line-height: 28px;
+    line-height: 150%;
     font-weight: normal;
     font-style: normal;
     margin: 0;

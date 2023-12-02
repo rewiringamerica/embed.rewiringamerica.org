@@ -83,4 +83,53 @@ describe('rewiring-america-state-calculator', () => {
         runOnly: ['wcag2a', 'wcag2aa'],
       });
   });
+
+  it('shows an empty state if you are not eligible for any incentives for your chosen project', () => {
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .find('sl-select#projects')
+      .invoke('attr', 'value', 'cooking');
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .find('#zip')
+      .type('02859');
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .find('#household_income')
+      .type('200000{enter}');
+
+    // make sure we saw an empty result state, and scroll down to it:
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .contains('No incentives available for this project')
+      .scrollIntoView();
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .checkA11y(null, {
+        runOnly: ['wcag2a', 'wcag2aa'],
+      });
+
+    // // make sure we have scrolled down
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .contains('Your household info')
+      .isNotInViewport();
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .contains('Back to calculator')
+      .click();
+
+    // wait for animated scroll
+    cy.wait(1000);
+
+    // make sure we scrolled back up
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .contains('Your household info')
+      .isInViewport();
+  });
 });
