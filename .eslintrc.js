@@ -4,7 +4,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   root: true,
-  ignorePatterns: ['build', 'dist'],
+  ignorePatterns: ['build', 'dist', '.parcel-cache'],
   rules: {
     eqeqeq: ['error', 'always'],
   },
