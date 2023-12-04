@@ -301,11 +301,11 @@
 </trans-unit>
 <trans-unit id="sd779d8c944d0ab51">
   <source>No incentives available for this project</source>
-  <target>No hay incentivos disponibles para este proyecto.</target>
+  <target>No hay incentivos disponibles para este proyecto</target>
 </trans-unit>
 <trans-unit id="s67ef2eb5002eaaa5">
   <source>This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.</source>
-  <target>Esto podría deberse a que no hay incentivos en su área o no califica financieramente para ningún incentivo.</target>
+  <target>Podría ser que no hay incentivos en su área o que usted no califica financieramente para recibir ningún incentivo.</target>
 </trans-unit>
 <trans-unit id="sdc1f8a2139793221">
   <source>Back to calculator</source>
