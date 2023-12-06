@@ -1,6 +1,7 @@
 @font-face {
   font-family: GT America;
-  src: url(./fonts/GT-America-Standard-Regular.woff2) format('woff2');
+  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Regular.woff2)
+    format('woff2');
   font-style: normal;
   font-display: block;
   font-weight: 400;
@@ -8,7 +9,8 @@
 
 @font-face {
   font-family: GT America;
-  src: url(./fonts/GT-America-Standard-Regular-Italic.woff2) format('woff2');
+  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Regular-Italic.woff2)
+    format('woff2');
   font-style: italic;
   font-display: block;
   font-weight: 400;
@@ -16,7 +18,8 @@
 
 @font-face {
   font-family: GT America;
-  src: url(./fonts/GT-America-Standard-Medium.woff2) format('woff2');
+  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Medium.woff2)
+    format('woff2');
   font-style: normal;
   font-display: block;
   font-weight: 500;
@@ -24,7 +27,8 @@
 
 @font-face {
   font-family: GT America;
-  src: url(./fonts/GT-America-Standard-Medium-Italic.woff2) format('woff2');
+  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Medium-Italic.woff2)
+    format('woff2');
   font-style: italic;
   font-display: block;
   font-weight: 500;
@@ -32,7 +36,8 @@
 
 @font-face {
   font-family: GT America;
-  src: url(./fonts/GT-America-Standard-Bold.woff2) format('woff2');
+  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Bold.woff2)
+    format('woff2');
   font-style: normal;
   font-display: block;
   font-weight: 700;
@@ -40,7 +45,8 @@
 
 @font-face {
   font-family: GT America;
-  src: url(./fonts/GT-America-Standard-Bold-Italic.woff2) format('woff2');
+  src: url(https://www.rewiringamerica.org/fonts/GT-America-Standard-Bold-Italic.woff2)
+    format('woff2');
   font-style: italic;
   font-display: block;
   font-weight: 700;
@@ -48,7 +54,8 @@
 
 @font-face {
   font-family: GT America Condensed;
-  src: url(./fonts/GT-America-Condensed-Bold.woff2) format('woff2');
+  src: url(https://www.rewiringamerica.org/fonts/GT-America-Condensed-Bold.woff2)
+    format('woff2');
   font-style: normal;
   font-display: block;
   font-weight: 700;
@@ -56,7 +63,8 @@
 
 @font-face {
   font-family: GT America Condensed;
-  src: url(./fonts/GT-America-Condensed-Bold-Italic.woff2) format('woff2');
+  src: url(https://www.rewiringamerica.org/fonts/GT-America-Condensed-Bold-Italic.woff2)
+    format('woff2');
   font-style: italic;
   font-display: block;
   font-weight: 700;
@@ -64,7 +72,8 @@
 
 @font-face {
   font-family: GT America Mono;
-  src: url(./fonts/GT-America-Mono-Regular.woff2) format('woff2');
+  src: url(https://www.rewiringamerica.org/fonts/GT-America-Mono-Regular.woff2)
+    format('woff2');
   font-style: normal;
   font-display: block;
   font-weight: 40;
@@ -72,7 +81,8 @@
 
 @font-face {
   font-family: GT America Mono;
-  src: url(./fonts/GT-America-Mono-Medium.woff2) format('woff2');
+  src: url(https://www.rewiringamerica.org/fonts/GT-America-Mono-Medium.woff2)
+    format('woff2');
   font-style: normal;
   font-display: block;
   font-weight: 500;
@@ -80,7 +90,8 @@
 
 @font-face {
   font-family: GT America Mono;
-  src: url(./fonts/GT-America-Mono-Bold.woff2) format('woff2');
+  src: url(https://www.rewiringamerica.org/fonts/GT-America-Mono-Bold.woff2)
+    format('woff2');
   font-style: normal;
   font-display: block;
   font-weight: 700;
