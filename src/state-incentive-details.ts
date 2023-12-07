@@ -350,11 +350,15 @@ const formatIncentiveType = (incentive: Incentive) =>
     ? msg('Performance rebate')
     : msg('Incentive');
 
+/** We're special-casing these to hardcode an availability start date */
+const isIRARebate = (incentive: Incentive) =>
+  incentive.type === 'pos_rebate' && incentive.authority_type === 'federal';
+
 /** TODO get real dates in the data! */
 const startDateTemplate = (incentive: Incentive) =>
-  incentive.type === 'pos_rebate'
+  isIRARebate(incentive)
     ? html`<div class="incentive__chip incentive__chip--warning">
-        ${exclamationPoint()} ${msg('Available early 2024')}
+        ${exclamationPoint()} ${msg('Expected in 2024')}
       </div>`
     : nothing;
 
@@ -411,7 +415,10 @@ const noResultsTemplate = () => html`<div class="card card--null">
 
 const cardCollectionTemplate = (incentives: Incentive[]) =>
   html`<div class="grid-3-2-1 grid-3-2-1--align-start">
-    ${incentives.map(incentiveCardTemplate)}
+    ${incentives
+      // Put IRA rebates after everything else
+      .sort((a, b) => +isIRARebate(a) - +isIRARebate(b))
+      .map(incentiveCardTemplate)}
   </div>`;
 
 const gridTemplate = (

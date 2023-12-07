@@ -123,9 +123,6 @@
 <trans-unit id="sb661e8297dd681e2">
   <source>Incentive</source>
 <target>Incentivo</target></trans-unit>
-<trans-unit id="s8f3dd000e1f39ea9">
-  <source>Available early 2024</source>
-<target>Disponible a principios de 2024</target></trans-unit>
 <trans-unit id="sd99647a59a6f456f">
   <source>Visit site</source>
 <target>Visitar sitio web</target></trans-unit>
@@ -310,6 +307,10 @@
 <trans-unit id="sdc1f8a2139793221">
   <source>Back to calculator</source>
   <target>Volver a la calculadora</target>
+</trans-unit>
+<trans-unit id="s8fd8a424edc336b4">
+  <source>Expected in 2024</source>
+  <target>Esperado en 2024</target>
 </trans-unit>
 </body>
 </file>
