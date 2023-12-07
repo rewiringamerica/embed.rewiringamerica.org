@@ -86,22 +86,22 @@
 <target>Los propietarios y inquilinos califican para diferentes incentivos.</target></trans-unit>
 <trans-unit id="sb694f3d582a0dbb9">
   <source>Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.</source>
-<target>Selecciona "Cabeza de familia" si tienes un hijo o pariente que vive contigo y pagas más de la mitad de los gastos de tu hogar. Selecciona "Conjunta" si declaras tus impuestos como pareja casada.</target></trans-unit>
+<target>Selecciona "Cabeza de familia" si tiene un hijo o pariente que vive con usted y paga más de la mitad de los gastos de su hogar. Selecciona "Conjunta" si declara sus impuestos como pareja casada.</target></trans-unit>
 <trans-unit id="s82397872ac9bddcf">
   <source>Household size</source>
 <target>Tamaño del hogar</target></trans-unit>
 <trans-unit id="sb1b20a59970ba607">
   <source>Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.</source>
-<target>Incluye a cualquier persona con la que vivas y que reclames como dependiente en tus impuestos, y a tu cónyuge o pareja si presentas impuestos conjuntos.</target></trans-unit>
+<target>Incluye a cualquier persona con la que viva y que reclame como dependiente en sus impuestos, y a su cónyuge o pareja si presenta impuestos conjuntos.</target></trans-unit>
 <trans-unit id="sb932cf0734934406">
   <source>Your zip code helps determine the amount of discounts and tax credits you qualify for.</source>
-<target>Tu código postal ayuda a determinar la cantidad de descuentos y créditos fiscales para los que calificas.</target></trans-unit>
+<target>Su código postal ayuda a determinar la cantidad de descuentos y créditos fiscales para los que califica.</target></trans-unit>
 <trans-unit id="s459781c939bc83e5">
   <source>Household income</source>
 <target>Ingresos del hogar</target></trans-unit>
 <trans-unit id="s1f0dc611dbdf4115">
   <source>Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.</source>
-<target>Ingresa tus ingresos brutos (ingresos antes de impuestos). Incluye salarios y sueldos, además de otras formas de ingresos, como pensiones, intereses, dividendos e ingresos por alquiler. Si estás casado y presentas una declaración conjunta, incluye los ingresos de tu cónyuge.</target></trans-unit>
+<target>Ingresa sus ingresos brutos (ingresos antes de impuestos). Incluye salarios y sueldos, además de otras formas de ingresos, como pensiones, intereses, dividendos e ingresos por alquiler. Si está casado y presenta una declaración conjunta, incluye los ingresos de su cónyuge.</target></trans-unit>
 <trans-unit id="s2ef277dcb08bbedd">
   <source>Error loading incentives.</source>
 <target>Error al cargar los incentivos.</target></trans-unit>
@@ -131,7 +131,7 @@
 <target>Más información</target></trans-unit>
 <trans-unit id="s8b29a87eb1bdd138">
   <source>Other incentives available to you</source>
-<target>Otros incentivos disponibles para ti</target></trans-unit>
+<target>Otros incentivos disponibles para usted</target></trans-unit>
 <trans-unit id="s5a3995571bdf3fd4">
   <source>Incentives you’re interested in</source>
 <target>Incentivos en los que tiene interés</target></trans-unit>
@@ -140,10 +140,10 @@
 <target>Rhode Island</target></trans-unit>
 <trans-unit id="sfc7214f623fe475d">
   <source>Choose the company you pay your electric bill to.</source>
-<target>Selecciona la empresa a la que pagas tu factura de electricidad.</target></trans-unit>
+<target>Selecciona la empresa a la que paga su factura de electricidad.</target></trans-unit>
 <trans-unit id="s0431bc6ba110a52b">
   <source>Incentives available to you in <x id="0" equiv-text="${stateInfo.name()}"/></source>
-<target>Incentivos disponibles para ti en <x id="0" equiv-text="${stateInfo.name()}"/></target></trans-unit>
+<target>Incentivos disponibles para usted en <x id="0" equiv-text="${stateInfo.name()}"/></target></trans-unit>
 <trans-unit id="sae79f47e1f8205fc">
   <source>That ZIP code is not in <x id="0" equiv-text="${stateCodeOrName}"/>.</source>
 <target>Ese código postal no está en <x id="0" equiv-text="${stateCodeOrName}"/>.</target></trans-unit>
@@ -152,7 +152,7 @@
 <target>Calcular</target></trans-unit>
 <trans-unit id="s57fde82075d7665d">
   <source>Your household info</source>
-<target>Información de tu hogar</target></trans-unit>
+<target>Información de su hogar</target></trans-unit>
 <trans-unit id="s64eaba74733e24c0">
   <source>Reset calculator</source>
 <target>Reiniciar la calculadora</target></trans-unit>
@@ -259,7 +259,7 @@
 <trans-unit id="s24ea3f43230aae41">
   <source>you@example.com</source>
   <note from="lit-localize">example email address</note>
-<target>tú@example.com</target></trans-unit>
+<target>usted@example.com</target></trans-unit>
 <trans-unit id="s50e95c2064db3522">
   <source>Calculator by</source>
   <note from="lit-localize">followed by "Rewiring America"</note>
