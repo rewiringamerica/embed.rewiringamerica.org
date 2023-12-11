@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Demo Rewiring America calculator widget."
+    />
+    <meta name="robots" content="noindex" />
+    <title>Rewiring America Incentives Calculator Demo</title>
+    <script type="module" src="./state-calculator.ts"></script>
+    <script language="javascript">
+      function onBetaChange(checkbox) {
+        document
+          .getElementById('calculator')
+          .setAttribute('include-beta-states', checkbox.checked);
+      }
+    </script>
+    <link rel="stylesheet" type="text/css" href="./rewiring-fonts.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #fffae7;
+        color: #222;
+        box-sizing: border-box;
+      }
+
+      main {
+        font-smoothing: antialiased;
+        -webkit-font-smoothing: antialiased;
+        font-family: 'GT America', system-ui, -apple-system, BlinkMacSystemFont,
+          'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
+          'Helvetica Neue', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+          'Segoe UI Symbol', 'Noto Color Emoji';
+        font-size: 16px;
+        line-height: 28px;
+        font-weight: 400;
+        margin: 32px auto;
+        max-width: 1024px;
+        padding: 32px;
+      }
+
+      .checkbox-and-label {
+        display: flex;
+        align-items: baseline;
+        column-gap: 8px;
+
+        margin-bottom: 16px;
+      }
+
+      .separator {
+        background-color: #e2e2e2;
+        height: 1px;
+        margin-bottom: 16px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <h1>Rewiring America Incentives Calculator Demo</h1>
+      <p>
+        This page is a demonstration of our embeddable calculator, which
+        estimates the electrification incentives that a user is eligible for.
+        Website owners can add it to their own pages to help inform their
+        visitors.
+      </p>
+      <p>
+        This uses the
+        <a href="https://www.rewiringamerica.org/api">Rewiring America API</a>.
+        It includes incentives from the Inflation Reduction Act, as well as
+        those from a limited set of states and utilities. We are actively
+        working on adding coverage of more states, utilities, and localities
+        nationwide.
+      </p>
+      <div class="checkbox-and-label">
+        <input type="checkbox" id="includeBeta" onChange="onBetaChange(this)" />
+        <label for="includeBeta">
+          Include incentives from states that are not yet ready for full launch.
+          This information may not be accurate.
+        </label>
+      </div>
+      <div class="separator"></div>
+      <rewiring-america-state-calculator
+        id="calculator"
+        api-key="{{ apiKey }}"
+        household-income="80000"
+        household-size="1"
+        tax-filing="single"
+        owner-status="homeowner"
+      ></rewiring-america-state-calculator>
+    </main>
+  </body>
+</html>

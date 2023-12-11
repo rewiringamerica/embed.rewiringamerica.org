@@ -66,7 +66,7 @@
         "src/state-calculator.ts",
         "src/rewiring-fonts.css",
         "src/index.html",
-        "src/rhode-island.html"
+        "src/state-calculator.html"
       ],
       "outputFormat": "global",
       "context": "browser",
