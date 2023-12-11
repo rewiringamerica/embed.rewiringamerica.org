@@ -46,21 +46,22 @@ export const authorityLogosStyles = css`
  * of the authorities whose incentives are displayed.
  */
 export const authorityLogosTemplate = (response: APIResponse) => {
-  if (Object.keys(response.authorities).length === 0) {
+  const authoritiesWithLogo = Object.values(response.authorities).filter(
+    auth => !!auth.logo,
+  );
+  if (authoritiesWithLogo.length === 0) {
     return nothing;
   }
 
-  const logos = Object.values(response.authorities)
-    .filter(auth => !!auth.logo)
-    .map(
-      auth =>
-        html`<img
-          alt="${auth.name}"
-          src="${auth.logo!.src}"
-          width="${auth.logo!.width}"
-          height="${auth.logo!.height}"
-        />`,
-    );
+  const logos = authoritiesWithLogo.map(
+    auth =>
+      html`<img
+        alt="${auth.name}"
+        src="${auth.logo!.src}"
+        width="${auth.logo!.width}"
+        height="${auth.logo!.height}"
+      />`,
+  );
 
   const title = msg('Incentive data brought to you by', {
     desc: 'followed by authority logos',
