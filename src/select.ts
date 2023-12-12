@@ -264,6 +264,12 @@ export const selectStyles = css`
 
     --sl-font-sans: var(--ra-embed-font-family);
 
+    /*
+     * This replaces the highlighted-row background color. There's no variable
+     * specifically for that.
+     */
+    --sl-color-primary-600: var(--ra-select-focus-color);
+
     margin-top: 4px;
   }
 
