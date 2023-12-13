@@ -153,9 +153,6 @@
 <trans-unit id="s57fde82075d7665d">
   <source>Your household info</source>
 <target>Información de su hogar</target></trans-unit>
-<trans-unit id="s64eaba74733e24c0">
-  <source>Reset calculator</source>
-<target>Reiniciar la calculadora</target></trans-unit>
 <trans-unit id="sd4647caeb94889ec">
   <source>Terms</source>
   <note from="lit-localize">as in terms of service</note>
@@ -311,6 +308,10 @@
 <trans-unit id="s8fd8a424edc336b4">
   <source>Expected in 2024</source>
   <target>Esperado en 2024</target>
+</trans-unit>
+<trans-unit id="s255857544a9d5ec0">
+  <source>Reset</source>
+  <target>Reiniciar</target>
 </trans-unit>
 </body>
 </file>

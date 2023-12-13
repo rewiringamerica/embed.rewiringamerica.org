@@ -160,13 +160,8 @@ export const stateIncentivesStyles = css`
     }
   }
 
-  .grid-section .card {
-    margin: 0;
-  }
-
   @media only screen and (max-width: 640px) {
     .grid-section {
-      margin: 0 1rem;
       min-width: 200px;
     }
   }
@@ -176,6 +171,7 @@ export const stateIncentivesStyles = css`
 
     color: #111;
     text-align: center;
+    text-wrap: balance;
 
     font-size: 2rem;
     font-weight: 500;
@@ -185,8 +181,6 @@ export const stateIncentivesStyles = css`
 
 export const cardStyles = css`
   .card {
-    margin: 0;
-
     border: var(--ra-embed-card-border);
     border-radius: var(--ra-embed-card-border-radius);
     box-shadow: var(--ra-embed-card-shadow);
@@ -202,7 +196,6 @@ export const cardStyles = css`
   /* Extra small devices */
   @media only screen and (max-width: 640px) {
     .card {
-      margin: 0 1rem;
       min-width: 200px;
     }
   }

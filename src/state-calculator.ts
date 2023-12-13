@@ -136,6 +136,13 @@ const formTitleStyles = css`
   .form-title {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
+  }
+
+  @media screen and (max-width: 640px) {
+    h1 {
+      font-size: 16px;
+    }
   }
 `;
 
@@ -511,7 +518,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
                 class="text-button"
                 @click=${() => this.resetFormValues()}
               >
-                ${msg('Reset calculator')}
+                ${msg('Reset')}
               </button>
             </div>
           </div>
