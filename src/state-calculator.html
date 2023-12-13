@@ -10,13 +10,6 @@
     <meta name="robots" content="noindex" />
     <title>Rewiring America Incentives Calculator Demo</title>
     <script type="module" src="./state-calculator.ts"></script>
-    <script language="javascript">
-      function onBetaChange(checkbox) {
-        document
-          .getElementById('calculator')
-          .setAttribute('include-beta-states', checkbox.checked);
-      }
-    </script>
     <link rel="stylesheet" type="text/css" href="./rewiring-fonts.css" />
     <style>
       html,
@@ -77,7 +70,11 @@
         nationwide.
       </p>
       <div class="checkbox-and-label">
-        <input type="checkbox" id="includeBeta" onChange="onBetaChange(this)" />
+        <input
+          type="checkbox"
+          id="includeBeta"
+          onChange="document.getElementById('calculator').setAttribute('include-beta-states', this.checked)"
+        />
         <label for="includeBeta">
           Include incentives from states that are not yet ready for full launch.
           This information may not be accurate.
