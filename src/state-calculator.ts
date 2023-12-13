@@ -168,6 +168,11 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: Boolean, attribute: 'show-email' })
   showEmail: boolean = false;
 
+  /* property to include incentives from states that aren't formally launched */
+
+  @property({ type: Boolean, attribute: 'include-beta-states' })
+  includeBetaStates: boolean = false;
+
   /* supported properties to control which API path and key is used to load the calculator results */
 
   @property({ type: String, attribute: 'api-key' })
@@ -398,6 +403,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     task: async () => {
       const query = new URLSearchParams({
         language: this.lang,
+        include_beta_states: '' + this.includeBetaStates,
         'location[zip]': this.zip,
       });
 
@@ -445,6 +451,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
 
       const query = new URLSearchParams({
         language: this.lang,
+        include_beta_states: '' + this.includeBetaStates,
         'location[zip]': this.zip,
         owner_status: this.ownerStatus,
         household_income: this.householdIncome,
