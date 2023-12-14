@@ -46,15 +46,10 @@ export const utilitySelectorStyles = css`
   @media only screen and (max-width: 640px) {
     .utility-selector {
       grid-template-columns: 1fr;
-
-      margin-left: 1rem;
-      margin-right: 1rem;
       min-width: 200px;
     }
 
     .utility-selector .card {
-      /* Margin is provided by the outer element */
-      margin: 0;
       max-width: 100%;
     }
   }
