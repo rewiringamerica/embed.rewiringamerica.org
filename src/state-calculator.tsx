@@ -1,5 +1,5 @@
 import { Task, initialState } from '@lit-labs/task';
-import { LitElement, css, html } from 'lit';
+import { LitElement, css, html, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { fetchApi } from './api/fetch';
 import { CalculatorFooter } from './calculator-footer';
@@ -20,12 +20,13 @@ import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import { Root } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
-import { authorityLogosStyles } from './authority-logos';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import { allLocales, sourceLocale, targetLocales } from './locales/locales';
 import * as spanishLocale from './locales/strings/es';
 import { renderReactElements } from './react-roots';
 import { safeLocalStorage } from './safe-local-storage';
+
+import tailwindStyles from 'bundle-text:./tailwind.css';
 
 const { setLocale } = configureLocalization({
   sourceLocale,
@@ -123,13 +124,13 @@ const privacyMessageStyles = css`
 @localized()
 export class RewiringAmericaStateCalculator extends LitElement {
   static override styles = [
+    unsafeCSS(tailwindStyles),
     baseStyles,
     cardStyles,
     ...formStyles,
     stateIncentivesStyles,
     separatorStyles,
     iconTabBarStyles,
-    authorityLogosStyles,
     formTitleStyles,
     privacyMessageStyles,
   ];
