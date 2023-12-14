@@ -1,7 +1,7 @@
 import { Resolver } from '@parcel/plugin';
 import { exec } from 'child_process';
-import * as path from 'path';
 import * as fs from 'fs';
+import * as path from 'path';
 import { promisify } from 'util';
 
 async function allXlfFiles(projectRoot) {

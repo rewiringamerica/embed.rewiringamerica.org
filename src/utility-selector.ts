@@ -1,8 +1,8 @@
-import { css, html } from 'lit';
 import { msg, str } from '@lit/localize';
+import { css, html } from 'lit';
+import { APIUtilityMap } from './api/calculator-types-v1';
 import { select } from './select';
 import { StateInfo } from './states';
-import { APIUtilityMap } from './api/calculator-types-v1';
 import { tooltipButton } from './tooltip';
 
 export const utilitySelectorStyles = css`

@@ -1,9 +1,9 @@
-import { html, css, unsafeCSS, nothing, HTMLTemplateResult } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
+import { SlChangeEvent } from '@shoelace-style/shoelace';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
-import { SlChangeEvent } from '@shoelace-style/shoelace';
+import { HTMLTemplateResult, css, html, nothing, unsafeCSS } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live';
 
 export interface OptionParam {

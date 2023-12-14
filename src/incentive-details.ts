@@ -1,12 +1,12 @@
 import { css, html } from 'lit';
-import { calculatorTableIcon } from './icons';
-import { tableStyles } from './styles';
 import {
   AmountType,
   ICalculatedIncentiveResults,
   IIncentiveRecord,
   IncentiveType,
 } from './calculator-types';
+import { calculatorTableIcon } from './icons';
+import { tableStyles } from './styles';
 
 const linkButtonStyles = css`
   a.more-info-button,
