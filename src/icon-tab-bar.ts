@@ -1,5 +1,5 @@
-import { css, html } from 'lit';
 import { msg } from '@lit/localize';
+import { css, html } from 'lit';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { select } from './select';
 

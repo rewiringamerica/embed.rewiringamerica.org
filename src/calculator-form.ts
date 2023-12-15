@@ -1,13 +1,13 @@
-import { html, css, unsafeCSS, nothing, TemplateResult } from 'lit';
-import { live } from 'lit/directives/live';
-import { select, multiselect, selectStyles, OptionParam } from './select';
-import { inputStyles } from './styles/input';
-import './currency-input';
-import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
-import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
-import { PROJECTS } from './projects';
-import { tooltipButton } from './tooltip';
 import { msg, str } from '@lit/localize';
+import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
+import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
+import { TemplateResult, css, html, nothing, unsafeCSS } from 'lit';
+import { live } from 'lit/directives/live';
+import './currency-input';
+import { PROJECTS } from './projects';
+import { OptionParam, multiselect, select, selectStyles } from './select';
+import { inputStyles } from './styles/input';
+import { tooltipButton } from './tooltip';
 
 const buttonStyles = css`
   button.primary {

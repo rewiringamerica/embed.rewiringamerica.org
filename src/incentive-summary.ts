@@ -1,4 +1,4 @@
-import { html, css, nothing, TemplateResult } from 'lit';
+import { TemplateResult, css, html, nothing } from 'lit';
 import { ICalculatedIncentiveResults } from './calculator-types';
 import { lightningBolt } from './icons';
 

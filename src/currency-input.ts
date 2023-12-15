@@ -1,8 +1,8 @@
-import { LitElement, html, PropertyValues } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { ref } from 'lit/directives/ref';
 import AutoNumeric from 'autonumeric';
 import 'element-internals-polyfill';
+import { LitElement, PropertyValues, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { ref } from 'lit/directives/ref';
 
 @customElement('ra-currency-input')
 export class CurrencyInput extends LitElement {

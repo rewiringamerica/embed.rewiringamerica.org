@@ -1,7 +1,7 @@
-import { HTMLTemplateResult, html } from 'lit';
 import { msg } from '@lit/localize';
-import { questionIcon } from './icons';
 import SlTooltip from '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
+import { HTMLTemplateResult, html } from 'lit';
+import { questionIcon } from './icons';
 
 /** Finds the first SlTooltip ancestor of the given element. */
 function findTooltipAncestor(element: HTMLElement): SlTooltip {
