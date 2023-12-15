@@ -67,7 +67,10 @@ export class CurrencyInput extends LitElement {
       this.autonumeric = new AutoNumeric(
         input as HTMLInputElement,
         this.value,
-        AutoNumeric.getPredefinedOptions().NorthAmerican,
+        {
+          ...AutoNumeric.getPredefinedOptions().NorthAmerican,
+          modifyValueOnWheel: false,
+        },
       );
       this.updateAutonumericOptions();
     }
