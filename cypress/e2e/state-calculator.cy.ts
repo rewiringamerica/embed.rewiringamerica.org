@@ -34,16 +34,23 @@ describe('rewiring-america-state-calculator', () => {
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .find('input#zip')
-      .type('02859{enter}');
+      .type('02859');
 
+    // Unfocus the zip field to fetch utilities
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('Incentives available to you in Rhode Island');
+      .find('input#household_income')
+      .focus();
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .find('sl-select#utility')
-      .should('exist');
+      .contains('Rhode Island Energy');
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .find('button.primary')
+      .click();
 
     cy.get('rewiring-america-state-calculator')
       .shadow()

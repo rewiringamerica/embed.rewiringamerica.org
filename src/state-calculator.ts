@@ -1,4 +1,4 @@
-import { Task, TaskStatus, initialState } from '@lit-labs/task';
+import { Task, initialState } from '@lit-labs/task';
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { fetchApi } from './api/fetch';
@@ -14,10 +14,6 @@ import {
   stateIncentivesTemplate,
 } from './state-incentive-details';
 import { baseStyles } from './styles';
-import {
-  utilitySelectorStyles,
-  utilitySelectorTemplate,
-} from './utility-selector';
 
 import { configureLocalization, localized, msg, str } from '@lit/localize';
 import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
@@ -115,6 +111,7 @@ const DEFAULT_OWNER_STATUS: OwnerStatus = 'homeowner';
 const DEFAULT_TAX_FILING: FilingStatus = 'single';
 const DEFAULT_HOUSEHOLD_INCOME = '0';
 const DEFAULT_HOUSEHOLD_SIZE = '1';
+const DEFAULT_UTILITY = '';
 
 const FORM_VALUES_LOCAL_STORAGE_KEY = 'RA-calc-form-values';
 type SavedFormValues = Partial<{
@@ -124,6 +121,7 @@ type SavedFormValues = Partial<{
   householdSize: string;
   taxFiling: FilingStatus;
   projects: Project[];
+  utility: string;
 }>;
 
 declare module './safe-local-storage' {
@@ -163,7 +161,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
     cardStyles,
     ...formStyles,
     stateIncentivesStyles,
-    utilitySelectorStyles,
     separatorStyles,
     iconTabBarStyles,
     authorityLogosStyles,
@@ -226,7 +223,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
   /* internal properties */
 
   @property({ type: String })
-  utility: string = '';
+  utility: string = DEFAULT_UTILITY;
 
   @property({ type: Array })
   projects: Project[] = [];
@@ -239,12 +236,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
 
   @property({ type: Boolean })
   wasEmailSubmitted: boolean = wasEmailSubmitted();
-
-  /**
-   * Whether the last run of _task was a result of hitting the Calculate button
-   * (i.e. submitting the top-level form) or changing the utility selector.
-   */
-  lastLoadFrom: 'calculate' | 'utility-selector' = 'calculate';
 
   private getDefaultLanguage() {
     const closestLang =
@@ -292,18 +283,23 @@ export class RewiringAmericaStateCalculator extends LitElement {
       (attr('tax-filing') as FilingStatus) ??
       DEFAULT_TAX_FILING;
     this.projects = formValues?.projects ?? [];
+    this.utility = formValues?.utility ?? DEFAULT_UTILITY;
   }
 
-  submit(e: SubmitEvent) {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    const prevZip = this.zip;
+  setPropertiesFromForm(formData: FormData) {
     this.zip = (formData.get('zip') as string) || '';
     this.ownerStatus = (formData.get('owner_status') as OwnerStatus) || '';
     this.householdIncome = (formData.get('household_income') as string) || '';
     this.taxFiling = (formData.get('tax_filing') as FilingStatus) || '';
     this.householdSize = (formData.get('household_size') as string) || '';
     this.projects = (formData.getAll('projects') as Project[]) || '';
+    this.utility = (formData.get('utility') as string) || '';
+  }
+
+  submit(e: SubmitEvent) {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    this.setPropertiesFromForm(formData);
 
     this.saveFormValues();
 
@@ -314,19 +310,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this.wasEmailSubmitted = true;
     }
 
-    // Zip is the only thing that determines what utilities are available, so
-    // only fetch utilities if zip has changed since last calculation, or if
-    // utilities haven't been fetched yet at all.
-    if (
-      this.zip !== prevZip ||
-      this._utilitiesTask.status !== TaskStatus.COMPLETE
-    ) {
-      // This will run _task when it's done.
-      this._utilitiesTask.run();
-    } else {
-      this.lastLoadFrom = 'calculate';
-      this._task.run();
-    }
+    this._task.run();
 
     this.dispatchEvent(
       new CustomEvent('calculator-submitted', {
@@ -352,6 +336,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
       householdSize: this.householdSize,
       taxFiling: this.taxFiling,
       projects: this.projects,
+      utility: this.utility,
     });
   }
 
@@ -418,12 +403,16 @@ export class RewiringAmericaStateCalculator extends LitElement {
   }
 
   private _utilitiesTask = new Task(this, {
-    autoRun: false,
-    task: async () => {
+    args: (): [string] => [this.zip],
+    task: async ([zip]: [string]) => {
+      if (!zip.match(/^\d{5}$/)) {
+        return initialState;
+      }
+
       const query = new URLSearchParams({
         language: this.lang,
         include_beta_states: '' + this.includeBetaStates,
-        'location[zip]': this.zip,
+        'location[zip]': zip,
       });
 
       const response = await fetchApi<APIUtilitiesResponse>(
@@ -454,8 +443,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
           this.utility = ids[0];
         }
       }
-      this.lastLoadFrom = 'calculate';
-      this._task.run();
     },
     onError: () => waitAndScrollTo(this.shadowRoot!, '#error-message'),
   });
@@ -491,33 +478,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
     onComplete: () =>
       waitAndScrollTo(
         this.shadowRoot!,
-        this.lastLoadFrom === 'calculate'
-          ? '#utility-selector, #interested-incentives, #other-incentives'
-          : '#interested-incentives, #other-incentives',
+        '#interested-incentives, #other-incentives',
       ),
     onError: () => waitAndScrollTo(this.shadowRoot!, '#error-message'),
   });
 
   override render() {
-    // Show the following elements below the form:
-    //
-    // - The utility selector/map, if we know what state the user's ZIP is
-    //   located in, we have an outline map of that state, and the options for
-    //   utilities are finished loading.
-    //
-    // - The incentive results with a separator line above, if both the
-    //   incentives and utilities are finished loading.
-    //
-    // - The loading spinner, if either utilities or incentives are still
-    //   loading.
-    //
-    // - An error message, if nothing is currently loading and either fetch
-    //   errored out.
-
-    const showLoading =
-      this._utilitiesTask.status === TaskStatus.PENDING ||
-      this._task.status === TaskStatus.PENDING;
-
     const calculateButtonContent = msg(html`Calculate`);
 
     return html`
@@ -546,62 +512,39 @@ export class RewiringAmericaStateCalculator extends LitElement {
               this.householdIncome,
               this.taxFiling,
               this.householdSize,
+              this.utility,
             ],
             this.projects,
             {
               showEmailField: this.showEmail && !this.wasEmailSubmitted,
               showProjectField: true,
               tooltipSize: 13,
+              // This updates `this.zip`, which triggers utilities fetching
+              onZipChange: input =>
+                this.setPropertiesFromForm(new FormData(input.form!)),
+              utilitiesTask: this._utilitiesTask,
               calculateButtonContent,
             },
             (event: SubmitEvent) => this.submit(event),
             'grid-2-2-1 grid-2-2-1--align-start',
           )}
         </div>
-        ${
-          // This is defensive against the possibility that the backend and
-          // frontend have support for different sets of states. (Backend support
-          // means knowing utilities and incentives for a state; frontend support
-          // means having an outline map and name for a state.)
-          this._utilitiesTask.status === TaskStatus.COMPLETE &&
-          this._utilitiesTask.value &&
-          Object.keys(this._utilitiesTask.value.utilities).length > 0 &&
-          this._utilitiesTask.value.location.state in STATES
-            ? utilitySelectorTemplate(
-                STATES[this._utilitiesTask.value.location.state],
-                this.utility,
-                this._utilitiesTask.value.utilities,
-                newUtility => {
-                  this.utility = newUtility;
-                  this.lastLoadFrom = 'utility-selector';
-                  this._task.run();
-                },
-              )
-            : nothing
-        }
-        ${this._utilitiesTask.status === TaskStatus.COMPLETE &&
-        this._task.status === TaskStatus.COMPLETE
-          ? [
-              html`<div class="separator"></div>`,
-              stateIncentivesTemplate(
-                this._task.value!,
-                this.projects,
-                newOtherSelection =>
-                  (this.selectedOtherTab = newOtherSelection),
-                newSelection => (this.selectedProjectTab = newSelection),
-                this.selectedOtherTab,
-                this.selectedProjectTab,
-              ),
-            ]
-          : nothing}
-        ${showLoading ? loadingTemplate() : nothing}
-        ${showLoading
-          ? nothing
-          : this._utilitiesTask.status === TaskStatus.ERROR
-          ? errorTemplate(this._utilitiesTask.error)
-          : this._task.status === TaskStatus.ERROR
-          ? errorTemplate(this._task.error)
-          : nothing}
+        ${this._task.render({
+          initial: () => nothing,
+          pending: loadingTemplate,
+          error: errorTemplate,
+          complete: response => [
+            html`<div class="separator"></div>`,
+            stateIncentivesTemplate(
+              response,
+              this.projects,
+              newOtherSelection => (this.selectedOtherTab = newOtherSelection),
+              newSelection => (this.selectedProjectTab = newSelection),
+              this.selectedOtherTab,
+              this.selectedProjectTab,
+            ),
+          ],
+        })}
       </div>
       ${CALCULATOR_FOOTER()}
     `;

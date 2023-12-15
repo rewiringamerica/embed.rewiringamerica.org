@@ -1,8 +1,10 @@
+import { Task, TaskStatus } from '@lit-labs/task';
 import { msg, str } from '@lit/localize';
 import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
 import { TemplateResult, css, html, nothing, unsafeCSS } from 'lit';
 import { live } from 'lit/directives/live';
+import { APIUtilitiesResponse } from './api/calculator-types-v1';
 import './currency-input';
 import { PROJECTS } from './projects';
 import { OptionParam, multiselect, select, selectStyles } from './select';
@@ -151,14 +153,12 @@ type FormOptions = {
   showEmailField?: boolean;
   showProjectField: boolean;
   tooltipSize: number;
+  onZipChange?: (zipField: HTMLInputElement) => void;
+  utilitiesTask?: Task<readonly unknown[], APIUtilitiesResponse>;
   calculateButtonContent: TemplateResult;
 };
 
-export const label = (
-  labelText: string,
-  tooltipText: string,
-  tooltipSize: number,
-) => {
+const label = (labelText: string, tooltipText: string, tooltipSize: number) => {
   return html`
     <div class="select-label" slot="label">
       ${labelText} ${tooltipButton(tooltipText, tooltipSize)}
@@ -166,13 +166,64 @@ export const label = (
   `;
 };
 
+const utilityFieldTemplate = (
+  task: Task<readonly string[], APIUtilitiesResponse>,
+  utility: string,
+  tooltipSize: number,
+) => {
+  const labelSlot = label(
+    msg('Electric Utility', { desc: 'as in utility company' }),
+    msg('Choose the company you pay your electric bill to.'),
+    tooltipSize,
+  );
+  const options: OptionParam[] =
+    task.status === TaskStatus.COMPLETE
+      ? Object.entries(task.value!.utilities).map(([id, info]) => ({
+          value: id,
+          label: info.name,
+        }))
+      : [];
+
+  const enterZipToSelect = msg('Enter your ZIP code to select a utility.');
+  const noUtilityData = msg('We don’t have utility data for your area yet.');
+  const helpText = task.render({
+    initial: () => enterZipToSelect,
+    pending: () => enterZipToSelect,
+    complete: response =>
+      Object.keys(response.utilities).length ? enterZipToSelect : noUtilityData,
+    error: () => noUtilityData,
+  }) as string;
+
+  const loading = task.status === TaskStatus.PENDING;
+
+  return select({
+    id: 'utility',
+    labelSlot,
+    placeholder: msg('Select utility'),
+    disabled: options.length === 0,
+    options,
+    currentValue: utility,
+    helpText,
+    loading,
+  });
+};
+
 export const formTemplate = (
-  [zip, ownerStatus, householdIncome, taxFiling, householdSize]: Array<string>,
+  [
+    zip,
+    ownerStatus,
+    householdIncome,
+    taxFiling,
+    householdSize,
+    utility,
+  ]: Array<string>,
   projects: Array<string>,
   {
     showEmailField,
     showProjectField,
     tooltipSize,
+    onZipChange,
+    utilitiesTask,
     calculateButtonContent,
   }: FormOptions,
   onSubmit: (e: SubmitEvent) => void,
@@ -185,24 +236,22 @@ export const formTemplate = (
   );
 
   const projectField = showProjectField
-    ? html`<div>
-        ${multiselect({
-          id: 'projects',
-          labelSlot: projectsLabelSlot,
-          required: true,
-          options: Object.entries(PROJECTS)
-            .map(([value, data]) => ({
-              value,
-              label: data.label(),
-              iconURL: data.iconURL,
-            }))
-            .sort((a, b) => a.label.localeCompare(b.label)),
-          currentValues: projects,
-          placeholder: msg('None selected'),
-          maxOptionsVisible: 1,
-          placement: 'top',
-        })}
-      </div>`
+    ? multiselect({
+        id: 'projects',
+        labelSlot: projectsLabelSlot,
+        required: true,
+        options: Object.entries(PROJECTS)
+          .map(([value, data]) => ({
+            value,
+            label: data.label(),
+            iconURL: data.iconURL,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label)),
+        currentValues: projects,
+        placeholder: msg('None selected'),
+        maxOptionsVisible: 1,
+        placement: 'top',
+      })
     : nothing;
 
   const emailField = showEmailField
@@ -254,6 +303,13 @@ export const formTemplate = (
     <form @submit=${onSubmit}>
       <div class="${gridClass}">
         ${projectField}
+        ${select({
+          id: 'owner_status',
+          labelSlot: ownersLabelSlot,
+          required: true,
+          options: OWNER_STATUS_OPTIONS(),
+          currentValue: ownerStatus,
+        })}
         <div>
           <label for="zip">
             ${label(
@@ -278,17 +334,14 @@ export const formTemplate = (
             inputmode="numeric"
             pattern="[0-9]{5}"
             autocomplete="postal-code"
+            @change=${onZipChange
+              ? (e: InputEvent) => onZipChange(e.target as HTMLInputElement)
+              : () => {}}
           />
         </div>
-        <div>
-          ${select({
-            id: 'owner_status',
-            labelSlot: ownersLabelSlot,
-            required: true,
-            options: OWNER_STATUS_OPTIONS(),
-            currentValue: ownerStatus,
-          })}
-        </div>
+        ${utilitiesTask
+          ? utilityFieldTemplate(utilitiesTask, utility, tooltipSize)
+          : nothing}
         <div>
           <label for="household_income">
             ${label(
@@ -311,24 +364,20 @@ export const formTemplate = (
             tabindex="-1"
           ></ra-currency-input>
         </div>
-        <div>
-          ${select({
-            id: 'tax_filing',
-            labelSlot: taxFilingLabelSlot,
-            required: true,
-            options: TAX_FILING_OPTIONS(),
-            currentValue: taxFiling,
-          })}
-        </div>
-        <div>
-          ${select({
-            id: 'household_size',
-            labelSlot: householdSizeLabelSlot,
-            required: true,
-            options: HOUSEHOLD_SIZE_OPTIONS(),
-            currentValue: householdSize,
-          })}
-        </div>
+        ${select({
+          id: 'tax_filing',
+          labelSlot: taxFilingLabelSlot,
+          required: true,
+          options: TAX_FILING_OPTIONS(),
+          currentValue: taxFiling,
+        })}
+        ${select({
+          id: 'household_size',
+          labelSlot: householdSizeLabelSlot,
+          required: true,
+          options: HOUSEHOLD_SIZE_OPTIONS(),
+          currentValue: householdSize,
+        })}
         ${emailField}
         <div class="grid-right-column">
           <div class="button-spacer"></div>
