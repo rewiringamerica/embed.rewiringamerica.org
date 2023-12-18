@@ -27,12 +27,16 @@ export class CurrencyInput extends LitElement {
   // this is optional because it can't exist until the input is rendered
   private autonumeric?: AutoNumeric;
 
-  // this is optional because we set it in connectedCallback()
-  private internals?: ElementInternals;
+  private internals: ElementInternals;
 
   // this is for element-internals-polyfill
   static get formAssociated() {
     return true;
+  }
+
+  constructor() {
+    super();
+    this.internals = this.attachInternals();
   }
 
   // be "light DOM" and allow styling to be set from the outside
@@ -45,14 +49,13 @@ export class CurrencyInput extends LitElement {
     if (num !== null) {
       this.value = num;
       // this ensures that when <ra-currency-input> is inside a form, new FormData(form) will pick up our value
-      this.internals?.setFormValue(this.value);
+      this.internals.setFormValue(this.value);
     }
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    this.internals = this.attachInternals();
-    this.internals?.setFormValue(this.value);
+    this.internals.setFormValue(this.value);
   }
 
   override disconnectedCallback() {
@@ -79,7 +82,7 @@ export class CurrencyInput extends LitElement {
     }
     if (changedProperties.has('value')) {
       this.autonumeric?.set(this.value);
-      this.internals?.setFormValue(this.value);
+      this.internals.setFormValue(this.value);
     }
   }
 
