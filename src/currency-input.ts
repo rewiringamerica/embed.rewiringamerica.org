@@ -67,12 +67,14 @@ export class CurrencyInput extends LitElement {
     if (input === undefined) {
       this.autonumeric?.detach();
     } else {
-      this.autonumeric = new AutoNumeric(
-        input as HTMLInputElement,
-        this.value,
-        AutoNumeric.getPredefinedOptions().NorthAmerican,
-      );
-      this.updateAutonumericOptions();
+      if (AutoNumeric.getAutoNumericElement(input as HTMLElement) === null) {
+        this.autonumeric = new AutoNumeric(
+          input as HTMLInputElement,
+          this.value,
+          AutoNumeric.getPredefinedOptions().NorthAmerican,
+        );
+        this.updateAutonumericOptions();
+      }
     }
   }
 
