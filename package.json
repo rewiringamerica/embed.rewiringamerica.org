@@ -18,7 +18,9 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "lint": "tsc --noEmit && prettier --check . && eslint .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "strings:extract": "lit-localize extract",
+    "strings:build": "lit-localize build && prettier --write src/locales"
   },
   "browserslist": {
     "production": [

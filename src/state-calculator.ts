@@ -22,21 +22,21 @@ import {
 import { configureLocalization, localized, msg, str } from '@lit/localize';
 import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 import '@shoelace-style/shoelace/dist/components/spinner/spinner';
-import { allLocales, sourceLocale, targetLocales } from 'locales:config';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { authorityLogosStyles } from './authority-logos';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
+import { allLocales, sourceLocale, targetLocales } from './locales/locales';
+import * as spanishLocale from './locales/strings/es';
 import { safeLocalStorage } from './safe-local-storage';
 import { STATES } from './states';
 
-// See scripts/parcel-resolver-locale.mjs for how this import is resolved.
 const { setLocale } = configureLocalization({
   sourceLocale,
   targetLocales,
-  loadLocale: locale =>
+  loadLocale: async locale =>
     locale === 'es'
-      ? import('locales:es')
+      ? spanishLocale
       : (() => {
           throw new Error(`unknown locale ${locale}`);
         })(),
@@ -240,7 +240,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
     const closestLang =
       (this.closest('[lang]') as HTMLElement | null)?.lang?.split('-')?.[0] ??
       '';
-    return allLocales.includes(closestLang) ? closestLang : 'en';
+    return (allLocales as readonly string[]).includes(closestLang)
+      ? closestLang
+      : 'en';
   }
 
   /**
