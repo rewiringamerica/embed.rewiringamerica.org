@@ -34,6 +34,7 @@ export const templates = {
   s39aa50b686d665a8: `Impermeabilización y eficiencia energética`,
   s3ec21e39dec13351: `Propietario`,
   s459781c939bc83e5: `Ingresos del hogar`,
+  s45d344440b59c309: `Manténgase al día sobre incentivos, reembolsos, y más de Rewiring America.`,
   s48b23a6c3431c19e: `una secadora con bomba de calor`,
   s4b3298c4c6db9310: str`\$${0} de descuento en ${1}`,
   s50e95c2064db3522: `Calculadora por`,

@@ -313,6 +313,10 @@
   <source>Reset</source>
   <target>Reiniciar</target>
 </trans-unit>
+<trans-unit id="s45d344440b59c309">
+  <source>Get updates on incentives, rebates, and more from Rewiring America.</source>
+  <target>Manténgase al día sobre incentivos, reembolsos, y más de Rewiring America.</target>
+</trans-unit>
 </body>
 </file>
 </xliff>
