@@ -22,7 +22,7 @@ export const stateIncentivesStyles = css`
     --ra-form-label-line-height: 20px;
     --ra-form-label-font-weight: 700;
     --ra-form-label-font-style: normal;
-    --ra-form-label-margin: 0 0 8px 0;
+    --ra-form-label-margin: 8px 0 8px 0;
     --ra-form-label-text-transform: uppercase;
     --ra-form-label-letter-spacing: 0.55px;
     /* button */
@@ -40,6 +40,7 @@ export const stateIncentivesStyles = css`
     --ra-input-border: 1px solid #e2e2e2;
     --ra-input-focus-color: var(--rewiring-purple);
     --ra-input-margin: 0;
+    --ra-input-padding: 0.5rem 0.75rem;
   }
 
   .loading {

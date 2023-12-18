@@ -269,8 +269,18 @@ export const selectStyles = css`
      * specifically for that.
      */
     --sl-color-primary-600: var(--ra-select-focus-color);
+  }
 
-    margin-top: 4px;
+  /* Adjust spacing between content and left edge */
+  sl-select::part(combobox) {
+    padding-inline: var(--sl-spacing-small);
+  }
+
+  sl-select::part(form-control-label) {
+    /* Override inline-block to prevent empty space above the label */
+    display: block;
+    /* We'll do our own margin/padding on the label */
+    margin: 0;
   }
 
   sl-select::part(expand-icon) {
@@ -282,7 +292,8 @@ export const selectStyles = css`
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
   }
 
-  sl-select#project-selector::part(prefix) {
-    margin-inline-end: -0.5rem;
+  /* Get the tag close to the side edges of the combobox */
+  sl-select#projects::part(tags) {
+    margin-inline-start: calc(0.25rem - var(--sl-spacing-small));
   }
 `;
