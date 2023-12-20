@@ -50,6 +50,7 @@ export const templates = {
   s79fd9ba9e498d3da: str`${0} del costo de ${1}, hasta \$${2}`,
   s7a73c90a7c3b43b4: `un calentador de agua con bomba de calor`,
   s7bd0de02e230dc75: `Calentador de agua`,
+  s7e181573cd6a151f: `Estamos dedicados a proteger su privacidad. No compartimos ni vendemos su información personal.`,
   s82397872ac9bddcf: `Tamaño del hogar`,
   s8b29a87eb1bdd138: `Otros incentivos disponibles para usted`,
   s8e7e52ad112342ab: `un cargador de vehículos eléctricos`,
