@@ -320,12 +320,15 @@
 </trans-unit>
 <trans-unit id="s8fd029fdcc452602">
   <source>Enter your ZIP code to select a utility.</source>
+  <target>Ingresa su código postal para seleccionar una empresa de servicios eléctricos.</target>
 </trans-unit>
 <trans-unit id="se510125be9bcd015">
   <source>Select utility</source>
+  <target>Selecciona su empresa de servicios eléctricos</target>
 </trans-unit>
 <trans-unit id="sc997cfdf24ba9b58">
   <source>We don’t have utility data for your area yet.</source>
+  <target>Aún no tenemos datos sobre las empresas de servicios eléctricos en su área.</target>
 </trans-unit>
 </body>
 </file>
