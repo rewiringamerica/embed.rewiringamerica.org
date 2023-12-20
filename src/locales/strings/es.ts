@@ -9,7 +9,6 @@ import { html } from 'lit';
 
 export const templates = {
   hfe81d5d73a35a2cf: html`Calcular`,
-  s0431bc6ba110a52b: str`Incentivos disponibles para usted en ${0}`,
   s07ecbff17886eb50: `un vehículo eléctrico usado`,
   s08fb6007b5965c82: `Vehículo eléctrico`,
   s12603afef80b713c: `Estufa/cocina`,
@@ -54,6 +53,7 @@ export const templates = {
   s82397872ac9bddcf: `Tamaño del hogar`,
   s8b29a87eb1bdd138: `Otros incentivos disponibles para usted`,
   s8e7e52ad112342ab: `un cargador de vehículos eléctricos`,
+  s8fd029fdcc452602: `Ingresa su código postal para seleccionar una empresa de servicios eléctricos.`,
   s8fd8a424edc336b4: `Esperado en 2024`,
   s9afee25dcf31efc1: `un vehículo eléctrico nuevo`,
   s9eba0933010df96e: `Más información`,
@@ -79,6 +79,7 @@ export const templates = {
   sc026bbb64721085f: `Casado que presenta una declaración conjunta`,
   sc373af4c1a974b57: `Cocina`,
   sc5b20cb72269bc4f: `Los propietarios y inquilinos califican para diferentes incentivos.`,
+  sc997cfdf24ba9b58: `Aún no tenemos datos sobre las empresas de servicios eléctricos en su área.`,
   sd01d1a3738143465: str`\$${0}/${1} de descuento en ${2}`,
   sd02402d1aaffcb1d: `Secadora`,
   sd4647caeb94889ec: `Términos`,
@@ -88,6 +89,7 @@ export const templates = {
   sdc1f8a2139793221: `Volver a la calculadora`,
   se0f90ce39968b1d5: `Cabeza de familia`,
   se4572a1a2528a7d4: `Código postal`,
+  se510125be9bcd015: `Selecciona su empresa de servicios eléctricos`,
   se518d56b2bb45670: `cableado`,
   se581b8fe2e188251: `Crédito de cuenta`,
   se94a76041107bbf3: `Eléctrico`,

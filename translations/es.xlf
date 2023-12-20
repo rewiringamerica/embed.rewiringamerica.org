@@ -141,9 +141,6 @@
 <trans-unit id="sfc7214f623fe475d">
   <source>Choose the company you pay your electric bill to.</source>
 <target>Selecciona la empresa a la que paga su factura de electricidad.</target></trans-unit>
-<trans-unit id="s0431bc6ba110a52b">
-  <source>Incentives available to you in <x id="0" equiv-text="${stateInfo.name()}"/></source>
-<target>Incentivos disponibles para usted en <x id="0" equiv-text="${stateInfo.name()}"/></target></trans-unit>
 <trans-unit id="sae79f47e1f8205fc">
   <source>That ZIP code is not in <x id="0" equiv-text="${stateCodeOrName}"/>.</source>
 <target>Ese código postal no está en <x id="0" equiv-text="${stateCodeOrName}"/>.</target></trans-unit>
@@ -320,6 +317,18 @@
 <trans-unit id="s7e181573cd6a151f">
   <source>We’re dedicated to safeguarding your privacy. We never share or sell your personal information.</source>
   <target>Estamos dedicados a proteger su privacidad. No compartimos ni vendemos su información personal.</target>
+</trans-unit>
+<trans-unit id="s8fd029fdcc452602">
+  <source>Enter your ZIP code to select a utility.</source>
+  <target>Ingresa su código postal para seleccionar una empresa de servicios eléctricos.</target>
+</trans-unit>
+<trans-unit id="se510125be9bcd015">
+  <source>Select utility</source>
+  <target>Selecciona su empresa de servicios eléctricos</target>
+</trans-unit>
+<trans-unit id="sc997cfdf24ba9b58">
+  <source>We don’t have utility data for your area yet.</source>
+  <target>Aún no tenemos datos sobre las empresas de servicios eléctricos en su área.</target>
 </trans-unit>
 </body>
 </file>

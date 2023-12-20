@@ -27,6 +27,7 @@ export interface SLSelectParam {
 
 export interface SingleSelectParam extends SLSelectParam {
   currentValue: string;
+  loading?: boolean;
 }
 
 export interface MultiSelectParam extends SLSelectParam {
@@ -56,10 +57,13 @@ export const select = ({
   ariaLabel,
   required = true,
   disabled = false,
+  loading = false,
 }: SingleSelectParam) => {
   const currentOption = options.find(option => option.value === currentValue);
   const prefixIcon = currentOption?.iconURL
     ? html`<sl-icon src="${currentOption.iconURL}" slot="prefix"></sl-icon>`
+    : loading
+    ? html`<sl-spinner slot="prefix"></sl-spinner>`
     : nothing;
 
   return html`
@@ -74,8 +78,9 @@ export const select = ({
         @sl-change=${ifDefined(onChange)}
         aria-label="${ifDefined(ariaLabel)}"
         ${required ? 'required' : ''}
-        ${disabled ? 'disabled' : ''}
+        ?disabled=${disabled}
         hoist
+        ?loading=${loading}
       >
         ${prefixIcon} ${labelSlot ?? nothing}
         <sl-icon slot="expand-icon"></sl-icon>
@@ -283,13 +288,26 @@ export const selectStyles = css`
     margin: 0;
   }
 
+  /* Move the loading spinner to the right (but before the expand icon) */
+  sl-select[loading]::part(prefix) {
+    order: 1;
+  }
+
   sl-select::part(expand-icon) {
+    order: 2;
     content: '';
     justify-self: end;
     width: 0.6em;
     height: 0.4em;
     background-color: var(--ra-select-arrow-color);
     clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  }
+
+  sl-select::part(form-control-help-text) {
+    color: #757575;
+    font-size: 0.6875rem;
+    line-height: 150%;
+    margin: 0.25rem 0.75rem 0 0.75rem;
   }
 
   /* Get the tag close to the side edges of the combobox */
