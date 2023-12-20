@@ -146,6 +146,15 @@ const formTitleStyles = css`
   }
 `;
 
+const privacyMessageStyles = css`
+  .privacy-message {
+    color: #6b6b6b;
+    font-size: 0.75rem;
+    line-height: 125%;
+    padding-bottom: 0.1875rem;
+  }
+`;
+
 @customElement('rewiring-america-state-calculator')
 @localized()
 export class RewiringAmericaStateCalculator extends LitElement {
@@ -159,6 +168,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     iconTabBarStyles,
     authorityLogosStyles,
     formTitleStyles,
+    privacyMessageStyles,
   ];
 
   /**
@@ -523,6 +533,11 @@ export class RewiringAmericaStateCalculator extends LitElement {
                 ${msg('Reset')}
               </button>
             </div>
+          </div>
+          <div class="privacy-message">
+            ${msg(
+              'We’re dedicated to safeguarding your privacy. We never share or sell your personal information.',
+            )}
           </div>
           ${formTemplate(
             [
