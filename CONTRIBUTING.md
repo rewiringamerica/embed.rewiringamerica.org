@@ -36,6 +36,14 @@ All the code is TypeScript, and is required to typecheck without errors.
 
 - We use [@lit/localize](https://lit.dev/docs/localization/overview/) to extract strings and select translations at runtime. The source of truth for translations is the file `translations/es.xlf`.
 
+  1. When adding or modifying English strings, run `yarn strings:extract` to update `translations/es.xlf` with the new strings.
+
+  2. Add Spanish translations to the new strings in that file, inside `<target>` elements.
+
+  3. Run `yarn strings:build` to generate the JavaScript with the translations. Make sure the translations show up in the UI when you set the attribute `lang="es"` on the calculator element .
+
+  4. Include the changes in `es.xlf` and `src/locales/strings/es.ts` in your PR.
+
 ## Branching
 
 - All PRs should be branches off of `main`.

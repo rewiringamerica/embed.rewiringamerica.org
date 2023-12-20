@@ -1,13 +1,13 @@
-import { html, css, unsafeCSS, nothing, TemplateResult } from 'lit';
-import { live } from 'lit/directives/live';
-import { select, multiselect, selectStyles, OptionParam } from './select';
-import { inputStyles } from './styles/input';
-import './currency-input';
-import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
-import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
-import { PROJECTS } from './projects';
-import { tooltipButton } from './tooltip';
 import { msg, str } from '@lit/localize';
+import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
+import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
+import { TemplateResult, css, html, nothing, unsafeCSS } from 'lit';
+import { live } from 'lit/directives/live';
+import './currency-input';
+import { PROJECTS } from './projects';
+import { OptionParam, multiselect, select, selectStyles } from './select';
+import { inputStyles } from './styles/input';
+import { tooltipButton } from './tooltip';
 
 const buttonStyles = css`
   button.primary {
@@ -57,6 +57,24 @@ const buttonStyles = css`
 
   .grid-right-column {
     grid-column: -2 / -1;
+  }
+
+  /* To line the button up with the email field when it's present */
+  .button-spacer {
+    height: 32px;
+  }
+
+  @media only screen and (max-width: 640px) {
+    .button-spacer {
+      height: 0;
+    }
+  }
+
+  .help-text {
+    color: #757575;
+    font-size: 0.6875rem;
+    line-height: 150%;
+    margin: 0.25rem 0.75rem 0 0.75rem;
   }
 `;
 
@@ -189,7 +207,9 @@ export const formTemplate = (
 
   const emailField = showEmailField
     ? html`<div>
-        <label for="email">${msg('Email address (optional)')}</label>
+        <label for="email">
+          <div class="select-label">${msg('Email address (optional)')}</div>
+        </label>
         <input
           tabindex="0"
           id="email"
@@ -200,6 +220,11 @@ export const formTemplate = (
           type="email"
           autocomplete="email"
         />
+        <div class="help-text">
+          ${msg(
+            'Get updates on incentives, rebates, and more from Rewiring America.',
+          )}
+        </div>
       </div>`
     : nothing;
 
@@ -231,8 +256,8 @@ export const formTemplate = (
         ${projectField}
         <div>
           <label for="zip">
-            ${msg('Zip', { desc: 'as in zip code' })}
-            ${tooltipButton(
+            ${label(
+              msg('Zip', { desc: 'as in zip code' }),
               msg(
                 'Your zip code helps determine the amount of discounts and tax credits you qualify for.',
               ),
@@ -266,8 +291,8 @@ export const formTemplate = (
         </div>
         <div>
           <label for="household_income">
-            ${msg('Household income')}
-            ${tooltipButton(
+            ${label(
+              msg('Household income'),
               msg(
                 'Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
               ),
@@ -306,6 +331,7 @@ export const formTemplate = (
         </div>
         ${emailField}
         <div class="grid-right-column">
+          <div class="button-spacer"></div>
           <button class="primary" type="submit">
             ${calculateButtonContent}
           </button>

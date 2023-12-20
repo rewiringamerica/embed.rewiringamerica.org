@@ -1,18 +1,18 @@
+import { Task, initialState } from '@lit-labs/task';
 import { LitElement, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Task, initialState } from '@lit-labs/task';
-import { baseStyles, cardStyles, gridStyles } from './styles';
-import { formTemplate, formStyles } from './calculator-form';
-import { detailsStyles, detailsTemplate } from './incentive-details';
-import { summaryStyles, summaryTemplate } from './incentive-summary';
+import { fetchApi } from './api/fetch';
+import { CALCULATOR_FOOTER } from './calculator-footer';
+import { formStyles, formTemplate } from './calculator-form';
 import {
   FilingStatus,
   ICalculatedIncentiveResults,
   OwnerStatus,
 } from './calculator-types';
-import { CALCULATOR_FOOTER } from './calculator-footer';
-import { fetchApi } from './api/fetch';
 import { downIcon } from './icons';
+import { detailsStyles, detailsTemplate } from './incentive-details';
+import { summaryStyles, summaryTemplate } from './incentive-summary';
+import { baseStyles, cardStyles, gridStyles } from './styles';
 
 const loadedTemplate = (
   results: ICalculatedIncentiveResults,

@@ -1,12 +1,12 @@
-import { css, html, nothing } from 'lit';
 import { msg, str } from '@lit/localize';
+import { css, html, nothing } from 'lit';
+import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
+import { authorityLogosTemplate } from './authority-logos';
+import { iconTabBarTemplate } from './icon-tab-bar';
 import { exclamationPoint, upRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
-import { iconTabBarTemplate } from './icon-tab-bar';
-import { authorityLogosTemplate } from './authority-logos';
 import { RewiringAmericaStateCalculator } from './state-calculator';
-import scrollIntoView from 'scroll-into-view-if-needed';
 
 export const stateIncentivesStyles = css`
   /* for now, override these variables just for the state calculator */
@@ -22,7 +22,7 @@ export const stateIncentivesStyles = css`
     --ra-form-label-line-height: 20px;
     --ra-form-label-font-weight: 700;
     --ra-form-label-font-style: normal;
-    --ra-form-label-margin: 0 0 8px 0;
+    --ra-form-label-margin: 8px 0 8px 0;
     --ra-form-label-text-transform: uppercase;
     --ra-form-label-letter-spacing: 0.55px;
     /* button */
@@ -40,6 +40,7 @@ export const stateIncentivesStyles = css`
     --ra-input-border: 1px solid #e2e2e2;
     --ra-input-focus-color: var(--rewiring-purple);
     --ra-input-margin: 0;
+    --ra-input-padding: 0.5rem 0.75rem;
   }
 
   .loading {

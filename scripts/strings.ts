@@ -1,7 +1,7 @@
 import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
-import { stringify } from 'csv-stringify/sync';
-import { parse } from 'csv-parse/sync';
 import { program } from 'commander';
+import { parse } from 'csv-parse/sync';
+import { stringify } from 'csv-stringify/sync';
 import * as fs from 'fs';
 import * as path from 'path';
 

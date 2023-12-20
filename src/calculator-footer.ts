@@ -1,5 +1,5 @@
-import { html } from 'lit';
 import { msg } from '@lit/localize';
+import { html } from 'lit';
 
 const toNbsp = (s: string) => s.replace(' ', '\u00a0');
 

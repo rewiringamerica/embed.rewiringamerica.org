@@ -1,42 +1,42 @@
+import { Task, TaskStatus, initialState } from '@lit-labs/task';
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Task, TaskStatus, initialState } from '@lit-labs/task';
-import { baseStyles } from './styles';
-import { formTemplate, formStyles } from './calculator-form';
-import { FilingStatus, OwnerStatus } from './calculator-types';
-import { CALCULATOR_FOOTER } from './calculator-footer';
 import { fetchApi } from './api/fetch';
+import { CALCULATOR_FOOTER } from './calculator-footer';
+import { formStyles, formTemplate } from './calculator-form';
+import { FilingStatus, OwnerStatus } from './calculator-types';
+import { iconTabBarStyles } from './icon-tab-bar';
+import { Project } from './projects';
 import {
-  stateIncentivesTemplate,
-  stateIncentivesStyles,
   cardStyles,
   separatorStyles,
+  stateIncentivesStyles,
+  stateIncentivesTemplate,
 } from './state-incentive-details';
-import { Project } from './projects';
+import { baseStyles } from './styles';
 import {
   utilitySelectorStyles,
   utilitySelectorTemplate,
 } from './utility-selector';
-import { iconTabBarStyles } from './icon-tab-bar';
 
-import '@shoelace-style/shoelace/dist/components/spinner/spinner';
-import { STATES } from './states';
-import { authorityLogosStyles } from './authority-logos';
-import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
-import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
-import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
-import { safeLocalStorage } from './safe-local-storage';
-import scrollIntoView from 'scroll-into-view-if-needed';
 import { configureLocalization, localized, msg, str } from '@lit/localize';
-import { sourceLocale, targetLocales, allLocales } from 'locales:config';
+import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
+import '@shoelace-style/shoelace/dist/components/spinner/spinner';
+import scrollIntoView from 'scroll-into-view-if-needed';
+import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
+import { authorityLogosStyles } from './authority-logos';
+import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
+import { allLocales, sourceLocale, targetLocales } from './locales/locales';
+import * as spanishLocale from './locales/strings/es';
+import { safeLocalStorage } from './safe-local-storage';
+import { STATES } from './states';
 
-// See scripts/parcel-resolver-locale.mjs for how this import is resolved.
 const { setLocale } = configureLocalization({
   sourceLocale,
   targetLocales,
-  loadLocale: locale =>
+  loadLocale: async locale =>
     locale === 'es'
-      ? import('locales:es')
+      ? spanishLocale
       : (() => {
           throw new Error(`unknown locale ${locale}`);
         })(),
@@ -240,7 +240,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
     const closestLang =
       (this.closest('[lang]') as HTMLElement | null)?.lang?.split('-')?.[0] ??
       '';
-    return allLocales.includes(closestLang) ? closestLang : 'en';
+    return (allLocales as readonly string[]).includes(closestLang)
+      ? closestLang
+      : 'en';
   }
 
   /**
@@ -538,7 +540,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
               calculateButtonContent,
             },
             (event: SubmitEvent) => this.submit(event),
-            'grid-2-2-1',
+            'grid-2-2-1 grid-2-2-1--align-start',
           )}
         </div>
         ${

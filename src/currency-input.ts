@@ -1,8 +1,8 @@
-import { LitElement, html, PropertyValues } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { ref } from 'lit/directives/ref';
 import AutoNumeric from 'autonumeric';
 import 'element-internals-polyfill';
+import { LitElement, PropertyValues, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { ref } from 'lit/directives/ref';
 
 @customElement('ra-currency-input')
 export class CurrencyInput extends LitElement {
@@ -27,12 +27,16 @@ export class CurrencyInput extends LitElement {
   // this is optional because it can't exist until the input is rendered
   private autonumeric?: AutoNumeric;
 
-  // this is optional because we set it in connectedCallback()
-  private internals?: ElementInternals;
+  private internals: ElementInternals;
 
   // this is for element-internals-polyfill
   static get formAssociated() {
     return true;
+  }
+
+  constructor() {
+    super();
+    this.internals = this.attachInternals();
   }
 
   // be "light DOM" and allow styling to be set from the outside
@@ -45,14 +49,13 @@ export class CurrencyInput extends LitElement {
     if (num !== null) {
       this.value = num;
       // this ensures that when <ra-currency-input> is inside a form, new FormData(form) will pick up our value
-      this.internals?.setFormValue(this.value);
+      this.internals.setFormValue(this.value);
     }
   }
 
   override connectedCallback() {
     super.connectedCallback();
-    this.internals = this.attachInternals();
-    this.internals?.setFormValue(this.value);
+    this.internals.setFormValue(this.value);
   }
 
   override disconnectedCallback() {
@@ -64,15 +67,17 @@ export class CurrencyInput extends LitElement {
     if (input === undefined) {
       this.autonumeric?.detach();
     } else {
-      this.autonumeric = new AutoNumeric(
-        input as HTMLInputElement,
-        this.value,
-        {
-          ...AutoNumeric.getPredefinedOptions().NorthAmerican,
-          modifyValueOnWheel: false,
-        },
-      );
-      this.updateAutonumericOptions();
+      if (AutoNumeric.getAutoNumericElement(input as HTMLElement) === null) {
+        this.autonumeric = new AutoNumeric(
+          input as HTMLInputElement,
+          this.value,
+          {
+            ...AutoNumeric.getPredefinedOptions().NorthAmerican,
+            modifyValueOnWheel: false,
+          },
+        );
+        this.updateAutonumericOptions();
+      }
     }
   }
 
@@ -82,7 +87,7 @@ export class CurrencyInput extends LitElement {
     }
     if (changedProperties.has('value')) {
       this.autonumeric?.set(this.value);
-      this.internals?.setFormValue(this.value);
+      this.internals.setFormValue(this.value);
     }
   }
 

@@ -1,5 +1,5 @@
-import { css, html, nothing } from 'lit';
 import { msg } from '@lit/localize';
+import { css, html, nothing } from 'lit';
 import { APIResponse } from './api/calculator-types-v1';
 
 export const authorityLogosStyles = css`

@@ -1,5 +1,5 @@
-import { TemplateResult, svg } from 'lit';
 import { msg } from '@lit/localize';
+import { TemplateResult, svg } from 'lit';
 import { ItemType } from './api/calculator-types-v1';
 
 const RA_PURPLE = '#4a00c3';
