@@ -278,6 +278,10 @@
   <source>Cooking</source>
   <note from="lit-localize">short label for stove/range incentives</note>
 <target>Cocina</target></trans-unit>
+<trans-unit id="sf3affd5c9f2915e1">
+  <source>Arizona *calculate ID</source>
+  <target>Arizona</target>
+</trans-unit>
 <trans-unit id="sf3affd5c9f2915e0">
   <source>Connecticut</source>
   <target>Connecticut</target>

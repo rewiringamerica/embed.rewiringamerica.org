@@ -11,6 +11,10 @@ export type StateInfo = {
  * States that are supported for customization.
  */
 export const STATES: Record<string, StateInfo> = {
+  AZ: {
+    name: () => msg('Arizona'),
+    iconURL: new URL('/static/states/AZ.svg', import.meta.url),
+  },
   CT: {
     name: () => msg('Connecticut'),
     iconURL: new URL('/static/states/CT.svg', import.meta.url),
