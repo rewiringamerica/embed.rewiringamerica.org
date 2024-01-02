@@ -38,7 +38,7 @@ export interface Item {
 }
 
 export interface Incentive {
-  type: IncentiveType;
+  payment_methods: IncentiveType[];
   authority_type: AuthorityType;
   authority_name: string | null;
   program: string;

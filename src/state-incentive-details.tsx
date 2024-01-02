@@ -359,21 +359,22 @@ const itemName = (itemType: ItemType) =>
     : null;
 
 const formatIncentiveType = (incentive: Incentive) =>
-  incentive.type === 'tax_credit'
+  incentive.payment_methods[0] === 'tax_credit'
     ? msg('Tax credit')
-    : incentive.type === 'pos_rebate'
+    : incentive.payment_methods[0] === 'pos_rebate'
     ? msg('Upfront discount')
-    : incentive.type === 'rebate'
+    : incentive.payment_methods[0] === 'rebate'
     ? msg('Rebate')
-    : incentive.type === 'account_credit'
+    : incentive.payment_methods[0] === 'account_credit'
     ? msg('Account credit')
-    : incentive.type === 'performance_rebate'
+    : incentive.payment_methods[0] === 'performance_rebate'
     ? msg('Performance rebate')
     : msg('Incentive');
 
 /** We're special-casing these to hardcode an availability start date */
 const isIRARebate = (incentive: Incentive) =>
-  incentive.type === 'pos_rebate' && incentive.authority_type === 'federal';
+  incentive.payment_methods[0] === 'pos_rebate' &&
+  incentive.authority_type === 'federal';
 
 /** TODO get real dates in the data! */
 const startDateTemplate = (incentive: Incentive) =>
