@@ -227,13 +227,13 @@
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
 <target>una renovación de eficiencia energética</target></trans-unit>
 <trans-unit id="sd01d1a3738143465">
-  <source>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${amount.unit}"/> off <x id="2" equiv-text="${item}"/></source>
+  <source>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${localize(amount.unit, UNITS, getLocale())}"/> off <x id="2" equiv-text="${item}"/></source>
   <note from="lit-localize">e.g. "$1000/ton off a heat pump</note>
-<target>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${amount.unit}"/> de descuento en <x id="2" equiv-text="${item}"/></target></trans-unit>
+<target>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${localize(amount.unit, UNITS, getLocale())}"/> de descuento en <x id="2" equiv-text="${item}"/></target></trans-unit>
 <trans-unit id="sbc6f031a2851e3fd">
-  <source>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${amount.unit}"/> off <x id="2" equiv-text="${item}"/>, up to $<x id="3" equiv-text="${amount.maximum.toLocaleString()}"/></source>
+  <source>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${localize(amount.unit, UNITS, getLocale())}"/> off <x id="2" equiv-text="${item}"/>, up to $<x id="3" equiv-text="${amount.maximum.toLocaleString()}"/></source>
   <note from="lit-localize">e.g. "$1000/ton off a heat pump, up to $3000"</note>
-<target>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${amount.unit}"/> de descuento en <x id="2" equiv-text="${item}"/>, hasta $<x id="3" equiv-text="${amount.maximum.toLocaleString()}"/></target></trans-unit>
+<target>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/>/<x id="1" equiv-text="${localize(amount.unit, UNITS, getLocale())}"/> de descuento en <x id="2" equiv-text="${item}"/>, hasta $<x id="3" equiv-text="${amount.maximum.toLocaleString()}"/></target></trans-unit>
 <trans-unit id="s4b3298c4c6db9310">
   <source>$<x id="0" equiv-text="${amount.number.toLocaleString()}"/> off <x id="1" equiv-text="${item}"/></source>
   <note from="lit-localize">e.g. "$3000 off a heat pump"</note>

@@ -7,8 +7,9 @@ import { AuthorityLogos } from './authority-logos';
 import { wasEmailSubmitted } from './email-signup';
 import { iconTabBarTemplate } from './icon-tab-bar';
 import { exclamationPoint, upRightArrow } from './icons';
+import { UNITS, localize } from './locales/argument_translation';
 import { PROJECTS, Project, shortLabel } from './projects';
-import { RewiringAmericaStateCalculator } from './state-calculator';
+import { RewiringAmericaStateCalculator, getLocale } from './state-calculator';
 
 export const stateIncentivesStyles = css`
   /* for now, override these variables just for the state calculator */
@@ -290,15 +291,21 @@ const titleTemplate = (incentive: Incentive) => {
   } else if (amount.type === 'dollars_per_unit') {
     return amount.maximum
       ? msg(
-          str`$${amount.number.toLocaleString()}/${
-            amount.unit
-          } off ${item}, up to $${amount.maximum.toLocaleString()}`,
+          str`$${amount.number.toLocaleString()}/${localize(
+            amount.unit,
+            UNITS,
+            getLocale(),
+          )} off ${item}, up to $${amount.maximum.toLocaleString()}`,
           {
             desc: 'e.g. "$1000/ton off a heat pump, up to $3000"',
           },
         )
       : msg(
-          str`$${amount.number.toLocaleString()}/${amount.unit} off ${item}`,
+          str`$${amount.number.toLocaleString()}/${localize(
+            amount.unit,
+            UNITS,
+            getLocale(),
+          )} off ${item}`,
           {
             desc: 'e.g. "$1000/ton off a heat pump',
           },

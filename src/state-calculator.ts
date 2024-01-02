@@ -27,7 +27,7 @@ import * as spanishLocale from './locales/strings/es';
 import { safeLocalStorage } from './safe-local-storage';
 import { STATES } from './states';
 
-const { setLocale } = configureLocalization({
+export const { getLocale, setLocale } = configureLocalization({
   sourceLocale,
   targetLocales,
   loadLocale: async locale =>
