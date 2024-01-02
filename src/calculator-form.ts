@@ -22,7 +22,6 @@ const buttonStyles = css`
     border: 1px solid var(--ra-embed-primary-button-background-color);
     border-radius: 4px;
     font-weight: 600;
-    margin: 4px 0 0 0;
     cursor: pointer;
     color: var(--ra-embed-primary-button-text-color);
     outline: 0;
@@ -63,7 +62,7 @@ const buttonStyles = css`
 
   /* To line the button up with the email field when it's present */
   .button-spacer {
-    height: 32px;
+    height: 36px;
   }
 
   @media only screen and (max-width: 640px) {

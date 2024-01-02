@@ -330,6 +330,23 @@
   <source>We don’t have utility data for your area yet.</source>
   <target>Aún no tenemos datos sobre las empresas de servicios eléctricos en su área.</target>
 </trans-unit>
+<trans-unit id="se86b0c32ca2d7413">
+  <source>You’re subscribed to our newsletter!</source>
+</trans-unit>
+<trans-unit id="s9fbb21f25571fff1">
+  <source>You’ll get updates on incentives, rebates, and more from Rewiring America.</source>
+</trans-unit>
+<trans-unit id="s475d01cc643aa9fc">
+  <source>To get updates on new incentives, subscribe to our newsletter!</source>
+</trans-unit>
+<trans-unit id="s38887b94b3320533">
+  <source>Email address</source>
+  <target>Dirección de correo electrónico</target>
+</trans-unit>
+<trans-unit id="s58aac558ddaa15a3">
+  <source>Subscribe</source>
+  <note from="lit-localize">button text</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

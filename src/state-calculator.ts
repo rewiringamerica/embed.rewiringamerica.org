@@ -554,6 +554,17 @@ export class RewiringAmericaStateCalculator extends LitElement {
               this.projects,
               newOtherSelection => (this.selectedOtherTab = newOtherSelection),
               newSelection => (this.selectedProjectTab = newSelection),
+              this.showEmail
+                ? (email: string) => {
+                    submitEmailSignup(
+                      this.apiHost,
+                      this.apiKey,
+                      email,
+                      this.zip,
+                    );
+                    this.wasEmailSubmitted = true;
+                  }
+                : null,
               this.selectedOtherTab,
               this.selectedProjectTab,
             ),
