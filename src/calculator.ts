@@ -1,6 +1,7 @@
 import { Task, initialState } from '@lit-labs/task';
 import { LitElement, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { Root } from 'react-dom/client';
 import { fetchApi } from './api/fetch';
 import { CALCULATOR_FOOTER } from './calculator-footer';
 import { formStyles, formTemplate } from './calculator-form';
@@ -12,6 +13,7 @@ import {
 import { downIcon } from './icons';
 import { detailsStyles, detailsTemplate } from './incentive-details';
 import { summaryStyles, summaryTemplate } from './incentive-summary';
+import { renderReactElements } from './react-roots';
 import { baseStyles, cardStyles, gridStyles } from './styles';
 
 const loadedTemplate = (
@@ -84,6 +86,14 @@ export class RewiringAmericaCalculator extends LitElement {
   @property({ type: String, attribute: 'household-size' })
   householdSize: string = '1';
 
+  /**
+   * For the React transition; see react-roots.ts for detail.
+   * TODO: this whole mechanism can go away post-React transition
+   */
+  reactElements: Map<string, React.ReactElement> = new Map();
+  reactRoots: Map<string, { reactRoot: Root; domNode: HTMLElement }> =
+    new Map();
+
   submit(e: SubmitEvent) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
@@ -152,6 +162,7 @@ export class RewiringAmericaCalculator extends LitElement {
           ${this.hideForm
             ? nothing
             : formTemplate(
+                (rootId, element) => this.reactElements.set(rootId, element),
                 [
                   this.zip,
                   this.ownerStatus,
@@ -181,6 +192,14 @@ export class RewiringAmericaCalculator extends LitElement {
       </div>
       ${CALCULATOR_FOOTER()}
     `;
+  }
+
+  protected override updated() {
+    renderReactElements(
+      this.renderRoot as ShadowRoot,
+      this.reactElements,
+      this.reactRoots,
+    );
   }
 }
 

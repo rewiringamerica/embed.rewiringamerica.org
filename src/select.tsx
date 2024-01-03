@@ -1,10 +1,12 @@
 import { SlChangeEvent } from '@shoelace-style/shoelace';
-import '@shoelace-style/shoelace/dist/components/option/option.js';
-import '@shoelace-style/shoelace/dist/components/select/select.js';
+import SlSelectComponent from '@shoelace-style/shoelace/dist/components/select/select';
+import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
+import SlOption from '@shoelace-style/shoelace/dist/react/option';
+import SlSelect from '@shoelace-style/shoelace/dist/react/select';
+import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
-import { HTMLTemplateResult, css, html, nothing, unsafeCSS } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { live } from 'lit/directives/live';
+import { css, unsafeCSS } from 'lit';
+import { useEffect, useRef } from 'react';
 
 export interface OptionParam {
   label: string;
@@ -12,40 +14,67 @@ export interface OptionParam {
   iconURL?: URL;
 }
 
-export interface SLSelectParam {
+interface SLSelectProps {
   id: string;
-  labelSlot?: HTMLTemplateResult;
+  labelSlot?: React.ReactElement;
   options: OptionParam[];
   helpText?: string;
   placeholder?: string;
-  placement?: string;
+  placement?: 'top' | 'bottom';
   required?: boolean;
   disabled?: boolean;
   ariaLabel?: string;
   onChange?: (event: SlChangeEvent) => void;
 }
 
-export interface SingleSelectParam extends SLSelectParam {
+export interface SingleSelectProps extends SLSelectProps {
   currentValue: string;
   loading?: boolean;
 }
 
-export interface MultiSelectParam extends SLSelectParam {
+export interface MultiSelectProps extends SLSelectProps {
   currentValues: string[];
   maxOptionsVisible?: number;
 }
 
-export const option = ({ label, value, iconURL }: OptionParam) => {
-  const iconElement = iconURL
-    ? html`<sl-icon slot="prefix" src="${iconURL}"></sl-icon>`
-    : nothing;
+/**
+ * Make the Tab key close an open SlSelect dropdown.
+ */
+const handleTabDown = (e: React.KeyboardEvent) => {
+  // In the case we're interested in, the target is an <sl-option>, and its
+  // parent is the <sl-select>.
+  const target = e.target as Node;
+  const selectTarget = target.parentNode;
 
-  return html`
-    <sl-option value="${value}"> ${label} ${iconElement} </sl-option>
-  `;
+  if (
+    selectTarget instanceof SlSelectComponent &&
+    e.key === 'Tab' &&
+    selectTarget.open
+  ) {
+    e.preventDefault();
+    e.stopPropagation();
+    selectTarget.hide();
+    selectTarget.displayInput.focus({ preventScroll: true });
+  }
 };
 
-export const select = ({
+const option = ({ label, value, iconURL }: OptionParam) => {
+  const iconElement = iconURL ? (
+    <SlIcon
+      slot="prefix"
+      src={iconURL.toString()}
+      data-src={iconURL.toString()}
+    ></SlIcon>
+  ) : null;
+
+  return (
+    <SlOption key={value} value={value}>
+      {label} {iconElement}
+    </SlOption>
+  );
+};
+
+export const Select = ({
   id,
   labelSlot,
   options,
@@ -55,43 +84,44 @@ export const select = ({
   currentValue,
   onChange,
   ariaLabel,
-  required = true,
+  required,
   disabled = false,
   loading = false,
-}: SingleSelectParam) => {
+}: SingleSelectProps) => {
   const currentOption = options.find(option => option.value === currentValue);
-  const prefixIcon = currentOption?.iconURL
-    ? html`<sl-icon src="${currentOption.iconURL}" slot="prefix"></sl-icon>`
-    : loading
-    ? html`<sl-spinner slot="prefix"></sl-spinner>`
-    : nothing;
+  const prefixIcon = currentOption?.iconURL ? (
+    <SlIcon src={currentOption.iconURL.toString()} slot="prefix"></SlIcon>
+  ) : loading ? (
+    <SlSpinner slot="prefix"></SlSpinner>
+  ) : null;
 
-  return html`
+  return (
     <div>
-      <sl-select
-        id="${id}"
-        name="${id}"
-        .value=${live(currentValue)}
-        help-text="${ifDefined(helpText)}"
-        placeholder="${ifDefined(placeholder)}"
-        placement="${ifDefined(placement)}"
-        @sl-change=${ifDefined(onChange)}
-        aria-label="${ifDefined(ariaLabel)}"
-        ${required ? 'required' : ''}
-        ?disabled=${disabled}
+      <SlSelect
+        id={id}
+        name={id}
+        value={currentValue}
+        helpText={helpText}
+        placeholder={placeholder}
+        placement={placement ?? 'bottom'}
+        onSlChange={onChange}
+        aria-label={ariaLabel}
+        required={required}
+        disabled={disabled}
+        onKeyDown={handleTabDown}
         hoist
-        ?loading=${loading}
+        data-loading={loading ? true : undefined}
       >
-        ${prefixIcon} ${labelSlot ?? nothing}
-        <sl-icon slot="expand-icon"></sl-icon>
-        ${options.map(o => option(o))}
-      </sl-select>
-      <span class="focus"></span>
+        {prefixIcon} {labelSlot}
+        <SlIcon slot="expand-icon"></SlIcon>
+        {options.map(o => option(o))}
+      </SlSelect>
+      <span className="focus"></span>
     </div>
-  `;
+  );
 };
 
-export const multiselect = ({
+export const MultiSelect = ({
   id,
   labelSlot,
   currentValues,
@@ -100,28 +130,49 @@ export const multiselect = ({
   placeholder,
   maxOptionsVisible,
   placement,
-}: MultiSelectParam) => {
-  return html`
+}: MultiSelectProps) => {
+  const ref = useRef<SlSelectComponent>(null);
+
+  // Customize the tag that appears in the combo box.
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.getTag = option => {
+        const src = option
+          .querySelector('sl-icon[slot="prefix"]')
+          ?.getAttribute('data-src');
+
+        return `
+          <sl-tag removable>
+            <sl-icon src="${src}" style="padding-inline-end: .5rem;"></sl-icon>
+            ${option.getTextLabel()}
+          </sl-tag>
+        `;
+      };
+    }
+  });
+
+  return (
     <div>
-      <sl-select
-        id="${id}"
-        name="${id}"
-        .value=${live(currentValues)}
-        help-text="${ifDefined(helpText)}"
-        placeholder="${ifDefined(placeholder)}"
-        max-options-visible="${ifDefined(maxOptionsVisible)}"
-        placement="${ifDefined(placement)}"
+      <SlSelect
+        ref={ref}
+        id={id}
+        name={id}
+        value={currentValues}
+        helpText={helpText}
+        placeholder={placeholder}
+        maxOptionsVisible={maxOptionsVisible}
+        placement={placement ?? 'bottom'}
         hoist
         multiple
-        class="multiselect-prefix-icon-tag"
+        onKeyDown={handleTabDown}
       >
-        ${labelSlot ?? nothing}
-        <sl-icon slot="expand-icon"></sl-icon>
-        ${options.map(o => option(o))}
-      </sl-select>
-      <span class="focus"></span>
+        {labelSlot}
+        <SlIcon slot="expand-icon"></SlIcon>
+        {options.map(o => option(o))}
+      </SlSelect>
+      <span className="focus"></span>
     </div>
-  `;
+  );
 };
 
 export const selectStyles = css`
@@ -289,7 +340,7 @@ export const selectStyles = css`
   }
 
   /* Move the loading spinner to the right (but before the expand icon) */
-  sl-select[loading]::part(prefix) {
+  sl-select[data-loading]::part(prefix) {
     order: 1;
   }
 

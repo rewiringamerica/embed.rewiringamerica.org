@@ -170,7 +170,7 @@ export const baseStyles = css`
 
   /* To prevent margin-collapsing. Temporary for React transition. */
   .react-root {
-    display: flex;
+    display: grid;
   }
 `;
 

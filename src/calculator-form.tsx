@@ -7,9 +7,9 @@ import { live } from 'lit/directives/live';
 import { APIUtilitiesResponse } from './api/calculator-types-v1';
 import './currency-input';
 import { PROJECTS } from './projects';
-import { OptionParam, multiselect, select, selectStyles } from './select';
+import { MultiSelect, OptionParam, Select, selectStyles } from './select';
 import { inputStyles } from './styles/input';
-import { tooltipButton } from './tooltip';
+import { TooltipButton } from './tooltip';
 
 const buttonStyles = css`
   button.primary {
@@ -158,14 +158,15 @@ type FormOptions = {
 };
 
 const label = (labelText: string, tooltipText: string, tooltipSize: number) => {
-  return html`
-    <div class="select-label" slot="label">
-      ${labelText} ${tooltipButton(tooltipText, tooltipSize)}
+  return (
+    <div className="select-label" slot="label">
+      {labelText}
+      <TooltipButton text={tooltipText} iconSize={tooltipSize} />
     </div>
-  `;
+  );
 };
 
-const utilityFieldTemplate = (
+const renderUtilityField = (
   task: Task<readonly string[], APIUtilitiesResponse>,
   utility: string,
   tooltipSize: number,
@@ -195,19 +196,22 @@ const utilityFieldTemplate = (
 
   const loading = task.status === TaskStatus.PENDING;
 
-  return select({
-    id: 'utility',
-    labelSlot,
-    placeholder: msg('Select utility'),
-    disabled: options.length === 0,
-    options,
-    currentValue: utility,
-    helpText,
-    loading,
-  });
+  return (
+    <Select
+      id="utility"
+      labelSlot={labelSlot}
+      placeholder={msg('Select utility')}
+      disabled={options.length === 0}
+      options={options}
+      currentValue={utility}
+      helpText={helpText}
+      loading={loading}
+    />
+  );
 };
 
 export const formTemplate = (
+  registerReactElement: (rootId: string, element: React.ReactElement) => void,
   [
     zip,
     ownerStatus,
@@ -234,24 +238,23 @@ export const formTemplate = (
     tooltipSize,
   );
 
-  const projectField = showProjectField
-    ? multiselect({
-        id: 'projects',
-        labelSlot: projectsLabelSlot,
-        required: true,
-        options: Object.entries(PROJECTS)
-          .map(([value, data]) => ({
-            value,
-            label: data.label(),
-            iconURL: data.iconURL,
-          }))
-          .sort((a, b) => a.label.localeCompare(b.label)),
-        currentValues: projects,
-        placeholder: msg('None selected'),
-        maxOptionsVisible: 1,
-        placement: 'top',
-      })
-    : nothing;
+  const projectField = showProjectField ? (
+    <MultiSelect
+      id="projects"
+      labelSlot={projectsLabelSlot}
+      options={Object.entries(PROJECTS)
+        .map(([value, data]) => ({
+          value,
+          label: data.label(),
+          iconURL: data.iconURL,
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label))}
+      currentValues={projects}
+      placeholder={msg('None selected')}
+      maxOptionsVisible={1}
+      placement={'top'}
+    />
+  ) : null;
 
   const emailField = showEmailField
     ? html`<div>
@@ -298,27 +301,80 @@ export const formTemplate = (
     tooltipSize,
   );
 
+  if (projectField) {
+    registerReactElement('project-multiselect', projectField);
+  }
+
+  registerReactElement(
+    'owner-status-select',
+    <Select
+      id="owner_status"
+      labelSlot={ownersLabelSlot}
+      options={OWNER_STATUS_OPTIONS()}
+      currentValue={ownerStatus}
+    />,
+  );
+
+  registerReactElement(
+    'tax-filing-select',
+    <Select
+      id="tax_filing"
+      labelSlot={taxFilingLabelSlot}
+      options={TAX_FILING_OPTIONS()}
+      currentValue={taxFiling}
+    />,
+  );
+
+  registerReactElement(
+    'household-size-select',
+    <Select
+      id="household_size"
+      labelSlot={householdSizeLabelSlot}
+      options={HOUSEHOLD_SIZE_OPTIONS()}
+      currentValue={householdSize}
+    />,
+  );
+
+  if (utilitiesTask) {
+    registerReactElement(
+      'utility-select',
+      renderUtilityField(utilitiesTask, utility, tooltipSize),
+    );
+  }
+
+  registerReactElement(
+    'zip-label',
+    label(
+      msg('Zip', { desc: 'as in zip code' }),
+      msg(
+        'Your zip code helps determine the amount of discounts and tax credits you qualify for.',
+      ),
+      tooltipSize,
+    ),
+  );
+
+  registerReactElement(
+    'income-label',
+    label(
+      msg('Household income'),
+      msg(
+        'Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
+      ),
+      tooltipSize,
+    ),
+  );
+
   return html`
     <form @submit=${onSubmit}>
       <div class="${gridClass}">
-        ${projectField}
-        ${select({
-          id: 'owner_status',
-          labelSlot: ownersLabelSlot,
-          required: true,
-          options: OWNER_STATUS_OPTIONS(),
-          currentValue: ownerStatus,
-        })}
+        ${showProjectField
+          ? html`<div id="project-multiselect" class="react-root"></div>`
+          : nothing}
+
+        <div id="owner-status-select" class="react-root"></div>
+
         <div>
-          <label for="zip">
-            ${label(
-              msg('Zip', { desc: 'as in zip code' }),
-              msg(
-                'Your zip code helps determine the amount of discounts and tax credits you qualify for.',
-              ),
-              tooltipSize,
-            )}
-          </label>
+          <label for="zip" id="zip-label"></label>
 
           <input
             tabindex="0"
@@ -339,18 +395,10 @@ export const formTemplate = (
           />
         </div>
         ${utilitiesTask
-          ? utilityFieldTemplate(utilitiesTask, utility, tooltipSize)
+          ? html`<div id="utility-select" class="react-root"></div>`
           : nothing}
         <div>
-          <label for="household_income">
-            ${label(
-              msg('Household income'),
-              msg(
-                'Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
-              ),
-              tooltipSize,
-            )}
-          </label>
+          <label for="household_income" id="income-label"></label>
 
           <ra-currency-input
             placeholder="$60,000"
@@ -363,20 +411,11 @@ export const formTemplate = (
             tabindex="-1"
           ></ra-currency-input>
         </div>
-        ${select({
-          id: 'tax_filing',
-          labelSlot: taxFilingLabelSlot,
-          required: true,
-          options: TAX_FILING_OPTIONS(),
-          currentValue: taxFiling,
-        })}
-        ${select({
-          id: 'household_size',
-          labelSlot: householdSizeLabelSlot,
-          required: true,
-          options: HOUSEHOLD_SIZE_OPTIONS(),
-          currentValue: householdSize,
-        })}
+
+        <div id="tax-filing-select" class="react-root"></div>
+
+        <div id="household-size-select" class="react-root"></div>
+
         ${emailField}
         <div class="grid-right-column">
           <div class="button-spacer"></div>
