@@ -21,6 +21,7 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitOverride": true,
+    "jsx": "preserve",
     "plugins": [
       {
         "name": "ts-lit-plugin",
@@ -28,7 +29,7 @@
       }
     ]
   },
-  "include": ["src/**/*.ts", "scripts/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "scripts/**/*.ts"],
   "exclude": [],
   "ts-node": {
     "compilerOptions": {

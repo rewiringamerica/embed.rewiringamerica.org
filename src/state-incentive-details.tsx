@@ -1,8 +1,9 @@
 import { msg, str } from '@lit/localize';
 import { css, html, nothing } from 'lit';
+import { createRoot } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
-import { authorityLogosTemplate } from './authority-logos';
+import { AuthorityLogos } from './authority-logos';
 import { iconTabBarTemplate } from './icon-tab-bar';
 import { exclamationPoint, upRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
@@ -445,6 +446,7 @@ const gridTemplate = (
  * currently selected.
  */
 export const stateIncentivesTemplate = (
+  registerUpdateCallback: (callback: (root: ShadowRoot) => void) => void,
   response: APIResponse,
   selectedProjects: Project[],
   onOtherTabSelected: (newOtherSelection: Project) => void,
@@ -488,22 +490,29 @@ export const stateIncentivesTemplate = (
   const selectedIncentives = incentivesByProject[projectTab] ?? [];
   const selectedOtherIncentives = incentivesByProject[otherTab] ?? [];
 
+  // Render any React components
+  registerUpdateCallback((root: ShadowRoot) =>
+    createRoot(root.getElementById('authority-logos')!).render(
+      <AuthorityLogos response={response} />,
+    ),
+  );
+
   return html`${gridTemplate(
-    msg('Incentives you’re interested in'),
-    'interested-incentives',
-    selectedIncentives,
-    interestedProjects,
-    projectTab,
-    onTabSelected,
-  )}
-  ${gridTemplate(
-    msg('Other incentives available to you'),
-    'other-incentives',
-    selectedOtherIncentives,
-    otherProjects,
-    // If a nonexistent tab is selected, pretend the first one is selected.
-    otherTab,
-    onOtherTabSelected,
-  )}
-  ${authorityLogosTemplate(response)}`;
+      msg('Incentives you’re interested in'),
+      'interested-incentives',
+      selectedIncentives,
+      interestedProjects,
+      projectTab,
+      onTabSelected,
+    )}
+    ${gridTemplate(
+      msg('Other incentives available to you'),
+      'other-incentives',
+      selectedOtherIncentives,
+      otherProjects,
+      // If a nonexistent tab is selected, pretend the first one is selected.
+      otherTab,
+      onOtherTabSelected,
+    )}
+    <div id="authority-logos" class="react-root"></div>`;
 };

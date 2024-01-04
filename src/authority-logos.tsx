@@ -1,5 +1,5 @@
 import { msg } from '@lit/localize';
-import { css, html, nothing } from 'lit';
+import { css } from 'lit';
 import { APIResponse } from './api/calculator-types-v1';
 
 export const authorityLogosStyles = css`
@@ -41,35 +41,36 @@ export const authorityLogosStyles = css`
   }
 `;
 
+type Props = { response: APIResponse };
+
 /**
  * Displays the white area at the bottom of the calculator results with logos
  * of the authorities whose incentives are displayed.
  */
-export const authorityLogosTemplate = (response: APIResponse) => {
+export const AuthorityLogos = ({ response }: Props) => {
   const authoritiesWithLogo = Object.values(response.authorities).filter(
     auth => !!auth.logo,
   );
   if (authoritiesWithLogo.length === 0) {
-    return nothing;
+    return <></>;
   }
 
-  const logos = authoritiesWithLogo.map(
-    auth =>
-      html`<img
-        alt="${auth.name}"
-        src="${auth.logo!.src}"
-        width="${auth.logo!.width}"
-        height="${auth.logo!.height}"
-      />`,
-  );
+  const logos = authoritiesWithLogo.map(auth => (
+    <img
+      alt={auth.name}
+      src={auth.logo!.src}
+      width={auth.logo!.width}
+      height={auth.logo!.height}
+    />
+  ));
 
   const title = msg('Incentive data brought to you by', {
     desc: 'followed by authority logos',
   });
-  return html`
-    <div class="authority-logos">
-      <h2>${title}</h2>
-      <div class="authority-logos__container">${logos}</div>
+  return (
+    <div className="authority-logos">
+      <h2>{title}</h2>
+      <div className="authority-logos__container">{logos}</div>
     </div>
-  `;
+  );
 };

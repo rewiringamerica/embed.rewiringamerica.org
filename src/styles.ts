@@ -167,6 +167,11 @@ export const baseStyles = css`
       gap: 48px;
     }
   }
+
+  /* To prevent margin-collapsing. Temporary for React transition. */
+  .react-root {
+    display: flex;
+  }
 `;
 
 export const cardStyles = css`

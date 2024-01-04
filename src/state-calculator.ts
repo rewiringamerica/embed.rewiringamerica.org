@@ -237,6 +237,15 @@ export class RewiringAmericaStateCalculator extends LitElement {
   @property({ type: Boolean })
   wasEmailSubmitted: boolean = wasEmailSubmitted();
 
+  /**
+   * For the React transition. To render part of the page using React, return
+   * it as an empty div from render(), then register an update callback which
+   * creates the React root on the empty div.
+   *
+   * TODO: this whole mechanism can go away post-React transition
+   */
+  updateCallbacks: ((root: ShadowRoot) => void)[] = [];
+
   private getDefaultLanguage() {
     const closestLang =
       (this.closest('[lang]') as HTMLElement | null)?.lang?.split('-')?.[0] ??
@@ -362,6 +371,10 @@ export class RewiringAmericaStateCalculator extends LitElement {
     if (!this.renderRoot) {
       return;
     }
+
+    this.updateCallbacks.forEach(cb => cb(this.renderRoot as ShadowRoot));
+    this.updateCallbacks = [];
+
     this.renderRoot.querySelectorAll('sl-select').forEach(currSelect => {
       const combobox = currSelect.renderRoot.querySelector(
         'div.select__combobox',
@@ -536,6 +549,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
           complete: response => [
             html`<div class="separator"></div>`,
             stateIncentivesTemplate(
+              cb => this.updateCallbacks.push(cb),
               response,
               this.projects,
               newOtherSelection => (this.selectedOtherTab = newOtherSelection),
