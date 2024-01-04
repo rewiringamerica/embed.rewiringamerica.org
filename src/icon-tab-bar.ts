@@ -1,4 +1,5 @@
 import { msg } from '@lit/localize';
+import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { css, html } from 'lit';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { select } from './select';
@@ -35,6 +36,8 @@ export const iconTabBarStyles = css`
     gap: 0.5rem;
     align-items: center;
     justify-content: center;
+
+    color: var(--color-purple-500, #4a00c3);
   }
 
   .icon-tab--selected {
@@ -42,18 +45,18 @@ export const iconTabBarStyles = css`
 
     background: var(--color-purple-500, #4a00c3);
     border-color: var(--color-purple-500, #4a00c3);
+    color: white;
+  }
+
+  .icon-tab sl-icon {
+    font-size: 20px;
   }
 
   .icon-tab__caption {
-    color: var(--color-purple-500, #4a00c3);
     font-size: 1rem;
     font-weight: 500;
     line-height: 125%;
     white-space: nowrap;
-  }
-
-  .icon-tab__caption--selected {
-    color: white;
   }
 
   .icon-dropdown {
@@ -98,13 +101,11 @@ export const iconTabBarTemplate = (
         class="${classes('icon-tab')}"
         role="tab"
         aria-selected="${isSelected}"
-        aria-label="${PROJECTS[project].label}"
+        aria-label="${PROJECTS[project].label()}"
         @click=${() => onTabSelected(project)}
       >
-        ${PROJECTS[project].icon(isSelected)}
-        <div class="${classes('icon-tab__caption')}">
-          ${shortLabel(project)}
-        </div>
+        <sl-icon src="${PROJECTS[project].iconURL}"></sl-icon>
+        <div class="icon-tab__caption">${shortLabel(project)}</div>
       </button>
     `;
   });
