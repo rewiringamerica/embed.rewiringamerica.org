@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { AuthorityLogos } from './authority-logos';
+import { wasEmailSubmitted } from './email-signup';
 import { iconTabBarTemplate } from './icon-tab-bar';
 import { exclamationPoint, upRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
@@ -117,6 +118,31 @@ export const stateIncentivesStyles = css`
     text-decoration: none;
   }
 
+  .noresults__title {
+    color: #111;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  .noresults__cta {
+    color: #111;
+    font-weight: bold;
+    line-height: 150%;
+  }
+
+  .noresults__subtext {
+    color: #6b6b6b;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  .noresults__form {
+    display: grid;
+    grid-template-rows: min-content;
+    gap: 1rem;
+  }
+
   .nowrap {
     white-space: nowrap;
   }
@@ -217,7 +243,7 @@ export const cardStyles = css`
   }
 
   .card-content--null {
-    padding: 2rem 0;
+    padding: 2rem 1rem;
     text-align: center;
     max-width: 312px;
     margin: 0 auto;
@@ -232,7 +258,7 @@ export const separatorStyles = css`
   }
 
   @media only screen and (max-width: 640px) {
-    .separator {
+    .separator--nosmall {
       display: none;
     }
   }
@@ -364,7 +390,7 @@ const incentiveCardTemplate = (incentive: Incentive) => html`
         <div class="incentive__chip">${formatIncentiveType(incentive)}</div>
         <div class="incentive__title">${titleTemplate(incentive)}</div>
         <div class="incentive__subtitle">${incentive.program}</div>
-        <div class="separator"></div>
+        <div class="separator separator--nosmall"></div>
         <div class="incentive__blurb">${incentive.short_description}</div>
         ${startDateTemplate(incentive)}
         <a
@@ -393,20 +419,78 @@ function scrollToForm(this: RewiringAmericaStateCalculator) {
   });
 }
 
+const onSubmitEmail = (
+  e: SubmitEvent,
+  submitEmail: (email: string) => void,
+) => {
+  e.preventDefault();
+  const email = new FormData(e.target as HTMLFormElement).get('email');
+  if (email) {
+    submitEmail!(email as string);
+  }
+};
+
 // TODO: don't reuse card CSS here, make something standalone
-const noResultsTemplate = () => html`<div class="card card--null">
-  <div class="card-content card-content--null">
-    <h1>${msg('No incentives available for this project')}</h1>
-    <p>
-      ${msg(
-        'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
-      )}
-    </p>
-    <button class="text-button" @click=${scrollToForm}>
-      ${msg('Back to calculator')}
-    </button>
-  </div>
-</div>`;
+const noResultsTemplate = (
+  emailSubmitter: ((email: string) => void) | null,
+) => {
+  const emailForm =
+    emailSubmitter === null
+      ? nothing
+      : wasEmailSubmitted()
+      ? html`
+          <div class="separator"></div>
+          <div class="noresults__cta">
+            ${msg('You’re subscribed to our newsletter!')}
+          </div>
+          <div class="noresults__subtext">
+            ${msg(
+              'You’ll get updates on incentives, rebates, and more from Rewiring America.',
+            )}
+          </div>
+        `
+      : html`
+          <div class="separator"></div>
+          <div class="noresults__cta">
+            ${msg(
+              'To get updates on new incentives, subscribe to our newsletter!',
+            )}
+          </div>
+          <form @submit=${(e: SubmitEvent) => onSubmitEmail(e, emailSubmitter)}>
+            <div class="noresults__form">
+              <input
+                type="email"
+                autocomplete="email"
+                placeholder=${msg('you@example.com', {
+                  desc: 'example email address',
+                })}
+                name="email"
+                aria-label=${msg('Email address')}
+              />
+              <button class="primary">
+                ${msg('Subscribe', { desc: 'button text' })}
+              </button>
+            </div>
+          </form>
+        `;
+
+  return html`<div class="card card--null">
+    <div class="card-content card-content--null">
+      <h1 class="noresults__title">
+        ${msg('No incentives available for this project')}
+      </h1>
+      <p>
+        ${msg(
+          'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
+        )}
+      </p>
+      <button class="text-button" @click=${scrollToForm}>
+        ${msg('Back to calculator')}
+      </button>
+      ${emailForm}
+    </div>
+  </div>`;
+};
 
 const cardCollectionTemplate = (incentives: Incentive[]) =>
   html`<div class="grid-3-2-1 grid-3-2-1--align-start">
@@ -423,6 +507,7 @@ const gridTemplate = (
   tabs: Project[],
   selectedTab: Project,
   onTabSelected: (newSelection: Project) => void,
+  emailSubmitter: ((email: string) => void) | null,
 ) =>
   tabs.length > 0
     ? html`
@@ -431,7 +516,7 @@ const gridTemplate = (
           ${iconTabBarTemplate(tabs, selectedTab, onTabSelected)}
           ${incentives.length > 0
             ? cardCollectionTemplate(incentives)
-            : noResultsTemplate()}
+            : noResultsTemplate(emailSubmitter)}
         </div>
       `
     : nothing;
@@ -451,6 +536,7 @@ export const stateIncentivesTemplate = (
   selectedProjects: Project[],
   onOtherTabSelected: (newOtherSelection: Project) => void,
   onTabSelected: (newSelection: Project) => void,
+  emailSubmitter: ((email: string) => void) | null,
   selectedOtherTab?: Project,
   selectedProjectTab?: Project,
 ) => {
@@ -504,6 +590,7 @@ export const stateIncentivesTemplate = (
       interestedProjects,
       projectTab,
       onTabSelected,
+      emailSubmitter,
     )}
     ${gridTemplate(
       msg('Other incentives available to you'),
@@ -513,6 +600,8 @@ export const stateIncentivesTemplate = (
       // If a nonexistent tab is selected, pretend the first one is selected.
       otherTab,
       onOtherTabSelected,
+      // We won't show the empty state in this seciton, so no email submission
+      null,
     )}
     <div id="authority-logos" class="react-root"></div>`;
 };
