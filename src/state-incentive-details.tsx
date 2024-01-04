@@ -514,5 +514,5 @@ export const stateIncentivesTemplate = (
       otherTab,
       onOtherTabSelected,
     )}
-    <div id="authority-logos" style="display:flex;"></div>`;
+    <div id="authority-logos" class="react-root"></div>`;
 };
