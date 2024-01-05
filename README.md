@@ -33,7 +33,7 @@ To embed the calculator on your website:
    </rewiring-america-state-calculator>
    ```
 
-The calculator conforms to WCAG 2.1 level AA.
+The calculator conforms to WCAG 2.1 level AA. Our latest self-assessment for WCAG compliance can be found [in the /docs folder](/docs/calculator-vpat.pdf)
 
 ### Optional Attributes
 

@@ -26,6 +26,8 @@ All the code is TypeScript, and is required to typecheck without errors.
 
 - We use `cypress-axe` to maintain a baseline of automated conformance, and periodically review against a [Voluntary Product Accessibility Template](https://www.itic.org/policy/accessibility/vpat) for steps that can only be assessed manually.
 
+- The latest VPAT can be found [in the /docs folder](/docs/calculator-vpat.pdf) and the working copy is hosted on [Google Docs](https://docs.google.com/document/d/1gxTSQE9jUaM12F-kpQ-m08OQOTwxbPGQ/edit).
+
 - Any significant UI changes or additions will need to be manually reviewed against the VPAT.
 
 ### Internationalization
