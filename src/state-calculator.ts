@@ -18,12 +18,14 @@ import { baseStyles } from './styles';
 import { configureLocalization, localized, msg, str } from '@lit/localize';
 import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 import '@shoelace-style/shoelace/dist/components/spinner/spinner';
+import { Root } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { authorityLogosStyles } from './authority-logos';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import { allLocales, sourceLocale, targetLocales } from './locales/locales';
 import * as spanishLocale from './locales/strings/es';
+import { renderReactElements } from './react-roots';
 import { safeLocalStorage } from './safe-local-storage';
 import { STATES } from './states';
 
@@ -238,13 +240,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
   wasEmailSubmitted: boolean = wasEmailSubmitted();
 
   /**
-   * For the React transition. To render part of the page using React, return
-   * it as an empty div from render(), then register an update callback which
-   * creates the React root on the empty div.
-   *
+   * For the React transition; see react-roots.ts for detail.
    * TODO: this whole mechanism can go away post-React transition
    */
-  updateCallbacks: ((root: ShadowRoot) => void)[] = [];
+  reactElements: Map<string, React.ReactElement> = new Map();
+  reactRoots: Map<string, { reactRoot: Root; domNode: HTMLElement }> =
+    new Map();
 
   private getDefaultLanguage() {
     const closestLang =
@@ -372,8 +373,11 @@ export class RewiringAmericaStateCalculator extends LitElement {
       return;
     }
 
-    this.updateCallbacks.forEach(cb => cb(this.renderRoot as ShadowRoot));
-    this.updateCallbacks = [];
+    renderReactElements(
+      this.renderRoot as ShadowRoot,
+      this.reactElements,
+      this.reactRoots,
+    );
 
     this.renderRoot.querySelectorAll('sl-select').forEach(currSelect => {
       const combobox = currSelect.renderRoot.querySelector(
@@ -554,7 +558,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
           complete: response => [
             html`<div class="separator"></div>`,
             stateIncentivesTemplate(
-              cb => this.updateCallbacks.push(cb),
+              (rootId, element) => this.reactElements.set(rootId, element),
               response,
               this.projects,
               newOtherSelection => (this.selectedOtherTab = newOtherSelection),

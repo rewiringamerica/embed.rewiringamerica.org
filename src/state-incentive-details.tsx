@@ -1,6 +1,5 @@
 import { msg, str } from '@lit/localize';
 import { css, html, nothing } from 'lit';
-import { createRoot } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { AuthorityLogos } from './authority-logos';
@@ -532,7 +531,7 @@ const gridTemplate = (
  * currently selected.
  */
 export const stateIncentivesTemplate = (
-  registerUpdateCallback: (callback: (root: ShadowRoot) => void) => void,
+  registerReactElement: (rootId: string, element: React.ReactElement) => void,
   response: APIResponse,
   selectedProjects: Project[],
   onOtherTabSelected: (newOtherSelection: Project) => void,
@@ -578,10 +577,9 @@ export const stateIncentivesTemplate = (
   const selectedOtherIncentives = incentivesByProject[otherTab] ?? [];
 
   // Render any React components
-  registerUpdateCallback((root: ShadowRoot) =>
-    createRoot(root.getElementById('authority-logos')!).render(
-      <AuthorityLogos response={response} />,
-    ),
+  registerReactElement(
+    'authority-logos',
+    <AuthorityLogos response={response} />,
   );
 
   return html`${gridTemplate(
