@@ -6,7 +6,7 @@ import { CALCULATOR_FOOTER } from './calculator-footer';
 import { formStyles, formTemplate } from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { iconTabBarStyles } from './icon-tab-bar';
-import { Project } from './projects';
+import { PROJECTS, Project } from './projects';
 import {
   cardStyles,
   separatorStyles,
@@ -480,6 +480,11 @@ export class RewiringAmericaStateCalculator extends LitElement {
       if (this.utility) {
         query.set('utility', this.utility);
       }
+      Object.values(PROJECTS).forEach(project => {
+        project.items.forEach(item => {
+          query.append('items', item);
+        });
+      });
 
       return fetchApi<APIResponse>(
         this.apiKey,
