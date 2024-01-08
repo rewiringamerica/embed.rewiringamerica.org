@@ -33,6 +33,7 @@ export interface SingleSelectProps<T extends string> extends SLSelectProps<T> {
 
 export interface MultiSelectProps<T extends string> extends SLSelectProps<T> {
   currentValues: T[];
+  onChange?: (newValues: T[]) => void;
   maxOptionsVisible?: number;
 }
 
@@ -137,6 +138,7 @@ export const MultiSelect = <T extends string>({
   placeholder,
   maxOptionsVisible,
   placement,
+  onChange,
 }: MultiSelectProps<T>) => {
   const ref = useRef<SlSelectComponent>(null);
 
@@ -172,6 +174,11 @@ export const MultiSelect = <T extends string>({
         hoist
         multiple
         onKeyDown={handleTabDown}
+        onSlChange={
+          onChange
+            ? e => onChange((e.currentTarget as SlSelectComponent).value as T[])
+            : () => {}
+        }
       >
         {labelSlot}
         <SlIcon slot="expand-icon"></SlIcon>
