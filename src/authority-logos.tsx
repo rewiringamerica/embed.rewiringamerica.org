@@ -48,15 +48,16 @@ type Props = { response: APIResponse };
  * of the authorities whose incentives are displayed.
  */
 export const AuthorityLogos = ({ response }: Props) => {
-  const authoritiesWithLogo = Object.values(response.authorities).filter(
-    auth => !!auth.logo,
+  const authoritiesWithLogo = Object.entries(response.authorities).filter(
+    ([, auth]) => !!auth.logo,
   );
   if (authoritiesWithLogo.length === 0) {
     return <></>;
   }
 
-  const logos = authoritiesWithLogo.map(auth => (
+  const logos = authoritiesWithLogo.map(([id, auth]) => (
     <img
+      key={id}
       alt={auth.name}
       src={auth.logo!.src}
       width={auth.logo!.width}
