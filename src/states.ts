@@ -31,4 +31,8 @@ export const STATES: Record<string, StateInfo> = {
     name: () => msg('Virginia'),
     iconURL: new URL('/static/states/VA.svg', import.meta.url),
   },
+  VT: {
+    name: () => msg('Vermont'),
+    iconURL: new URL('/static/states/VT.svg', import.meta.url),
+  },
 };
