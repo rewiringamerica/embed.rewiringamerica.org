@@ -1,8 +1,9 @@
 import { msg } from '@lit/localize';
-import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import { css, html } from 'lit';
+import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
+import { css } from 'lit';
+import { FC } from 'react';
 import { PROJECTS, Project, shortLabel } from './projects';
-import { select } from './select';
+import { OptionParam, Select } from './select';
 
 export const iconTabBarStyles = css`
   .icon-tab-bar {
@@ -80,6 +81,12 @@ export const iconTabBarStyles = css`
   }
 `;
 
+type Props = {
+  tabs: Project[];
+  selectedTab: Project;
+  onTabSelected: (newSelection: Project) => void;
+};
+
 /**
  * On medium and large layouts, this is a horizontally flowed row of pill-shaped
  * buttons, with icon and text, representing projects. Clicking one selects that
@@ -87,47 +94,46 @@ export const iconTabBarStyles = css`
  *
  * On small layouts, this is a single-select dropdown.
  */
-export const iconTabBarTemplate = (
-  tabs: Project[],
-  selectedTab: Project,
-  onTabSelected: (newSelection: Project) => void,
-) => {
+export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
   const iconTabs = tabs.map(project => {
     const isSelected = project === selectedTab;
     const classes = (cls: string) =>
       isSelected ? `${cls} ${cls}--selected` : cls;
-    return html`
+    return (
       <button
-        class="${classes('icon-tab')}"
+        key={project}
+        className={classes('icon-tab')}
         role="tab"
-        aria-selected="${isSelected}"
-        aria-label="${PROJECTS[project].label()}"
-        @click=${() => onTabSelected(project)}
+        aria-selected={isSelected}
+        aria-label={PROJECTS[project].label()}
+        onClick={() => onTabSelected(project)}
       >
-        <sl-icon src="${PROJECTS[project].iconURL}"></sl-icon>
-        <div class="icon-tab__caption">${shortLabel(project)}</div>
+        <SlIcon src={PROJECTS[project].iconURL.toString()}></SlIcon>
+        <div className="icon-tab__caption">{shortLabel(project)}</div>
       </button>
-    `;
+    );
   });
 
-  const options = tabs.map(project => ({
+  const options: OptionParam<Project>[] = tabs.map(project => ({
     value: project,
     label: PROJECTS[project].label(),
     iconURL: PROJECTS[project].iconURL,
   }));
 
-  return html`
-    <div class="icon-tab-bar" role="tablist">${iconTabs}</div>
-    <div class="icon-dropdown">
-      ${select({
-        id: 'project-selector',
-        ariaLabel: msg('Project', { desc: 'label for a selector input' }),
-        required: true,
-        currentValue: selectedTab,
-        options,
-        onChange: event =>
-          onTabSelected((event.target as HTMLInputElement).value as Project),
-      })}
-    </div>
-  `;
+  return (
+    <>
+      <div className="icon-tab-bar" role="tablist">
+        {iconTabs}
+      </div>
+      <div className="icon-dropdown">
+        <Select
+          id="project-selector"
+          aria-label={msg('Project', { desc: 'label for a selector input' })}
+          currentValue={selectedTab}
+          options={options}
+          onChange={project => onTabSelected(project)}
+        />
+      </div>
+    </>
+  );
 };

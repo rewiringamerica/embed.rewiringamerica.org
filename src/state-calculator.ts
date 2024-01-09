@@ -16,7 +16,6 @@ import {
 import { baseStyles } from './styles';
 
 import { configureLocalization, localized, msg, str } from '@lit/localize';
-import SlSelect from '@shoelace-style/shoelace/dist/components/select/select';
 import '@shoelace-style/shoelace/dist/components/spinner/spinner';
 import { Root } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -55,38 +54,6 @@ const errorTemplate = (error: unknown) => html`
       : msg('Error loading incentives.')}
   </div>
 `;
-
-/**
- * We need to add event listeners to handle the tab down keyboard event in
- * order to gracefully jump out of an open SlSelect dropdown. There are two
- * different scenarios in which we have to add an event listener:
- *
- * 1) When any select is open and the dropdown appears, but without having
- *    clicked on any of the options
- * 2) When a multiselect is open and the dropdown appears, and option(s)
- *    have been selected or de-selected
- *
- * In both cases, we have to find the parent SlSelect node that the event is
- * triggered against. In the first case, the target is the first select option
- * which is highlighted, so the SlSelect node is simply the parent node of
- * the target. In the second case, the target is the input element, which is
- * nested under a shadow root, which itself is a child of the SlSelect node.
- */
-const handleTabDown = (e: KeyboardEvent) => {
-  const target = e.target as Node;
-  const selectTarget = target.parentNode as SlSelect;
-  const comboTarget = target.getRootNode() as ShadowRoot;
-  const comboSelectTarget = comboTarget.host as SlSelect;
-
-  const select =
-    selectTarget instanceof SlSelect ? selectTarget : comboSelectTarget;
-  if (e.key === 'Tab' && select.open) {
-    e.preventDefault();
-    e.stopPropagation();
-    select.hide();
-    select.displayInput.focus({ preventScroll: true });
-  }
-};
 
 /**
  * Waits for the next event loop (to allow the DOM to update following an
@@ -368,44 +335,11 @@ export class RewiringAmericaStateCalculator extends LitElement {
   }
 
   override async updated() {
-    await new Promise(r => setTimeout(r, 0));
-    if (!this.renderRoot) {
-      return;
-    }
-
     renderReactElements(
       this.renderRoot as ShadowRoot,
       this.reactElements,
       this.reactRoots,
     );
-
-    this.renderRoot.querySelectorAll('sl-select').forEach(currSelect => {
-      const combobox = currSelect.renderRoot.querySelector(
-        'div.select__combobox',
-      ) as HTMLElement;
-
-      currSelect.addEventListener('keydown', handleTabDown);
-      combobox?.addEventListener('keydown', handleTabDown);
-    });
-
-    const multiselect = this.renderRoot.querySelector(
-      '.multiselect-prefix-icon-tag',
-    ) as SlSelect;
-
-    if (multiselect) {
-      multiselect.getTag = option => {
-        const src = option
-          .querySelector('sl-icon[slot="prefix"]')
-          ?.getAttribute('src');
-
-        return `
-          <sl-tag removable>
-            <sl-icon src="${src}" style="padding-inline-end: .5rem;"></sl-icon>
-            ${option.getTextLabel()}
-          </sl-tag>
-        `;
-      };
-    }
   }
 
   isFormComplete() {
@@ -528,6 +462,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
             )}
           </div>
           ${formTemplate(
+            (rootId, element) => this.reactElements.set(rootId, element),
             [
               this.zip,
               this.ownerStatus,

@@ -4,7 +4,7 @@ import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { AuthorityLogos } from './authority-logos';
 import { wasEmailSubmitted } from './email-signup';
-import { iconTabBarTemplate } from './icon-tab-bar';
+import { IconTabBar } from './icon-tab-bar';
 import { exclamationPoint, upRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { RewiringAmericaStateCalculator } from './state-calculator';
@@ -501,6 +501,8 @@ const cardCollectionTemplate = (incentives: Incentive[]) =>
   </div>`;
 
 const gridTemplate = (
+  registerReactElement: (rootId: string, element: React.ReactElement) => void,
+
   heading: string,
   htmlId: string,
   incentives: Incentive[],
@@ -508,18 +510,29 @@ const gridTemplate = (
   selectedTab: Project,
   onTabSelected: (newSelection: Project) => void,
   emailSubmitter: ((email: string) => void) | null,
-) =>
-  tabs.length > 0
+) => {
+  const iconsId = `${htmlId}-icons`;
+  registerReactElement(
+    iconsId,
+    <IconTabBar
+      tabs={tabs}
+      selectedTab={selectedTab}
+      onTabSelected={onTabSelected}
+    />,
+  );
+
+  return tabs.length > 0
     ? html`
         <div class="grid-section" id="${htmlId}">
           <h2 class="grid-section__header">${heading}</h2>
-          ${iconTabBarTemplate(tabs, selectedTab, onTabSelected)}
+          <div id="${iconsId}" class="react-root"></div>
           ${incentives.length > 0
             ? cardCollectionTemplate(incentives)
             : noResultsTemplate(emailSubmitter)}
         </div>
       `
     : nothing;
+};
 /**
  * Renders a grid of tab-bar switchable incentive cards about the projects you
  * selected in the main form, then a grid of tab-bar switchable incentive cards
@@ -583,6 +596,7 @@ export const stateIncentivesTemplate = (
   );
 
   return html`${gridTemplate(
+      registerReactElement,
       msg('Incentives you’re interested in'),
       'interested-incentives',
       selectedIncentives,
@@ -592,6 +606,7 @@ export const stateIncentivesTemplate = (
       emailSubmitter,
     )}
     ${gridTemplate(
+      registerReactElement,
       msg('Other incentives available to you'),
       'other-incentives',
       selectedOtherIncentives,
