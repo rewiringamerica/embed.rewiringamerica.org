@@ -1,13 +1,13 @@
 import { msg, str } from '@lit/localize';
-import { css, html, nothing } from 'lit';
+import { css } from 'lit';
+import { FC, Key, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { AuthorityLogos } from './authority-logos';
 import { wasEmailSubmitted } from './email-signup';
 import { IconTabBar } from './icon-tab-bar';
-import { exclamationPoint, upRightArrow } from './icons';
+import { ExclamationPoint, UpRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
-import { RewiringAmericaStateCalculator } from './state-calculator';
 
 export const stateIncentivesStyles = css`
   /* for now, override these variables just for the state calculator */
@@ -263,7 +263,7 @@ export const separatorStyles = css`
   }
 `;
 
-const titleTemplate = (incentive: Incentive) => {
+const formatTitle = (incentive: Incentive) => {
   const item = itemName(incentive.item.type);
   const amount = incentive.amount;
   if (amount.type === 'dollar_amount') {
@@ -303,7 +303,7 @@ const titleTemplate = (incentive: Incentive) => {
           },
         );
   } else {
-    return nothing;
+    return null;
   }
 };
 
@@ -376,38 +376,40 @@ const isIRARebate = (incentive: Incentive) =>
   incentive.authority_type === 'federal';
 
 /** TODO get real dates in the data! */
-const startDateTemplate = (incentive: Incentive) =>
-  isIRARebate(incentive)
-    ? html`<div class="incentive__chip incentive__chip--warning">
-        ${exclamationPoint()} ${msg('Expected in 2024')}
-      </div>`
-    : nothing;
+const renderStartDate = (incentive: Incentive) =>
+  isIRARebate(incentive) ? (
+    <div className="incentive__chip incentive__chip--warning">
+      <ExclamationPoint w={16} h={16} /> {msg('Expected in 2024')}
+    </div>
+  ) : null;
 
-const incentiveCardTemplate = (incentive: Incentive) => html`
-  <div class="card">
-    <div class="card-content">
-      <div class="incentive">
-        <div class="incentive__chip">${formatIncentiveType(incentive)}</div>
-        <div class="incentive__title">${titleTemplate(incentive)}</div>
-        <div class="incentive__subtitle">${incentive.program}</div>
-        <div class="separator separator--nosmall"></div>
-        <div class="incentive__blurb">${incentive.short_description}</div>
-        ${startDateTemplate(incentive)}
+const renderIncentiveCard = (key: Key, incentive: Incentive) => (
+  <div className="card" key={key}>
+    <div className="card-content">
+      <div className="incentive">
+        <div className="incentive__chip">{formatIncentiveType(incentive)}</div>
+        <div className="incentive__title">{formatTitle(incentive)}</div>
+        <div className="incentive__subtitle">{incentive.program}</div>
+        <div className="separator separator--nosmall"></div>
+        <div className="incentive__blurb">{incentive.short_description}</div>
+        {renderStartDate(incentive)}
         <a
-          class="incentive__link-button"
+          className="incentive__link-button"
           target="_blank"
-          href="${incentive.program_url ?? incentive.item.url}"
+          href={incentive.program_url ?? incentive.item.url}
         >
-          ${incentive.program_url ? msg('Visit site') : msg('Learn more')}
-          ${incentive.program_url ? upRightArrow() : nothing}
+          {incentive.program_url ? msg('Visit site') : msg('Learn more')}
+          {incentive.program_url ? <UpRightArrow w={20} h={20} /> : null}
         </a>
       </div>
     </div>
   </div>
-`;
+);
+function scrollToForm(event: React.MouseEvent) {
+  const calculator = (
+    event.currentTarget.getRootNode() as ShadowRoot
+  )?.querySelector('.calculator');
 
-function scrollToForm(this: RewiringAmericaStateCalculator) {
-  const calculator = this.shadowRoot?.querySelector('.calculator');
   if (!calculator) {
     return;
   }
@@ -419,120 +421,133 @@ function scrollToForm(this: RewiringAmericaStateCalculator) {
   });
 }
 
-const onSubmitEmail = (
-  e: SubmitEvent,
-  submitEmail: (email: string) => void,
-) => {
-  e.preventDefault();
-  const email = new FormData(e.target as HTMLFormElement).get('email');
-  if (email) {
-    submitEmail!(email as string);
-  }
-};
-
 // TODO: don't reuse card CSS here, make something standalone
-const noResultsTemplate = (
-  emailSubmitter: ((email: string) => void) | null,
-) => {
-  const emailForm =
-    emailSubmitter === null
-      ? nothing
-      : wasEmailSubmitted()
-      ? html`
-          <div class="separator"></div>
-          <div class="noresults__cta">
-            ${msg('You’re subscribed to our newsletter!')}
-          </div>
-          <div class="noresults__subtext">
-            ${msg(
-              'You’ll get updates on incentives, rebates, and more from Rewiring America.',
-            )}
-          </div>
-        `
-      : html`
-          <div class="separator"></div>
-          <div class="noresults__cta">
-            ${msg(
-              'To get updates on new incentives, subscribe to our newsletter!',
-            )}
-          </div>
-          <form @submit=${(e: SubmitEvent) => onSubmitEmail(e, emailSubmitter)}>
-            <div class="noresults__form">
-              <input
-                type="email"
-                autocomplete="email"
-                placeholder=${msg('you@example.com', {
-                  desc: 'example email address',
-                })}
-                name="email"
-                aria-label=${msg('Email address')}
-              />
-              <button class="primary">
-                ${msg('Subscribe', { desc: 'button text' })}
-              </button>
-            </div>
-          </form>
-        `;
+const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
+  const [email, setEmail] = useState('');
 
-  return html`<div class="card card--null">
-    <div class="card-content card-content--null">
-      <h1 class="noresults__title">
-        ${msg('No incentives available for this project')}
-      </h1>
-      <p>
-        ${msg(
-          'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
-        )}
-      </p>
-      <button class="text-button" @click=${scrollToForm}>
-        ${msg('Back to calculator')}
-      </button>
-      ${emailForm}
+  const emailForm =
+    emailSubmitter === null ? null : wasEmailSubmitted() ? (
+      <>
+        <div className="separator"></div>
+        <div className="noresults__cta">
+          {msg('You’re subscribed to our newsletter!')}
+        </div>
+        <div className="noresults__subtext">
+          {msg(
+            'You’ll get updates on incentives, rebates, and more from Rewiring America.',
+          )}
+        </div>
+      </>
+    ) : (
+      <>
+        <div className="separator"></div>
+        <div className="noresults__cta">
+          {msg(
+            'To get updates on new incentives, subscribe to our newsletter!',
+          )}
+        </div>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            if (email) {
+              emailSubmitter(email);
+            }
+          }}
+        >
+          <div className="noresults__form">
+            <input
+              type="email"
+              autoComplete="email"
+              placeholder={msg('you@example.com', {
+                desc: 'example email address',
+              })}
+              name="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              aria-label={msg('Email address')}
+              required
+            />
+            <button className="primary">
+              {msg('Subscribe', { desc: 'button text' })}
+            </button>
+          </div>
+        </form>
+      </>
+    );
+
+  return (
+    <div className="card card--null">
+      <div className="card-content card-content--null">
+        <h1 className="noresults__title">
+          {msg('No incentives available for this project')}
+        </h1>
+        <p>
+          {msg(
+            'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
+          )}
+        </p>
+        <button className="text-button" onClick={scrollToForm}>
+          {msg('Back to calculator')}
+        </button>
+        {emailForm}
+      </div>
     </div>
-  </div>`;
+  );
 };
 
-const cardCollectionTemplate = (incentives: Incentive[]) =>
-  html`<div class="grid-3-2-1 grid-3-2-1--align-start">
-    ${incentives
+const renderCardCollection = (incentives: Incentive[]) => (
+  <div className="grid-3-2-1 grid-3-2-1--align-start">
+    {incentives
       // Put IRA rebates after everything else
       .sort((a, b) => +isIRARebate(a) - +isIRARebate(b))
-      .map(incentiveCardTemplate)}
-  </div>`;
+      .map((incentive, index) => renderIncentiveCard(index, incentive))}
+  </div>
+);
 
-const gridTemplate = (
-  registerReactElement: (rootId: string, element: React.ReactElement) => void,
-
-  heading: string,
-  htmlId: string,
-  incentives: Incentive[],
-  tabs: Project[],
-  selectedTab: Project,
-  onTabSelected: (newSelection: Project) => void,
-  emailSubmitter: ((email: string) => void) | null,
-) => {
-  const iconsId = `${htmlId}-icons`;
-  registerReactElement(
-    iconsId,
-    <IconTabBar
-      tabs={tabs}
-      selectedTab={selectedTab}
-      onTabSelected={onTabSelected}
-    />,
-  );
-
-  return tabs.length > 0
-    ? html`
-        <div class="grid-section" id="${htmlId}">
-          <h2 class="grid-section__header">${heading}</h2>
-          <div id="${iconsId}" class="react-root"></div>
-          ${incentives.length > 0
-            ? cardCollectionTemplate(incentives)
-            : noResultsTemplate(emailSubmitter)}
-        </div>
-      `
-    : nothing;
+type IncentiveGridProps = {
+  heading: string;
+  htmlId: string;
+  incentives: Incentive[];
+  tabs: Project[];
+  selectedTab: Project;
+  onTabSelected: (newSelection: Project) => void;
+  emailSubmitter: ((email: string) => void) | null;
 };
+
+const IncentiveGrid: FC<IncentiveGridProps> = ({
+  heading,
+  htmlId,
+  incentives,
+  tabs,
+  selectedTab,
+  onTabSelected,
+  emailSubmitter,
+}) => {
+  return tabs.length > 0 ? (
+    <div className="grid-section" id={htmlId}>
+      <h2 className="grid-section__header">{heading}</h2>
+      <IconTabBar
+        tabs={tabs}
+        selectedTab={selectedTab}
+        onTabSelected={onTabSelected}
+      />
+      {incentives.length > 0
+        ? renderCardCollection(incentives)
+        : renderNoResults(emailSubmitter)}
+    </div>
+  ) : null;
+};
+
+type Props = {
+  response: APIResponse;
+  selectedProjects: Project[];
+  onOtherTabSelected: (newOtherSelection: Project) => void;
+  onTabSelected: (newSelection: Project) => void;
+  emailSubmitter: ((email: string) => void) | null;
+  selectedOtherTab?: Project;
+  selectedProjectTab?: Project;
+};
+
 /**
  * Renders a grid of tab-bar switchable incentive cards about the projects you
  * selected in the main form, then a grid of tab-bar switchable incentive cards
@@ -543,16 +558,15 @@ const gridTemplate = (
  * @param selectedOtherTab The project among the "others" section whose tab is
  * currently selected.
  */
-export const stateIncentivesTemplate = (
-  registerReactElement: (rootId: string, element: React.ReactElement) => void,
-  response: APIResponse,
-  selectedProjects: Project[],
-  onOtherTabSelected: (newOtherSelection: Project) => void,
-  onTabSelected: (newSelection: Project) => void,
-  emailSubmitter: ((email: string) => void) | null,
-  selectedOtherTab?: Project,
-  selectedProjectTab?: Project,
-) => {
+export const StateIncentives: FC<Props> = ({
+  response,
+  selectedProjects,
+  onOtherTabSelected,
+  onTabSelected,
+  emailSubmitter,
+  selectedOtherTab,
+  selectedProjectTab,
+}) => {
   const allEligible = response.incentives.filter(i => i.eligible);
 
   const incentivesByProject = Object.fromEntries(
@@ -576,6 +590,7 @@ export const stateIncentivesTemplate = (
     .filter(project => !interestedProjects.includes(project))
     .sort((a, b) => shortLabel(a).localeCompare(shortLabel(b)));
 
+  // If a nonexistent tab is selected, pretend the first one is selected.
   const projectTab =
     selectedProjectTab && interestedProjects.includes(selectedProjectTab)
       ? selectedProjectTab
@@ -589,33 +604,28 @@ export const stateIncentivesTemplate = (
   const selectedIncentives = incentivesByProject[projectTab] ?? [];
   const selectedOtherIncentives = incentivesByProject[otherTab] ?? [];
 
-  // Render any React components
-  registerReactElement(
-    'authority-logos',
-    <AuthorityLogos response={response} />,
+  return (
+    <>
+      <IncentiveGrid
+        heading={msg('Incentives you’re interested in')}
+        htmlId="interested-incentives"
+        incentives={selectedIncentives}
+        tabs={interestedProjects}
+        selectedTab={projectTab}
+        onTabSelected={onTabSelected}
+        emailSubmitter={emailSubmitter}
+      />
+      <IncentiveGrid
+        heading={msg('Other incentives available to you')}
+        htmlId="other-incentives"
+        incentives={selectedOtherIncentives}
+        tabs={otherProjects}
+        selectedTab={otherTab}
+        onTabSelected={onOtherTabSelected}
+        // We won't show the empty state in this seciton, so no email submission
+        emailSubmitter={null}
+      />
+      <AuthorityLogos response={response} />
+    </>
   );
-
-  return html`${gridTemplate(
-      registerReactElement,
-      msg('Incentives you’re interested in'),
-      'interested-incentives',
-      selectedIncentives,
-      interestedProjects,
-      projectTab,
-      onTabSelected,
-      emailSubmitter,
-    )}
-    ${gridTemplate(
-      registerReactElement,
-      msg('Other incentives available to you'),
-      'other-incentives',
-      selectedOtherIncentives,
-      otherProjects,
-      // If a nonexistent tab is selected, pretend the first one is selected.
-      otherTab,
-      onOtherTabSelected,
-      // We won't show the empty state in this seciton, so no email submission
-      null,
-    )}
-    <div id="authority-logos" class="react-root"></div>`;
 };
