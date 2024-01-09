@@ -13,7 +13,11 @@ export type AmiQualification =
   | 'less_than_80_ami'
   | 'more_than_80_ami'
   | 'less_than_150_ami';
-export type FilingStatus = 'single' | 'joint' | 'hoh';
+export type FilingStatus =
+  | 'single'
+  | 'joint'
+  | 'hoh'
+  | 'married_filing_separately';
 
 export interface IIncentiveRecord {
   type: IncentiveType;

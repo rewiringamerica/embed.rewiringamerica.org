@@ -3,7 +3,7 @@ import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 import { css } from 'lit';
 import { FC } from 'react';
 import { PROJECTS, Project, shortLabel } from './projects';
-import { Select } from './select';
+import { OptionParam, Select } from './select';
 
 export const iconTabBarStyles = css`
   .icon-tab-bar {
@@ -114,7 +114,7 @@ export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
     );
   });
 
-  const options = tabs.map(project => ({
+  const options: OptionParam<Project>[] = tabs.map(project => ({
     value: project,
     label: PROJECTS[project].label(),
     iconURL: PROJECTS[project].iconURL,
@@ -131,9 +131,7 @@ export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
           aria-label={msg('Project', { desc: 'label for a selector input' })}
           currentValue={selectedTab}
           options={options}
-          onChange={event =>
-            onTabSelected((event.target as HTMLInputElement).value as Project)
-          }
+          onChange={project => onTabSelected(project)}
         />
       </div>
     </>

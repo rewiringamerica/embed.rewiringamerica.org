@@ -1,4 +1,3 @@
-import { SlChangeEvent } from '@shoelace-style/shoelace';
 import SlSelectComponent from '@shoelace-style/shoelace/dist/components/select/select';
 import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 import SlOption from '@shoelace-style/shoelace/dist/react/option';
@@ -8,32 +7,32 @@ import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/ligh
 import { css, unsafeCSS } from 'lit';
 import { useEffect, useRef } from 'react';
 
-export interface OptionParam {
+export interface OptionParam<T extends string> {
   label: string;
-  value: string;
+  value: T;
   iconURL?: URL;
 }
 
-interface SLSelectProps {
+interface SLSelectProps<T extends string> {
   id: string;
   labelSlot?: React.ReactElement;
-  options: OptionParam[];
+  options: OptionParam<T>[];
   helpText?: string;
   placeholder?: string;
   placement?: 'top' | 'bottom';
   required?: boolean;
   disabled?: boolean;
   ariaLabel?: string;
-  onChange?: (event: SlChangeEvent) => void;
 }
 
-export interface SingleSelectProps extends SLSelectProps {
-  currentValue: string;
+export interface SingleSelectProps<T extends string> extends SLSelectProps<T> {
+  currentValue: T;
+  onChange?: (newValue: T) => void;
   loading?: boolean;
 }
 
-export interface MultiSelectProps extends SLSelectProps {
-  currentValues: string[];
+export interface MultiSelectProps<T extends string> extends SLSelectProps<T> {
+  currentValues: T[];
   maxOptionsVisible?: number;
 }
 
@@ -58,7 +57,11 @@ const handleTabDown = (e: React.KeyboardEvent) => {
   }
 };
 
-const option = ({ label, value, iconURL }: OptionParam) => {
+const option = <T extends string>({
+  label,
+  value,
+  iconURL,
+}: OptionParam<T>) => {
   const iconElement = iconURL ? (
     <SlIcon
       slot="prefix"
@@ -74,7 +77,7 @@ const option = ({ label, value, iconURL }: OptionParam) => {
   );
 };
 
-export const Select = ({
+export const Select = <T extends string>({
   id,
   labelSlot,
   options,
@@ -87,7 +90,7 @@ export const Select = ({
   required,
   disabled = false,
   loading = false,
-}: SingleSelectProps) => {
+}: SingleSelectProps<T>) => {
   const currentOption = options.find(option => option.value === currentValue);
   const prefixIcon = currentOption?.iconURL ? (
     <SlIcon src={currentOption.iconURL.toString()} slot="prefix"></SlIcon>
@@ -104,7 +107,11 @@ export const Select = ({
         helpText={helpText}
         placeholder={placeholder}
         placement={placement ?? 'bottom'}
-        onSlChange={onChange}
+        onSlChange={
+          onChange
+            ? e => onChange((e.currentTarget as SlSelectComponent).value as T)
+            : () => {}
+        }
         aria-label={ariaLabel}
         required={required}
         disabled={disabled}
@@ -121,7 +128,7 @@ export const Select = ({
   );
 };
 
-export const MultiSelect = ({
+export const MultiSelect = <T extends string>({
   id,
   labelSlot,
   currentValues,
@@ -130,7 +137,7 @@ export const MultiSelect = ({
   placeholder,
   maxOptionsVisible,
   placement,
-}: MultiSelectProps) => {
+}: MultiSelectProps<T>) => {
   const ref = useRef<SlSelectComponent>(null);
 
   // Customize the tag that appears in the combo box.

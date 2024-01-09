@@ -5,6 +5,7 @@ import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/ligh
 import { TemplateResult, css, html, nothing, unsafeCSS } from 'lit';
 import { live } from 'lit/directives/live';
 import { APIUtilitiesResponse } from './api/calculator-types-v1';
+import { FilingStatus, OwnerStatus } from './calculator-types';
 import './currency-input';
 import { PROJECTS } from './projects';
 import { MultiSelect, OptionParam, Select, selectStyles } from './select';
@@ -124,12 +125,12 @@ export const formStyles = [
   selectStyles,
 ];
 
-const OWNER_STATUS_OPTIONS: () => OptionParam[] = () => [
+const OWNER_STATUS_OPTIONS: () => OptionParam<OwnerStatus>[] = () => [
   { value: 'homeowner', label: msg('Homeowner') },
   { value: 'renter', label: msg('Renter') },
 ];
 
-const TAX_FILING_OPTIONS: () => OptionParam[] = () => [
+const TAX_FILING_OPTIONS: () => OptionParam<FilingStatus>[] = () => [
   { value: 'single', label: msg('Single') },
   { value: 'joint', label: msg('Married filing jointly') },
   {
@@ -139,13 +140,16 @@ const TAX_FILING_OPTIONS: () => OptionParam[] = () => [
   { value: 'hoh', label: msg('Head of household') },
 ];
 
-const HOUSEHOLD_SIZE_OPTIONS: () => OptionParam[] = () =>
-  [1, 2, 3, 4, 5, 6, 7, 8].map(count => ({
+const HH_SIZES = ['1', '2', '3', '4', '5', '6', '7', '8'] as const;
+const HOUSEHOLD_SIZE_OPTIONS: () => OptionParam<
+  (typeof HH_SIZES)[number]
+>[] = () =>
+  HH_SIZES.map(count => ({
     label:
-      count === 1
+      count === '1'
         ? msg('1 person')
         : msg(str`${count} people`, { desc: 'count is greater than 1' }),
-    value: count.toString(),
+    value: count,
   }));
 
 type FormOptions = {
@@ -176,7 +180,7 @@ const renderUtilityField = (
     msg('Choose the company you pay your electric bill to.'),
     tooltipSize,
   );
-  const options: OptionParam[] =
+  const options: OptionParam<string>[] =
     task.status === TaskStatus.COMPLETE
       ? Object.entries(task.value!.utilities).map(([id, info]) => ({
           value: id,
