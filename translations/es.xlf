@@ -278,8 +278,8 @@
   <source>Cooking</source>
   <note from="lit-localize">short label for stove/range incentives</note>
 <target>Cocina</target></trans-unit>
-<trans-unit id="sf3affd5c9f2915e1">
-  <source>Arizona *calculate ID</source>
+<trans-unit id="sf12bd6cb13bc154f">
+  <source>Arizona</source>
   <target>Arizona</target>
 </trans-unit>
 <trans-unit id="sf3affd5c9f2915e0">
@@ -293,6 +293,10 @@
 <trans-unit id="sb5b955a693af9c2e">
   <source>Virginia</source>
   <target>Virginia</target>
+</trans-unit>
+<trans-unit id="s1af1b11106c11c94">
+  <source>Vermont</source>
+  <target>Vermont</target>
 </trans-unit>
 <trans-unit id="sd779d8c944d0ab51">
   <source>No incentives available for this project</source>
