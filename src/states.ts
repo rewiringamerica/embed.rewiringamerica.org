@@ -11,6 +11,10 @@ export type StateInfo = {
  * States that are supported for customization.
  */
 export const STATES: Record<string, StateInfo> = {
+  AZ: {
+    name: () => msg('Arizona'),
+    iconURL: new URL('/static/states/AZ.svg', import.meta.url),
+  },
   CT: {
     name: () => msg('Connecticut'),
     iconURL: new URL('/static/states/CT.svg', import.meta.url),
@@ -26,5 +30,9 @@ export const STATES: Record<string, StateInfo> = {
   VA: {
     name: () => msg('Virginia'),
     iconURL: new URL('/static/states/VA.svg', import.meta.url),
+  },
+  VT: {
+    name: () => msg('Vermont'),
+    iconURL: new URL('/static/states/VT.svg', import.meta.url),
   },
 };
