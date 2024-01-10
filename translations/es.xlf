@@ -144,9 +144,6 @@
 <trans-unit id="sae79f47e1f8205fc">
   <source>That ZIP code is not in <x id="0" equiv-text="${stateCodeOrName}"/>.</source>
 <target>Ese código postal no está en <x id="0" equiv-text="${stateCodeOrName}"/>.</target></trans-unit>
-<trans-unit id="hfe81d5d73a35a2cf">
-  <source>Calculate</source>
-<target>Calcular</target></trans-unit>
 <trans-unit id="s57fde82075d7665d">
   <source>Your household info</source>
 <target>Información de su hogar</target></trans-unit>
@@ -358,6 +355,10 @@
   <source>Subscribe</source>
   <target>Suscribirse</target>
   <note from="lit-localize">button text</note>
+</trans-unit>
+<trans-unit id="sfe81d5d73a35a2cf">
+  <source>Calculate</source>
+  <target>Calcular</target>
 </trans-unit>
 </body>
 </file>

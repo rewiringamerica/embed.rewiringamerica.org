@@ -2,13 +2,11 @@
 // Re-generate this file by running lit-localize
 
 import { str } from '@lit/localize';
-import { html } from 'lit';
 
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export const templates = {
-  hfe81d5d73a35a2cf: html`Calcular`,
   s07ecbff17886eb50: `un vehículo eléctrico usado`,
   s08fb6007b5965c82: `Vehículo eléctrico`,
   s12603afef80b713c: `Estufa/cocina`,
@@ -108,4 +106,5 @@ export const templates = {
   sfa7338035e1ef173: `Alquilar o poseer`,
   sfc7214f623fe475d: `Selecciona la empresa a la que paga su factura de electricidad.`,
   sfe16afc784bb9d76: `Tejado solar`,
+  sfe81d5d73a35a2cf: `Calcular`,
 };
