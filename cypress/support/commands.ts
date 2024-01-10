@@ -45,6 +45,7 @@ declare global {
     interface Chainable {
       isInViewport(): void;
       isNotInViewport(): void;
+      selectProjects(projects: string[]): void;
     }
   }
 }
@@ -78,5 +79,30 @@ Cypress.Commands.add(
         expect(rect.top >= 0 && rect.top < bottom).to.be.true;
       });
     });
+  },
+);
+
+Cypress.Commands.add(
+  'selectProjects',
+  { prevSubject: false },
+  (projects: string[]) => {
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .find('sl-select#projects')
+      .click();
+
+    projects.forEach(project =>
+      cy
+        .get('rewiring-america-state-calculator')
+        .shadow()
+        .find(`sl-option[value="${project}"]`)
+        .click(),
+    );
+
+    // Unfocus the project selector
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .find('sl-select#projects')
+      .click();
   },
 );
