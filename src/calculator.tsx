@@ -1,9 +1,9 @@
 import { Task, initialState } from '@lit-labs/task';
-import { LitElement, html, nothing } from 'lit';
+import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Root } from 'react-dom/client';
 import { fetchApi } from './api/fetch';
-import { CALCULATOR_FOOTER } from './calculator-footer';
+import { CalculatorFooter } from './calculator-footer';
 import { CalculatorForm, FormValues, formStyles } from './calculator-form';
 import {
   FilingStatus,
@@ -11,8 +11,8 @@ import {
   OwnerStatus,
 } from './calculator-types';
 import { DownIcon } from './icons';
-import { detailsStyles, detailsTemplate } from './incentive-details';
-import { summaryStyles, summaryTemplate } from './incentive-summary';
+import { IncentiveDetails, detailsStyles } from './incentive-details';
+import { IncentiveSummary, summaryStyles } from './incentive-summary';
 import { renderReactElements } from './react-roots';
 import { baseStyles, cardStyles, gridStyles } from './styles';
 
@@ -20,23 +20,23 @@ const loadedTemplate = (
   results: ICalculatedIncentiveResults,
   hideDetails: boolean,
   hideSummary: boolean,
-) => html`
-  ${hideSummary ? nothing : summaryTemplate(results)}
-  ${hideDetails ? nothing : detailsTemplate(results)}
-`;
+) => (
+  <>
+    {hideSummary ? null : <IncentiveSummary results={results} />}
+    {hideDetails ? null : <IncentiveDetails results={results} />}
+  </>
+);
 
-const loadingTemplate = () => html`
-  <div class="card card-content">Loading...</div>
-`;
-
-const errorTemplate = (error: unknown) => html`
-  <div class="card card-content">
-    ${typeof error === 'object' && error && 'message' in error && error.message
-      ? error.message
+const loadingTemplate = () => (
+  <div className="card card-content">Loading...</div>
+);
+const errorTemplate = (error: unknown) => (
+  <div className="card card-content">
+    {typeof error === 'object' && error && 'message' in error && error.message
+      ? (error.message as string)
       : 'Error loading incentives.'}
   </div>
-`;
-
+);
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
 
 @customElement('rewiring-america-calculator')
@@ -151,50 +151,47 @@ export class RewiringAmericaCalculator extends LitElement {
   });
 
   override render() {
-    if (!this.hideForm) {
-      this.reactElements.set(
-        'form',
-        <CalculatorForm
-          initialValues={{
-            zip: this.zip,
-            ownerStatus: this.ownerStatus,
-            householdIncome: this.householdIncome,
-            taxFiling: this.taxFiling,
-            householdSize: this.householdSize,
-          }}
-          tooltipSize={18}
-          showEmailField={false}
-          showProjectField={false}
-          calculateButtonContent={
-            <>
-              Calculate! <DownIcon w={18} h={18} />
-            </>
-          }
-          onSubmit={e => this.submit(e)}
-        />,
-      );
-    }
-
-    return html`
-      <div class="calculator">
-        <div class="card card-content">
+    const calculator = (
+      <>
+        <div className="card card-content">
           <h1>How much money will you get with the Inflation Reduction Act?</h1>
-          ${this.hideForm
-            ? nothing
-            : html`<div id="form" class="react-root"></div>`}
+          {this.hideForm ? null : (
+            <CalculatorForm
+              initialValues={{
+                zip: this.zip,
+                ownerStatus: this.ownerStatus,
+                householdIncome: this.householdIncome,
+                taxFiling: this.taxFiling,
+                householdSize: this.householdSize,
+              }}
+              tooltipSize={18}
+              showEmailField={false}
+              showProjectField={false}
+              calculateButtonContent={
+                <>
+                  Calculate! <DownIcon w={18} h={18} />
+                </>
+              }
+              onSubmit={e => this.submit(e)}
+            />
+          )}
         </div>
-        ${this.hideResult
-          ? nothing
-          : html`
-              ${this._task.render({
-                pending: loadingTemplate,
-                complete: results =>
-                  loadedTemplate(results, this.hideDetails, this.hideSummary),
-                error: errorTemplate,
-              })}
-            `}
-      </div>
-      ${CALCULATOR_FOOTER()}
+        {this.hideResult
+          ? null
+          : this._task.render({
+              pending: loadingTemplate,
+              complete: results =>
+                loadedTemplate(results, this.hideDetails, this.hideSummary),
+              error: errorTemplate,
+            })}
+      </>
+    );
+
+    this.reactElements.set('calc-root', calculator);
+    this.reactElements.set('calc-footer', <CalculatorFooter />);
+    return html`
+      <div class="calculator" id="calc-root"></div>
+      <div id="calc-footer"></div>
     `;
   }
 

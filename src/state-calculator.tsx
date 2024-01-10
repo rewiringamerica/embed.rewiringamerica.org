@@ -2,7 +2,7 @@ import { Task, initialState } from '@lit-labs/task';
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { fetchApi } from './api/fetch';
-import { CALCULATOR_FOOTER } from './calculator-footer';
+import { CalculatorFooter } from './calculator-footer';
 import { CalculatorForm, FormValues, formStyles } from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { iconTabBarStyles } from './icon-tab-bar';
@@ -470,9 +470,10 @@ export class RewiringAmericaStateCalculator extends LitElement {
     );
 
     this.reactElements.set('calc-root', calculator);
+    this.reactElements.set('calc-footer', <CalculatorFooter />);
     return html`
       <div class="calculator" id="calc-root"></div>
-      ${CALCULATOR_FOOTER()}
+      <div id="calc-footer"></div>
     `;
   }
 }
