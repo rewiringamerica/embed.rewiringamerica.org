@@ -273,12 +273,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
 
   submit(formValues: FormValues) {
     this.zip = formValues.zip;
-    this.ownerStatus = formValues.ownerStatus as OwnerStatus;
+    this.ownerStatus = formValues.ownerStatus;
     this.householdIncome = formValues.householdIncome;
     this.householdSize = formValues.householdSize;
-    this.taxFiling = formValues.taxFiling as FilingStatus;
+    this.taxFiling = formValues.taxFiling;
     this.utility = formValues.utility || '';
-    this.projects = (formValues.projects as Project[]) || [];
+    this.projects = formValues.projects || [];
 
     safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, formValues);
 
