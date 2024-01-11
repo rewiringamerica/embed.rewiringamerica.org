@@ -68,7 +68,7 @@ const waitAndScrollTo = (shadowRoot: ShadowRoot, selector: string) => {
         scrollMode: 'if-needed',
       });
     }
-  }, 1); // To let the React render happen
+  }, 10); // To let the React render happen
 };
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
