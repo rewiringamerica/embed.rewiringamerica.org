@@ -23,6 +23,9 @@ module.exports = {
         '3xl': '2rem', // 32px
         '4xl': '2.25rem', // 36px
       },
+      minWidth: {
+        24: '6rem',
+      },
     },
   },
   plugins: [],

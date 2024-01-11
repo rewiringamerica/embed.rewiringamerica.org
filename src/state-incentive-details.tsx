@@ -8,6 +8,7 @@ import { wasEmailSubmitted } from './email-signup';
 import { IconTabBar } from './icon-tab-bar';
 import { ExclamationPoint, UpRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
+import { Separator } from './separator';
 
 export const stateIncentivesStyles = css`
   /* for now, override these variables just for the state calculator */
@@ -42,11 +43,6 @@ export const stateIncentivesStyles = css`
     --ra-input-focus-color: var(--rewiring-purple);
     --ra-input-margin: 0;
     --ra-input-padding: 0.5rem 0.75rem;
-  }
-
-  .loading {
-    text-align: center;
-    font-size: 2rem;
   }
 
   .incentive {
@@ -249,20 +245,6 @@ export const cardStyles = css`
   }
 `;
 
-export const separatorStyles = css`
-  .separator {
-    background: #e2e2e2;
-    width: 100%;
-    height: 1px;
-  }
-
-  @media only screen and (max-width: 640px) {
-    .separator--nosmall {
-      display: none;
-    }
-  }
-`;
-
 const formatTitle = (incentive: Incentive) => {
   const item = itemName(incentive.item.type);
   const amount = incentive.amount;
@@ -390,7 +372,7 @@ const renderIncentiveCard = (key: Key, incentive: Incentive) => (
         <div className="incentive__chip">{formatIncentiveType(incentive)}</div>
         <div className="incentive__title">{formatTitle(incentive)}</div>
         <div className="incentive__subtitle">{incentive.program}</div>
-        <div className="separator separator--nosmall"></div>
+        <Separator hideOnSmall={true} />
         <div className="incentive__blurb">{incentive.short_description}</div>
         {renderStartDate(incentive)}
         <a
@@ -428,7 +410,7 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
   const emailForm =
     emailSubmitter === null ? null : wasEmailSubmitted() ? (
       <>
-        <div className="separator"></div>
+        <Separator />
         <div className="noresults__cta">
           {msg('You’re subscribed to our newsletter!')}
         </div>
@@ -440,7 +422,7 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
       </>
     ) : (
       <>
-        <div className="separator"></div>
+        <Separator />
         <div className="noresults__cta">
           {msg(
             'To get updates on new incentives, subscribe to our newsletter!',
