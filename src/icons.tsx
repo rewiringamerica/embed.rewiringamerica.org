@@ -6,26 +6,34 @@ export type IconProps = {
   h: number;
 };
 
-export const downIcon = (w: number, h: number) => html`<svg
-  xmlns="http://www.w3.org/2000/svg"
-  focusable="false"
-  aria-hidden="true"
-  viewBox="0 0 17 15"
-  style="width: ${w}px; height: ${h}px; opacity: 0.5; fill: none; vertical-align: text-top;"
->
-  <path
-    d="M1.90137 1.92651L8.98672 7.62669C9.0241 7.65676 9.07756 7.65605 9.11413 7.62499L15.8241 1.92651"
-    stroke="black"
-    stroke-width="2"
-    stroke-linecap="round"
-  ></path>
-  <path
-    d="M1.90137 7.67859L8.98672 13.3788C9.0241 13.4088 9.07756 13.4081 9.11413 13.3771L15.8241 7.67859"
-    stroke="black"
-    stroke-width="2"
-    stroke-linecap="round"
-  ></path>
-</svg>`;
+export const DownIcon: FC<IconProps> = ({ w, h }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    focusable="false"
+    aria-hidden="true"
+    viewBox="0 0 17 15"
+    width={w}
+    height={h}
+    style={{
+      opacity: 0.5,
+      fill: 'none',
+      verticalAlign: 'text-top',
+    }}
+  >
+    <path
+      d="M1.90137 1.92651L8.98672 7.62669C9.0241 7.65676 9.07756 7.65605 9.11413 7.62499L15.8241 1.92651"
+      stroke="black"
+      strokeWidth="2"
+      strokeLinecap="round"
+    ></path>
+    <path
+      d="M1.90137 7.67859L8.98672 13.3788C9.0241 13.4088 9.07756 13.4081 9.11413 13.3771L15.8241 7.67859"
+      stroke="black"
+      strokeWidth="2"
+      strokeLinecap="round"
+    ></path>
+  </svg>
+);
 
 export const QuestionIcon: FC<IconProps> = ({ w, h }) => (
   <svg

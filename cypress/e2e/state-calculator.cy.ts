@@ -26,10 +26,7 @@ describe('rewiring-america-state-calculator', () => {
   });
 
   it('fetches results if you submit after entering a RI zip code', () => {
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .find('sl-select#projects')
-      .invoke('attr', 'value', 'hvac');
+    cy.selectProjects(['hvac']);
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
@@ -92,20 +89,19 @@ describe('rewiring-america-state-calculator', () => {
   });
 
   it('shows an empty state if you are not eligible for any incentives for your chosen project', () => {
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .find('sl-select#projects')
-      .invoke('attr', 'value', 'cooking');
+    cy.selectProjects(['cooking']);
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .find('#zip')
       .type('02859');
 
+    // "force" to work around a Cypress bug
+    // https://github.com/cypress-io/cypress/issues/5830
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .find('#household_income')
-      .type('200000{enter}');
+      .type('200000{enter}', { force: true });
 
     // make sure we saw an empty result state, and scroll down to it:
     cy.get('rewiring-america-state-calculator')

@@ -14,10 +14,7 @@ describe('rewiring-america-state-calculator events', () => {
       element.get(0).addEventListener('calculator-submitted', submit);
     });
 
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .find('sl-select#projects')
-      .invoke('attr', 'value', 'hvac ev');
+    cy.selectProjects(['hvac', 'ev']);
 
     cy.get('rewiring-america-state-calculator')
       .shadow()

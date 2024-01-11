@@ -4,13 +4,13 @@ import { customElement, property } from 'lit/decorators.js';
 import { Root } from 'react-dom/client';
 import { fetchApi } from './api/fetch';
 import { CALCULATOR_FOOTER } from './calculator-footer';
-import { formStyles, formTemplate } from './calculator-form';
+import { CalculatorForm, FormValues, formStyles } from './calculator-form';
 import {
   FilingStatus,
   ICalculatedIncentiveResults,
   OwnerStatus,
 } from './calculator-types';
-import { downIcon } from './icons';
+import { DownIcon } from './icons';
 import { detailsStyles, detailsTemplate } from './incentive-details';
 import { summaryStyles, summaryTemplate } from './incentive-summary';
 import { renderReactElements } from './react-roots';
@@ -94,14 +94,12 @@ export class RewiringAmericaCalculator extends LitElement {
   reactRoots: Map<string, { reactRoot: Root; domNode: HTMLElement }> =
     new Map();
 
-  submit(e: SubmitEvent) {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    this.zip = (formData.get('zip') as string) || '';
-    this.ownerStatus = (formData.get('owner_status') as OwnerStatus) || '';
-    this.householdIncome = (formData.get('household_income') as string) || '';
-    this.taxFiling = (formData.get('tax_filing') as FilingStatus) || '';
-    this.householdSize = (formData.get('household_size') as string) || '';
+  submit(formValues: FormValues) {
+    this.zip = formValues.zip;
+    this.ownerStatus = formValues.ownerStatus;
+    this.householdIncome = formValues.householdIncome;
+    this.taxFiling = formValues.taxFiling;
+    this.householdSize = formValues.householdSize;
   }
 
   get hideResult() {
@@ -153,7 +151,29 @@ export class RewiringAmericaCalculator extends LitElement {
   });
 
   override render() {
-    const calculateButtonContent = html`Calculate! ${downIcon(18, 18)}`;
+    if (!this.hideForm) {
+      this.reactElements.set(
+        'form',
+        <CalculatorForm
+          initialValues={{
+            zip: this.zip,
+            ownerStatus: this.ownerStatus,
+            householdIncome: this.householdIncome,
+            taxFiling: this.taxFiling,
+            householdSize: this.householdSize,
+          }}
+          tooltipSize={18}
+          showEmailField={false}
+          showProjectField={false}
+          calculateButtonContent={
+            <>
+              Calculate! <DownIcon w={18} h={18} />
+            </>
+          }
+          onSubmit={e => this.submit(e)}
+        />,
+      );
+    }
 
     return html`
       <div class="calculator">
@@ -161,23 +181,7 @@ export class RewiringAmericaCalculator extends LitElement {
           <h1>How much money will you get with the Inflation Reduction Act?</h1>
           ${this.hideForm
             ? nothing
-            : formTemplate(
-                (rootId, element) => this.reactElements.set(rootId, element),
-                [
-                  this.zip,
-                  this.ownerStatus,
-                  this.householdIncome,
-                  this.taxFiling,
-                  this.householdSize,
-                ],
-                [],
-                {
-                  tooltipSize: 18,
-                  showProjectField: false,
-                  calculateButtonContent,
-                },
-                (event: SubmitEvent) => this.submit(event),
-              )}
+            : html`<div id="form" class="react-root"></div>`}
         </div>
         ${this.hideResult
           ? nothing

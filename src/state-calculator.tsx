@@ -3,7 +3,7 @@ import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { fetchApi } from './api/fetch';
 import { CALCULATOR_FOOTER } from './calculator-footer';
-import { formStyles, formTemplate } from './calculator-form';
+import { CalculatorForm, FormValues, formStyles } from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { iconTabBarStyles } from './icon-tab-bar';
 import { PROJECTS, Project } from './projects';
@@ -15,7 +15,7 @@ import {
 } from './state-incentive-details';
 import { baseStyles } from './styles';
 
-import { configureLocalization, localized, msg, str } from '@lit/localize';
+import { configureLocalization, localized, msg } from '@lit/localize';
 import '@shoelace-style/shoelace/dist/components/spinner/spinner';
 import { Root } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -26,7 +26,6 @@ import { allLocales, sourceLocale, targetLocales } from './locales/locales';
 import * as spanishLocale from './locales/strings/es';
 import { renderReactElements } from './react-roots';
 import { safeLocalStorage } from './safe-local-storage';
-import { STATES } from './states';
 
 const { setLocale } = configureLocalization({
   sourceLocale,
@@ -214,6 +213,12 @@ export class RewiringAmericaStateCalculator extends LitElement {
   reactRoots: Map<string, { reactRoot: Root; domNode: HTMLElement }> =
     new Map();
 
+  /**
+   * This is the "key" attribute of the form component. Change it to force a
+   * re-render of the form, dropping the values in its state.
+   */
+  formKey: number = 0;
+
   private getDefaultLanguage() {
     const closestLang =
       (this.closest('[lang]') as HTMLElement | null)?.lang?.split('-')?.[0] ??
@@ -261,26 +266,23 @@ export class RewiringAmericaStateCalculator extends LitElement {
       DEFAULT_TAX_FILING;
     this.projects = formValues?.projects ?? [];
     this.utility = formValues?.utility ?? DEFAULT_UTILITY;
+
+    // Force a re-render of the form
+    this.formKey++;
   }
 
-  setPropertiesFromForm(formData: FormData) {
-    this.zip = (formData.get('zip') as string) || '';
-    this.ownerStatus = (formData.get('owner_status') as OwnerStatus) || '';
-    this.householdIncome = (formData.get('household_income') as string) || '';
-    this.taxFiling = (formData.get('tax_filing') as FilingStatus) || '';
-    this.householdSize = (formData.get('household_size') as string) || '';
-    this.projects = (formData.getAll('projects') as Project[]) || '';
-    this.utility = (formData.get('utility') as string) || '';
-  }
+  submit(formValues: FormValues) {
+    this.zip = formValues.zip;
+    this.ownerStatus = formValues.ownerStatus;
+    this.householdIncome = formValues.householdIncome;
+    this.householdSize = formValues.householdSize;
+    this.taxFiling = formValues.taxFiling;
+    this.utility = formValues.utility || '';
+    this.projects = formValues.projects || [];
 
-  submit(e: SubmitEvent) {
-    e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-    this.setPropertiesFromForm(formData);
+    safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, formValues);
 
-    this.saveFormValues();
-
-    const email = (formData.get('email') || '') as string;
+    const email = formValues.email;
     if (email && !this.wasEmailSubmitted) {
       submitEmailSignup(this.apiHost, this.apiKey, email, this.zip);
       // This hides the email field
@@ -294,27 +296,10 @@ export class RewiringAmericaStateCalculator extends LitElement {
         bubbles: true,
         composed: true,
         detail: {
-          // Preserve projects as an array
-          formData: Object.fromEntries(
-            Array.from(formData.keys()).map(k =>
-              k === 'projects' ? [k, formData.getAll(k)] : [k, formData.get(k)],
-            ),
-          ),
+          formData: formValues,
         },
       }),
     );
-  }
-
-  saveFormValues() {
-    safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, {
-      zip: this.zip,
-      ownerStatus: this.ownerStatus,
-      householdIncome: this.householdIncome,
-      householdSize: this.householdSize,
-      taxFiling: this.taxFiling,
-      projects: this.projects,
-      utility: this.utility,
-    });
   }
 
   resetFormValues() {
@@ -352,51 +337,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
       this.projects
     );
   }
-
-  private _utilitiesTask = new Task(this, {
-    args: (): [string] => [this.zip],
-    task: async ([zip]: [string]) => {
-      if (!zip.match(/^\d{5}$/)) {
-        return initialState;
-      }
-
-      const query = new URLSearchParams({
-        language: this.lang,
-        include_beta_states: '' + this.includeBetaStates,
-        'location[zip]': zip,
-      });
-
-      const response = await fetchApi<APIUtilitiesResponse>(
-        this.apiKey,
-        this.apiHost,
-        '/api/v1/utilities',
-        query,
-      );
-
-      // If our "state" attribute is set, enforce that the entered location is
-      // in that state.
-      if (this.state && this.state !== response.location.state) {
-        // Throw to put the task into the ERROR state for rendering.
-        const stateCodeOrName = STATES[this.state]?.name() ?? this.state;
-        throw new Error(msg(str`That ZIP code is not in ${stateCodeOrName}.`));
-      }
-
-      return response;
-    },
-    onComplete: response => {
-      const ids = Object.keys(response.utilities);
-      if (ids.length === 0) {
-        this.utility = '';
-      } else {
-        // Preserve the previous utility selection if it's still available.
-        // Select the first option in the list otherwise.
-        if (!ids.includes(this.utility)) {
-          this.utility = ids[0];
-        }
-      }
-    },
-    onError: () => waitAndScrollTo(this.shadowRoot!, '#error-message'),
-  });
 
   private _task = new Task(this, {
     autoRun: false,
@@ -440,7 +380,42 @@ export class RewiringAmericaStateCalculator extends LitElement {
   });
 
   override render() {
-    const calculateButtonContent = msg(html`Calculate`);
+    this.reactElements.set(
+      'form',
+      <CalculatorForm
+        key={this.formKey}
+        stateId={this.state}
+        initialValues={{
+          zip: this.zip,
+          ownerStatus: this.ownerStatus,
+          householdIncome: this.householdIncome,
+          householdSize: this.householdSize,
+          taxFiling: this.taxFiling,
+          utility: this.utility,
+          projects: this.projects,
+        }}
+        showEmailField={this.showEmail && !this.wasEmailSubmitted}
+        showProjectField={true}
+        utilityFetcher={zip => {
+          const query = new URLSearchParams({
+            language: this.lang,
+            include_beta_states: '' + this.includeBetaStates,
+            'location[zip]': zip,
+          });
+
+          return fetchApi<APIUtilitiesResponse>(
+            this.apiKey,
+            this.apiHost,
+            '/api/v1/utilities',
+            query,
+          );
+        }}
+        tooltipSize={13}
+        calculateButtonContent={msg('Calculate')}
+        onSubmit={values => this.submit(values)}
+        gridClass={'grid-2-2-1 grid-2-2-1--align-start'}
+      />,
+    );
 
     return html`
       <div class="calculator">
@@ -461,30 +436,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
               'We’re dedicated to safeguarding your privacy. We never share or sell your personal information.',
             )}
           </div>
-          ${formTemplate(
-            (rootId, element) => this.reactElements.set(rootId, element),
-            [
-              this.zip,
-              this.ownerStatus,
-              this.householdIncome,
-              this.taxFiling,
-              this.householdSize,
-              this.utility,
-            ],
-            this.projects,
-            {
-              showEmailField: this.showEmail && !this.wasEmailSubmitted,
-              showProjectField: true,
-              tooltipSize: 13,
-              // This updates `this.zip`, which triggers utilities fetching
-              onZipChange: input =>
-                this.setPropertiesFromForm(new FormData(input.form!)),
-              utilitiesTask: this._utilitiesTask,
-              calculateButtonContent,
-            },
-            (event: SubmitEvent) => this.submit(event),
-            'grid-2-2-1 grid-2-2-1--align-start',
-          )}
+          <div id="form" class="react-root"></div>
         </div>
         ${this._task.render({
           initial: () => nothing,
