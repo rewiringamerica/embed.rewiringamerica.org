@@ -24,7 +24,8 @@ module.exports = {
         '4xl': '2.25rem', // 36px
       },
       minWidth: {
-        24: '6rem',
+        24: '6rem', // 96px
+        50: '12.5rem', // 200px
       },
     },
   },

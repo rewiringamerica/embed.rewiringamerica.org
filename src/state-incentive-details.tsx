@@ -414,7 +414,7 @@ const IncentiveGrid: FC<IncentiveGridProps> = ({
   emailSubmitter,
 }) => {
   return tabs.length > 0 ? (
-    <div className="min-w-52" id={htmlId}>
+    <div className="min-w-50" id={htmlId}>
       <h2 className="mb-6 text-grey-700 text-center text-balance text-3xl font-medium leading-tight">
         {heading}
       </h2>
