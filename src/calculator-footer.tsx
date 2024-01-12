@@ -9,11 +9,16 @@ export const CalculatorFooter = () => (
         {toNbsp(
           msg('Calculator by', { desc: 'followed by "Rewiring America"' }),
         )}{' '}
-        <a target="_blank" href="https://www.rewiringamerica.org">
+        <a
+          className="underline text-color-action-primary"
+          target="_blank"
+          href="https://www.rewiringamerica.org"
+        >
           Rewiring&nbsp;America
         </a>
         {' • '}
         <a
+          className="underline text-color-action-primary"
           target="_blank"
           href="https://content.rewiringamerica.org/view/privacy-policy.pdf"
         >
@@ -21,6 +26,7 @@ export const CalculatorFooter = () => (
         </a>
         {' • '}
         <a
+          className="underline text-color-action-primary"
           target="_blank"
           href="https://content.rewiringamerica.org/api/terms.pdf"
         >

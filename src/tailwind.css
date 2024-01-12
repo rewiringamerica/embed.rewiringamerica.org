@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:host {
+  /* COLOR PALETTE */
+  --blue-500: 58 107 202;
+  --green-500: 66 204 113;
+  --grey-100: 248 248 248;
+  --grey-200: 226 226 226;
+  --grey-300: 155 155 155;
+  --grey-400: 117 117 117;
+  --grey-500: 107 107 107;
+  --grey-600: 64 64 64;
+  --grey-700: 17 17 17;
+  --grey-900: 0 0 0;
+  --orange-500: 255 152 44;
+  --purple-100: 240 237 248;
+  --purple-500: 74 0 195;
+  --red-100: 253 237 237;
+  --red-500: 237 76 79;
+  --teal-100: 237 247 248;
+  --teal-500: 77 181 190;
+  --white: 255 255 255;
+  --yellow-100: 255 250 231;
+  --yellow-200: 254 242 202;
+  --yellow-300: 251 230 157;
+  --yellow-500: 249 214 91;
+  --yellow-600: 242 199 46;
+  --yellow-700: 160 135 44;
+  --yellow-800: 100 86 36;
+
+  /* COLOR ALIASES */
+  --color-action-primary: var(--purple-500);
+  --color-action-secondary: var(--grey-400);
+  --color-background-primary: var(--white);
+  --color-border-primary: var(--grey-300);
+  --color-border-secondary: var(--grey-200);
+  --color-border-tertiary: var(--yellow-800);
+  --color-divider-primary: var(--grey-200);
+  --color-shadow-primary: var(--grey-900);
+  --color-state-active-primary: var(--purple-500);
+  --color-state-active-secondary: var(--purple-100);
+  --color-state-disabled: var(--grey-300);
+  --color-state-disabled-on-dark: var(--grey-200);
+  --color-feedback-error: var(--red-500);
+  --color-feedback-success: var(--green-500);
+  --color-feedback-warning: var(--orange-500);
+  --color-stroke-primary-on-dark: var(--white);
+  --color-stroke-primary: var(--grey-700);
+  --color-stroke-secondary: var(--grey-400);
+  --color-stroke-tertiary: var(--yellow-800);
+  --color-text-primary-on-dark: var(--white);
+  --color-text-primary: var(--grey-700);
+  --color-text-secondary: var(--grey-400);
+  --color-text-tertiary: var(--yellow-800);
+}
