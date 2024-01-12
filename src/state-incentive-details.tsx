@@ -1,6 +1,6 @@
 import { msg, str } from '@lit/localize';
 import { css } from 'lit';
-import { FC, Key, useState } from 'react';
+import { FC, Key, PropsWithChildren, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { AuthorityLogos } from './authority-logos';
@@ -43,162 +43,6 @@ export const stateIncentivesStyles = css`
     --ra-input-focus-color: var(--rewiring-purple);
     --ra-input-margin: 0;
     --ra-input-padding: 0.5rem 0.75rem;
-  }
-
-  .incentive {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    height: 100%;
-  }
-
-  .incentive__chip {
-    display: flex;
-    gap: 0.625rem;
-    justify-content: center;
-    align-items: center;
-
-    background-color: #f0edf8;
-    border-radius: 0.25rem;
-    font-weight: 700;
-    font-size: 0.6875rem;
-    letter-spacing: 0.03438rem;
-    line-height: 125%;
-    padding: 0.25rem 0.625rem;
-    color: #111;
-    text-transform: uppercase;
-    width: fit-content;
-  }
-
-  .incentive__chip--warning {
-    background-color: #fef2ca;
-    padding: 0.1875rem 0.625rem 0.1875rem 0.1875rem;
-    color: #806c23; // spec is #846f24 but this was not WCAG 2.1 AA compliant
-  }
-
-  .incentive__subtitle {
-    color: #111;
-    font-weight: 500;
-    line-height: 125%;
-  }
-
-  .incentive__blurb {
-    color: #757575;
-    line-height: 150%;
-  }
-
-  .incentive__title {
-    color: #111;
-    font-size: 1.5rem;
-    line-height: 150%;
-  }
-
-  .incentive__link-button {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-    align-items: center;
-    align-self: stretch;
-
-    height: 2.25rem;
-    padding: 0.375rem 0.875rem;
-
-    border-radius: 0.25rem;
-    border: 1px solid #9b9b9b;
-
-    color: var(--rewiring-purple);
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 125%;
-    text-decoration: none;
-  }
-
-  .noresults__title {
-    color: #111;
-    font-size: 1.5rem;
-    font-weight: 400;
-  }
-
-  .noresults__cta {
-    color: #111;
-    font-weight: bold;
-    line-height: 150%;
-  }
-
-  .noresults__subtext {
-    color: #6b6b6b;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 150%;
-  }
-
-  .noresults__form {
-    display: grid;
-    grid-template-rows: min-content;
-    gap: 1rem;
-  }
-
-  .nowrap {
-    white-space: nowrap;
-  }
-
-  .grid-2-2-1,
-  .grid-3-2-1,
-  .grid-4-2-1 {
-    display: grid;
-    gap: 1rem;
-    align-items: end;
-  }
-  .grid-2-2-1--align-start,
-  .grid-3-2-1--align-start,
-  .grid-4-2-1--align-start {
-    align-items: start;
-  }
-
-  @media only screen and (max-width: 640px) {
-    .grid-2-2-1,
-    .grid-3-2-1,
-    .grid-4-2-1 {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media only screen and (min-width: 641px) and (max-width: 768px) {
-    .grid-2-2-1,
-    .grid-3-2-1,
-    .grid-4-2-1 {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  @media only screen and (min-width: 769px) {
-    .grid-2-2-1 {
-      grid-template-columns: 1fr 1fr;
-    }
-    .grid-3-2-1 {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-    .grid-4-2-1 {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-  }
-
-  @media only screen and (max-width: 640px) {
-    .grid-section {
-      min-width: 200px;
-    }
-  }
-
-  .grid-section__header {
-    margin-bottom: 1.5rem;
-
-    color: #111;
-    text-align: center;
-    text-wrap: balance;
-
-    font-size: 2rem;
-    font-weight: 500;
-    line-height: 125%;
   }
 `;
 
@@ -360,29 +204,93 @@ const isIRARebate = (incentive: Incentive) =>
 /** TODO get real dates in the data! */
 const renderStartDate = (incentive: Incentive) =>
   isIRARebate(incentive) ? (
-    <div className="incentive__chip incentive__chip--warning">
-      <ExclamationPoint w={16} h={16} /> {msg('Expected in 2024')}
-    </div>
+    <Chip isWarning={true}>{msg('Expected in 2024')}</Chip>
   ) : null;
+
+const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
+  isWarning,
+  children,
+}) => {
+  const classes = [
+    'flex',
+    'w-fit',
+    'gap-2.5',
+    'items-center',
+    'justify-center',
+    'rounded',
+    'font-bold',
+    'text-xsm',
+    'leading-tight',
+    'tracking-[0.03438rem]',
+    'uppercase',
+  ];
+  if (isWarning) {
+    classes.push(
+      'bg-yellow-200',
+      'text-red-500', // TODO should be #806c23
+      'py-[0.1875rem]',
+      'pl-[0.1875rem]',
+      'pr-2.5',
+    );
+  } else {
+    classes.push('bg-purple-100', 'text-gray-700', 'px-2.5', 'py-1');
+  }
+  return (
+    <div className={classes.join(' ')}>
+      {isWarning ? <ExclamationPoint w={16} h={16} /> : null}
+      {children}
+    </div>
+  );
+};
+
+const LinkButton: FC<PropsWithChildren<{ href: string }>> = ({
+  href,
+  children,
+}) => {
+  const classes = [
+    'flex',
+    'gap-2',
+    'justify-center',
+    'items-center',
+    'self-stretch',
+    'h-9',
+    'px-3.5',
+    'py-1.5',
+    'border',
+    'rounded',
+    'border-grey-300',
+    'text-purple-500',
+    'text-base',
+    'font-medium',
+    'leading-tight',
+  ];
+  return (
+    <a className={classes.join(' ')} target="_blank" href={href}>
+      {children}
+    </a>
+  );
+};
 
 const renderIncentiveCard = (key: Key, incentive: Incentive) => (
   <div className="card" key={key}>
     <div className="card-content">
-      <div className="incentive">
-        <div className="incentive__chip">{formatIncentiveType(incentive)}</div>
-        <div className="incentive__title">{formatTitle(incentive)}</div>
-        <div className="incentive__subtitle">{incentive.program}</div>
+      <div className="flex flex-col gap-4 h-full">
+        <Chip>{formatIncentiveType(incentive)}</Chip>
+        <div className="text-gray-700 text-xl leading-normal">
+          {formatTitle(incentive)}
+        </div>
+        <div className="text-gray-700 font-medium leading-tight">
+          {incentive.program}
+        </div>
         <Separator hideOnSmall={true} />
-        <div className="incentive__blurb">{incentive.short_description}</div>
+        <div className="text-grey-400 leading-normal">
+          {incentive.short_description}
+        </div>
         {renderStartDate(incentive)}
-        <a
-          className="incentive__link-button"
-          target="_blank"
-          href={incentive.program_url ?? incentive.item.url}
-        >
+        <LinkButton href={incentive.program_url ?? incentive.item.url}>
           {incentive.program_url ? msg('Visit site') : msg('Learn more')}
           {incentive.program_url ? <UpRightArrow w={20} h={20} /> : null}
-        </a>
+        </LinkButton>
       </div>
     </div>
   </div>
@@ -411,10 +319,10 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
     emailSubmitter === null ? null : wasEmailSubmitted() ? (
       <>
         <Separator />
-        <div className="noresults__cta">
+        <div className="text-grey-700 font-bold leading-normal">
           {msg('You’re subscribed to our newsletter!')}
         </div>
-        <div className="noresults__subtext">
+        <div className="text-grey-500 leading-normal">
           {msg(
             'You’ll get updates on incentives, rebates, and more from Rewiring America.',
           )}
@@ -423,7 +331,7 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
     ) : (
       <>
         <Separator />
-        <div className="noresults__cta">
+        <div className="text-grey-700 font-bold leading-normal">
           {msg(
             'To get updates on new incentives, subscribe to our newsletter!',
           )}
@@ -436,7 +344,7 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
             }
           }}
         >
-          <div className="noresults__form">
+          <div className="grid gap-4 auto-rows-min">
             <input
               type="email"
               autoComplete="email"
@@ -460,7 +368,7 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
   return (
     <div className="card card--null">
       <div className="card-content card-content--null">
-        <h1 className="noresults__title">
+        <h1 className="text-grey-700 text-xl font-normal">
           {msg('No incentives available for this project')}
         </h1>
         <p>
@@ -478,7 +386,7 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
 };
 
 const renderCardCollection = (incentives: Incentive[]) => (
-  <div className="grid-3-2-1 grid-3-2-1--align-start">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-start">
     {incentives
       // Put IRA rebates after everything else
       .sort((a, b) => +isIRARebate(a) - +isIRARebate(b))
@@ -506,8 +414,10 @@ const IncentiveGrid: FC<IncentiveGridProps> = ({
   emailSubmitter,
 }) => {
   return tabs.length > 0 ? (
-    <div className="grid-section" id={htmlId}>
-      <h2 className="grid-section__header">{heading}</h2>
+    <div className="min-w-52" id={htmlId}>
+      <h2 className="mb-6 text-grey-700 text-center text-balance text-3xl font-medium leading-tight">
+        {heading}
+      </h2>
       <IconTabBar
         tabs={tabs}
         selectedTab={selectedTab}
