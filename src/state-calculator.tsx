@@ -2,7 +2,7 @@ import { Task, initialState } from '@lit-labs/task';
 import { configureLocalization, localized, msg } from '@lit/localize';
 import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import tailwindStyles from 'bundle-text:./tailwind.css';
-import { LitElement, css, html, unsafeCSS } from 'lit';
+import { LitElement, html, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Root } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -12,16 +12,15 @@ import { CalculatorFooter } from './calculator-footer';
 import { CalculatorForm, FormValues, formStyles } from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
-import { iconTabBarStyles } from './icon-tab-bar';
 import { allLocales, sourceLocale, targetLocales } from './locales/locales';
 import * as spanishLocale from './locales/strings/es';
 import { PROJECTS, Project } from './projects';
 import { renderReactElements } from './react-roots';
 import { safeLocalStorage } from './safe-local-storage';
+import { Separator } from './separator';
 import {
   StateIncentives,
   cardStyles,
-  separatorStyles,
   stateIncentivesStyles,
 } from './state-incentive-details';
 import { baseStyles } from './styles';
@@ -39,9 +38,7 @@ const { setLocale } = configureLocalization({
 
 const loadingTemplate = () => (
   <div className="card card-content">
-    <div className="loading">
-      <SlSpinner />
-    </div>
+    <SlSpinner className="mx-auto text-3xl" />
   </div>
 );
 const errorTemplate = (error: unknown) => (
@@ -95,29 +92,6 @@ declare module './safe-local-storage' {
   }
 }
 
-const formTitleStyles = css`
-  .form-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
-
-  @media screen and (max-width: 640px) {
-    h1 {
-      font-size: 16px;
-    }
-  }
-`;
-
-const privacyMessageStyles = css`
-  .privacy-message {
-    color: #6b6b6b;
-    font-size: 0.75rem;
-    line-height: 125%;
-    padding-bottom: 0.1875rem;
-  }
-`;
-
 @customElement('rewiring-america-state-calculator')
 @localized()
 export class RewiringAmericaStateCalculator extends LitElement {
@@ -127,10 +101,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
     cardStyles,
     ...formStyles,
     stateIncentivesStyles,
-    separatorStyles,
-    iconTabBarStyles,
-    formTitleStyles,
-    privacyMessageStyles,
   ];
 
   /**
@@ -380,8 +350,10 @@ export class RewiringAmericaStateCalculator extends LitElement {
     const calculator = (
       <>
         <div className="card card-content">
-          <div className="form-title">
-            <h1 className="form-title__text">{msg('Your household info')}</h1>
+          <div className="flex justify-between items-baseline">
+            <h1 className="text-base sm:text-xl">
+              {msg('Your household info')}
+            </h1>
             <div>
               <button
                 className="text-button"
@@ -391,7 +363,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
               </button>
             </div>
           </div>
-          <div className="privacy-message">
+          <div className="text-grey-500 text-[0.75rem] leading-tight pb-[0.1875rem]">
             {msg(
               'We’re dedicated to safeguarding your privacy. We never share or sell your personal information.',
             )}
@@ -436,7 +408,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
           error: errorTemplate,
           complete: response => (
             <>
-              <div className="separator"></div>
+              <Separator />
               <StateIncentives
                 response={response}
                 selectedProjects={this.projects}
