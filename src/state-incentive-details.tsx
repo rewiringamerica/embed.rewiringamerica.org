@@ -4,6 +4,7 @@ import { FC, Key, PropsWithChildren, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { AuthorityLogos } from './authority-logos';
+import { TextButton } from './buttons';
 import { Card } from './card';
 import { wasEmailSubmitted } from './email-signup';
 import { IconTabBar } from './icon-tab-bar';
@@ -14,20 +15,6 @@ import { Separator } from './separator';
 export const stateIncentivesStyles = css`
   /* for now, override these variables just for the state calculator */
   :host {
-    /* labels */
-    --ra-form-label-font-size: 11px;
-    --ra-form-label-line-height: 20px;
-    --ra-form-label-font-weight: 700;
-    --ra-form-label-font-style: normal;
-    --ra-form-label-margin: 8px 0 8px 0;
-    --ra-form-label-text-transform: uppercase;
-    --ra-form-label-letter-spacing: 0.55px;
-    /* button */
-    --ra-embed-primary-button-background-color: var(--rewiring-purple);
-    --ra-embed-primary-button-background-hover-color: var(
-      --rewiring-purple-darker
-    );
-    --ra-embed-primary-button-text-color: white;
     /* select */
     --ra-select-focus-color: var(--rewiring-purple);
     /* input */
@@ -322,9 +309,9 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
           'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
         )}
       </p>
-      <button className="text-button" onClick={scrollToForm}>
+      <TextButton onClick={scrollToForm}>
         {msg('Back to calculator')}
-      </button>
+      </TextButton>
       {emailForm}
     </Card>
   );

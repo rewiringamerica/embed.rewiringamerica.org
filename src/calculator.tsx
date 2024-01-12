@@ -11,7 +11,6 @@ import {
   ICalculatedIncentiveResults,
   OwnerStatus,
 } from './calculator-types';
-import { DownIcon } from './icons';
 import { IncentiveDetails, detailsStyles } from './incentive-details';
 import { IncentiveSummary, summaryStyles } from './incentive-summary';
 import { renderReactElements } from './react-roots';
@@ -173,13 +172,6 @@ export class RewiringAmericaCalculator extends LitElement {
                 householdSize: this.householdSize,
               }}
               tooltipSize={18}
-              showEmailField={false}
-              showProjectField={false}
-              calculateButtonContent={
-                <>
-                  Calculate! <DownIcon w={18} h={18} />
-                </>
-              }
               onSubmit={e => this.submit(e)}
             />
           )}

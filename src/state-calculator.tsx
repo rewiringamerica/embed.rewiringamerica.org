@@ -9,8 +9,8 @@ import { Root } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { fetchApi } from './api/fetch';
+import { TextButton } from './buttons';
 import { CalculatorFooter } from './calculator-footer';
-import { CalculatorForm, FormValues, buttonStyles } from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { Card } from './card';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
@@ -21,6 +21,7 @@ import { renderReactElements } from './react-roots';
 import { safeLocalStorage } from './safe-local-storage';
 import { selectStyles } from './select';
 import { Separator } from './separator';
+import { CalculatorForm, FormValues } from './state-calculator-form';
 import {
   StateIncentives,
   stateIncentivesStyles,
@@ -103,7 +104,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
     unsafeCSS(tailwindStyles),
     unsafeCSS(shoelaceTheme),
     baseStyles,
-    buttonStyles,
     inputStyles,
     tooltipStyles,
     selectStyles,
@@ -362,12 +362,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
               {msg('Your household info')}
             </h1>
             <div>
-              <button
-                className="text-button"
-                onClick={() => this.resetFormValues()}
-              >
+              <TextButton onClick={() => this.resetFormValues()}>
                 {msg('Reset')}
-              </button>
+              </TextButton>
             </div>
           </div>
           <div className="text-grey-500 text-[0.75rem] leading-tight pb-[0.1875rem]">
@@ -404,9 +401,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
               );
             }}
             tooltipSize={13}
-            calculateButtonContent={msg('Calculate')}
             onSubmit={values => this.submit(values)}
-            gridClass="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start"
           />
         </Card>
         {this._task.render({
