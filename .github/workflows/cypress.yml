@@ -6,7 +6,7 @@ on:
     branches: ['main']
 jobs:
   cypress-run:
-    runs-on: cypress # this is our github runner label, nothing to do with cypress cloud
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false # https://github.com/cypress-io/github-action/issues/48
       matrix:
