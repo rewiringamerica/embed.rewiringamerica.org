@@ -11,6 +11,7 @@ import { fetchApi } from './api/fetch';
 import { CalculatorFooter } from './calculator-footer';
 import { CalculatorForm, FormValues, formStyles } from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
+import { Card } from './card';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import { allLocales, sourceLocale, targetLocales } from './locales/locales';
 import * as spanishLocale from './locales/strings/es';
@@ -20,7 +21,6 @@ import { safeLocalStorage } from './safe-local-storage';
 import { Separator } from './separator';
 import {
   StateIncentives,
-  cardStyles,
   stateIncentivesStyles,
 } from './state-incentive-details';
 import { baseStyles } from './styles';
@@ -37,16 +37,16 @@ const { setLocale } = configureLocalization({
 });
 
 const loadingTemplate = () => (
-  <div className="card card-content">
+  <Card>
     <SlSpinner className="mx-auto text-3xl" />
-  </div>
+  </Card>
 );
 const errorTemplate = (error: unknown) => (
-  <div className="card card-content" id="error-message">
+  <Card id="error-message">
     {typeof error === 'object' && error && 'message' in error && error.message
       ? (error.message as string)
       : msg('Error loading incentives.')}
-  </div>
+  </Card>
 );
 /**
  * Waits for the next event loop (to allow the DOM to update following an
@@ -98,7 +98,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
   static override styles = [
     unsafeCSS(tailwindStyles),
     baseStyles,
-    cardStyles,
     ...formStyles,
     stateIncentivesStyles,
   ];
@@ -349,7 +348,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
   override render() {
     const calculator = (
       <>
-        <div className="card card-content">
+        <Card>
           <div className="flex justify-between items-baseline">
             <h1 className="text-base sm:text-xl">
               {msg('Your household info')}
@@ -401,7 +400,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
             onSubmit={values => this.submit(values)}
             gridClass="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start"
           />
-        </div>
+        </Card>
         {this._task.render({
           initial: () => null,
           pending: loadingTemplate,

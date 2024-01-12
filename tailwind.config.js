@@ -13,6 +13,9 @@ module.exports = {
       ]),
     ),
     extend: {
+      boxShadow: {
+        DEFAULT: '0px 0px 15px 0px rgba(0, 0, 0, 0.08)',
+      },
       fontSize: {
         xsm: '0.6875rem', // 11px
         sm: '0.8125rem', // 13px
@@ -22,6 +25,9 @@ module.exports = {
         '2xl': '1.75rem', // 28px
         '3xl': '2rem', // 32px
         '4xl': '2.25rem', // 36px
+      },
+      maxWidth: {
+        78: '19.5rem',
       },
       minWidth: {
         24: '6rem', // 96px
