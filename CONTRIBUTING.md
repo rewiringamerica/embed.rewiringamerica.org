@@ -68,3 +68,9 @@ There are a few basic [Cypress](https://cypress.io) tests defined in `cypress/e2
 Note that the Cypress tests are using the live production API, not a mock. It's possible for them to fail because of non-breaking API changes, unrelated to changes in this codebase (for example, if a test is looking for a specific string on the page).
 
 We use Prettier and ESLint; both are run for every PR and are required to report no issues. We recommend setting up your editor to run Prettier automatically on save.
+
+## Assets
+
+Custom fonts for this calculator are optional. Rewiring America's preferred font is referenced in the code but hosted externally - it is not included under our open source or Creative Commons licenses.
+
+The icons for projects in `/static/icons` are original creations from Rewiring America and are licensed under the [CC-BY 4.0 International license](https://creativecommons.org/licenses/by/4.0/).
