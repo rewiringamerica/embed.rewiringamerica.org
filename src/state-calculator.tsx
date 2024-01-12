@@ -1,12 +1,23 @@
 import { Task, initialState } from '@lit-labs/task';
+import { configureLocalization, localized, msg } from '@lit/localize';
+import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
+import tailwindStyles from 'bundle-text:./tailwind.css';
 import { LitElement, css, html, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { Root } from 'react-dom/client';
+import scrollIntoView from 'scroll-into-view-if-needed';
+import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { fetchApi } from './api/fetch';
 import { CalculatorFooter } from './calculator-footer';
 import { CalculatorForm, FormValues, formStyles } from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
+import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import { iconTabBarStyles } from './icon-tab-bar';
+import { allLocales, sourceLocale, targetLocales } from './locales/locales';
+import * as spanishLocale from './locales/strings/es';
 import { PROJECTS, Project } from './projects';
+import { renderReactElements } from './react-roots';
+import { safeLocalStorage } from './safe-local-storage';
 import {
   StateIncentives,
   cardStyles,
@@ -14,19 +25,6 @@ import {
   stateIncentivesStyles,
 } from './state-incentive-details';
 import { baseStyles } from './styles';
-
-import { configureLocalization, localized, msg } from '@lit/localize';
-import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
-import { Root } from 'react-dom/client';
-import scrollIntoView from 'scroll-into-view-if-needed';
-import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
-import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
-import { allLocales, sourceLocale, targetLocales } from './locales/locales';
-import * as spanishLocale from './locales/strings/es';
-import { renderReactElements } from './react-roots';
-import { safeLocalStorage } from './safe-local-storage';
-
-import tailwindStyles from 'bundle-text:./tailwind.css';
 
 const { setLocale } = configureLocalization({
   sourceLocale,
