@@ -227,7 +227,7 @@ const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
   if (isWarning) {
     classes.push(
       'bg-yellow-200',
-      'text-red-500', // TODO should be #806c23
+      'text-[#806c23]',
       'py-[0.1875rem]',
       'pl-[0.1875rem]',
       'pr-2.5',

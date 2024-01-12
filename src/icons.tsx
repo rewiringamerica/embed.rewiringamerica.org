@@ -99,7 +99,7 @@ export const ExclamationPoint: FC<IconProps> = ({ w, h }) => (
     viewBox="0 0 16 16"
     fill="none"
   >
-    <rect width="16" height="16" rx="2" fill="#846F24" />
+    <rect width="16" height="16" rx="2" fill="#806c23" />
     <rect
       x="9.12494"
       y="8.12549"
