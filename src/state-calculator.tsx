@@ -399,7 +399,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
             tooltipSize={13}
             calculateButtonContent={msg('Calculate')}
             onSubmit={values => this.submit(values)}
-            gridClass={'grid-2-2-1 grid-2-2-1--align-start'}
+            gridClass="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start"
           />
         </div>
         {this._task.render({
