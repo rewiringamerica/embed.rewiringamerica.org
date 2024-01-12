@@ -1,5 +1,5 @@
 import { Task, initialState } from '@lit-labs/task';
-import { LitElement, css, html, nothing } from 'lit';
+import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { fetchApi } from './api/fetch';
 import { CALCULATOR_FOOTER } from './calculator-footer';
@@ -8,15 +8,15 @@ import { FilingStatus, OwnerStatus } from './calculator-types';
 import { iconTabBarStyles } from './icon-tab-bar';
 import { PROJECTS, Project } from './projects';
 import {
+  StateIncentives,
   cardStyles,
   separatorStyles,
   stateIncentivesStyles,
-  stateIncentivesTemplate,
 } from './state-incentive-details';
 import { baseStyles } from './styles';
 
 import { configureLocalization, localized, msg } from '@lit/localize';
-import '@shoelace-style/shoelace/dist/components/spinner/spinner';
+import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import { Root } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
@@ -38,22 +38,20 @@ const { setLocale } = configureLocalization({
         })(),
 });
 
-const loadingTemplate = () => html`
-  <div class="card card-content">
-    <div class="loading">
-      <sl-spinner></sl-spinner>
+const loadingTemplate = () => (
+  <div className="card card-content">
+    <div className="loading">
+      <SlSpinner />
     </div>
   </div>
-`;
-
-const errorTemplate = (error: unknown) => html`
-  <div class="card card-content" id="error-message">
-    ${typeof error === 'object' && error && 'message' in error && error.message
-      ? error.message
+);
+const errorTemplate = (error: unknown) => (
+  <div className="card card-content" id="error-message">
+    {typeof error === 'object' && error && 'message' in error && error.message
+      ? (error.message as string)
       : msg('Error loading incentives.')}
   </div>
-`;
-
+);
 /**
  * Waits for the next event loop (to allow the DOM to update following an
  * update of reactive properties), then scrolls to the element matching the
@@ -70,7 +68,7 @@ const waitAndScrollTo = (shadowRoot: ShadowRoot, selector: string) => {
         scrollMode: 'if-needed',
       });
     }
-  }, 0);
+  }, 10); // To let the React render happen
 };
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
@@ -380,93 +378,100 @@ export class RewiringAmericaStateCalculator extends LitElement {
   });
 
   override render() {
-    this.reactElements.set(
-      'form',
-      <CalculatorForm
-        key={this.formKey}
-        stateId={this.state}
-        initialValues={{
-          zip: this.zip,
-          ownerStatus: this.ownerStatus,
-          householdIncome: this.householdIncome,
-          householdSize: this.householdSize,
-          taxFiling: this.taxFiling,
-          utility: this.utility,
-          projects: this.projects,
-        }}
-        showEmailField={this.showEmail && !this.wasEmailSubmitted}
-        showProjectField={true}
-        utilityFetcher={zip => {
-          const query = new URLSearchParams({
-            language: this.lang,
-            include_beta_states: '' + this.includeBetaStates,
-            'location[zip]': zip,
-          });
-
-          return fetchApi<APIUtilitiesResponse>(
-            this.apiKey,
-            this.apiHost,
-            '/api/v1/utilities',
-            query,
-          );
-        }}
-        tooltipSize={13}
-        calculateButtonContent={msg('Calculate')}
-        onSubmit={values => this.submit(values)}
-        gridClass={'grid-2-2-1 grid-2-2-1--align-start'}
-      />,
-    );
-
-    return html`
-      <div class="calculator">
-        <div class="card card-content">
-          <div class="form-title">
-            <h1 class="form-title__text">${msg('Your household info')}</h1>
+    const calculator = (
+      <>
+        <div className="card card-content">
+          <div className="form-title">
+            <h1 className="form-title__text">{msg('Your household info')}</h1>
             <div>
               <button
-                class="text-button"
-                @click=${() => this.resetFormValues()}
+                className="text-button"
+                onClick={() => this.resetFormValues()}
               >
-                ${msg('Reset')}
+                {msg('Reset')}
               </button>
             </div>
           </div>
-          <div class="privacy-message">
-            ${msg(
+          <div className="privacy-message">
+            {msg(
               'We’re dedicated to safeguarding your privacy. We never share or sell your personal information.',
             )}
           </div>
-          <div id="form" class="react-root"></div>
+          <CalculatorForm
+            key={this.formKey}
+            stateId={this.state}
+            initialValues={{
+              zip: this.zip,
+              ownerStatus: this.ownerStatus,
+              householdIncome: this.householdIncome,
+              householdSize: this.householdSize,
+              taxFiling: this.taxFiling,
+              utility: this.utility,
+              projects: this.projects,
+            }}
+            showEmailField={this.showEmail && !this.wasEmailSubmitted}
+            showProjectField={true}
+            utilityFetcher={zip => {
+              const query = new URLSearchParams({
+                language: this.lang,
+                include_beta_states: '' + this.includeBetaStates,
+                'location[zip]': zip,
+              });
+
+              return fetchApi<APIUtilitiesResponse>(
+                this.apiKey,
+                this.apiHost,
+                '/api/v1/utilities',
+                query,
+              );
+            }}
+            tooltipSize={13}
+            calculateButtonContent={msg('Calculate')}
+            onSubmit={values => this.submit(values)}
+            gridClass={'grid-2-2-1 grid-2-2-1--align-start'}
+          />
         </div>
-        ${this._task.render({
-          initial: () => nothing,
+        {this._task.render({
+          initial: () => null,
           pending: loadingTemplate,
           error: errorTemplate,
-          complete: response => [
-            html`<div class="separator"></div>`,
-            stateIncentivesTemplate(
-              (rootId, element) => this.reactElements.set(rootId, element),
-              response,
-              this.projects,
-              newOtherSelection => (this.selectedOtherTab = newOtherSelection),
-              newSelection => (this.selectedProjectTab = newSelection),
-              this.showEmail
-                ? (email: string) => {
-                    submitEmailSignup(
-                      this.apiHost,
-                      this.apiKey,
-                      email,
-                      this.zip,
-                    );
-                    this.wasEmailSubmitted = true;
-                  }
-                : null,
-              this.selectedOtherTab,
-              this.selectedProjectTab,
-            ),
-          ],
+          complete: response => (
+            <>
+              <div className="separator"></div>
+              <StateIncentives
+                response={response}
+                selectedProjects={this.projects}
+                selectedProjectTab={this.selectedProjectTab}
+                onTabSelected={newSelection =>
+                  (this.selectedProjectTab = newSelection)
+                }
+                selectedOtherTab={this.selectedOtherTab}
+                onOtherTabSelected={newOtherSelection =>
+                  (this.selectedOtherTab = newOtherSelection)
+                }
+                emailSubmitter={
+                  this.showEmail
+                    ? (email: string) => {
+                        submitEmailSignup(
+                          this.apiHost,
+                          this.apiKey,
+                          email,
+                          this.zip,
+                        );
+                        this.wasEmailSubmitted = true;
+                      }
+                    : null
+                }
+              />
+            </>
+          ),
         })}
-      </div>
+      </>
+    );
+
+    this.reactElements.set('calc-root', calculator);
+    return html`
+      <div class="calculator" id="calc-root"></div>
       ${CALCULATOR_FOOTER()}
     `;
   }
