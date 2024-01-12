@@ -2,6 +2,7 @@ import { Task, initialState } from '@lit-labs/task';
 import { configureLocalization, localized, msg } from '@lit/localize';
 import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import tailwindStyles from 'bundle-text:./tailwind.css';
+import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
 import { LitElement, html, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Root } from 'react-dom/client';
@@ -9,7 +10,7 @@ import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
 import { fetchApi } from './api/fetch';
 import { CalculatorFooter } from './calculator-footer';
-import { CalculatorForm, FormValues, formStyles } from './calculator-form';
+import { CalculatorForm, FormValues, buttonStyles } from './calculator-form';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { Card } from './card';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
@@ -18,12 +19,15 @@ import * as spanishLocale from './locales/strings/es';
 import { PROJECTS, Project } from './projects';
 import { renderReactElements } from './react-roots';
 import { safeLocalStorage } from './safe-local-storage';
+import { selectStyles } from './select';
 import { Separator } from './separator';
 import {
   StateIncentives,
   stateIncentivesStyles,
 } from './state-incentive-details';
 import { baseStyles } from './styles';
+import { inputStyles } from './styles/input';
+import { tooltipStyles } from './tooltip';
 
 const { setLocale } = configureLocalization({
   sourceLocale,
@@ -97,8 +101,12 @@ declare module './safe-local-storage' {
 export class RewiringAmericaStateCalculator extends LitElement {
   static override styles = [
     unsafeCSS(tailwindStyles),
+    unsafeCSS(shoelaceTheme),
     baseStyles,
-    ...formStyles,
+    buttonStyles,
+    inputStyles,
+    tooltipStyles,
+    selectStyles,
     stateIncentivesStyles,
   ];
 

@@ -1,10 +1,11 @@
 import { Task, initialState } from '@lit-labs/task';
-import { LitElement, html } from 'lit';
+import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
+import { LitElement, html, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Root } from 'react-dom/client';
 import { fetchApi } from './api/fetch';
 import { CalculatorFooter } from './calculator-footer';
-import { CalculatorForm, FormValues, formStyles } from './calculator-form';
+import { CalculatorForm, FormValues, buttonStyles } from './calculator-form';
 import {
   FilingStatus,
   ICalculatedIncentiveResults,
@@ -14,7 +15,10 @@ import { DownIcon } from './icons';
 import { IncentiveDetails, detailsStyles } from './incentive-details';
 import { IncentiveSummary, summaryStyles } from './incentive-summary';
 import { renderReactElements } from './react-roots';
+import { selectStyles } from './select';
 import { baseStyles, cardStyles, gridStyles } from './styles';
+import { inputStyles } from './styles/input';
+import { tooltipStyles } from './tooltip';
 
 const loadedTemplate = (
   results: ICalculatedIncentiveResults,
@@ -42,10 +46,14 @@ const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
 @customElement('rewiring-america-calculator')
 export class RewiringAmericaCalculator extends LitElement {
   static override styles = [
+    unsafeCSS(shoelaceTheme),
     baseStyles,
     cardStyles,
     gridStyles,
-    ...formStyles,
+    buttonStyles,
+    inputStyles,
+    tooltipStyles,
+    selectStyles,
     summaryStyles,
     ...detailsStyles,
   ];

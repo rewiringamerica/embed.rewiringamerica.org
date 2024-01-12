@@ -29,10 +29,7 @@ export const stateIncentivesStyles = css`
     );
     --ra-embed-primary-button-text-color: white;
     /* select */
-    --ra-select-border: 1px solid #e2e2e2;
     --ra-select-focus-color: var(--rewiring-purple);
-    --ra-select-background-image: none;
-    --ra-select-margin: 0;
     /* input */
     --ra-input-border: 1px solid #e2e2e2;
     --ra-input-focus-color: var(--rewiring-purple);

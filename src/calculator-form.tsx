@@ -1,19 +1,15 @@
 import { msg, str } from '@lit/localize';
-import '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
-import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
-import { css, unsafeCSS } from 'lit';
+import { css } from 'lit';
 import { FC, useEffect, useState } from 'react';
 import { APIUtilitiesResponse } from './api/calculator-types-v1';
 import { FilingStatus, OwnerStatus } from './calculator-types';
-import './currency-input';
 import { CurrencyInput } from './currency-input';
 import { PROJECTS, Project } from './projects';
-import { MultiSelect, OptionParam, Select, selectStyles } from './select';
+import { MultiSelect, OptionParam, Select } from './select';
 import { STATES } from './states';
-import { inputStyles } from './styles/input';
 import { TooltipButton } from './tooltip';
 
-const buttonStyles = css`
+export const buttonStyles = css`
   button.primary {
     appearance: none;
     font-family: inherit;
@@ -80,51 +76,6 @@ const buttonStyles = css`
     margin: 0.25rem 0.75rem 0 0.75rem;
   }
 `;
-
-const tooltipStyles = css`
-  ${unsafeCSS(shoelaceTheme)}
-
-  /* shoelace style overrides */
-  sl-tooltip {
-    --max-width: var(--ra-tooltip-max-width);
-    --sl-tooltip-arrow-size: var(--ra-tooltip-arrow-size);
-    --sl-tooltip-padding: var(--ra-tooltip-padding);
-    --sl-tooltip-background-color: var(--ra-tooltip-background-color);
-    --sl-tooltip-color: var(--ra-tooltip-color);
-    --sl-tooltip-border-radius: var(--ra-tooltip-border-radius);
-    --sl-tooltip-font-family: var(--ra-embed-font-family);
-    --sl-tooltip-font-size: var(--ra-embed-font-size);
-    --sl-tooltip-line-height: var(--ra-embed-line-height);
-    --sl-tooltip-font-weight: var(--ra-embed-font-weight);
-    --sl-z-index-tooltip: 10000;
-    text-transform: none;
-    letter-spacing: normal;
-  }
-
-  sl-tooltip::part(body) {
-    box-shadow: var(--ra-tooltip-box-shadow);
-    border-radius: var(--sl-tooltip-border-radius);
-    border: var(--ra-tooltip-border);
-    pointer-events: auto;
-  }
-
-  /* This button is just an icon; make everything else disappear */
-  button.tooltip-icon {
-    border: 0;
-    background-color: transparent;
-    padding: 0;
-
-    cursor: pointer;
-    vertical-align: middle;
-  }
-`;
-
-export const formStyles = [
-  tooltipStyles,
-  inputStyles,
-  buttonStyles,
-  selectStyles,
-];
 
 const OWNER_STATUS_OPTIONS: () => OptionParam<OwnerStatus>[] = () => [
   { value: 'homeowner', label: msg('Homeowner') },
