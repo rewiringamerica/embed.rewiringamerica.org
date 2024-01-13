@@ -4,6 +4,7 @@ import { FC, Key, PropsWithChildren, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { AuthorityLogos } from './authority-logos';
+import { Card } from './card';
 import { wasEmailSubmitted } from './email-signup';
 import { IconTabBar } from './icon-tab-bar';
 import { ExclamationPoint, UpRightArrow } from './icons';
@@ -13,12 +14,6 @@ import { Separator } from './separator';
 export const stateIncentivesStyles = css`
   /* for now, override these variables just for the state calculator */
   :host {
-    /* cards */
-    --ra-embed-card-border: none;
-    --ra-embed-card-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.08);
-    --ra-embed-card-border-radius: 0.75rem;
-    --ra-embed-card-shadow--null: none;
-    --ra-embed-card-background--null: var(--rewiring-light-yellow);
     /* labels */
     --ra-form-label-font-size: 11px;
     --ra-form-label-line-height: 20px;
@@ -43,49 +38,6 @@ export const stateIncentivesStyles = css`
     --ra-input-focus-color: var(--rewiring-purple);
     --ra-input-margin: 0;
     --ra-input-padding: 0.5rem 0.75rem;
-  }
-`;
-
-export const cardStyles = css`
-  .card {
-    border: var(--ra-embed-card-border);
-    border-radius: var(--ra-embed-card-border-radius);
-    box-shadow: var(--ra-embed-card-shadow);
-    background-color: var(--ra-embed-card-background);
-    overflow: clip;
-  }
-
-  .card--null {
-    background-color: var(--ra-embed-card-background--null);
-    box-shadow: var(--ra-embed-card-shadow--null);
-  }
-
-  /* Extra small devices */
-  @media only screen and (max-width: 640px) {
-    .card {
-      min-width: 200px;
-    }
-  }
-
-  .card-content {
-    padding: 1.5rem;
-    display: grid;
-    grid-template-rows: min-content;
-    gap: 1rem;
-  }
-
-  /* Extra small devices */
-  @media only screen and (max-width: 640px) {
-    .card-content {
-      padding: 1rem;
-    }
-  }
-
-  .card-content--null {
-    padding: 2rem 1rem;
-    text-align: center;
-    max-width: 312px;
-    margin: 0 auto;
   }
 `;
 
@@ -272,28 +224,26 @@ const LinkButton: FC<PropsWithChildren<{ href: string }>> = ({
 };
 
 const renderIncentiveCard = (key: Key, incentive: Incentive) => (
-  <div className="card" key={key}>
-    <div className="card-content">
-      <div className="flex flex-col gap-4 h-full">
-        <Chip>{formatIncentiveType(incentive)}</Chip>
-        <div className="text-gray-700 text-xl leading-normal">
-          {formatTitle(incentive)}
-        </div>
-        <div className="text-gray-700 font-medium leading-tight">
-          {incentive.program}
-        </div>
-        <Separator hideOnSmall={true} />
-        <div className="text-grey-400 leading-normal">
-          {incentive.short_description}
-        </div>
-        {renderStartDate(incentive)}
-        <LinkButton href={incentive.program_url ?? incentive.item.url}>
-          {incentive.program_url ? msg('Visit site') : msg('Learn more')}
-          {incentive.program_url ? <UpRightArrow w={20} h={20} /> : null}
-        </LinkButton>
+  <Card key={key}>
+    <div className="flex flex-col gap-4 h-full">
+      <Chip>{formatIncentiveType(incentive)}</Chip>
+      <div className="text-gray-700 text-xl leading-normal">
+        {formatTitle(incentive)}
       </div>
+      <div className="text-gray-700 font-medium leading-tight">
+        {incentive.program}
+      </div>
+      <Separator hideOnSmall={true} />
+      <div className="text-grey-400 leading-normal">
+        {incentive.short_description}
+      </div>
+      {renderStartDate(incentive)}
+      <LinkButton href={incentive.program_url ?? incentive.item.url}>
+        {incentive.program_url ? msg('Visit site') : msg('Learn more')}
+        {incentive.program_url ? <UpRightArrow w={20} h={20} /> : null}
+      </LinkButton>
     </div>
-  </div>
+  </Card>
 );
 function scrollToForm(event: React.MouseEvent) {
   const calculator = (
@@ -366,22 +316,20 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
     );
 
   return (
-    <div className="card card--null">
-      <div className="card-content card-content--null">
-        <h1 className="text-grey-700 text-xl font-normal">
-          {msg('No incentives available for this project')}
-        </h1>
-        <p>
-          {msg(
-            'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
-          )}
-        </p>
-        <button className="text-button" onClick={scrollToForm}>
-          {msg('Back to calculator')}
-        </button>
-        {emailForm}
-      </div>
-    </div>
+    <Card isFlat={true}>
+      <h1 className="text-grey-700 text-xl font-normal">
+        {msg('No incentives available for this project')}
+      </h1>
+      <p>
+        {msg(
+          'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
+        )}
+      </p>
+      <button className="text-button" onClick={scrollToForm}>
+        {msg('Back to calculator')}
+      </button>
+      {emailForm}
+    </Card>
   );
 };
 
