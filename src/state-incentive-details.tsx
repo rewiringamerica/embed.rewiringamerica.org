@@ -218,7 +218,7 @@ const renderIncentiveCard = (key: Key, incentive: Incentive) => (
 function scrollToForm(event: React.MouseEvent) {
   const calculator = (
     event.currentTarget.getRootNode() as ShadowRoot
-  )?.querySelector('.calculator');
+  )?.getElementById('calc-root');
 
   if (!calculator) {
     return;
