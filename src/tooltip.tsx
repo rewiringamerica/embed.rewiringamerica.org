@@ -1,7 +1,8 @@
 import { msg } from '@lit/localize';
 import SlTooltipComponent from '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 import SlTooltip from '@shoelace-style/shoelace/dist/react/tooltip';
-import { useEffect, useRef } from 'react';
+import { css } from 'lit';
+import { FC, useEffect, useRef } from 'react';
 import { QuestionIcon } from './icons';
 
 /** Finds the first SlTooltip ancestor of the given element. */
@@ -30,12 +31,46 @@ function hideTooltip(event: FocusEvent) {
   event.stopPropagation();
 }
 
-type Props = {
+export const tooltipStyles = css`
+  /* shoelace style overrides */
+  sl-tooltip {
+    --max-width: var(--ra-tooltip-max-width);
+    --sl-tooltip-arrow-size: var(--ra-tooltip-arrow-size);
+    --sl-tooltip-padding: var(--ra-tooltip-padding);
+    --sl-tooltip-background-color: var(--ra-tooltip-background-color);
+    --sl-tooltip-color: var(--ra-tooltip-color);
+    --sl-tooltip-border-radius: var(--ra-tooltip-border-radius);
+    --sl-tooltip-font-family: var(--ra-embed-font-family);
+    --sl-tooltip-font-size: var(--ra-embed-font-size);
+    --sl-tooltip-line-height: var(--ra-embed-line-height);
+    --sl-tooltip-font-weight: var(--ra-embed-font-weight);
+    --sl-z-index-tooltip: 10000;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  sl-tooltip::part(body) {
+    box-shadow: var(--ra-tooltip-box-shadow);
+    border-radius: var(--sl-tooltip-border-radius);
+    border: var(--ra-tooltip-border);
+    pointer-events: auto;
+  }
+
+  /* This button is just an icon; make everything else disappear */
+  button.tooltip-icon {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+
+    cursor: pointer;
+    vertical-align: middle;
+  }
+`;
+
+export const TooltipButton: FC<{
   text: string;
   iconSize: number;
-};
-
-export const TooltipButton = ({ text, iconSize }: Props) => {
+}> = ({ text, iconSize }) => {
   // We can't use React's event handling here. This component is used inside
   // Shoelace <sl-select>'s label slot. Their <label> element has a native
   // onclick handler that focuses the labeled element (rather than using "for").
