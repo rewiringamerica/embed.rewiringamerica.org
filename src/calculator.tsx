@@ -15,7 +15,7 @@ import { IncentiveDetails, detailsStyles } from './incentive-details';
 import { IncentiveSummary, summaryStyles } from './incentive-summary';
 import { renderReactElements } from './react-roots';
 import { selectStyles } from './select';
-import { baseStyles, cardStyles, gridStyles } from './styles';
+import { baseStyles, baseVariables, cardStyles, gridStyles } from './styles';
 import { inputStyles } from './styles/input';
 import { tooltipStyles } from './tooltip';
 
@@ -46,6 +46,7 @@ const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
 export class RewiringAmericaCalculator extends LitElement {
   static override styles = [
     unsafeCSS(shoelaceTheme),
+    baseVariables,
     baseStyles,
     cardStyles,
     gridStyles,

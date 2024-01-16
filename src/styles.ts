@@ -1,6 +1,6 @@
 import { css } from 'lit';
 
-export const baseStyles = css`
+export const baseVariables = css`
   /* private 'semantic' defaults to use in themes */
   :host {
     --rewiring-yellow: rgb(249, 214, 91);
@@ -88,7 +88,9 @@ export const baseStyles = css`
     width: 100%;
     max-width: 1280px;
   }
+}`;
 
+export const baseStyles = css`
   * {
     box-sizing: border-box;
   }
@@ -160,11 +162,6 @@ export const baseStyles = css`
     .calculator {
       gap: 48px;
     }
-  }
-
-  /* To prevent margin-collapsing. Temporary for React transition. */
-  .react-root {
-    display: grid;
   }
 `;
 
