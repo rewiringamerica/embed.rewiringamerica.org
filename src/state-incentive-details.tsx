@@ -1,5 +1,5 @@
 import { msg, str } from '@lit/localize';
-import { FC, Key, PropsWithChildren, useState } from 'react';
+import { FC, Key, PropsWithChildren, forwardRef, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { AuthorityLogos } from './authority-logos';
@@ -314,7 +314,6 @@ const renderCardCollection = (incentives: Incentive[]) => (
 
 type IncentiveGridProps = {
   heading: string;
-  htmlId: string;
   incentives: Incentive[];
   tabs: Project[];
   selectedTab: Project;
@@ -322,40 +321,35 @@ type IncentiveGridProps = {
   emailSubmitter: ((email: string) => void) | null;
 };
 
-const IncentiveGrid: FC<IncentiveGridProps> = ({
-  heading,
-  htmlId,
-  incentives,
-  tabs,
-  selectedTab,
-  onTabSelected,
-  emailSubmitter,
-}) => {
-  return tabs.length > 0 ? (
-    <div className="min-w-50" id={htmlId}>
-      <h2 className="mb-6 text-grey-700 text-center text-balance text-3xl font-medium leading-tight">
-        {heading}
-      </h2>
-      <IconTabBar
-        tabs={tabs}
-        selectedTab={selectedTab}
-        onTabSelected={onTabSelected}
-      />
-      {incentives.length > 0
-        ? renderCardCollection(incentives)
-        : renderNoResults(emailSubmitter)}
-    </div>
-  ) : null;
-};
+const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
+  (
+    { heading, incentives, tabs, selectedTab, onTabSelected, emailSubmitter },
+    ref,
+  ) => {
+    return tabs.length > 0 ? (
+      <div className="min-w-50" ref={ref}>
+        <h2 className="mb-6 text-grey-700 text-center text-balance text-3xl font-medium leading-tight">
+          {heading}
+        </h2>
+        <IconTabBar
+          tabs={tabs}
+          selectedTab={selectedTab}
+          onTabSelected={onTabSelected}
+        />
+        {incentives.length > 0
+          ? renderCardCollection(incentives)
+          : renderNoResults(emailSubmitter)}
+      </div>
+    ) : null;
+  },
+);
 
 type Props = {
+  firstResultsRef?: React.Ref<HTMLDivElement>;
+  secondResultsRef?: React.Ref<HTMLDivElement>;
   response: APIResponse;
   selectedProjects: Project[];
-  onOtherTabSelected: (newOtherSelection: Project) => void;
-  onTabSelected: (newSelection: Project) => void;
   emailSubmitter: ((email: string) => void) | null;
-  selectedOtherTab?: Project;
-  selectedProjectTab?: Project;
 };
 
 /**
@@ -369,13 +363,11 @@ type Props = {
  * currently selected.
  */
 export const StateIncentives: FC<Props> = ({
+  firstResultsRef,
+  secondResultsRef,
   response,
   selectedProjects,
-  onOtherTabSelected,
-  onTabSelected,
   emailSubmitter,
-  selectedOtherTab,
-  selectedProjectTab,
 }) => {
   const allEligible = response.incentives.filter(i => i.eligible);
 
@@ -401,15 +393,8 @@ export const StateIncentives: FC<Props> = ({
     .sort((a, b) => shortLabel(a).localeCompare(shortLabel(b)));
 
   // If a nonexistent tab is selected, pretend the first one is selected.
-  const projectTab =
-    selectedProjectTab && interestedProjects.includes(selectedProjectTab)
-      ? selectedProjectTab
-      : interestedProjects[0];
-
-  const otherTab =
-    selectedOtherTab && otherProjects.includes(selectedOtherTab)
-      ? selectedOtherTab
-      : otherProjects[0];
+  const [projectTab, setProjectTab] = useState(interestedProjects[0]);
+  const [otherTab, setOtherTab] = useState(otherProjects[0]);
 
   const selectedIncentives = incentivesByProject[projectTab] ?? [];
   const selectedOtherIncentives = incentivesByProject[otherTab] ?? [];
@@ -417,21 +402,21 @@ export const StateIncentives: FC<Props> = ({
   return (
     <>
       <IncentiveGrid
+        ref={firstResultsRef}
         heading={msg('Incentives you’re interested in')}
-        htmlId="interested-incentives"
         incentives={selectedIncentives}
         tabs={interestedProjects}
         selectedTab={projectTab}
-        onTabSelected={onTabSelected}
+        onTabSelected={setProjectTab}
         emailSubmitter={emailSubmitter}
       />
       <IncentiveGrid
+        ref={secondResultsRef}
         heading={msg('Other incentives available to you')}
-        htmlId="other-incentives"
         incentives={selectedOtherIncentives}
         tabs={otherProjects}
         selectedTab={otherTab}
-        onTabSelected={onOtherTabSelected}
+        onTabSelected={setOtherTab}
         // We won't show the empty state in this seciton, so no email submission
         emailSubmitter={null}
       />

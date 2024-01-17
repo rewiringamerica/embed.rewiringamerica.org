@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react';
+import { PropsWithChildren, forwardRef } from 'react';
 
 import clsx from 'clsx';
 
@@ -7,13 +7,12 @@ import clsx from 'clsx';
  * a yellow background and no shadow instead. Children are placed in a
  * 1-column grid.
  */
-export const Card: FC<PropsWithChildren<{ id?: string; isFlat?: boolean }>> = ({
-  id,
-  isFlat,
-  children,
-}) => (
+export const Card = forwardRef<
+  HTMLDivElement,
+  PropsWithChildren<{ isFlat?: boolean }>
+>(({ isFlat, children }, ref) => (
   <div
-    id={id}
+    ref={ref}
     className={clsx(
       'rounded-xl',
       'overflow-clip',
@@ -36,4 +35,4 @@ export const Card: FC<PropsWithChildren<{ id?: string; isFlat?: boolean }>> = ({
       {children}
     </div>
   </div>
-);
+));
