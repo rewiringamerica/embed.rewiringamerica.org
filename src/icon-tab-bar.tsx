@@ -1,5 +1,6 @@
 import { msg } from '@lit/localize';
 import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
+import clsx from 'clsx';
 import { FC } from 'react';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { OptionParam, Select } from './select';
@@ -20,37 +21,34 @@ type Props = {
 export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
   const iconTabs = tabs.map(project => {
     const isSelected = project === selectedTab;
-    const buttonClasses = [
-      'min-w-24',
-      'h-12',
-      'border',
-      'rounded-3xl',
-      'px-4',
-      'py-3',
-      'flex',
-      'gap-2',
-      'items-center',
-      'justify-center',
-    ];
-    if (isSelected) {
-      buttonClasses.push(
-        'cursor-default',
-        'text-white',
-        'bg-purple-500',
-        'border-purple-500',
-      );
-    } else {
-      buttonClasses.push(
-        'cursor-pointer',
-        'text-purple-500',
-        'bg-transparent',
-        'border-grey-300',
-      );
-    }
     return (
       <button
         key={project}
-        className={buttonClasses.join(' ')}
+        className={clsx(
+          'min-w-24',
+          'h-12',
+          'border',
+          'rounded-3xl',
+          'px-4',
+          'py-3',
+          'flex',
+          'gap-2',
+          'items-center',
+          'justify-center',
+          isSelected
+            ? [
+                'cursor-default',
+                'text-white',
+                'bg-purple-500',
+                'border-purple-500',
+              ]
+            : [
+                'cursor-pointer',
+                'text-purple-500',
+                'bg-transparent',
+                'border-grey-300',
+              ],
+        )}
         role="tab"
         aria-selected={isSelected}
         aria-label={PROJECTS[project].label()}
