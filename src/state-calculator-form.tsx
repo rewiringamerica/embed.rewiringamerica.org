@@ -1,6 +1,7 @@
 import { msg, str } from '@lit/localize';
 import { FC, useEffect, useState } from 'react';
 import { APIUtilitiesResponse } from './api/calculator-types-v1';
+import { FetchState } from './api/fetch-state';
 import { PrimaryButton } from './buttons';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { CurrencyInput } from './currency-input';
@@ -57,7 +58,7 @@ const label = (
 const renderUtilityField = (
   utility: string,
   setUtility: (newValue: string) => void,
-  utilitiesFetch: FetchState,
+  utilitiesFetch: FetchState<APIUtilitiesResponse>,
   tooltipSize: number,
 ) => {
   const labelSlot = label(
@@ -148,22 +149,6 @@ const renderEmailField = (email: string, setEmail: (e: string) => void) => (
   </div>
 );
 
-type FetchState =
-  | {
-      state: 'init';
-    }
-  | {
-      state: 'loading';
-    }
-  | {
-      state: 'complete';
-      response: APIUtilitiesResponse;
-    }
-  | {
-      state: 'error';
-      message: string;
-    };
-
 export type FormValues = {
   zip: string;
   ownerStatus: OwnerStatus;
@@ -205,7 +190,9 @@ export const CalculatorForm: FC<{
   const [projects, setProjects] = useState(initialValues.projects ?? []);
   const [email, setEmail] = useState(initialValues.email ?? '');
 
-  const [utilitiesFetchState, setUtilitiesFetchState] = useState<FetchState>({
+  const [utilitiesFetchState, setUtilitiesFetchState] = useState<
+    FetchState<APIUtilitiesResponse>
+  >({
     state: 'init',
   });
 
