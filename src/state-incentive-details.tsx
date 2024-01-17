@@ -1,5 +1,4 @@
 import { msg, str } from '@lit/localize';
-import { css } from 'lit';
 import { FC, Key, PropsWithChildren, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
@@ -11,19 +10,6 @@ import { IconTabBar } from './icon-tab-bar';
 import { ExclamationPoint, UpRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { Separator } from './separator';
-
-export const stateIncentivesStyles = css`
-  /* for now, override these variables just for the state calculator */
-  :host {
-    /* select */
-    --ra-select-focus-color: var(--rewiring-purple);
-    /* input */
-    --ra-input-border: 1px solid #e2e2e2;
-    --ra-input-focus-color: var(--rewiring-purple);
-    --ra-input-margin: 0;
-    --ra-input-padding: 0.5rem 0.75rem;
-  }
-`;
 
 const formatTitle = (incentive: Incentive) => {
   const item = itemName(incentive.item.type);
@@ -232,7 +218,7 @@ const renderIncentiveCard = (key: Key, incentive: Incentive) => (
 function scrollToForm(event: React.MouseEvent) {
   const calculator = (
     event.currentTarget.getRootNode() as ShadowRoot
-  )?.querySelector('.calculator');
+  )?.getElementById('calc-root');
 
   if (!calculator) {
     return;
@@ -301,10 +287,10 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
 
   return (
     <Card isFlat={true}>
-      <h1 className="text-grey-700 text-xl font-normal">
+      <h1 className="text-grey-700 text-xl font-normal leading-tight text-balance">
         {msg('No incentives available for this project')}
       </h1>
-      <p>
+      <p className="leading-normal">
         {msg(
           'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
         )}

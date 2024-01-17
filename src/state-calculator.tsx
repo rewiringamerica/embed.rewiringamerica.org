@@ -3,7 +3,7 @@ import { configureLocalization, localized, msg } from '@lit/localize';
 import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import tailwindStyles from 'bundle-text:./tailwind.css';
 import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
-import { LitElement, html, unsafeCSS } from 'lit';
+import { LitElement, css, html, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Root } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -22,11 +22,8 @@ import { safeLocalStorage } from './safe-local-storage';
 import { selectStyles } from './select';
 import { Separator } from './separator';
 import { CalculatorForm, FormValues } from './state-calculator-form';
-import {
-  StateIncentives,
-  stateIncentivesStyles,
-} from './state-incentive-details';
-import { baseStyles } from './styles';
+import { StateIncentives } from './state-incentive-details';
+import { baseVariables } from './styles';
 import { inputStyles } from './styles/input';
 import { tooltipStyles } from './tooltip';
 
@@ -103,11 +100,22 @@ export class RewiringAmericaStateCalculator extends LitElement {
   static override styles = [
     unsafeCSS(tailwindStyles),
     unsafeCSS(shoelaceTheme),
-    baseStyles,
+    baseVariables,
     inputStyles,
     tooltipStyles,
     selectStyles,
-    stateIncentivesStyles,
+    css`
+      /* for now, override these variables just for the state calculator */
+      :host {
+        /* select */
+        --ra-select-focus-color: var(--rewiring-purple);
+        /* input */
+        --ra-input-border: 1px solid #e2e2e2;
+        --ra-input-focus-color: var(--rewiring-purple);
+        --ra-input-margin: 0;
+        --ra-input-padding: 0.5rem 0.75rem;
+      }
+    `,
   ];
 
   /**
@@ -358,7 +366,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
       <>
         <Card>
           <div className="flex justify-between items-baseline">
-            <h1 className="text-base sm:text-xl">
+            <h1 className="text-base sm:text-xl font-medium leading-tight">
               {msg('Your household info')}
             </h1>
             <div>
@@ -445,7 +453,7 @@ export class RewiringAmericaStateCalculator extends LitElement {
     this.reactElements.set('calc-root', calculator);
     this.reactElements.set('calc-footer', <CalculatorFooter />);
     return html`
-      <div class="calculator" id="calc-root"></div>
+      <div class="grid gap-4 sm:gap-6 lg:gap-12" id="calc-root"></div>
       <div id="calc-footer"></div>
     `;
   }
