@@ -147,15 +147,9 @@ const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
       'leading-tight',
       'tracking-[0.03438rem]',
       'uppercase',
-      isWarning
-        ? [
-            'bg-yellow-200',
-            'text-[#806c23]',
-            'py-[0.1875rem]',
-            'pl-[0.1875rem]',
-            'pr-2.5',
-          ]
-        : ['bg-purple-100', 'text-gray-700', 'px-2.5', 'py-1'],
+      isWarning &&
+        'bg-yellow-200 text-[#806c23] py-[0.1875rem] pl-[0.1875rem] pr-2.5',
+      !isWarning && 'bg-purple-100 text-gray-700 px-2.5 py-1',
     )}
   >
     {isWarning ? <ExclamationPoint w={16} h={16} /> : null}

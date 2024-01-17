@@ -35,19 +35,10 @@ export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
           'gap-2',
           'items-center',
           'justify-center',
-          isSelected
-            ? [
-                'cursor-default',
-                'text-white',
-                'bg-purple-500',
-                'border-purple-500',
-              ]
-            : [
-                'cursor-pointer',
-                'text-purple-500',
-                'bg-transparent',
-                'border-grey-300',
-              ],
+          isSelected &&
+            'cursor-default text-white bg-purple-500 border-purple-500',
+          !isSelected &&
+            'cursor-pointer text-purple-500 bg-transparent border-grey-300',
         )}
         role="tab"
         aria-selected={isSelected}
