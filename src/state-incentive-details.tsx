@@ -1,4 +1,5 @@
 import { msg, str } from '@lit/localize';
+import clsx from 'clsx';
 import { FC, Key, PropsWithChildren, forwardRef, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
@@ -132,66 +133,58 @@ const renderStartDate = (incentive: Incentive) =>
 const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
   isWarning,
   children,
-}) => {
-  const classes = [
-    'flex',
-    'w-fit',
-    'gap-2.5',
-    'items-center',
-    'justify-center',
-    'rounded',
-    'font-bold',
-    'text-xsm',
-    'leading-tight',
-    'tracking-[0.03438rem]',
-    'uppercase',
-  ];
-  if (isWarning) {
-    classes.push(
-      'bg-yellow-200',
-      'text-[#806c23]',
-      'py-[0.1875rem]',
-      'pl-[0.1875rem]',
-      'pr-2.5',
-    );
-  } else {
-    classes.push('bg-purple-100', 'text-gray-700', 'px-2.5', 'py-1');
-  }
-  return (
-    <div className={classes.join(' ')}>
-      {isWarning ? <ExclamationPoint w={16} h={16} /> : null}
-      {children}
-    </div>
-  );
-};
+}) => (
+  <div
+    className={clsx(
+      'flex',
+      'w-fit',
+      'gap-2.5',
+      'items-center',
+      'justify-center',
+      'rounded',
+      'font-bold',
+      'text-xsm',
+      'leading-tight',
+      'tracking-[0.03438rem]',
+      'uppercase',
+      isWarning &&
+        'bg-yellow-200 text-[#806c23] py-[0.1875rem] pl-[0.1875rem] pr-2.5',
+      !isWarning && 'bg-purple-100 text-gray-700 px-2.5 py-1',
+    )}
+  >
+    {isWarning ? <ExclamationPoint w={16} h={16} /> : null}
+    {children}
+  </div>
+);
 
 const LinkButton: FC<PropsWithChildren<{ href: string }>> = ({
   href,
   children,
-}) => {
-  const classes = [
-    'flex',
-    'gap-2',
-    'justify-center',
-    'items-center',
-    'self-stretch',
-    'h-9',
-    'px-3.5',
-    'py-1.5',
-    'border',
-    'rounded',
-    'border-grey-300',
-    'text-purple-500',
-    'text-base',
-    'font-medium',
-    'leading-tight',
-  ];
-  return (
-    <a className={classes.join(' ')} target="_blank" href={href}>
-      {children}
-    </a>
-  );
-};
+}) => (
+  <a
+    className={clsx(
+      'flex',
+      'gap-2',
+      'justify-center',
+      'items-center',
+      'self-stretch',
+      'h-9',
+      'px-3.5',
+      'py-1.5',
+      'border',
+      'rounded',
+      'border-grey-300',
+      'text-purple-500',
+      'text-base',
+      'font-medium',
+      'leading-tight',
+    )}
+    target="_blank"
+    href={href}
+  >
+    {children}
+  </a>
+);
 
 const renderIncentiveCard = (key: Key, incentive: Incentive) => (
   <Card key={key}>
@@ -231,7 +224,6 @@ function scrollToForm(event: React.MouseEvent) {
   });
 }
 
-// TODO: don't reuse card CSS here, make something standalone
 const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
   const [email, setEmail] = useState('');
 

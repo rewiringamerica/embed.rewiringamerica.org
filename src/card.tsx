@@ -17,8 +17,8 @@ export const Card = forwardRef<
       'rounded-xl',
       'overflow-clip',
       'min-w-52',
-      { shadow: !isFlat },
-      isFlat ? 'bg-yellow-200' : 'bg-white',
+      isFlat && 'bg-yellow-200',
+      !isFlat && 'bg-white shadow',
     )}
   >
     <div
@@ -26,10 +26,9 @@ export const Card = forwardRef<
         'grid',
         'grid-cols-1',
         'gap-4',
-        isFlat ? ['px-4', 'py-8'] : ['p-4', 'sm:p-6'],
-        { 'mx-auto': isFlat },
-        { 'text-center': isFlat },
-        { 'max-w-78': isFlat },
+        isFlat && 'mx-auto text-center max-w-78',
+        isFlat && 'px-4 py-8',
+        !isFlat && 'p-4 sm:p-6',
       )}
     >
       {children}
