@@ -80,7 +80,7 @@ function formatAmount(amount: number, amount_type: AmountType) {
       return `$${amount.toLocaleString()}`;
     }
   } else {
-    return amount.toString();
+    return `$${amount.toLocaleString()}`;
   }
 }
 
@@ -103,13 +103,16 @@ function formatStartDate(start_date: number, type: IncentiveType) {
   }
 }
 
+const absoluteRewiringURL = (path: string) =>
+  new URL(path, 'https://www.rewiringamerica.org').toString();
+
 const renderDetailRow = (key: number, incentive: IIncentiveRecord) => (
   <tr key={key} className={incentive.eligible ? '' : 'row--dimmed'}>
     <td>
       <a
         className="more-info-link"
         target="_blank"
-        href="https://www.rewiringamerica.org/${incentive.more_info_url}"
+        href={absoluteRewiringURL(incentive.more_info_url)}
       >
         {incentive.item}
       </a>
@@ -124,7 +127,7 @@ const renderDetailRow = (key: number, incentive: IIncentiveRecord) => (
       <a
         className="more-info-button"
         target="_blank"
-        href="https://www.rewiringamerica.org/${incentive.more_info_url}"
+        href={absoluteRewiringURL(incentive.more_info_url)}
       >
         More Info
       </a>
