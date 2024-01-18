@@ -135,4 +135,35 @@ describe('rewiring-america-state-calculator', () => {
       .contains('Your household info')
       .isInViewport();
   });
+
+  it('shows an error if you query in the wrong state', () => {
+    cy.intercept({ pathname: '/api/v1/utilities' }).as('utilitiesFetch');
+
+    // Add the state-restricting attribute to the element
+    cy.get('rewiring-america-state-calculator').invoke('attr', 'state', 'RI');
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .find('#zip')
+      .type('94306'); // California
+
+    cy.wait('@utilitiesFetch');
+
+    // This error message is displayed under the utility selector, but it's
+    // inside a shadow DOM so this won't find it. This is to prove that the
+    // utility selector error is not what the final assertion below is finding.
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .contains('That ZIP code is not in Rhode Island')
+      .should('not.exist');
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .find('button#calculate')
+      .click();
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .contains('That ZIP code is not in Rhode Island.');
+  });
 });
