@@ -1,4 +1,4 @@
-import { configureLocalization, localized, msg } from '@lit/localize';
+import { configureLocalization, localized, msg, str } from '@lit/localize';
 import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import tailwindStyles from 'bundle-text:./tailwind.css';
 import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
@@ -24,6 +24,7 @@ import { selectStyles } from './select';
 import { Separator } from './separator';
 import { CalculatorForm, FormValues } from './state-calculator-form';
 import { StateIncentives } from './state-incentive-details';
+import { STATES } from './states';
 import { baseVariables } from './styles';
 import { inputStyles } from './styles/input';
 import { tooltipStyles } from './tooltip';
@@ -198,6 +199,7 @@ const fetch = (
   apiHost: string,
   apiKey: string,
   language: string,
+  stateId: string | null,
   includeBetaStates: boolean,
   formValues: FormValues,
   setFetchState: (fs: FetchState<APIResponse>) => void,
@@ -236,7 +238,19 @@ const fetch = (
   });
 
   return fetchApi<APIResponse>(apiKey, apiHost, '/api/v1/calculator', query)
-    .then(response => setFetchState({ state: 'complete', response }))
+    .then(response => {
+      // If our "state" attribute is set, enforce that the entered location is
+      // in that state.
+      if (stateId && stateId !== response.location.state) {
+        const stateCodeOrName = STATES[stateId]?.name() ?? stateId;
+        setFetchState({
+          state: 'error',
+          message: msg(str`That ZIP code is not in ${stateCodeOrName}.`),
+        });
+      } else {
+        setFetchState({ state: 'complete', response });
+      }
+    })
     .catch(exc => setFetchState({ state: 'error', message: exc.message }));
 };
 
@@ -327,6 +341,7 @@ export const StateCalculator: FC<{
       apiHost,
       apiKey,
       language,
+      stateId ?? null,
       includeBetaStates,
       formValues,
       setFetchState,
