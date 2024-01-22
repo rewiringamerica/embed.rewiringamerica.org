@@ -360,6 +360,14 @@
   <source>Calculate</source>
   <target>Calcular</target>
 </trans-unit>
+<trans-unit id="sdca5ca4d7a86693d">
+  <source>Deselect all</source>
+  <target>Deseleccionar todo</target>
+</trans-unit>
+<trans-unit id="sd0b6082239185272">
+  <source>Select all</source>
+  <target>Seleccionar todo</target>
+</trans-unit>
 </body>
 </file>
 </xliff>

@@ -1,10 +1,14 @@
 import SlSelectComponent from '@shoelace-style/shoelace/dist/components/select/select';
+import SlDivider from '@shoelace-style/shoelace/dist/react/divider';
 import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 import SlOption from '@shoelace-style/shoelace/dist/react/option';
 import SlSelect from '@shoelace-style/shoelace/dist/react/select';
 import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
+
+import { msg } from '@lit/localize';
 import { css } from 'lit';
 import { useEffect, useRef } from 'react';
+import { TextButton } from './buttons';
 
 export interface OptionParam<T extends string> {
   label: string;
@@ -128,6 +132,8 @@ export const Select = <T extends string>({
   );
 };
 
+const SELECT_ALL_VALUE = 'select-all';
+
 export const MultiSelect = <T extends string>({
   id,
   labelSlot,
@@ -159,6 +165,18 @@ export const MultiSelect = <T extends string>({
     }
   });
 
+  const areAllSelected = currentValues.length === options.length;
+  const selectAll = (
+    <SlOption key={SELECT_ALL_VALUE} value={SELECT_ALL_VALUE}>
+      <TextButton
+        extraClasses={['block', 'w-full', 'text-left']}
+        onClick={e => e.preventDefault()}
+      >
+        {areAllSelected ? msg('Deselect all') : msg('Select all')}
+      </TextButton>
+    </SlOption>
+  );
+
   return (
     <div>
       <SlSelect
@@ -173,15 +191,18 @@ export const MultiSelect = <T extends string>({
         hoist
         multiple
         onKeyDown={handleTabDown}
-        onSlChange={
-          onChange
-            ? e => onChange((e.currentTarget as SlSelectComponent).value as T[])
-            : () => {}
-        }
+        onSlChange={e => {
+          const newValues = (e.currentTarget as SlSelectComponent)
+            .value as string[];
+          if (newValues.includes(SELECT_ALL_VALUE)) {
+            onChange?.(areAllSelected ? [] : options.map(o => o.value));
+          } else {
+            onChange?.(newValues as T[]);
+          }
+        }}
       >
         {labelSlot}
-        <SlIcon slot="expand-icon"></SlIcon>
-        {options.map(o => option(o))}
+        {[selectAll, <SlDivider key="div" />, ...options.map(o => option(o))]}
       </SlSelect>
       <span className="focus"></span>
     </div>
@@ -207,7 +228,7 @@ export const selectStyles = css`
      * This replaces the highlighted-row background color. There's no variable
      * specifically for that.
      */
-    --sl-color-primary-600: var(--ra-select-focus-color);
+    --sl-color-primary-600: rgb(var(--purple-100));
   }
 
   /* Adjust spacing between content and left edge */
@@ -247,5 +268,10 @@ export const selectStyles = css`
   /* Get the tag close to the side edges of the combobox */
   sl-select#projects::part(tags) {
     margin-inline-start: calc(0.25rem - var(--sl-spacing-small));
+  }
+
+  /* Keep the dark text color; all possible backgrounds are light */
+  sl-option::part(base) {
+    color: inherit;
   }
 `;

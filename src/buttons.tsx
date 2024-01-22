@@ -30,10 +30,20 @@ export const PrimaryButton: FC<
 
 /** A button that looks like a link; no border or background. */
 export const TextButton: FC<
-  PropsWithChildren<{ onClick?: (e: React.MouseEvent) => void }>
-> = ({ children, onClick }) => (
+  PropsWithChildren<{
+    extraClasses?: string[];
+    onClick?: (e: React.MouseEvent) => void;
+  }>
+> = ({ children, extraClasses, onClick }) => (
   <button
-    className="text-purple-500 text-base font-medium leading-tight hover:underline"
+    className={clsx(
+      'text-purple-500',
+      'text-base',
+      'font-medium',
+      'leading-tight',
+      'hover:underline',
+      ...(extraClasses ?? []),
+    )}
     onClick={onClick}
   >
     {children}
