@@ -46,7 +46,7 @@ export const TextButton: FC<
       ...(extraClasses ?? []),
     )}
     onClick={onClick}
-    type={type}
+    type={type ?? 'button'}
   >
     {children}
   </button>

@@ -168,7 +168,7 @@ export const MultiSelect = <T extends string>({
   const areAllSelected = currentValues.length === options.length;
   const selectAll = (
     <SlOption key={SELECT_ALL_VALUE} value={SELECT_ALL_VALUE}>
-      <TextButton extraClasses={['block', 'w-full', 'text-left']} type="button">
+      <TextButton extraClasses={['block', 'w-full', 'text-left']}>
         {areAllSelected ? msg('Deselect all') : msg('Select all')}
       </TextButton>
     </SlOption>
