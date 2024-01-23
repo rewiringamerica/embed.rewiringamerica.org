@@ -7,7 +7,7 @@ export const baseVariables = css`
     --rewiring-yellow-darker: rgb(242, 199, 46);
     --rewiring-purple: rgb(74, 0, 195);
     --rewiring-purple-darker: rgb(56, 8, 151);
-    --rewiring-light-purple: rgb(241, 237, 249);
+    --rewiring-light-purple: rgb(240, 237, 248);
     --rewiring-light-yellow: rgb(254, 242, 202);
   }
 

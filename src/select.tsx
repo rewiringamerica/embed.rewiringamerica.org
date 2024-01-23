@@ -225,7 +225,7 @@ export const selectStyles = css`
      * This replaces the highlighted-row background color. There's no variable
      * specifically for that.
      */
-    --sl-color-primary-600: rgb(var(--purple-100));
+    --sl-color-primary-600: var(--rewiring-light-purple);
   }
 
   /* Adjust spacing between content and left edge */
