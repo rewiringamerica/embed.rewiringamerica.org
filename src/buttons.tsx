@@ -32,9 +32,10 @@ export const PrimaryButton: FC<
 export const TextButton: FC<
   PropsWithChildren<{
     extraClasses?: string[];
+    type?: 'submit' | 'reset' | 'button';
     onClick?: (e: React.MouseEvent) => void;
   }>
-> = ({ children, extraClasses, onClick }) => (
+> = ({ children, extraClasses, type, onClick }) => (
   <button
     className={clsx(
       'text-purple-500',
@@ -45,6 +46,7 @@ export const TextButton: FC<
       ...(extraClasses ?? []),
     )}
     onClick={onClick}
+    type={type}
   >
     {children}
   </button>
