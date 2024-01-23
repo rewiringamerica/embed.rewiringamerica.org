@@ -271,4 +271,8 @@ export const selectStyles = css`
   sl-option::part(base) {
     color: inherit;
   }
+
+  sl-divider {
+    border-top: 1px solid rgb(var(--grey-200));
+  }
 `;
