@@ -4,18 +4,18 @@ import { APIUtilitiesResponse } from './api/calculator-types-v1';
 import { FetchState } from './api/fetch-state';
 import { PrimaryButton } from './buttons';
 import { FilingStatus, OwnerStatus } from './calculator-types';
+import { FormLabel } from './components/form-label';
+import { Option, Select } from './components/select';
 import { CurrencyInput } from './currency-input';
 import { PROJECTS, Project } from './projects';
-import { MultiSelect, OptionParam, Select } from './select';
 import { STATES } from './states';
-import { TooltipButton } from './tooltip';
 
-const OWNER_STATUS_OPTIONS: () => OptionParam<OwnerStatus>[] = () => [
+const OWNER_STATUS_OPTIONS: () => Option<OwnerStatus>[] = () => [
   { value: 'homeowner', label: msg('Homeowner') },
   { value: 'renter', label: msg('Renter') },
 ];
 
-const TAX_FILING_OPTIONS: () => OptionParam<FilingStatus>[] = () => [
+const TAX_FILING_OPTIONS: () => Option<FilingStatus>[] = () => [
   { value: 'single', label: msg('Single') },
   { value: 'joint', label: msg('Married filing jointly') },
   {
@@ -26,9 +26,7 @@ const TAX_FILING_OPTIONS: () => OptionParam<FilingStatus>[] = () => [
 ];
 
 const HH_SIZES = ['1', '2', '3', '4', '5', '6', '7', '8'] as const;
-const HOUSEHOLD_SIZE_OPTIONS: () => OptionParam<
-  (typeof HH_SIZES)[number]
->[] = () =>
+const HOUSEHOLD_SIZE_OPTIONS: () => Option<(typeof HH_SIZES)[number]>[] = () =>
   HH_SIZES.map(count => ({
     label:
       count === '1'
@@ -37,36 +35,12 @@ const HOUSEHOLD_SIZE_OPTIONS: () => OptionParam<
     value: count,
   }));
 
-const label = (
-  labelText: string,
-  tooltipText?: string,
-  tooltipSize?: number,
-) => {
-  return (
-    <div
-      className="flex gap-1 my-2 text-xsm leading-5 font-bold uppercase tracking-[0.55px]"
-      slot="label"
-    >
-      {labelText}
-      {tooltipSize && tooltipText ? (
-        <TooltipButton text={tooltipText} iconSize={tooltipSize} />
-      ) : null}
-    </div>
-  );
-};
-
 const renderUtilityField = (
   utility: string,
   setUtility: (newValue: string) => void,
   utilitiesFetch: FetchState<APIUtilitiesResponse>,
-  tooltipSize: number,
 ) => {
-  const labelSlot = label(
-    msg('Electric Utility', { desc: 'as in utility company' }),
-    msg('Choose the company you pay your electric bill to.'),
-    tooltipSize,
-  );
-  const options: OptionParam<string>[] =
+  const options: Option<string>[] =
     utilitiesFetch.state === 'complete'
       ? Object.entries(utilitiesFetch.response.utilities).map(([id, info]) => ({
           value: id,
@@ -87,7 +61,9 @@ const renderUtilityField = (
   return (
     <Select
       id="utility"
-      labelSlot={labelSlot}
+      multiple={false}
+      labelText={msg('Electric Utility', { desc: 'as in utility company' })}
+      tooltipText={msg('Choose the company you pay your electric bill to.')}
       placeholder={msg('Select utility')}
       disabled={options.length === 0}
       options={options}
@@ -102,15 +78,11 @@ const renderUtilityField = (
 const renderProjectsField = (
   projects: Project[],
   setProjects: (newProjects: Project[]) => void,
-  tooltipSize: number,
 ) => (
-  <MultiSelect
+  <Select
     id="projects"
-    labelSlot={label(
-      msg('Projects you’re most interested in'),
-      msg('Select the projects you’re most interested in.'),
-      tooltipSize,
-    )}
+    multiple={true}
+    labelText={msg('Projects you’re most interested in')}
     options={Object.entries(PROJECTS)
       .map(([value, data]) => ({
         value: value as Project,
@@ -118,17 +90,17 @@ const renderProjectsField = (
         iconURL: data.iconURL,
       }))
       .sort((a, b) => a.label.localeCompare(b.label))}
-    currentValues={projects}
+    currentValue={projects}
     onChange={setProjects}
     placeholder={msg('None selected')}
-    maxOptionsVisible={1}
-    placement={'top'}
   />
 );
 
 const renderEmailField = (email: string, setEmail: (e: string) => void) => (
   <div>
-    <label htmlFor="email">{label(msg('Email address (optional)'))}</label>
+    <FormLabel>
+      <label htmlFor="email">{msg('Email address (optional)')}</label>
+    </FormLabel>
     <input
       tabIndex={0}
       id="email"
@@ -166,7 +138,6 @@ export const CalculatorForm: FC<{
   showProjectField: boolean;
   utilityFetcher: (zip: string) => Promise<APIUtilitiesResponse>;
   stateId?: string;
-  tooltipSize: number;
   onSubmit: (formValues: FormValues) => void;
 }> = ({
   initialValues,
@@ -174,7 +145,6 @@ export const CalculatorForm: FC<{
   showProjectField,
   utilityFetcher,
   stateId,
-  tooltipSize,
   onSubmit,
 }) => {
   const [zip, setZip] = useState(initialValues.zip);
@@ -251,30 +221,28 @@ export const CalculatorForm: FC<{
       }}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
-        {showProjectField
-          ? renderProjectsField(projects, setProjects, tooltipSize)
-          : null}
+        {showProjectField ? renderProjectsField(projects, setProjects) : null}
         <Select
           id="owner_status"
-          labelSlot={label(
-            msg('Rent or own', { desc: 'form field label' }),
-            msg('Homeowners and renters qualify for different incentives.'),
-            tooltipSize,
+          multiple={false}
+          labelText={msg('Rent or own', { desc: 'form field label' })}
+          tooltipText={msg(
+            'Homeowners and renters qualify for different incentives.',
           )}
           options={OWNER_STATUS_OPTIONS()}
           currentValue={ownerStatus}
           onChange={v => setOwnerStatus(v as OwnerStatus)}
         />
         <div>
-          <label htmlFor="zip">
-            {label(
-              msg('Zip', { desc: 'as in zip code' }),
-              msg(
-                'Your zip code helps determine the amount of discounts and tax credits you qualify for.',
-              ),
-              tooltipSize,
+          <FormLabel
+            tooltipText={msg(
+              'Your zip code helps determine the amount of discounts and tax credits you qualify for.',
             )}
-          </label>
+          >
+            <label htmlFor="zip">
+              {msg('Zip', { desc: 'as in zip code' })}
+            </label>
+          </FormLabel>
 
           <input
             tabIndex={0}
@@ -292,22 +260,15 @@ export const CalculatorForm: FC<{
             onChange={event => setZip(event.currentTarget.value)}
           />
         </div>
-        {renderUtilityField(
-          utility,
-          setUtility,
-          utilitiesFetchState,
-          tooltipSize,
-        )}
+        {renderUtilityField(utility, setUtility, utilitiesFetchState)}
         <div>
-          <label htmlFor="household_income">
-            {label(
-              msg('Household income'),
-              msg(
-                'Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
-              ),
-              tooltipSize,
+          <FormLabel
+            tooltipText={msg(
+              'Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
             )}
-          </label>
+          >
+            <label htmlFor="household_income">{msg('Household income')}</label>
+          </FormLabel>
           <CurrencyInput
             placeholder="$60,000"
             name="household_income"
@@ -320,12 +281,10 @@ export const CalculatorForm: FC<{
         </div>
         <Select
           id="tax_filing"
-          labelSlot={label(
-            msg('Tax filing', { desc: 'form field label' }),
-            msg(
-              'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
-            ),
-            tooltipSize,
+          multiple={false}
+          labelText={msg('Tax filing', { desc: 'form field label' })}
+          tooltipText={msg(
+            'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
           )}
           options={TAX_FILING_OPTIONS()}
           currentValue={taxFiling}
@@ -333,12 +292,10 @@ export const CalculatorForm: FC<{
         />
         <Select
           id="household_size"
-          labelSlot={label(
-            msg('Household size'),
-            msg(
-              'Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.',
-            ),
-            tooltipSize,
+          multiple={false}
+          labelText={msg('Household size')}
+          tooltipText={msg(
+            'Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.',
           )}
           options={HOUSEHOLD_SIZE_OPTIONS()}
           currentValue={householdSize}

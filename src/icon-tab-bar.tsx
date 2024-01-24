@@ -2,8 +2,8 @@ import { msg } from '@lit/localize';
 import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 import clsx from 'clsx';
 import { FC } from 'react';
+import { Option, Select } from './components/select';
 import { PROJECTS, Project, shortLabel } from './projects';
-import { OptionParam, Select } from './select';
 
 type Props = {
   tabs: Project[];
@@ -56,7 +56,7 @@ export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
     );
   });
 
-  const options: OptionParam<Project>[] = tabs.map(project => ({
+  const options: Option<Project>[] = tabs.map(project => ({
     value: project,
     label: PROJECTS[project].label(),
     iconURL: PROJECTS[project].iconURL,
@@ -73,7 +73,9 @@ export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
       <div className="sm:hidden mb-6">
         <Select
           id="project-selector"
-          aria-label={msg('Project', { desc: 'label for a selector input' })}
+          labelText={msg('Project', { desc: 'label for a selector input' })}
+          hiddenLabel={true}
+          multiple={false}
           currentValue={selectedTab}
           options={options}
           onChange={project => onTabSelected(project)}

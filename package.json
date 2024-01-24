@@ -4,6 +4,8 @@
   "license": "Apache-2.0",
   "private": true,
   "dependencies": {
+    "@floating-ui/react-dom": "^2.0.6",
+    "@headlessui/react": "^1.7.18",
     "@lit-labs/task": "^2.0.0",
     "@lit/localize": "^0.12.1",
     "@shoelace-style/shoelace": "^2.12.0",
@@ -37,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "@headlessui/tailwindcss": "^0.2.0",
     "@lit/localize-tools": "^0.7.1",
     "@parcel/transformer-inline-string": "2.10.2",
     "@swc/helpers": "^0.4.14",

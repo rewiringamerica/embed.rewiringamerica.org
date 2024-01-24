@@ -29,7 +29,10 @@ describe('rewiring-america-state-calculator events', () => {
         expect(event.detail).to.exist;
         expect(event.detail.formData).to.exist;
         expect(event.detail.formData.zip).to.equal('02859');
-        expect(event.detail.formData.projects).to.eql(['ev', 'hvac']);
+        expect(Array.from(event.detail.formData.projects).sort()).to.eql([
+          'ev',
+          'hvac',
+        ]);
       });
   });
 
