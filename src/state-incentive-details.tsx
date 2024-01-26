@@ -121,8 +121,9 @@ const formatIncentiveType = (incentive: Incentive) =>
 
 /** We're special-casing these to hardcode an availability start date */
 const isIRARebate = (incentive: Incentive) =>
-  incentive.payment_methods[0] === 'pos_rebate' &&
-  incentive.authority_type === 'federal';
+  incentive.authority_type === 'federal' &&
+  (incentive.payment_methods[0] === 'pos_rebate' ||
+    incentive.payment_methods[0] === 'performance_rebate');
 
 /** TODO get real dates in the data! */
 const renderStartDate = (incentive: Incentive) =>
