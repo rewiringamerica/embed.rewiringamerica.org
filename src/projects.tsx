@@ -1,11 +1,19 @@
 import { msg } from '@lit/localize';
+import BatteryIcon from 'jsx:../static/icons/battery.svg';
+import ClothesDryerIcon from 'jsx:../static/icons/clothes-dryer.svg';
+import CookingIcon from 'jsx:../static/icons/cooking.svg';
+import ElectricalWiringIcon from 'jsx:../static/icons/electrical-wiring.svg';
+import EvIcon from 'jsx:../static/icons/ev.svg';
+import HvacIcon from 'jsx:../static/icons/hvac.svg';
+import SolarIcon from 'jsx:../static/icons/solar.svg';
+import WaterHeaterIcon from 'jsx:../static/icons/water-heater.svg';
+import WeatherizationIcon from 'jsx:../static/icons/weatherization.svg';
 import { ItemType } from './api/calculator-types-v1';
 
 type ProjectInfo = {
   label: () => string;
   shortLabel?: () => string;
-  // The first argument for the URL must be a string literal for the correct Parcel behavior: https://parceljs.org/languages/javascript/#url-dependencies
-  iconURL: URL;
+  getIcon: () => React.ReactElement;
   items: ItemType[];
 };
 
@@ -33,7 +41,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
   heat_pump_clothes_dryer: {
     items: ['heat_pump_clothes_dryer'],
     label: () => msg('Clothes dryer'),
-    iconURL: new URL('/static/icons/clothes-dryer.svg', import.meta.url),
+    getIcon: () => <ClothesDryerIcon width="1em" />,
   },
   hvac: {
     items: [
@@ -45,7 +53,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       msg('HVAC', {
         desc: 'short label for "heating, ventilation & cooling"',
       }),
-    iconURL: new URL('/static/icons/hvac.svg', import.meta.url),
+    getIcon: () => <HvacIcon width="1em" />,
   },
   ev: {
     items: [
@@ -55,41 +63,41 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     ],
     label: () => msg('Electric vehicle'),
     shortLabel: () => msg('EV', { desc: 'short label for "electric vehicle"' }),
-    iconURL: new URL('/static/icons/ev.svg', import.meta.url),
+    getIcon: () => <EvIcon width="1em" />,
   },
   solar: {
     items: ['rooftop_solar_installation'],
     label: () => msg('Solar', { desc: 'i.e. rooftop solar' }),
-    iconURL: new URL('/static/icons/solar.svg', import.meta.url),
+    getIcon: () => <SolarIcon width="1em" />,
   },
   battery: {
     items: ['battery_storage_installation'],
     label: () => msg('Battery storage'),
-    iconURL: new URL('/static/icons/battery.svg', import.meta.url),
+    getIcon: () => <BatteryIcon width="1em" />,
   },
   heat_pump_water_heater: {
     items: ['heat_pump_water_heater'],
     label: () => msg('Water heater'),
-    iconURL: new URL('/static/icons/water-heater.svg', import.meta.url),
+    getIcon: () => <WaterHeaterIcon width="1em" />,
   },
   cooking: {
     items: ['electric_stove'],
     label: () => msg('Cooking stove/range'),
     shortLabel: () =>
       msg('Cooking', { desc: 'short label for stove/range incentives' }),
-    iconURL: new URL('/static/icons/cooking.svg', import.meta.url),
+    getIcon: () => <CookingIcon width="1em" />,
   },
   wiring: {
     items: ['electric_panel', 'electric_wiring'],
     label: () => msg('Electrical panel & wiring'),
     shortLabel: () =>
       msg('Electrical', { desc: 'short for "electrical panel and wiring"' }),
-    iconURL: new URL('/static/icons/electrical-wiring.svg', import.meta.url),
+    getIcon: () => <ElectricalWiringIcon width="1em" />,
   },
   weatherization_and_efficiency: {
     items: ['weatherization', 'efficiency_rebates'],
     label: () => msg('Weatherization & efficiency'),
     shortLabel: () => msg('Weatherization'),
-    iconURL: new URL('/static/icons/weatherization.svg', import.meta.url),
+    getIcon: () => <WeatherizationIcon width="1em" />,
   },
 };

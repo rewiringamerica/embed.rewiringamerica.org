@@ -42,6 +42,7 @@
     "@headlessui/tailwindcss": "^0.2.0",
     "@lit/localize-tools": "^0.7.1",
     "@parcel/transformer-inline-string": "2.10.2",
+    "@parcel/transformer-svg-react": "2.10.2",
     "@swc/helpers": "^0.4.14",
     "@types/react": "^18.2.46",
     "@types/react-dom": "^18.2.18",
