@@ -1,5 +1,4 @@
 import { configureLocalization, localized, msg, str } from '@lit/localize';
-import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import tailwindStyles from 'bundle-text:./tailwind.css';
 import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
 import { LitElement, css, html, unsafeCSS } from 'lit';
@@ -14,6 +13,7 @@ import { TextButton } from './buttons';
 import { CalculatorFooter } from './calculator-footer';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { Card } from './card';
+import { Spinner } from './components/spinner';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import { allLocales, sourceLocale, targetLocales } from './locales/locales';
 import * as spanishLocale from './locales/strings/es';
@@ -419,7 +419,7 @@ export const StateCalculator: FC<{
       </Card>
       {fetchState.state === 'init' ? null : fetchState.state === 'loading' ? (
         <Card>
-          <SlSpinner className="mx-auto text-3xl" />
+          <Spinner className="mx-auto w-7 h-7" />
         </Card>
       ) : fetchState.state === 'error' ? (
         <Card ref={errorMessageRef} id="error-msg">
