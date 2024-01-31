@@ -382,9 +382,15 @@ export const StateCalculator: FC<{
           </div>
         </div>
         <div className="text-grey-500 text-[0.75rem] leading-tight pb-[0.1875rem]">
-          {msg(
-            'We’re dedicated to safeguarding your privacy. We never share or sell your personal information.',
-          )}
+          {msg('We’re dedicated to safeguarding your privacy.')}{' '}
+          <a
+            className="text-color-action-primary"
+            target="_blank"
+            href="https://content.rewiringamerica.org/view/privacy-policy.pdf"
+          >
+            {msg('Learn more')}
+          </a>
+          .
         </div>
         <CalculatorForm
           key={formKey}

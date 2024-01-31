@@ -125,7 +125,16 @@ const renderEmailField = (
     <div className="mt-1 mx-3 text-grey-300 text-xsm leading-normal">
       {msg(
         'Get updates on incentives, rebates, and more from Rewiring America.',
-      )}
+      )}{' '}
+      {msg('View our')}{' '}
+      <a
+        className="text-color-action-primary"
+        href="https://rewiringamerica.org/terms-of-use"
+        target="_blank"
+      >
+        {msg('terms')}
+      </a>
+      .
     </div>
   </div>
 );
