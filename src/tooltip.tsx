@@ -1,8 +1,8 @@
-import { msg } from '@lit/localize';
 import SlTooltipComponent from '@shoelace-style/shoelace/dist/components/tooltip/tooltip.js';
 import SlTooltip from '@shoelace-style/shoelace/dist/react/tooltip';
 import { css } from 'lit';
 import { FC, useEffect, useRef } from 'react';
+import { useTranslated } from './i18n/use-translated';
 import { QuestionIcon } from './icons';
 
 /** Finds the first SlTooltip ancestor of the given element. */
@@ -87,6 +87,8 @@ export const TooltipButton: FC<{
       ref.current.addEventListener('blur', hideTooltip);
     }
   });
+
+  const { msg } = useTranslated();
 
   return (
     <SlTooltip content={text} trigger="manual" hoist>

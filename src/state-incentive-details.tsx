@@ -1,19 +1,20 @@
-import { msg, str } from '@lit/localize';
 import clsx from 'clsx';
-import { FC, Key, PropsWithChildren, forwardRef, useState } from 'react';
+import { FC, PropsWithChildren, forwardRef, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { AuthorityLogos } from './authority-logos';
 import { PrimaryButton, TextButton } from './buttons';
 import { Card } from './card';
 import { wasEmailSubmitted } from './email-signup';
+import { str } from './i18n/str';
+import { MsgFn, useTranslated } from './i18n/use-translated';
 import { IconTabBar } from './icon-tab-bar';
 import { ExclamationPoint, UpRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { Separator } from './separator';
 
-const formatTitle = (incentive: Incentive) => {
-  const item = itemName(incentive.item.type);
+const formatTitle = (incentive: Incentive, msg: MsgFn) => {
+  const item = itemName(incentive.item.type, msg);
   const amount = incentive.amount;
   if (amount.type === 'dollar_amount') {
     return amount.maximum
@@ -59,7 +60,7 @@ const formatTitle = (incentive: Incentive) => {
 /**
  * TODO this is an internationalization sin. Figure out something better!
  */
-const itemName = (itemType: ItemType) =>
+const itemName = (itemType: ItemType, msg: MsgFn) =>
   itemType === 'battery_storage_installation'
     ? msg('battery storage', { desc: 'e.g. "$100 off [this string]"' })
     : itemType === 'electric_panel'
@@ -106,7 +107,7 @@ const itemName = (itemType: ItemType) =>
       })
     : null;
 
-const formatIncentiveType = (incentive: Incentive) =>
+const formatIncentiveType = (incentive: Incentive, msg: MsgFn) =>
   incentive.payment_methods[0] === 'tax_credit'
     ? msg('Tax credit')
     : incentive.payment_methods[0] === 'pos_rebate'
@@ -124,12 +125,6 @@ const isIRARebate = (incentive: Incentive) =>
   incentive.authority_type === 'federal' &&
   (incentive.payment_methods[0] === 'pos_rebate' ||
     incentive.payment_methods[0] === 'performance_rebate');
-
-/** TODO get real dates in the data! */
-const renderStartDate = (incentive: Incentive) =>
-  isIRARebate(incentive) ? (
-    <Chip isWarning={true}>{msg('Expected in 2024')}</Chip>
-  ) : null;
 
 const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
   isWarning,
@@ -187,28 +182,37 @@ const LinkButton: FC<PropsWithChildren<{ href: string }>> = ({
   </a>
 );
 
-const renderIncentiveCard = (key: Key, incentive: Incentive) => (
-  <Card key={key}>
-    <div className="flex flex-col gap-4 h-full">
-      <Chip>{formatIncentiveType(incentive)}</Chip>
-      <div className="text-gray-700 text-xl leading-normal">
-        {formatTitle(incentive)}
+const IncentiveCard: FC<{ incentive: Incentive }> = ({ incentive }) => {
+  const { msg } = useTranslated();
+  return (
+    <Card>
+      <div className="flex flex-col gap-4 h-full">
+        <Chip>{formatIncentiveType(incentive, msg)}</Chip>
+        <div className="text-gray-700 text-xl leading-normal">
+          {formatTitle(incentive, msg)}
+        </div>
+        <div className="text-gray-700 font-medium leading-tight">
+          {incentive.program}
+        </div>
+        <Separator hideOnSmall={true} />
+        <div className="text-grey-400 leading-normal">
+          {incentive.short_description}
+        </div>
+        {
+          /** TODO get real dates in the data! */
+          isIRARebate(incentive) && (
+            <Chip isWarning={true}>{msg('Expected in 2024')}</Chip>
+          )
+        }
+        <LinkButton href={incentive.program_url ?? incentive.item.url}>
+          {incentive.program_url ? msg('Visit site') : msg('Learn more')}
+          {incentive.program_url ? <UpRightArrow w={20} h={20} /> : null}
+        </LinkButton>
       </div>
-      <div className="text-gray-700 font-medium leading-tight">
-        {incentive.program}
-      </div>
-      <Separator hideOnSmall={true} />
-      <div className="text-grey-400 leading-normal">
-        {incentive.short_description}
-      </div>
-      {renderStartDate(incentive)}
-      <LinkButton href={incentive.program_url ?? incentive.item.url}>
-        {incentive.program_url ? msg('Visit site') : msg('Learn more')}
-        {incentive.program_url ? <UpRightArrow w={20} h={20} /> : null}
-      </LinkButton>
-    </div>
-  </Card>
-);
+    </Card>
+  );
+};
+
 function scrollToForm(event: React.MouseEvent) {
   const calculator = (
     event.currentTarget.getRootNode() as ShadowRoot
@@ -226,6 +230,7 @@ function scrollToForm(event: React.MouseEvent) {
 }
 
 const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
+  const { msg } = useTranslated();
   const [email, setEmail] = useState('');
 
   const emailForm =
@@ -301,7 +306,9 @@ const renderCardCollection = (incentives: Incentive[]) => (
     {incentives
       // Put IRA rebates after everything else
       .sort((a, b) => +isIRARebate(a) - +isIRARebate(b))
-      .map((incentive, index) => renderIncentiveCard(index, incentive))}
+      .map((incentive, index) => (
+        <IncentiveCard key={index} incentive={incentive} />
+      ))}
   </div>
 );
 
@@ -362,6 +369,7 @@ export const StateIncentives: FC<Props> = ({
   selectedProjects,
   emailSubmitter,
 }) => {
+  const { msg } = useTranslated();
   const allEligible = response.incentives.filter(i => i.eligible);
 
   const incentivesByProject = Object.fromEntries(
@@ -378,12 +386,12 @@ export const StateIncentives: FC<Props> = ({
     .map(([project]) => project);
 
   const interestedProjects = selectedProjects.sort((a, b) =>
-    shortLabel(a).localeCompare(shortLabel(b)),
+    shortLabel(a, msg).localeCompare(shortLabel(b, msg)),
   );
 
   const otherProjects = projectsWithIncentives
     .filter(project => !interestedProjects.includes(project))
-    .sort((a, b) => shortLabel(a).localeCompare(shortLabel(b)));
+    .sort((a, b) => shortLabel(a, msg).localeCompare(shortLabel(b, msg)));
 
   // If a nonexistent tab is selected, pretend the first one is selected.
   const [projectTab, setProjectTab] = useState(interestedProjects[0]);

@@ -1,7 +1,7 @@
-import { msg } from '@lit/localize';
+import { MsgFn } from './i18n/use-translated';
 
 export type StateInfo = {
-  name: () => string;
+  name: (msg: MsgFn) => string;
 };
 
 /**
@@ -9,21 +9,21 @@ export type StateInfo = {
  */
 export const STATES: Record<string, StateInfo> = {
   AZ: {
-    name: () => msg('Arizona'),
+    name: msg => msg('Arizona'),
   },
   CT: {
-    name: () => msg('Connecticut'),
+    name: msg => msg('Connecticut'),
   },
   NY: {
-    name: () => msg('New York'),
+    name: msg => msg('New York'),
   },
   RI: {
-    name: () => msg('Rhode Island'),
+    name: msg => msg('Rhode Island'),
   },
   VA: {
-    name: () => msg('Virginia'),
+    name: msg => msg('Virginia'),
   },
   VT: {
-    name: () => msg('Vermont'),
+    name: msg => msg('Vermont'),
   },
 };

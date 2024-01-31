@@ -1,4 +1,3 @@
-import { msg, str } from '@lit/localize';
 import { css } from 'lit';
 import { FC, useState } from 'react';
 import { FilingStatus, OwnerStatus } from './calculator-types';
@@ -31,18 +30,18 @@ export const buttonStyles = css`
 `;
 
 const OWNER_STATUS_OPTIONS: () => OptionParam<OwnerStatus>[] = () => [
-  { value: 'homeowner', label: msg('Homeowner') },
-  { value: 'renter', label: msg('Renter') },
+  { value: 'homeowner', label: 'Homeowner' },
+  { value: 'renter', label: 'Renter' },
 ];
 
 const TAX_FILING_OPTIONS: () => OptionParam<FilingStatus>[] = () => [
-  { value: 'single', label: msg('Single') },
-  { value: 'joint', label: msg('Married filing jointly') },
+  { value: 'single', label: 'Single' },
+  { value: 'joint', label: 'Married filing jointly' },
   {
     value: 'married_filing_separately',
-    label: msg('Married filing separately'),
+    label: 'Married filing separately',
   },
-  { value: 'hoh', label: msg('Head of household') },
+  { value: 'hoh', label: 'Head of household' },
 ];
 
 const HH_SIZES = ['1', '2', '3', '4', '5', '6', '7', '8'] as const;
@@ -50,10 +49,7 @@ const HOUSEHOLD_SIZE_OPTIONS: () => OptionParam<
   (typeof HH_SIZES)[number]
 >[] = () =>
   HH_SIZES.map(count => ({
-    label:
-      count === '1'
-        ? msg('1 person')
-        : msg(str`${count} people`, { desc: 'count is greater than 1' }),
+    label: count === '1' ? '1 person' : `${count} people`,
     value: count,
   }));
 
@@ -105,8 +101,8 @@ export const CalculatorForm: FC<{
         <Select
           id="owner_status"
           labelSlot={label(
-            msg('Rent or own', { desc: 'form field label' }),
-            msg('Homeowners and renters qualify for different incentives.'),
+            'Rent or own',
+            'Homeowners and renters qualify for different incentives.',
             tooltipSize,
           )}
           options={OWNER_STATUS_OPTIONS()}
@@ -116,10 +112,8 @@ export const CalculatorForm: FC<{
         <div>
           <label htmlFor="zip">
             {label(
-              msg('Zip', { desc: 'as in zip code' }),
-              msg(
-                'Your zip code helps determine the amount of discounts and tax credits you qualify for.',
-              ),
+              'Zip',
+              'Your zip code helps determine the amount of discounts and tax credits you qualify for.',
               tooltipSize,
             )}
           </label>
@@ -143,10 +137,8 @@ export const CalculatorForm: FC<{
         <div>
           <label htmlFor="household_income">
             {label(
-              msg('Household income'),
-              msg(
-                'Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
-              ),
+              'Household income',
+              'Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
               tooltipSize,
             )}
           </label>
@@ -163,10 +155,8 @@ export const CalculatorForm: FC<{
         <Select
           id="tax_filing"
           labelSlot={label(
-            msg('Tax filing', { desc: 'form field label' }),
-            msg(
-              'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
-            ),
+            'Tax filing',
+            'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
             tooltipSize,
           )}
           options={TAX_FILING_OPTIONS()}
@@ -176,10 +166,8 @@ export const CalculatorForm: FC<{
         <Select
           id="household_size"
           labelSlot={label(
-            msg('Household size'),
-            msg(
-              'Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.',
-            ),
+            'Household size',
+            'Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.',
             tooltipSize,
           )}
           options={HOUSEHOLD_SIZE_OPTIONS()}

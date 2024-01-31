@@ -1,4 +1,3 @@
-import { configureLocalization, localized, msg, str } from '@lit/localize';
 import tailwindStyles from 'bundle-text:./tailwind.css';
 import { LitElement, css, html, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
@@ -14,8 +13,9 @@ import { FilingStatus, OwnerStatus } from './calculator-types';
 import { Card } from './card';
 import { Spinner } from './components/spinner';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
-import { allLocales, sourceLocale, targetLocales } from './locales/locales';
-import * as spanishLocale from './locales/strings/es';
+import { allLocales } from './i18n/locales';
+import { str } from './i18n/str';
+import { LocaleContext, MsgFn, useTranslated } from './i18n/use-translated';
 import { PROJECTS } from './projects';
 import { renderReactElements } from './react-roots';
 import { safeLocalStorage } from './safe-local-storage';
@@ -25,17 +25,6 @@ import { StateIncentives } from './state-incentive-details';
 import { STATES } from './states';
 import { baseVariables } from './styles';
 import { inputStyles } from './styles/input';
-
-const { setLocale } = configureLocalization({
-  sourceLocale,
-  targetLocales,
-  loadLocale: async locale =>
-    locale === 'es'
-      ? spanishLocale
-      : (() => {
-          throw new Error(`unknown locale ${locale}`);
-        })(),
-});
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
 const DEFAULT_ZIP = '';
@@ -53,7 +42,6 @@ declare module './safe-local-storage' {
 }
 
 @customElement('rewiring-america-state-calculator')
-@localized()
 export class RewiringAmericaStateCalculator extends LitElement {
   static override styles = [
     unsafeCSS(tailwindStyles),
@@ -141,39 +129,37 @@ export class RewiringAmericaStateCalculator extends LitElement {
       : 'en';
   }
 
-  /**
-   * Make sure the locale is set before rendering begins. setLocale() is async
-   * and this is the only async part of the component lifecycle we can hook.
-   */
-  protected override async scheduleUpdate(): Promise<void> {
-    await setLocale(this.lang);
-    super.scheduleUpdate();
-  }
-
   override async updated() {
     renderReactElements(
       this.renderRoot as ShadowRoot,
       new Map([
         [
           'calc-root',
-          <StateCalculator
-            shadowRoot={this.renderRoot as ShadowRoot}
-            language={this.lang}
-            apiHost={this.apiHost}
-            apiKey={this.apiKey}
-            attributeValues={{
-              zip: this.zip,
-              ownerStatus: this.ownerStatus,
-              householdIncome: this.householdIncome,
-              householdSize: this.householdSize,
-              taxFiling: this.taxFiling,
-            }}
-            stateId={this.state}
-            showEmail={this.showEmail}
-            includeBetaStates={this.includeBetaStates}
-          />,
+          <LocaleContext.Provider value={this.lang}>
+            <StateCalculator
+              shadowRoot={this.renderRoot as ShadowRoot}
+              language={this.lang}
+              apiHost={this.apiHost}
+              apiKey={this.apiKey}
+              attributeValues={{
+                zip: this.zip,
+                ownerStatus: this.ownerStatus,
+                householdIncome: this.householdIncome,
+                householdSize: this.householdSize,
+                taxFiling: this.taxFiling,
+              }}
+              stateId={this.state}
+              showEmail={this.showEmail}
+              includeBetaStates={this.includeBetaStates}
+            />
+          </LocaleContext.Provider>,
         ],
-        ['calc-footer', <CalculatorFooter />],
+        [
+          'calc-footer',
+          <LocaleContext.Provider value={this.lang}>
+            <CalculatorFooter />
+          </LocaleContext.Provider>,
+        ],
       ]),
       this.reactRoots,
     );
@@ -195,6 +181,7 @@ const fetch = (
   includeBetaStates: boolean,
   formValues: FormValues,
   setFetchState: (fs: FetchState<APIResponse>) => void,
+  msg: MsgFn,
 ) => {
   if (
     !(
@@ -229,12 +216,18 @@ const fetch = (
     });
   });
 
-  return fetchApi<APIResponse>(apiKey, apiHost, '/api/v1/calculator', query)
+  return fetchApi<APIResponse>(
+    apiKey,
+    apiHost,
+    '/api/v1/calculator',
+    query,
+    msg,
+  )
     .then(response => {
       // If our "state" attribute is set, enforce that the entered location is
       // in that state.
       if (stateId && stateId !== response.location.state) {
-        const stateCodeOrName = STATES[stateId]?.name() ?? stateId;
+        const stateCodeOrName = STATES[stateId]?.name(msg) ?? stateId;
         setFetchState({
           state: 'error',
           message: msg(str`That ZIP code is not in ${stateCodeOrName}.`),
@@ -265,6 +258,8 @@ export const StateCalculator: FC<{
   showEmail,
   includeBetaStates,
 }) => {
+  const { msg } = useTranslated();
+
   // Used to reset the form state to defaults
   const [formKey, setFormKey] = useState(0);
 
@@ -337,6 +332,7 @@ export const StateCalculator: FC<{
       includeBetaStates,
       formValues,
       setFetchState,
+      msg,
     );
 
     shadowRoot.dispatchEvent(
@@ -395,7 +391,6 @@ export const StateCalculator: FC<{
           stateId={stateId}
           initialValues={getInitialFormValues()}
           showEmailField={!!showEmail && !emailSubmitted}
-          showProjectField={true}
           utilityFetcher={zip => {
             const query = new URLSearchParams({
               language,
@@ -408,6 +403,7 @@ export const StateCalculator: FC<{
               apiHost,
               '/api/v1/utilities',
               query,
+              msg,
             );
           }}
           onSubmit={submit}

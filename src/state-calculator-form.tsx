@@ -1,4 +1,3 @@
-import { msg, str } from '@lit/localize';
 import { FC, useEffect, useState } from 'react';
 import { APIUtilitiesResponse } from './api/calculator-types-v1';
 import { FetchState } from './api/fetch-state';
@@ -7,15 +6,17 @@ import { FilingStatus, OwnerStatus } from './calculator-types';
 import { FormLabel } from './components/form-label';
 import { Option, Select } from './components/select';
 import { CurrencyInput } from './currency-input';
+import { str } from './i18n/str';
+import { MsgFn, useTranslated } from './i18n/use-translated';
 import { PROJECTS, Project } from './projects';
 import { STATES } from './states';
 
-const OWNER_STATUS_OPTIONS: () => Option<OwnerStatus>[] = () => [
+const OWNER_STATUS_OPTIONS: (msg: MsgFn) => Option<OwnerStatus>[] = msg => [
   { value: 'homeowner', label: msg('Homeowner') },
   { value: 'renter', label: msg('Renter') },
 ];
 
-const TAX_FILING_OPTIONS: () => Option<FilingStatus>[] = () => [
+const TAX_FILING_OPTIONS: (msg: MsgFn) => Option<FilingStatus>[] = msg => [
   { value: 'single', label: msg('Single') },
   { value: 'joint', label: msg('Married filing jointly') },
   {
@@ -26,7 +27,9 @@ const TAX_FILING_OPTIONS: () => Option<FilingStatus>[] = () => [
 ];
 
 const HH_SIZES = ['1', '2', '3', '4', '5', '6', '7', '8'] as const;
-const HOUSEHOLD_SIZE_OPTIONS: () => Option<(typeof HH_SIZES)[number]>[] = () =>
+const HOUSEHOLD_SIZE_OPTIONS: (
+  msg: MsgFn,
+) => Option<(typeof HH_SIZES)[number]>[] = msg =>
   HH_SIZES.map(count => ({
     label:
       count === '1'
@@ -39,6 +42,7 @@ const renderUtilityField = (
   utility: string,
   setUtility: (newValue: string) => void,
   utilitiesFetch: FetchState<APIUtilitiesResponse>,
+  msg: MsgFn,
 ) => {
   const options: Option<string>[] =
     utilitiesFetch.state === 'complete'
@@ -78,6 +82,7 @@ const renderUtilityField = (
 const renderProjectsField = (
   projects: Project[],
   setProjects: (newProjects: Project[]) => void,
+  msg: MsgFn,
 ) => (
   <Select
     id="projects"
@@ -86,7 +91,7 @@ const renderProjectsField = (
     options={Object.entries(PROJECTS)
       .map(([value, data]) => ({
         value: value as Project,
-        label: data.label(),
+        label: data.label(msg),
         getIcon: data.getIcon,
       }))
       .sort((a, b) => a.label.localeCompare(b.label))}
@@ -96,7 +101,11 @@ const renderProjectsField = (
   />
 );
 
-const renderEmailField = (email: string, setEmail: (e: string) => void) => (
+const renderEmailField = (
+  email: string,
+  setEmail: (e: string) => void,
+  msg: MsgFn,
+) => (
   <div>
     <FormLabel>
       <label htmlFor="email">{msg('Email address (optional)')}</label>
@@ -135,18 +144,12 @@ export type FormValues = {
 export const CalculatorForm: FC<{
   initialValues: FormValues;
   showEmailField: boolean;
-  showProjectField: boolean;
   utilityFetcher: (zip: string) => Promise<APIUtilitiesResponse>;
   stateId?: string;
   onSubmit: (formValues: FormValues) => void;
-}> = ({
-  initialValues,
-  showEmailField,
-  showProjectField,
-  utilityFetcher,
-  stateId,
-  onSubmit,
-}) => {
+}> = ({ initialValues, showEmailField, utilityFetcher, stateId, onSubmit }) => {
+  const { msg } = useTranslated();
+
   const [zip, setZip] = useState(initialValues.zip);
   const [ownerStatus, setOwnerStatus] = useState(initialValues.ownerStatus);
   const [householdIncome, setHouseholdIncome] = useState(
@@ -180,7 +183,7 @@ export const CalculatorForm: FC<{
           setUtility('');
 
           // Throw to put the task into the ERROR state for rendering.
-          const stateCodeOrName = STATES[stateId]?.name() ?? stateId;
+          const stateCodeOrName = STATES[stateId]?.name(msg) ?? stateId;
           throw new Error(
             msg(str`That ZIP code is not in ${stateCodeOrName}.`),
           );
@@ -221,7 +224,7 @@ export const CalculatorForm: FC<{
       }}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
-        {showProjectField ? renderProjectsField(projects, setProjects) : null}
+        {renderProjectsField(projects, setProjects, msg)}
         <Select
           id="owner_status"
           multiple={false}
@@ -229,7 +232,7 @@ export const CalculatorForm: FC<{
           tooltipText={msg(
             'Homeowners and renters qualify for different incentives.',
           )}
-          options={OWNER_STATUS_OPTIONS()}
+          options={OWNER_STATUS_OPTIONS(msg)}
           currentValue={ownerStatus}
           onChange={v => setOwnerStatus(v as OwnerStatus)}
         />
@@ -260,7 +263,7 @@ export const CalculatorForm: FC<{
             onChange={event => setZip(event.currentTarget.value)}
           />
         </div>
-        {renderUtilityField(utility, setUtility, utilitiesFetchState)}
+        {renderUtilityField(utility, setUtility, utilitiesFetchState, msg)}
         <div>
           <FormLabel
             tooltipText={msg(
@@ -286,7 +289,7 @@ export const CalculatorForm: FC<{
           tooltipText={msg(
             'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
           )}
-          options={TAX_FILING_OPTIONS()}
+          options={TAX_FILING_OPTIONS(msg)}
           currentValue={taxFiling}
           onChange={v => setTaxFiling(v as FilingStatus)}
         />
@@ -297,11 +300,11 @@ export const CalculatorForm: FC<{
           tooltipText={msg(
             'Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.',
           )}
-          options={HOUSEHOLD_SIZE_OPTIONS()}
+          options={HOUSEHOLD_SIZE_OPTIONS(msg)}
           currentValue={householdSize}
           onChange={setHouseholdSize}
         />
-        {showEmailField ? renderEmailField(email, setEmail) : null}
+        {showEmailField ? renderEmailField(email, setEmail, msg) : null}
         <div className="col-start-[-2] col-end-[-1]">
           <div className="h-0 sm:h-9"></div>
           <PrimaryButton id="calculate">{msg('Calculate')}</PrimaryButton>
