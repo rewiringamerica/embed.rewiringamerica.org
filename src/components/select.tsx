@@ -3,7 +3,6 @@ import { Listbox, Transition } from '@headlessui/react';
 import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import clsx from 'clsx';
-import { Fragment } from 'react';
 import { Check, DownTriangle } from '../icons';
 import { FormLabel } from './form-label';
 
@@ -134,7 +133,6 @@ export const Select = <T extends string>({
     <div>
       <Listbox
         as="div"
-        className="relative"
         name={id}
         value={currentValue}
         disabled={disabled}
@@ -188,19 +186,18 @@ export const Select = <T extends string>({
           </div>
         </Listbox.Button>
         <Transition
-          as={Fragment}
-          enter="transition duration-100 ease"
-          enterFrom="transform scale-90 opacity-0"
-          enterTo="transform scale-100 opacity-100"
-          leave="transition duration-100 ease"
-          leaveFrom="transform scale-100 opacity-100"
-          leaveTo="transform scale-90 opacity-0"
+          className="relative z-10"
+          enter="transition duration-100 ease-in-out"
+          enterFrom="scale-90 opacity-0"
+          enterTo="scale-100 opacity-100"
+          leave="transition duration-100 ease-in-out"
+          leaveFrom="scale-100 opacity-100"
+          leaveTo="scale-90 opacity-0"
         >
           <Listbox.Options
             ref={refs.setFloating}
             style={floatingStyles}
             className={clsx(
-              'z-10',
               'w-full',
               'max-h-96', // 384px = up to 9 items without overflow
               'overflow-y-auto',
