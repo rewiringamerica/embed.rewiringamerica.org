@@ -1,4 +1,4 @@
-import { flip, useFloating } from '@floating-ui/react-dom';
+import { flip, offset, useFloating } from '@floating-ui/react-dom';
 import { Listbox, Transition } from '@headlessui/react';
 import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
@@ -126,13 +126,14 @@ export const Select = <T extends string>({
   // For positioning the Listbox.Options. It will be below the Listbox.Button
   // unless there's not enough space, in which case it will be above.
   const { refs, floatingStyles } = useFloating({
-    middleware: [flip()],
+    middleware: [flip(), offset(1)],
   });
 
   return (
     <div>
       <Listbox
         as="div"
+        className="group"
         name={id}
         value={currentValue}
         disabled={disabled}
@@ -146,7 +147,6 @@ export const Select = <T extends string>({
           id={id}
           ref={refs.setReference}
           className={clsx(
-            'group',
             'flex',
             'gap-2',
             'items-center',
@@ -161,6 +161,9 @@ export const Select = <T extends string>({
             'focus:outline',
             'focus:outline-2',
             'focus:outline-purple-500',
+            'group-data-open:outline',
+            'group-data-open:outline-2',
+            'group-data-open:outline-purple-500',
             'rounded',
             'bg-white',
           )}
@@ -206,9 +209,6 @@ export const Select = <T extends string>({
               'shadow-elevation',
               'rounded',
               'outline-0',
-              'focus:outline',
-              'focus:outline-2',
-              'focus:outline-purple-500',
               'py-2',
             )}
           >
