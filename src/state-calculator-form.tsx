@@ -5,6 +5,7 @@ import { PrimaryButton } from './buttons';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { FormLabel } from './components/form-label';
 import { Option, Select } from './components/select';
+import { TextInput } from './components/text-input';
 import { CurrencyInput } from './currency-input';
 import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
@@ -110,7 +111,7 @@ const renderEmailField = (
     <FormLabel>
       <label htmlFor="email">{msg('Email address (optional)')}</label>
     </FormLabel>
-    <input
+    <TextInput
       tabIndex={0}
       id="email"
       placeholder={msg('you@example.com', {
@@ -256,7 +257,7 @@ export const CalculatorForm: FC<{
             </label>
           </FormLabel>
 
-          <input
+          <TextInput
             tabIndex={0}
             id="zip"
             placeholder="12345"

@@ -1,5 +1,5 @@
 import tailwindStyles from 'bundle-text:./tailwind.css';
-import { LitElement, css, html, unsafeCSS } from 'lit';
+import { LitElement, html, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { FC, useEffect, useRef, useState } from 'react';
 import { Root } from 'react-dom/client';
@@ -24,7 +24,6 @@ import { CalculatorForm, FormValues } from './state-calculator-form';
 import { StateIncentives } from './state-incentive-details';
 import { STATES } from './states';
 import { baseVariables } from './styles';
-import { inputStyles } from './styles/input';
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
 const DEFAULT_ZIP = '';
@@ -46,17 +45,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
   static override styles = [
     unsafeCSS(tailwindStyles),
     baseVariables,
-    inputStyles,
-    css`
-      /* for now, override these variables just for the state calculator */
-      :host {
-        /* input */
-        --ra-input-border: 1px solid #e2e2e2;
-        --ra-input-focus-color: var(--rewiring-purple);
-        --ra-input-margin: 0;
-        --ra-input-padding: 0.5rem 0.75rem;
-      }
-    `,
   ];
 
   /**

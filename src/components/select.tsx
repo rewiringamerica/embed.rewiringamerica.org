@@ -186,8 +186,7 @@ export const Select = <T extends string>({
             'gap-2',
             'items-center',
             'w-full',
-            // TODO make this h-12 once the text inputs are the right height
-            'h-[46px]',
+            'h-12',
             'border',
             'border-grey-200',
             !disabled && 'hover:border-grey-600',

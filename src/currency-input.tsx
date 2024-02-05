@@ -1,5 +1,6 @@
 import AutoNumeric from 'autonumeric';
 import { useRef } from 'react';
+import { TextInput } from './components/text-input';
 
 type Props = {
   value: string;
@@ -23,7 +24,7 @@ export function CurrencyInput({
   const autonumericRef = useRef<AutoNumeric | null>(null);
 
   return (
-    <input
+    <TextInput
       ref={ref => {
         if (ref) {
           autonumericRef.current = new AutoNumeric(ref, value, {
