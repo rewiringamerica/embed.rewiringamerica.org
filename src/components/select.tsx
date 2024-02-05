@@ -1,10 +1,10 @@
 import { flip, offset, useFloating } from '@floating-ui/react-dom';
 import { Listbox, Transition } from '@headlessui/react';
 import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
-import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import clsx from 'clsx';
 import { Check, DownTriangle } from '../icons';
 import { FormLabel } from './form-label';
+import { Spinner } from './spinner';
 
 export type Option<T extends string> = {
   value: T;
@@ -173,7 +173,7 @@ export const Select = <T extends string>({
               {placeholder}
             </div>
           )}
-          {loading && <SlSpinner />}
+          {loading && <Spinner className="w-4 h-4 text-color-text-primary" />}
           {/* This will look for the parent element with the "group" class, and
            * check whether its data-headlessui-state attribute contains "open"
            */}
