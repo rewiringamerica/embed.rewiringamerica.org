@@ -173,7 +173,7 @@ export const Select = <T extends string>({
               {placeholder}
             </div>
           )}
-          {loading && <Spinner className="w-4 h-4" />}
+          {loading && <Spinner className="w-4 h-4 text-color-text-primary" />}
           {/* This will look for the parent element with the "group" class, and
            * check whether its data-headlessui-state attribute contains "open"
            */}

@@ -419,7 +419,7 @@ export const StateCalculator: FC<{
       </Card>
       {fetchState.state === 'init' ? null : fetchState.state === 'loading' ? (
         <Card>
-          <Spinner className="mx-auto w-7 h-7" />
+          <Spinner className="mx-auto w-7 h-7 text-color-text-primary" />
         </Card>
       ) : fetchState.state === 'error' ? (
         <Card ref={errorMessageRef} id="error-msg">
