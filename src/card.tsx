@@ -9,13 +9,13 @@ import clsx from 'clsx';
  */
 export const Card = forwardRef<
   HTMLDivElement,
-  PropsWithChildren<{ isFlat?: boolean }>
->(({ isFlat, children }, ref) => (
+  PropsWithChildren<{ id?: string; isFlat?: boolean }>
+>(({ id, isFlat, children }, ref) => (
   <div
     ref={ref}
+    id={id}
     className={clsx(
       'rounded-xl',
-      'overflow-clip',
       'min-w-52',
       isFlat && 'bg-yellow-200',
       !isFlat && 'bg-white shadow',

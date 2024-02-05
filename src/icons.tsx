@@ -149,3 +149,33 @@ export const UpRightArrow: FC<IconProps> = ({ w, h }) => (
     />
   </svg>
 );
+
+export const DownTriangle: FC<IconProps> = ({ w, h }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={w}
+    height={h}
+    viewBox="0 0 11 5"
+    fill="none"
+  >
+    <path d="M0 0H11L5.5 5L0 0Z" fill="currentColor" />
+  </svg>
+);
+
+export const Check: FC<IconProps> = ({ w, h }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={w}
+    height={h}
+    viewBox="0 0 20 20"
+    fill="none"
+  >
+    <path
+      d="M16.6667 5.83334L7.50004 15L3.33337 10.8333"
+      stroke="#6B6B6B"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);

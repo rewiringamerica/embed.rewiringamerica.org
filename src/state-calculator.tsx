@@ -20,7 +20,6 @@ import * as spanishLocale from './locales/strings/es';
 import { PROJECTS } from './projects';
 import { renderReactElements } from './react-roots';
 import { safeLocalStorage } from './safe-local-storage';
-import { selectStyles } from './select';
 import { Separator } from './separator';
 import { CalculatorForm, FormValues } from './state-calculator-form';
 import { StateIncentives } from './state-incentive-details';
@@ -64,12 +63,9 @@ export class RewiringAmericaStateCalculator extends LitElement {
     baseVariables,
     inputStyles,
     tooltipStyles,
-    selectStyles,
     css`
       /* for now, override these variables just for the state calculator */
       :host {
-        /* select */
-        --ra-select-focus-color: var(--rewiring-purple);
         /* input */
         --ra-input-border: 1px solid #e2e2e2;
         --ra-input-focus-color: var(--rewiring-purple);
@@ -418,7 +414,6 @@ export const StateCalculator: FC<{
               query,
             );
           }}
-          tooltipSize={13}
           onSubmit={submit}
         />
       </Card>
@@ -427,7 +422,9 @@ export const StateCalculator: FC<{
           <SlSpinner className="mx-auto text-3xl" />
         </Card>
       ) : fetchState.state === 'error' ? (
-        <Card ref={errorMessageRef}>{fetchState.message}</Card>
+        <Card ref={errorMessageRef} id="error-msg">
+          {fetchState.message}
+        </Card>
       ) : (
         <>
           <Separator />

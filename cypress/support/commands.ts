@@ -88,21 +88,21 @@ Cypress.Commands.add(
   (projects: string[]) => {
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .find('sl-select#projects')
+      .find('button#projects')
       .click();
 
     projects.forEach(project =>
       cy
         .get('rewiring-america-state-calculator')
         .shadow()
-        .find(`sl-option[value="${project}"]`)
+        .find(`li[data-value="${project}"]`)
         .click(),
     );
 
     // Unfocus the project selector
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .find('sl-select#projects')
+      .find('button#projects')
       .click();
   },
 );
