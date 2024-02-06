@@ -26,7 +26,6 @@ import { StateIncentives } from './state-incentive-details';
 import { STATES } from './states';
 import { baseVariables } from './styles';
 import { inputStyles } from './styles/input';
-import { tooltipStyles } from './tooltip';
 
 const { setLocale } = configureLocalization({
   sourceLocale,
@@ -62,7 +61,6 @@ export class RewiringAmericaStateCalculator extends LitElement {
     unsafeCSS(shoelaceTheme),
     baseVariables,
     inputStyles,
-    tooltipStyles,
     css`
       /* for now, override these variables just for the state calculator */
       :host {

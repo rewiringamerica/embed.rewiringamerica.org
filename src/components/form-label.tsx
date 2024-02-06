@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { FC, PropsWithChildren } from 'react';
-import { TooltipButton } from '../tooltip';
+import { TooltipButton } from './tooltip';
 
 /**
  * Styles the all-uppercase label for a form field. The label element should be
@@ -14,19 +14,19 @@ export const FormLabel: FC<
 > = ({ hidden, tooltipText, children }) => (
   <div
     className={clsx(
+      'relative',
       'w-fit',
       'flex',
+      'items-center',
       'gap-1',
       'my-2',
-      'text-xsm',
       'leading-5',
-      'font-bold',
-      'uppercase',
-      'tracking-[0.55px]',
       hidden && 'hidden',
     )}
   >
-    {children}
-    {tooltipText && <TooltipButton text={tooltipText} iconSize={13} />}
+    <span className="text-xsm font-bold uppercase tracking-[0.55px]">
+      {children}
+    </span>
+    {tooltipText && <TooltipButton text={tooltipText} />}
   </div>
 );
