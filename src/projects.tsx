@@ -1,4 +1,3 @@
-import { msg } from '@lit/localize';
 import BatteryIcon from 'jsx:../static/icons/battery.svg';
 import ClothesDryerIcon from 'jsx:../static/icons/clothes-dryer.svg';
 import CookingIcon from 'jsx:../static/icons/cooking.svg';
@@ -63,7 +62,8 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'electric_vehicle_charger',
     ],
     label: msg => msg('Electric vehicle'),
-    shortLabel: msg => msg('EV', { desc: 'short label for "electric vehicle"' }),
+    shortLabel: msg =>
+      msg('EV', { desc: 'short label for "electric vehicle"' }),
     getIcon: () => <EvIcon width="1em" />,
   },
   solar: {
