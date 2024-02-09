@@ -1,6 +1,5 @@
 import { configureLocalization, localized, msg, str } from '@lit/localize';
 import tailwindStyles from 'bundle-text:./tailwind.css';
-import shoelaceTheme from 'bundle-text:@shoelace-style/shoelace/dist/themes/light.css';
 import { LitElement, css, html, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { FC, useEffect, useRef, useState } from 'react';
@@ -58,7 +57,6 @@ declare module './safe-local-storage' {
 export class RewiringAmericaStateCalculator extends LitElement {
   static override styles = [
     unsafeCSS(tailwindStyles),
-    unsafeCSS(shoelaceTheme),
     baseVariables,
     inputStyles,
     css`

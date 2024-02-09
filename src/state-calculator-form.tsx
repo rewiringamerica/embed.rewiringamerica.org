@@ -87,7 +87,7 @@ const renderProjectsField = (
       .map(([value, data]) => ({
         value: value as Project,
         label: data.label(),
-        iconURL: data.iconURL,
+        getIcon: data.getIcon,
       }))
       .sort((a, b) => a.label.localeCompare(b.label))}
     currentValue={projects}

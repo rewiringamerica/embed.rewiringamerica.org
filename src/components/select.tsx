@@ -1,6 +1,5 @@
 import { flip, offset, useFloating } from '@floating-ui/react-dom';
 import { Listbox, Transition } from '@headlessui/react';
-import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 import clsx from 'clsx';
 import { Check, DownTriangle } from '../icons';
 import { FormLabel } from './form-label';
@@ -9,7 +8,7 @@ import { Spinner } from './spinner';
 export type Option<T extends string> = {
   value: T;
   label: string;
-  iconURL?: URL;
+  getIcon?: () => React.ReactElement;
 };
 
 export type SelectProps<T extends string> = {
@@ -48,7 +47,7 @@ export type SelectProps<T extends string> = {
 );
 
 /** Renders the tags in the multiselect. */
-const renderTag = (label: string, iconURL?: URL) => (
+const renderTag = (label: string, icon?: () => React.ReactElement) => (
   <div
     className={clsx(
       'flex',
@@ -62,12 +61,10 @@ const renderTag = (label: string, iconURL?: URL) => (
       'text-sm',
       // If this has an icon, it may have long text; let the browser
       // shrink it as necessary
-      iconURL && 'min-w-0',
+      icon && 'min-w-0',
     )}
   >
-    {iconURL && (
-      <SlIcon className="text-base text-grey-700" src={iconURL.toString()} />
-    )}
+    {icon && <span className="text-base text-grey-700">{icon()}</span>}
     <span className="whitespace-nowrap overflow-hidden text-ellipsis">
       {label}
     </span>
@@ -99,7 +96,7 @@ export const Select = <T extends string>({
     if (currentValue.length > 0) {
       buttonContents = (
         <div className="grow ml-1 py-1 h-full min-w-0 flex gap-1">
-          {renderTag(firstCurrentOption!.label, firstCurrentOption!.iconURL)}
+          {renderTag(firstCurrentOption!.label, firstCurrentOption!.getIcon)}
           {currentValue.length > 1 && renderTag(`+${currentValue.length - 1}`)}
         </div>
       );
@@ -108,12 +105,10 @@ export const Select = <T extends string>({
     if (firstCurrentOption) {
       buttonContents = (
         <div className="grow ml-3 flex gap-2 items-center">
-          {firstCurrentOption.iconURL && (
-            <SlIcon
-              className="text-lg text-grey-700"
-              src={firstCurrentOption.iconURL.toString()}
-              aria-hidden={true}
-            />
+          {firstCurrentOption.getIcon && (
+            <span className="text-lg text-grey-700" aria-hidden={true}>
+              {firstCurrentOption.getIcon()}
+            </span>
           )}
           <div className={clsx(disabled && 'text-grey-500')}>
             {firstCurrentOption.label}
@@ -232,11 +227,8 @@ export const Select = <T extends string>({
                   ) : (
                     <div className="w-5" />
                   ))}
-                {o.iconURL && (
-                  <SlIcon
-                    className="text-lg text-grey-700"
-                    src={o.iconURL.toString()}
-                  />
+                {o.getIcon && (
+                  <span className="text-lg text-grey-700">{o.getIcon()}</span>
                 )}
                 {o.label}
               </Listbox.Option>

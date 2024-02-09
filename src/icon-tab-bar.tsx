@@ -1,5 +1,4 @@
 import { msg } from '@lit/localize';
-import SlIcon from '@shoelace-style/shoelace/dist/react/icon';
 import clsx from 'clsx';
 import { FC } from 'react';
 import { Option, Select } from './components/select';
@@ -45,10 +44,9 @@ export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
         aria-label={PROJECTS[project].label()}
         onClick={() => onTabSelected(project)}
       >
-        <SlIcon
-          className="text-lg" // 20px
-          src={PROJECTS[project].iconURL.toString()}
-        ></SlIcon>
+        <span className="text-lg">
+          {PROJECTS[project].getIcon() /* 20px */}
+        </span>
         <div className="text-base leading-tight font-medium whitespace-nowrap">
           {shortLabel(project)}
         </div>
@@ -59,7 +57,7 @@ export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
   const options: Option<Project>[] = tabs.map(project => ({
     value: project,
     label: PROJECTS[project].label(),
-    iconURL: PROJECTS[project].iconURL,
+    getIcon: PROJECTS[project].getIcon,
   }));
 
   return (
