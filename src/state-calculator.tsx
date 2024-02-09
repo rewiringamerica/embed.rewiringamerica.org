@@ -104,7 +104,6 @@ const fetch = (
 
 const StateCalculator: FC<{
   shadowRoot: ShadowRoot;
-  language: string;
   apiHost: string;
   apiKey: string;
   attributeValues: Partial<FormValues>;
@@ -113,7 +112,6 @@ const StateCalculator: FC<{
   includeBetaStates: boolean;
 }> = ({
   shadowRoot,
-  language,
   apiHost,
   apiKey,
   attributeValues,
@@ -121,7 +119,7 @@ const StateCalculator: FC<{
   showEmail,
   includeBetaStates,
 }) => {
-  const { msg } = useTranslated();
+  const { msg, locale } = useTranslated();
 
   // Used to reset the form state to defaults
   const [formKey, setFormKey] = useState(0);
@@ -190,7 +188,7 @@ const StateCalculator: FC<{
     fetch(
       apiHost,
       apiKey,
-      language,
+      locale,
       stateId ?? null,
       includeBetaStates,
       formValues,
@@ -262,7 +260,7 @@ const StateCalculator: FC<{
           showEmailField={!!showEmail && !emailSubmitted}
           utilityFetcher={zip => {
             const query = new URLSearchParams({
-              language,
+              language: locale,
               include_beta_states: '' + includeBetaStates,
               'location[zip]': zip,
             });
@@ -423,7 +421,6 @@ class CalculatorElement extends HTMLElement {
       <LocaleContext.Provider value={this.lang}>
         <StateCalculator
           shadowRoot={this.shadowRoot!}
-          language={this.lang}
           apiHost={this.apiHost}
           apiKey={this.apiKey}
           attributeValues={{
