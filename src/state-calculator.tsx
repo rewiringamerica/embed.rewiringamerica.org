@@ -234,7 +234,7 @@ const StateCalculator: FC<{
   }, [fetchState.state]);
 
   return (
-    <>
+    <div id="calc-root" className="grid gap-4 sm:gap-6 lg:gap-12">
       <Card>
         <div className="flex justify-between items-baseline">
           <h1 className="text-base sm:text-xl font-medium leading-tight">
@@ -310,7 +310,7 @@ const StateCalculator: FC<{
           />
         </>
       )}
-    </>
+    </div>
   );
 };
 
@@ -366,11 +366,9 @@ class CalculatorElement extends HTMLElement {
 
     shadowRoot.appendChild(style);
 
-    const calcRoot = document.createElement('div');
-    calcRoot.id = 'calc-root';
-    calcRoot.className = 'grid gap-4 sm:gap-6 lg:gap-12';
-    shadowRoot.appendChild(calcRoot);
-    this.reactRootCalculator = createRoot(calcRoot);
+    const calculator = document.createElement('div');
+    shadowRoot.appendChild(calculator);
+    this.reactRootCalculator = createRoot(calculator);
 
     const footer = document.createElement('div');
     shadowRoot.appendChild(footer);
@@ -394,9 +392,9 @@ class CalculatorElement extends HTMLElement {
     } else if (attr === 'api-key') {
       this.apiKey = newValue ?? '';
     } else if (attr === 'include-beta-states') {
-      this.includeBetaStates = !!newValue;
+      this.includeBetaStates = newValue !== null;
     } else if (attr === 'show-email') {
-      this.showEmail = !!newValue;
+      this.showEmail = newValue !== null;
     } else if (attr === 'state') {
       this.state = newValue ?? '';
     } else if (attr === 'zip') {
