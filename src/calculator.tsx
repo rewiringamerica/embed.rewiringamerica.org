@@ -146,6 +146,7 @@ export class RewiringAmericaCalculator extends LitElement {
         this.apiHost,
         '/api/v0/calculator',
         query,
+        s => s as string, // Message-localizing function; this frontend is not localized
       );
     },
     // if the args array changes then the task will run again

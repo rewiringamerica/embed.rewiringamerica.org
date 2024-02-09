@@ -1,5 +1,5 @@
-import { msg } from '@lit/localize';
 import { APIResponse } from './api/calculator-types-v1';
+import { useTranslated } from './i18n/use-translated';
 
 type Props = { response: APIResponse };
 
@@ -8,6 +8,7 @@ type Props = { response: APIResponse };
  * of the authorities whose incentives are displayed.
  */
 export const AuthorityLogos = ({ response }: Props) => {
+  const { msg } = useTranslated();
   const authoritiesWithLogo = Object.entries(response.authorities).filter(
     ([, auth]) => !!auth.logo,
   );

@@ -1,4 +1,4 @@
-import { msg } from '@lit/localize';
+import { MsgFn } from '../i18n/use-translated';
 
 /**
  * Fetches a response from the Incentives API. Handles turning an error response
@@ -9,6 +9,7 @@ export async function fetchApi<R>(
   apiHost: string,
   path: string,
   query: URLSearchParams,
+  msg: MsgFn,
 ): Promise<R> {
   const url = new URL(apiHost);
   url.pathname = path;

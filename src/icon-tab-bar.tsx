@@ -1,7 +1,7 @@
-import { msg } from '@lit/localize';
 import clsx from 'clsx';
 import { FC } from 'react';
 import { Option, Select } from './components/select';
+import { useTranslated } from './i18n/use-translated';
 import { PROJECTS, Project, shortLabel } from './projects';
 
 type Props = {
@@ -18,6 +18,7 @@ type Props = {
  * On small layouts, this is a single-select dropdown.
  */
 export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
+  const { msg } = useTranslated();
   const iconTabs = tabs.map(project => {
     const isSelected = project === selectedTab;
     return (
@@ -41,14 +42,14 @@ export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
         )}
         role="tab"
         aria-selected={isSelected}
-        aria-label={PROJECTS[project].label()}
+        aria-label={PROJECTS[project].label(msg)}
         onClick={() => onTabSelected(project)}
       >
         <span className="text-lg">
           {PROJECTS[project].getIcon() /* 20px */}
         </span>
         <div className="text-base leading-tight font-medium whitespace-nowrap">
-          {shortLabel(project)}
+          {shortLabel(project, msg)}
         </div>
       </button>
     );
@@ -56,7 +57,7 @@ export const IconTabBar: FC<Props> = ({ tabs, selectedTab, onTabSelected }) => {
 
   const options: Option<Project>[] = tabs.map(project => ({
     value: project,
-    label: PROJECTS[project].label(),
+    label: PROJECTS[project].label(msg),
     getIcon: PROJECTS[project].getIcon,
   }));
 

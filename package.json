@@ -7,7 +7,6 @@
     "@floating-ui/react-dom": "^2.0.6",
     "@headlessui/react": "^1.7.18",
     "@lit-labs/task": "^2.0.0",
-    "@lit/localize": "^0.12.1",
     "@shoelace-style/shoelace": "^2.12.0",
     "autonumeric": "^4.8.1",
     "clsx": "^2.1.0",
@@ -24,7 +23,7 @@
     "lint": "tsc --noEmit && prettier --check . && eslint .",
     "prepare": "husky install",
     "strings:extract": "lit-localize extract",
-    "strings:build": "lit-localize build && prettier --write src/locales"
+    "strings:build": "lit-localize build && sed -e 's!@lit/localize!../str!' -i '' src/i18n/strings/*.ts && prettier --write src/i18n"
   },
   "browserslist": {
     "production": [

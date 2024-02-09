@@ -1,7 +1,7 @@
 // Do not modify this file by hand!
 // Re-generate this file by running lit-localize
 
-import { str } from '@lit/localize';
+import { str } from '../str';
 
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -27,7 +27,6 @@ export const templates = {
   s2ef277dcb08bbedd: `Error al cargar los incentivos.`,
   s31f1afc1bfe1cb3a: `Más información`,
   s32c12fdb56f0a68f: `almacenamiento de baterías`,
-  s32d01049634239fe: `Selecciona los proyectos en los que tiene lo más interés`,
   s36d20a4420aa2314: `una bomba de calor`,
   s38887b94b3320533: `Dirección de correo electrónico`,
   s39aa50b686d665a8: `Impermeabilización y eficiencia energética`,
