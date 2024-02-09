@@ -4,7 +4,7 @@ import { FC, Key, PropsWithChildren, forwardRef, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
 import { AuthorityLogos } from './authority-logos';
-import { TextButton } from './buttons';
+import { PrimaryButton, TextButton } from './buttons';
 import { Card } from './card';
 import { wasEmailSubmitted } from './email-signup';
 import { IconTabBar } from './icon-tab-bar';
@@ -270,9 +270,9 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
               aria-label={msg('Email address')}
               required
             />
-            <button className="primary">
+            <PrimaryButton>
               {msg('Subscribe', { desc: 'button text' })}
-            </button>
+            </PrimaryButton>
           </div>
         </form>
       </>
