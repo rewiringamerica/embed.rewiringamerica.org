@@ -42,10 +42,7 @@ declare module './safe-local-storage' {
 
 @customElement('rewiring-america-state-calculator')
 export class RewiringAmericaStateCalculator extends LitElement {
-  static override styles = [
-    unsafeCSS(tailwindStyles),
-    baseVariables,
-  ];
+  static override styles = [unsafeCSS(tailwindStyles), baseVariables];
 
   /**
    * Property to control display language. Changing this dynamically is not
