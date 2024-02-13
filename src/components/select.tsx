@@ -1,7 +1,9 @@
 import { flip, offset, useFloating } from '@floating-ui/react-dom';
 import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
+import { useTranslated } from '../i18n/use-translated';
 import { Check, DownTriangle } from '../icons';
+import { Separator } from '../separator';
 import { FormLabel } from './form-label';
 import { Spinner } from './spinner';
 
@@ -71,6 +73,8 @@ const renderTag = (label: string, icon?: () => React.ReactElement) => (
   </div>
 );
 
+const SELECT_ALL_VALUE = 'select-all';
+
 export const Select = <T extends string>({
   id,
   options,
@@ -124,6 +128,32 @@ export const Select = <T extends string>({
     middleware: [flip(), offset(1)],
   });
 
+  // The multiselect has a special "select all" item at the top.
+  const { msg } = useTranslated();
+  let selectAllItem: React.ReactElement | null = null;
+  const areAllSelected = multiple && options.length === currentValue.length;
+  if (multiple) {
+    selectAllItem = (
+      <>
+        <Listbox.Option
+          value={SELECT_ALL_VALUE}
+          className={clsx(
+            'px-4',
+            'py-1.5',
+            'ui-active:bg-purple-100',
+            'text-purple-500',
+            'font-bold',
+            'leading-normal',
+            'hover:underline',
+          )}
+        >
+          {areAllSelected ? msg('Deselect all') : msg('Select all')}
+        </Listbox.Option>
+        <Separator className="my-2" />
+      </>
+    );
+  }
+
   return (
     <div>
       <Listbox
@@ -133,7 +163,17 @@ export const Select = <T extends string>({
         value={currentValue}
         disabled={disabled}
         multiple={multiple}
-        onChange={onChange}
+        onChange={newValue => {
+          if (multiple) {
+            if (newValue.includes(SELECT_ALL_VALUE as T)) {
+              onChange(areAllSelected ? [] : options.map(o => o.value));
+            } else {
+              onChange(newValue as T[]);
+            }
+          } else {
+            onChange(newValue as T);
+          }
+        }}
       >
         <FormLabel hidden={hiddenLabel} tooltipText={tooltipText}>
           <Listbox.Label>{labelText}</Listbox.Label>
@@ -207,6 +247,7 @@ export const Select = <T extends string>({
               'py-2',
             )}
           >
+            {selectAllItem}
             {options.map(o => (
               <Listbox.Option
                 key={o.value}
