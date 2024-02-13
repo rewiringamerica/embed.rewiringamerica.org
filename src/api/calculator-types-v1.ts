@@ -83,11 +83,5 @@ export interface APIResponse {
     utility: string | null;
   };
   location: APILocation;
-  savings: {
-    tax_credit: number;
-    pos_rebate: number;
-    rebate: number;
-    account_credit: number;
-  };
   incentives: Incentive[];
 }
