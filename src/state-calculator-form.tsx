@@ -128,7 +128,7 @@ const renderEmailField = (
       )}{' '}
       {msg('View our')}{' '}
       <a
-        className="text-color-action-primary underline"
+        className="text-color-action-primary font-medium"
         href="https://rewiringamerica.org/terms-of-use"
         target="_blank"
       >
