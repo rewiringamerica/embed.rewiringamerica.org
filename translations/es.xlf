@@ -316,10 +316,6 @@
   <source>Get updates on incentives, rebates, and more from Rewiring America.</source>
   <target>Manténgase al día sobre incentivos, reembolsos, y más de Rewiring America.</target>
 </trans-unit>
-<trans-unit id="s7e181573cd6a151f">
-  <source>We’re dedicated to safeguarding your privacy. We never share or sell your personal information.</source>
-  <target>Estamos dedicados a proteger su privacidad. No compartimos ni vendemos su información personal.</target>
-</trans-unit>
 <trans-unit id="s8fd029fdcc452602">
   <source>Enter your ZIP code to select a utility.</source>
   <target>Ingresa su código postal para seleccionar una empresa de servicios eléctricos.</target>
@@ -356,6 +352,20 @@
 <trans-unit id="sfe81d5d73a35a2cf">
   <source>Calculate</source>
   <target>Calcular</target>
+</trans-unit>
+<trans-unit id="sb21ad862204e6186">
+  <source>View our</source>
+  <note from="lit-localize">as in view our terms</note>
+<target>Ver nuestros</target>
+</trans-unit>
+<trans-unit id="s180a95484a16608c">
+  <source>terms</source>
+  <note from="lit-localize">as in terms of service</note>
+<target>términos</target>
+</trans-unit>
+<trans-unit id="s64fbe9b97e397b12">
+  <source>We’re dedicated to safeguarding your privacy.</source>
+<target>Estamos dedicados a proteger su privacidad.</target>
 </trans-unit>
 </body>
 </file>
