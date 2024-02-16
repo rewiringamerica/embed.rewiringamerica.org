@@ -1,7 +1,12 @@
 import clsx from 'clsx';
 import { FC, PropsWithChildren, forwardRef, useState } from 'react';
 import scrollIntoView from 'scroll-into-view-if-needed';
-import { APIResponse, Incentive, ItemType } from './api/calculator-types-v1';
+import {
+  APIResponse,
+  AmountUnit,
+  Incentive,
+  ItemType,
+} from './api/calculator-types-v1';
 import { AuthorityLogos } from './authority-logos';
 import { PrimaryButton, TextButton } from './buttons';
 import { Card } from './card';
@@ -12,6 +17,21 @@ import { IconTabBar } from './icon-tab-bar';
 import { ExclamationPoint, UpRightArrow } from './icons';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { Separator } from './separator';
+
+const formatUnit = (unit: AmountUnit, msg: MsgFn) =>
+  unit === 'btuh10k'
+    ? msg('10,000 Btuh')
+    : unit === 'kilowatt'
+    ? msg('kilowatt')
+    : unit === 'kilowatt_hour'
+    ? msg('kilowatt-hour')
+    : unit === 'square_foot'
+    ? msg('square foot')
+    : unit === 'ton'
+    ? msg('ton')
+    : unit === 'watt'
+    ? msg('watt')
+    : unit;
 
 const formatTitle = (incentive: Incentive, msg: MsgFn) => {
   const item = itemName(incentive.item.type, msg);
@@ -39,15 +59,19 @@ const formatTitle = (incentive: Incentive, msg: MsgFn) => {
   } else if (amount.type === 'dollars_per_unit') {
     return amount.maximum
       ? msg(
-          str`$${amount.number.toLocaleString()}/${
-            amount.unit
-          } off ${item}, up to $${amount.maximum.toLocaleString()}`,
+          str`$${amount.number.toLocaleString()}/${formatUnit(
+            amount.unit!,
+            msg,
+          )} off ${item}, up to $${amount.maximum.toLocaleString()}`,
           {
             desc: 'e.g. "$1000/ton off a heat pump, up to $3000"',
           },
         )
       : msg(
-          str`$${amount.number.toLocaleString()}/${amount.unit} off ${item}`,
+          str`$${amount.number.toLocaleString()}/${formatUnit(
+            amount.unit!,
+            msg,
+          )} off ${item}`,
           {
             desc: 'e.g. "$1000/ton off a heat pump',
           },
