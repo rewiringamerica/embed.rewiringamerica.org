@@ -7,12 +7,19 @@ export type IncentiveType =
 export type AuthorityType = 'federal' | 'state' | 'utility';
 
 export type AmountType = 'dollar_amount' | 'percent' | 'dollars_per_unit';
+export type AmountUnit =
+  | 'ton'
+  | 'kilowatt'
+  | 'watt'
+  | 'btuh10k'
+  | 'square_foot'
+  | 'kilowatt_hour';
 export interface Amount {
   type: AmountType;
   number: number;
   maximum?: number;
   representative?: number;
-  unit?: string;
+  unit?: AmountUnit;
 }
 
 export type ItemType =
