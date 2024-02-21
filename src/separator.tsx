@@ -1,9 +1,17 @@
+import clsx from 'clsx';
 import { FC } from 'react';
 
-export const Separator: FC<{ hideOnSmall?: boolean }> = ({ hideOnSmall }) => (
+export const Separator: FC<{ className?: string; hideOnSmall?: boolean }> = ({
+  className,
+  hideOnSmall,
+}) => (
   <div
-    className={
-      'bg-grey-200 w-full h-px' + (hideOnSmall ? ' hidden sm:block' : '')
-    }
+    className={clsx(
+      'bg-grey-200',
+      'w-full',
+      'h-px',
+      hideOnSmall && 'hidden sm:block',
+      className,
+    )}
   ></div>
 );
