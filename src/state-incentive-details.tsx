@@ -10,6 +10,7 @@ import {
 import { AuthorityLogos } from './authority-logos';
 import { PrimaryButton, TextButton } from './buttons';
 import { Card } from './card';
+import { TextInput } from './components/text-input';
 import { wasEmailSubmitted } from './email-signup';
 import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
@@ -287,7 +288,7 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
           }}
         >
           <div className="grid gap-4 auto-rows-min">
-            <input
+            <TextInput
               type="email"
               autoComplete="email"
               placeholder={msg('you@example.com', {
