@@ -93,8 +93,6 @@ There are a few tasks specific to this codebase that we're interested in:
 
 - Automatically generating `src/api/calculator-types-v1.ts` from the [API spec](https://api.rewiringamerica.org/spec.json), rather than manually maintaining it.
 
-- Using [Tailwind](https://tailwindcss.com/) for CSS.
-
 - Better test coverage, including tests that mock out API responses.
 
 ### Deprecating old frontend
