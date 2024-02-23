@@ -103,13 +103,16 @@ const renderProjectsField = (
 );
 
 const renderEmailField = (
+  emailRequired: boolean,
   email: string,
   setEmail: (e: string) => void,
   msg: MsgFn,
 ) => (
   <div>
     <FormLabel>
-      <label htmlFor="email">{msg('Email address (optional)')}</label>
+      <label htmlFor="email">
+        {emailRequired ? msg('Email address') : msg('Email address (optional)')}
+      </label>
     </FormLabel>
     <TextInput
       tabIndex={0}
@@ -122,6 +125,7 @@ const renderEmailField = (
       onChange={event => setEmail(event.currentTarget.value)}
       type="email"
       autoComplete="email"
+      required={emailRequired}
     />
     <div className="mt-1 mx-3 text-color-text-secondary text-xsm leading-normal">
       {msg(
@@ -154,10 +158,18 @@ export type FormValues = {
 export const CalculatorForm: FC<{
   initialValues: FormValues;
   showEmailField: boolean;
+  emailRequired: boolean;
   utilityFetcher: (zip: string) => Promise<APIUtilitiesResponse>;
   stateId?: string;
   onSubmit: (formValues: FormValues) => void;
-}> = ({ initialValues, showEmailField, utilityFetcher, stateId, onSubmit }) => {
+}> = ({
+  initialValues,
+  showEmailField,
+  emailRequired,
+  utilityFetcher,
+  stateId,
+  onSubmit,
+}) => {
   const { msg } = useTranslated();
 
   const [zip, setZip] = useState(initialValues.zip);
@@ -314,7 +326,9 @@ export const CalculatorForm: FC<{
           currentValue={householdSize}
           onChange={setHouseholdSize}
         />
-        {showEmailField ? renderEmailField(email, setEmail, msg) : null}
+        {showEmailField
+          ? renderEmailField(emailRequired, email, setEmail, msg)
+          : null}
         <div className="col-start-[-2] col-end-[-1]">
           <div className="h-0 sm:h-9"></div>
           <PrimaryButton id="calculate">{msg('Calculate')}</PrimaryButton>
