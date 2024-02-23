@@ -106,7 +106,7 @@ const StateCalculator: FC<{
   shadowRoot: ShadowRoot;
   apiHost: string;
   apiKey: string;
-  attributeValues: Partial<FormValues>;
+  attributeValues: FormValues;
   stateId?: string;
   showEmail: boolean;
   includeBetaStates: boolean;
@@ -139,23 +139,13 @@ const StateCalculator: FC<{
     );
 
     return {
-      zip: storedValues?.zip ?? attributeValues.zip ?? DEFAULT_ZIP,
-      ownerStatus:
-        storedValues?.ownerStatus ??
-        attributeValues.ownerStatus ??
-        DEFAULT_OWNER_STATUS,
+      zip: storedValues?.zip ?? attributeValues.zip,
+      ownerStatus: storedValues?.ownerStatus ?? attributeValues.ownerStatus,
       householdIncome:
-        storedValues?.householdIncome ??
-        attributeValues.householdIncome ??
-        DEFAULT_HOUSEHOLD_INCOME,
+        storedValues?.householdIncome ?? attributeValues.householdIncome,
       householdSize:
-        storedValues?.householdSize ??
-        attributeValues.householdSize ??
-        DEFAULT_HOUSEHOLD_SIZE,
-      taxFiling:
-        storedValues?.taxFiling ??
-        attributeValues.taxFiling ??
-        DEFAULT_TAX_FILING,
+        storedValues?.householdSize ?? attributeValues.householdSize,
+      taxFiling: storedValues?.taxFiling ?? attributeValues.taxFiling,
       projects: storedValues?.projects ?? [],
       utility: storedValues?.utility ?? DEFAULT_UTILITY,
     };
