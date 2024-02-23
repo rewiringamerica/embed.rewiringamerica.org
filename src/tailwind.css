@@ -56,3 +56,21 @@
   --color-text-secondary: var(--grey-400);
   --color-text-tertiary: var(--yellow-800);
 }
+
+:host {
+  all: initial; /* https://lamplightdev.com/blog/2019/03/26/why-is-my-web-component-inheriting-styles/ */
+  color: black;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'GT America', system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  font-size: 16px;
+  line-height: 28px;
+  font-weight: 400;
+  margin: 0 auto; /* center on page */
+  display: block; /* required for max-width to kick in */
+  width: 100%;
+  max-width: 1280px;
+}
