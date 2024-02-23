@@ -109,6 +109,7 @@ const StateCalculator: FC<{
   attributeValues: FormValues;
   stateId?: string;
   showEmail: boolean;
+  emailRequired: boolean;
   includeBetaStates: boolean;
 }> = ({
   shadowRoot,
@@ -117,6 +118,7 @@ const StateCalculator: FC<{
   attributeValues,
   stateId,
   showEmail,
+  emailRequired,
   includeBetaStates,
 }) => {
   const { msg, locale } = useTranslated();
@@ -247,7 +249,8 @@ const StateCalculator: FC<{
           key={formKey}
           stateId={stateId}
           initialValues={getInitialFormValues()}
-          showEmailField={!!showEmail && !emailSubmitted}
+          showEmailField={showEmail && !emailSubmitted}
+          emailRequired={emailRequired}
           utilityFetcher={zip => {
             const query = new URLSearchParams({
               language: locale,
@@ -309,6 +312,13 @@ class CalculatorElement extends HTMLElement {
   /* property to show the email signup field */
   showEmail: boolean = false;
 
+  /**
+   * Property to require email when submitting the top-level form.
+   * Has no effect if the email field is not shown (whether because showEmail
+   * is false, or because an email has already been submitted).
+   */
+  emailRequired: boolean = false;
+
   /* property to include incentives from states that aren't formally launched */
   includeBetaStates: boolean = false;
 
@@ -330,6 +340,7 @@ class CalculatorElement extends HTMLElement {
   static observedAttributes = [
     'lang',
     'show-email',
+    'email-required',
     'include-beta-states',
     'api-key',
     'api-host',
@@ -383,6 +394,8 @@ class CalculatorElement extends HTMLElement {
       this.includeBetaStates = newValue !== null;
     } else if (attr === 'show-email') {
       this.showEmail = newValue !== null;
+    } else if (attr === 'email-required') {
+      this.emailRequired = newValue !== null;
     } else if (attr === 'state') {
       this.state = newValue ?? '';
     } else if (attr === 'zip') {
@@ -422,6 +435,7 @@ class CalculatorElement extends HTMLElement {
           }}
           stateId={this.state}
           showEmail={this.showEmail}
+          emailRequired={this.emailRequired}
           includeBetaStates={this.includeBetaStates}
         />
       </LocaleContext.Provider>,
