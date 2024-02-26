@@ -306,9 +306,6 @@ const StateCalculator: FC<{
 };
 
 class CalculatorElement extends HTMLElement {
-  /* supported property to switch UI language */
-  override lang: string = this.getDefaultLanguage();
-
   /* property to show the email signup field */
   showEmail: boolean = false;
 
@@ -352,29 +349,28 @@ class CalculatorElement extends HTMLElement {
     'household-size',
   ] as const;
 
-  reactRootCalculator: Root;
-  reactRootFooter: Root;
-
-  constructor() {
-    super();
-
-    const shadowRoot = this.attachShadow({ mode: 'open' });
-
-    const style = document.createElement('style');
-    style.textContent = tailwindStyles;
-
-    shadowRoot.appendChild(style);
-
-    const calculator = document.createElement('div');
-    shadowRoot.appendChild(calculator);
-    this.reactRootCalculator = createRoot(calculator);
-
-    const footer = document.createElement('div');
-    shadowRoot.appendChild(footer);
-    this.reactRootFooter = createRoot(footer);
-  }
+  reactRootCalculator: Root | null = null;
+  reactRootFooter: Root | null = null;
 
   connectedCallback() {
+    this.lang = this.getDefaultLanguage();
+
+    if (!this.shadowRoot) {
+      const shadowRoot = this.attachShadow({ mode: 'open' });
+
+      const style = document.createElement('style');
+      style.textContent = tailwindStyles;
+
+      shadowRoot.appendChild(style);
+
+      const calculator = document.createElement('div');
+      shadowRoot.appendChild(calculator);
+      this.reactRootCalculator = createRoot(calculator);
+
+      const footer = document.createElement('div');
+      shadowRoot.appendChild(footer);
+      this.reactRootFooter = createRoot(footer);
+    }
     this.render();
   }
 
@@ -420,7 +416,7 @@ class CalculatorElement extends HTMLElement {
   }
 
   private render() {
-    this.reactRootCalculator.render(
+    this.reactRootCalculator?.render(
       <LocaleContext.Provider value={this.lang}>
         <StateCalculator
           shadowRoot={this.shadowRoot!}
@@ -440,7 +436,7 @@ class CalculatorElement extends HTMLElement {
         />
       </LocaleContext.Provider>,
     );
-    this.reactRootFooter.render(
+    this.reactRootFooter?.render(
       <LocaleContext.Provider value={this.lang}>
         <CalculatorFooter />
       </LocaleContext.Provider>,
