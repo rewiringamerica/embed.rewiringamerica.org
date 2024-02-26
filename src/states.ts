@@ -14,6 +14,9 @@ export const STATES: Record<string, StateInfo> = {
   CT: {
     name: msg => msg('Connecticut'),
   },
+  IL: {
+    name: msg => msg('Illinois'),
+  },
   NY: {
     name: msg => msg('New York'),
   },
