@@ -23,3 +23,8 @@ jobs:
           cache: 'yarn'
       - run: yarn --frozen-lockfile
       - run: yarn lint
+      - name: Make sure strings are up to date
+        run: |
+          yarn strings:extract
+          yarn strings:build
+          git diff --exit-code
