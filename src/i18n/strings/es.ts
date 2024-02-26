@@ -42,6 +42,7 @@ export const templates = {
   s4b3298c4c6db9310: str`\$${0} de descuento en ${1}`,
   s50e95c2064db3522: `Calculadora por`,
   s56f9b2194465973e: `tonelada`,
+  s57355ce02837df3c: `Illinois`,
   s57fde82075d7665d: `Información de su hogar`,
   s58aac558ddaa15a3: `Suscribirse`,
   s5a2b25d2a25ce5b9: `Sistemas de climatización`,

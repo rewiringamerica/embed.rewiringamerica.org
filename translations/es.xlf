@@ -399,6 +399,10 @@
   <source>watt</source>
   <target>vatio</target>
 </trans-unit>
+<trans-unit id="s57355ce02837df3c">
+  <source>Illinois</source>
+  <target>Illinois</target>
+</trans-unit>
 </body>
 </file>
 </xliff>
