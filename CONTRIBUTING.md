@@ -10,15 +10,15 @@ First, read the [README](README.md), especially the [running/building](README.md
 
 All the code is TypeScript, and is required to typecheck without errors.
 
-- One of the major design constraints in this codebase is the need to embed the component on third-party sites. We strive to keep the bundle size down by taking few dependencies and trying to keep them small. Among other things, that's why we don't use React.
+- One of the major design constraints in this codebase is the need to embed the component on third-party sites. We strive to keep the bundle size down by taking few runtime dependencies and trying to keep them small.
 
-- The component framework is [Lit](https://lit.dev/docs/v2/). We use [@lit/task](https://github.com/lit/lit/blob/HEAD/packages/task/README.md) to manage fetching from the API.
+- We use React, with [Tailwind](https://tailwindcss.com) for styling, and a few components from [Headless UI](https://headlessui.com/).
 
 - The build system is [Parcel](https://parceljs.org). In addition to building the [embed demo site](https://embed.rewiringamerica.org), it builds the file `src/state-calculator.ts` and all of its transitive dependencies into a single `.js` file. That file is hosted on `embed.rewiringamerica.org` and referenced from third-party pages that include the embed.
 
   - The CSS font-face does not seem to apply if fonts are loaded by the Shadow DOM's styles, so we build a separate font stylesheet that embed clients reference.
 
-- We use some components from [Shoelace](https://shoelace.style/).
+- The legacy frontend uses [Lit](https://lit.dev/docs/v2/) and [@lit/task](https://github.com/lit/lit/blob/HEAD/packages/task/README.md). It also uses some components from [Shoelace](https://shoelace.style/). None of these are used in the new frontend. The legacy frontend does _not_ use Tailwind.
 
 ### Accessibility
 
@@ -36,13 +36,15 @@ All the code is TypeScript, and is required to typecheck without errors.
 
 - It's acceptable to use machine translation, but any machine-translated output should be reviewed by a fluent human Spanish speaker before landing.
 
-- We use [@lit/localize](https://lit.dev/docs/localization/overview/) to extract strings and select translations at runtime. The source of truth for translations is the file `translations/es.xlf`.
+- We use [@lit/localize](https://lit.dev/docs/localization/overview/) to tag and extract localizable strings for translation. However, we don't use the library at runtime, since it depends on Lit. We've reimplemented its `msg` and `str` functions ourselves for looking up translations at runtime and interpolating values into them.
+
+- The source of truth for translations is the file `translations/es.xlf`.
 
   1. When adding or modifying English strings, run `yarn strings:extract` to update `translations/es.xlf` with the new strings.
 
-  2. Add Spanish translations to the new strings in that file, inside `<target>` elements.
+  2. Add Spanish translations to the new strings in that file, inside `<target>` elements. (We don't have a prescribed workflow for doing translations, but the script at `scripts/strings.ts` supports two possible workflows: exporting/importing XLIFF data for use with an LLM, or exporting/importing CSV for use with a spreadsheet.)
 
-  3. Run `yarn strings:build` to generate the JavaScript with the translations. Make sure the translations show up in the UI when you set the attribute `lang="es"` on the calculator element .
+  3. Run `yarn strings:build` to generate the JavaScript with the translations. Make sure the translations show up in the UI when you set the attribute `lang="es"` on the calculator element.
 
   4. Include the changes in `es.xlf` and `src/locales/strings/es.ts` in your PR.
 
