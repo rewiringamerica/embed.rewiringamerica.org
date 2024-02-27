@@ -59,7 +59,7 @@ export const LocaleContext = createContext(sourceLocale);
  * A hook that returns a function to localize strings. All localizable strings
  * should be wrapped in a call to msg().
  */
-export const useTranslated = (): { msg: MsgFn } => {
+export const useTranslated = (): { msg: MsgFn; locale: Locale } => {
   const locale = computeLocale(useContext(LocaleContext));
 
   // This mimics the subset of @lit/localize's msg() function that we use.
@@ -105,5 +105,5 @@ export const useTranslated = (): { msg: MsgFn } => {
         );
   };
 
-  return { msg };
+  return { msg, locale };
 };

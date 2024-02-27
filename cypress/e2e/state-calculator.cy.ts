@@ -31,7 +31,7 @@ describe('rewiring-america-state-calculator', () => {
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .find('input#zip')
-      .type('02859');
+      .type('02861');
 
     // Unfocus the zip field to fetch utilities
     cy.get('rewiring-america-state-calculator')
