@@ -172,7 +172,7 @@ const StateCalculator: FC<{
 
     const email = formValues.email;
     if (email && !emailSubmitted) {
-      submitEmailSignup(apiHost, apiKey, email, formValues.zip);
+      submitEmailSignup(apiHost, apiKey, email, formValues.zip, emailRequired);
       // This hides the email field
       setEmailSubmitted(true);
     }
@@ -293,6 +293,7 @@ const StateCalculator: FC<{
                       apiKey,
                       email,
                       submittedFormValues!.zip,
+                      emailRequired,
                     );
                     setEmailSubmitted(true);
                   }

@@ -17,6 +17,7 @@ export async function submitEmailSignup(
   apiKey: string,
   email: string,
   zip: string,
+  emailRequired: boolean,
 ): Promise<boolean> {
   safeLocalStorage.setItem(LOCAL_STORAGE_KEY, true);
 
@@ -26,7 +27,7 @@ export async function submitEmailSignup(
 
     const response = await fetch(url, {
       method: 'POST',
-      body: JSON.stringify({ email, zip }),
+      body: JSON.stringify({ email, zip, emailRequired }),
       headers: {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
