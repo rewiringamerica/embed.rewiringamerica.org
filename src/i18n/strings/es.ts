@@ -75,6 +75,7 @@ export const templates = {
   sae79f47e1f8205fc: str`Ese código postal no está en ${0}.`,
   saf510e2c8ddfc21a: `una renovación de eficiencia energética`,
   safb8e695c2fc2dc3: `Declaración de impuestos`,
+  sb04b1070af7f7b76: `Washington, DC`,
   sb1b20a59970ba607: `Incluye a cualquier persona con la que viva y que reclame como dependiente en sus impuestos, y a su cónyuge o pareja si presenta impuestos conjuntos.`,
   sb21ad862204e6186: `Ver nuestros`,
   sb5b955a693af9c2e: `Virginia`,
