@@ -20,6 +20,9 @@ export const STATES: Record<string, StateInfo> = {
   IL: {
     name: msg => msg('Illinois'),
   },
+  NV: {
+    name: msg => msg('Nevada'),
+  },
   NY: {
     name: msg => msg('New York'),
   },
