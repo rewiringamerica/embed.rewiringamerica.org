@@ -56,6 +56,7 @@ export const templates = {
   s6c11cef729833743: `Los proyectos en los que tiene lo más interés`,
   s6c8911fbc526fb43: `Tablero eléctrico y cableado`,
   s6cfe26dfc562d2a2: str`Hasta \$${0} de descuento en ${1}`,
+  s6ef16f759a2cea7e: `Nevada`,
   s79fd9ba9e498d3da: str`${0} del costo de ${1}, hasta \$${2}`,
   s7a73c90a7c3b43b4: `un calentador de agua con bomba de calor`,
   s7bd0de02e230dc75: `Calentador de agua`,
@@ -118,5 +119,4 @@ export const templates = {
   sfc7214f623fe475d: `Selecciona la empresa a la que paga su factura de electricidad.`,
   sfe16afc784bb9d76: `Tejado solar`,
   sfe81d5d73a35a2cf: `Calcular`,
-  s6ef16f759a2cea7e: `Nevada`,
 };
