@@ -118,4 +118,5 @@ export const templates = {
   sfc7214f623fe475d: `Selecciona la empresa a la que paga su factura de electricidad.`,
   sfe16afc784bb9d76: `Tejado solar`,
   sfe81d5d73a35a2cf: `Calcular`,
+  s6ef16f759a2cea7e: `Nevada`,
 };
