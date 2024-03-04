@@ -411,6 +411,174 @@
   <source>Nevada</source>
   <target>Nevada</target>
 </trans-unit>
+<trans-unit id="saa36bebd89cbd670">
+  <source>Alaska</source>
+  <target>Alaska</target>
+</trans-unit>
+<trans-unit id="s682a379fdd67cad0">
+  <source>Alabama</source>
+  <target>Alabama</target>
+</trans-unit>
+<trans-unit id="sf1e2063bc64f3539">
+  <source>Arkansas</source>
+  <target>Arkansas</target>
+</trans-unit>
+<trans-unit id="s04c4b18eb3941d37">
+  <source>California</source>
+  <target>California</target>
+</trans-unit>
+<trans-unit id="s4b0d7bd386d61b46">
+  <source>Colorado</source>
+  <target>Colorado</target>
+</trans-unit>
+<trans-unit id="s3998d6a99e45c4ec">
+  <source>Delaware</source>
+  <target>Delaware</target>
+</trans-unit>
+<trans-unit id="s8194d17164cbd6de">
+  <source>Florida</source>
+  <target>Florida</target>
+</trans-unit>
+<trans-unit id="scc21fdd8a2feaeef">
+  <source>Georgia</source>
+  <target>Georgia</target>
+</trans-unit>
+<trans-unit id="s019265199296d7b0">
+  <source>Hawaii</source>
+  <target>Hawái</target>
+</trans-unit>
+<trans-unit id="s2749e8d17f9153e9">
+  <source>Iowa</source>
+  <target>Iowa</target>
+</trans-unit>
+<trans-unit id="s04009ba1826b5fca">
+  <source>Idaho</source>
+  <target>Idaho</target>
+</trans-unit>
+<trans-unit id="s2772c1bb7b4e4b25">
+  <source>Indiana</source>
+  <target>Indiana</target>
+</trans-unit>
+<trans-unit id="s1b5c0e397c13f596">
+  <source>Kansas</source>
+  <target>Kansas</target>
+</trans-unit>
+<trans-unit id="s2de33deca4490a2f">
+  <source>Kentucky</source>
+  <target>Kentucky</target>
+</trans-unit>
+<trans-unit id="s317ffbd78be11d3c">
+  <source>Louisiana</source>
+  <target>Luisiana</target>
+</trans-unit>
+<trans-unit id="sbd73a9b9860a2ae3">
+  <source>Massachusetts</source>
+  <target>Massachusetts</target>
+</trans-unit>
+<trans-unit id="sa59611704b7a37f7">
+  <source>Maryland</source>
+  <target>Maryland</target>
+</trans-unit>
+<trans-unit id="s9ca62f0b7e639157">
+  <source>Maine</source>
+  <target>Maine</target>
+</trans-unit>
+<trans-unit id="s40f2997eb54b317b">
+  <source>Michigan</source>
+  <target>Míchigan</target>
+</trans-unit>
+<trans-unit id="sd26fd2eb6e7f18cb">
+  <source>Minnesota</source>
+  <target>Minnesota</target>
+</trans-unit>
+<trans-unit id="s7d340cf80adae3a4">
+  <source>Missouri</source>
+  <target>Misuri</target>
+</trans-unit>
+<trans-unit id="scb043c067bac571c">
+  <source>Mississippi</source>
+  <target>Misisipi</target>
+</trans-unit>
+<trans-unit id="s3e5e50bffd99c077">
+  <source>Montana</source>
+  <target>Montana</target>
+</trans-unit>
+<trans-unit id="s684d036a45c47ca9">
+  <source>North Carolina</source>
+  <target>Carolina del Norte</target>
+</trans-unit>
+<trans-unit id="s81aa671e64f2010e">
+  <source>North Dakota</source>
+  <target>Dakota del Norte</target>
+</trans-unit>
+<trans-unit id="s324712a1538f5418">
+  <source>Nebraska</source>
+  <target>Nebraska</target>
+</trans-unit>
+<trans-unit id="s912b944fa287f7d0">
+  <source>New Hampshire</source>
+  <target>Nuevo Hampshire</target>
+</trans-unit>
+<trans-unit id="s6ad891deee36322f">
+  <source>New Jersey</source>
+  <target>Nueva Jersey</target>
+</trans-unit>
+<trans-unit id="scc3ef5dd3649b934">
+  <source>New Mexico</source>
+  <target>Nuevo México</target>
+</trans-unit>
+<trans-unit id="s675cdfc08b387d5a">
+  <source>Ohio</source>
+  <target>Ohio</target>
+</trans-unit>
+<trans-unit id="s9b0d347a81e8f0a3">
+  <source>Oklahoma</source>
+  <target>Oklahoma</target>
+</trans-unit>
+<trans-unit id="s3ab697ad32f1c425">
+  <source>Oregon</source>
+  <target>Oregón</target>
+</trans-unit>
+<trans-unit id="s8e35f6b4e6e0adb9">
+  <source>Pennsylvania</source>
+  <target>Pensilvania</target>
+</trans-unit>
+<trans-unit id="s280c7b72a9d4d573">
+  <source>South Carolina</source>
+  <target>Carolina del Sur</target>
+</trans-unit>
+<trans-unit id="se6845b7d2d664ad8">
+  <source>South Dakota</source>
+  <target>Dakota del Sur</target>
+</trans-unit>
+<trans-unit id="s777612e8117ff021">
+  <source>Tennessee</source>
+  <target>Tennessee</target>
+</trans-unit>
+<trans-unit id="s2bb426aeeaeede1a">
+  <source>Texas</source>
+  <target>Texas</target>
+</trans-unit>
+<trans-unit id="saee4c6f0080bac8d">
+  <source>Utah</source>
+  <target>Utah</target>
+</trans-unit>
+<trans-unit id="s751ba5ac47cbfabb">
+  <source>Washington</source>
+  <target>Washington</target>
+</trans-unit>
+<trans-unit id="s0f06604c95e47b84">
+  <source>Wisconsin</source>
+  <target>Wisconsin</target>
+</trans-unit>
+<trans-unit id="sae246b9f0aee2901">
+  <source>West Virginia</source>
+  <target>Virginia Occidental</target>
+</trans-unit>
+<trans-unit id="sad181d4343ef967f">
+  <source>Wyoming</source>
+  <target>Wyoming</target>
+</trans-unit>
 </body>
 </file>
 </xliff>
