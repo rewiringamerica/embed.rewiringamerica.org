@@ -7,22 +7,26 @@ type Props = { response: APIResponse };
  * Displays the white area at the bottom of the calculator results with logos
  * of the authorities whose incentives are displayed.
  */
-export const AuthorityLogos = ({ response }: Props) => {
+export const PartnerLogos = ({ response }: Props) => {
   const { msg } = useTranslated();
   const authoritiesWithLogo = Object.entries(response.authorities).filter(
     ([, auth]) => !!auth.logo,
   );
-  if (authoritiesWithLogo.length === 0) {
+  const partnersWithLogo = Object.entries(response.data_partners).filter(
+    ([, partner]) => !!partner.logo,
+  );
+  const allLogos = [...authoritiesWithLogo, ...partnersWithLogo];
+  if (allLogos.length === 0) {
     return <></>;
   }
 
-  const logos = authoritiesWithLogo.map(([id, auth]) => (
+  const logos = allLogos.map(([id, partner]) => (
     <img
       key={id}
-      alt={auth.name}
-      src={auth.logo!.src}
-      width={auth.logo!.width}
-      height={auth.logo!.height}
+      alt={partner.name}
+      src={partner.logo!.src}
+      width={partner.logo!.width}
+      height={partner.logo!.height}
     />
   ));
 

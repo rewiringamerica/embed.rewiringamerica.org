@@ -89,6 +89,16 @@ export interface APIResponse {
     state: string | null;
     utility: string | null;
   };
+  data_partners: {
+    [id: string]: {
+      name: string;
+      logo?: {
+        src: string;
+        width: number;
+        height: number;
+      };
+    };
+  };
   location: APILocation;
   incentives: Incentive[];
 }
