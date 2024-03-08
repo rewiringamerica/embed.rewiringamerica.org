@@ -7,7 +7,6 @@ import {
   Incentive,
   ItemType,
 } from './api/calculator-types-v1';
-import { AuthorityLogos } from './authority-logos';
 import { PrimaryButton, TextButton } from './buttons';
 import { Card } from './card';
 import { TextInput } from './components/text-input';
@@ -16,6 +15,7 @@ import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
 import { IconTabBar } from './icon-tab-bar';
 import { ExclamationPoint, UpRightArrow } from './icons';
+import { PartnerLogos } from './partner-logos';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { Separator } from './separator';
 
@@ -446,7 +446,7 @@ export const StateIncentives: FC<Props> = ({
         // We won't show the empty state in this seciton, so no email submission
         emailSubmitter={null}
       />
-      <AuthorityLogos response={response} />
+      <PartnerLogos response={response} />
     </>
   );
 };
