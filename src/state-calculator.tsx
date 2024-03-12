@@ -64,7 +64,7 @@ const fetch = (
   const query = new URLSearchParams({
     language,
     include_beta_states: '' + includeBetaStates,
-    'location[zip]': formValues.zip,
+    zip: formValues.zip,
     owner_status: formValues.ownerStatus,
     household_income: formValues.householdIncome,
     tax_filing: formValues.taxFiling,
@@ -255,7 +255,7 @@ const StateCalculator: FC<{
             const query = new URLSearchParams({
               language: locale,
               include_beta_states: '' + includeBetaStates,
-              'location[zip]': zip,
+              zip,
             });
 
             return fetchApi<APIUtilitiesResponse>(
