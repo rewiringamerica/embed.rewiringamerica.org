@@ -52,8 +52,8 @@ export interface Incentive {
   program_url?: string;
   item: Item;
   amount: Amount;
-  start_date: number | string;
-  end_date: number | string;
+  start_date?: number | string;
+  end_date?: number | string;
   short_description?: string;
 
   eligible: boolean;
