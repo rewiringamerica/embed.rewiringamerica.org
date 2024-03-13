@@ -252,10 +252,6 @@
   <source>Calculator by</source>
   <note from="lit-localize">followed by "Rewiring America"</note>
 <target>Calculadora por</target></trans-unit>
-<trans-unit id="sf8cc1792fb011b80">
-  <source>Incentive data brought to you by</source>
-  <note from="lit-localize">followed by authority logos</note>
-<target>Datos de incentivos proporcionados por</target></trans-unit>
 <trans-unit id="sfa7338035e1ef173">
   <source>Rent or own</source>
   <note from="lit-localize">form field label</note>
@@ -578,6 +574,11 @@
 <trans-unit id="sad181d4343ef967f">
   <source>Wyoming</source>
   <target>Wyoming</target>
+</trans-unit>
+<trans-unit id="s50994ba3f0a45429">
+  <source>Brought to you in partnership with</source>
+  <note from="lit-localize">followed by authority logos</note>
+  <target>Presentado en colaboración con</target></trans-unit>
 </trans-unit>
 </body>
 </file>

@@ -79,7 +79,7 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('Incentive data brought to you by');
+      .contains('Brought to you in partnership with');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
