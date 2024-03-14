@@ -30,7 +30,7 @@ export const PartnerLogos = ({ response }: Props) => {
     />
   ));
 
-  const title = msg('Incentive data brought to you by', {
+  const title = msg('Brought to you in partnership with', {
     desc: 'followed by authority logos',
   });
 
