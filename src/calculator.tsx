@@ -21,11 +21,14 @@ import { tooltipStyles } from './tooltip';
 
 const loadedTemplate = (
   results: ICalculatedIncentiveResults,
+  ownerStatus: OwnerStatus,
   hideDetails: boolean,
   hideSummary: boolean,
 ) => (
   <>
-    {hideSummary ? null : <IncentiveSummary results={results} />}
+    {hideSummary ? null : (
+      <IncentiveSummary ownerStatus={ownerStatus} results={results} />
+    )}
     {hideDetails ? null : <IncentiveDetails results={results} />}
   </>
 );
@@ -183,7 +186,12 @@ export class RewiringAmericaCalculator extends LitElement {
           : this._task.render({
               pending: loadingTemplate,
               complete: results =>
-                loadedTemplate(results, this.hideDetails, this.hideSummary),
+                loadedTemplate(
+                  results,
+                  this.ownerStatus,
+                  this.hideDetails,
+                  this.hideSummary,
+                ),
               error: errorTemplate,
             })}
       </>

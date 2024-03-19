@@ -1,6 +1,6 @@
 import { css } from 'lit';
 import { FC } from 'react';
-import { ICalculatedIncentiveResults } from './calculator-types';
+import { ICalculatedIncentiveResults, OwnerStatus } from './calculator-types';
 import { LightningBolt } from './icons';
 
 export const summaryStyles = css`
@@ -140,9 +140,10 @@ const upfrontDiscountLabel = ({
   }
 };
 
-export const IncentiveSummary: FC<{ results: ICalculatedIncentiveResults }> = ({
-  results,
-}) => (
+export const IncentiveSummary: FC<{
+  ownerStatus: OwnerStatus;
+  results: ICalculatedIncentiveResults;
+}> = ({ ownerStatus, results }) => (
   <div className="card">
     <div className="card__heading">
       <h1>Your Personalized Incentives</h1>
@@ -191,10 +192,29 @@ export const IncentiveSummary: FC<{ results: ICalculatedIncentiveResults }> = ({
           cannot guarantee final amounts or timeline.
         </p>
       </div>
-      {results.is_over_150_ami ? (
+      {results.tax_savings !== undefined &&
+      results.tax_savings <= 100 &&
+      ownerStatus === 'homeowner' ? (
         <div className="card__info">
           Based on your household income, you may not qualify for tax credits,
-          but you can take full advantage of the electrification rebates.
+          but you can take full advantage of the electrification rebates.{' '}
+          <a
+            href="https://content.rewiringamerica.org/reports/Rewiring%20America%20IRA%20Case%20Study%20-%20Modest%20Income.pdf"
+            target="_blank"
+          >
+            Check out this relevant case study!
+          </a>
+        </div>
+      ) : null}
+      {results.is_over_150_ami &&
+      ownerStatus === 'homeowner' &&
+      results.performance_rebate_savings ? (
+        <div className="card__info">
+          Your income is above the threshold for upfront discounts and/or EV tax
+          credits, but your tax liability will likely qualify you for equipment
+          tax credits. You do qualify for a performance-based efficiency rebate
+          worth ${results.performance_rebate_savings.toLocaleString()}. However,
+          we do not consider this an upfront discount.{' '}
           <a
             href="https://content.rewiringamerica.org/reports/Rewiring%20America%20IRA%20Case%20Study%20-%20High%20Income.pdf"
             target="_blank"
