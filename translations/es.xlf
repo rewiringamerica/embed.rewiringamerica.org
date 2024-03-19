@@ -580,6 +580,10 @@
   <note from="lit-localize">followed by authority logos</note>
   <target>Presentado en colaboración con</target>
 </trans-unit>
+<trans-unit id="sc9e494c8346b7cb5">
+  <source>Other</source>
+  <target>Otra</target>
+</trans-unit>
 </body>
 </file>
 </xliff>
