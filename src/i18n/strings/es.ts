@@ -131,6 +131,7 @@ export const templates = {
   sc373af4c1a974b57: `Cocina`,
   sc5b20cb72269bc4f: `Los propietarios y inquilinos califican para diferentes incentivos.`,
   sc997cfdf24ba9b58: `Aún no tenemos datos sobre las empresas de servicios eléctricos en su área.`,
+  sc9e494c8346b7cb5: `Otra`,
   scb043c067bac571c: `Misisipi`,
   scc21fdd8a2feaeef: `Georgia`,
   scc3ef5dd3649b934: `Nuevo México`,

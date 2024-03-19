@@ -39,6 +39,8 @@ const HOUSEHOLD_SIZE_OPTIONS: (
     value: count,
   }));
 
+const OTHER_UTILITY_ID = 'other';
+
 const renderUtilityField = (
   utility: string,
   setUtility: (newValue: string) => void,
@@ -47,10 +49,9 @@ const renderUtilityField = (
 ) => {
   const options: Option<string>[] =
     utilitiesFetch.state === 'complete'
-      ? Object.entries(utilitiesFetch.response.utilities).map(([id, info]) => ({
-          value: id,
-          label: info.name,
-        }))
+      ? Object.entries(utilitiesFetch.response.utilities)
+          .map(([id, info]) => ({ value: id, label: info.name }))
+          .concat([{ value: OTHER_UTILITY_ID, label: msg('Other') }])
       : [];
 
   const enterZipToSelect = msg('Enter your ZIP code to select a utility.');
@@ -221,7 +222,7 @@ export const CalculatorForm: FC<{
             setUtility(keys[0]);
           }
         } else {
-          setUtility('');
+          setUtility(OTHER_UTILITY_ID);
         }
       })
       .catch(exc =>
@@ -239,7 +240,7 @@ export const CalculatorForm: FC<{
           householdIncome,
           householdSize,
           taxFiling,
-          utility,
+          utility: utility !== OTHER_UTILITY_ID ? utility : '',
           projects,
           email,
         });
