@@ -4,7 +4,6 @@ import {
   AmountType,
   ICalculatedIncentiveResults,
   IIncentiveRecord,
-  IncentiveType,
 } from './calculator-types';
 import { CalculatorTableIcon } from './icons';
 import { tableStyles } from './styles';
@@ -84,21 +83,11 @@ function formatAmount(amount: number, amount_type: AmountType) {
   }
 }
 
-function formatStartDate(start_date: number, type: IncentiveType) {
-  if (type === 'pos_rebate') {
-    // we hard-code 2024 for rebates because their availability is not yet certain
-    // FIXME: we should model the uncertainty explicitly rather than leaving it to frontend code
-    return '2024';
-  } else if (type === 'tax_credit') {
-    // for tax credits, the year is safe to use as data:
-    const thisYear = new Date().getFullYear();
-    if (start_date <= thisYear) {
-      return <em>Available Now!</em>;
-    } else {
-      return start_date.toString();
-    }
+function formatStartDate(start_date: number) {
+  const thisYear = new Date().getFullYear();
+  if (start_date <= thisYear) {
+    return <em>Available Now!</em>;
   } else {
-    // while we technically don't expect another IncentiveType, fall back to date here if needed:
     return start_date.toString();
   }
 }
@@ -120,9 +109,7 @@ const renderDetailRow = (key: number, incentive: IIncentiveRecord) => (
     <td className="cell--right">
       {formatAmount(incentive.amount, incentive.amount_type)}
     </td>
-    <td className="cell--right">
-      {formatStartDate(incentive.start_date, incentive.type)}
-    </td>
+    <td className="cell--right">{formatStartDate(incentive.start_date)}</td>
     <td className="cell--right hide-on-mobile">
       <a
         className="more-info-button"
