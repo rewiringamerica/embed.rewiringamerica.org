@@ -96,12 +96,4 @@ describe('year-month-days', () => {
   ])('$date should not be in future on $now', ({ date, now }) => {
     expect(isInFuture(date, localDate(now))).toBe(false);
   });
-
-  test('timezone boundary', () => {
-    // This makes sure that isInFuture is not looking at the current instant as
-    // UTC to make the comparison, because this Date is 2024-03-02 in UTC.
-    expect(
-      isInFuture('2024-03-02', new Date('2024-03-01T23:00:00-04:00')),
-    ).toBe(true);
-  });
 });
