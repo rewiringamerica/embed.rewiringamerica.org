@@ -211,15 +211,13 @@ const IncentiveCard: FC<{ incentive: Incentive }> = ({ incentive }) => {
   const { msg } = useTranslated();
   const [buttonUrl, buttonContent] = incentive.more_info_url
     ? [incentive.more_info_url, msg('Learn more')]
-    : incentive.program_url
-    ? [
+    : [
         incentive.program_url,
         <>
           {msg('Visit site')}
           <UpRightArrow w={20} h={20} />
         </>,
-      ]
-    : [incentive.item.url, msg('Learn more')];
+      ];
   const futureStartYear = getStartYearIfInFuture(incentive);
   return (
     <Card>

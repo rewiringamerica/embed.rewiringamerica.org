@@ -41,7 +41,6 @@ export type ItemType =
 export interface Item {
   type: ItemType;
   name: string;
-  url: string;
 }
 
 export interface Incentive {
@@ -49,8 +48,7 @@ export interface Incentive {
   authority_type: AuthorityType;
   authority_name: string | null;
   program: string;
-  // TODO make program url required, stop using item.url
-  program_url?: string;
+  program_url: string;
   more_info_url?: string;
   item: Item;
   amount: Amount;
