@@ -49,7 +49,9 @@ export interface Incentive {
   authority_type: AuthorityType;
   authority_name: string | null;
   program: string;
+  // TODO make program url required, stop using item.url
   program_url?: string;
+  more_info_url?: string;
   item: Item;
   amount: Amount;
   start_date?: number | string;

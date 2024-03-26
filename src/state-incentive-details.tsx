@@ -209,6 +209,17 @@ const LinkButton: FC<PropsWithChildren<{ href: string }>> = ({
 
 const IncentiveCard: FC<{ incentive: Incentive }> = ({ incentive }) => {
   const { msg } = useTranslated();
+  const [buttonUrl, buttonContent] = incentive.more_info_url
+    ? [incentive.more_info_url, msg('Learn more')]
+    : incentive.program_url
+    ? [
+        incentive.program_url,
+        <>
+          {msg('Visit site')}
+          <UpRightArrow w={20} h={20} />
+        </>,
+      ]
+    : [incentive.item.url, msg('Learn more')];
   return (
     <Card>
       <div className="flex flex-col gap-4 h-full">
@@ -229,10 +240,7 @@ const IncentiveCard: FC<{ incentive: Incentive }> = ({ incentive }) => {
             <Chip isWarning={true}>{msg('Expected in 2024')}</Chip>
           )
         }
-        <LinkButton href={incentive.program_url ?? incentive.item.url}>
-          {incentive.program_url ? msg('Visit site') : msg('Learn more')}
-          {incentive.program_url ? <UpRightArrow w={20} h={20} /> : null}
-        </LinkButton>
+        <LinkButton href={buttonUrl}>{buttonContent}</LinkButton>
       </div>
     </Card>
   );
