@@ -23,6 +23,7 @@ jobs:
           cache: 'yarn'
       - run: yarn --frozen-lockfile
       - run: yarn lint
+      - run: yarn test
       - name: Make sure strings are up to date
         run: |
           yarn strings:extract

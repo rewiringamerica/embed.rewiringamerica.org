@@ -300,10 +300,6 @@
   <source>Back to calculator</source>
   <target>Volver a la calculadora</target>
 </trans-unit>
-<trans-unit id="s8fd8a424edc336b4">
-  <source>Expected in 2024</source>
-  <target>Esperado en 2024</target>
-</trans-unit>
 <trans-unit id="s255857544a9d5ec0">
   <source>Reset</source>
   <target>Reiniciar</target>
@@ -579,6 +575,10 @@
   <source>Brought to you in partnership with</source>
   <note from="lit-localize">followed by authority logos</note>
   <target>Presentado en colaboración con</target>
+</trans-unit>
+<trans-unit id="s863623721dcb0072">
+  <source>Expected in <x id="0" equiv-text="${futureStartYear}"/></source>
+  <target>Esperado en <x id="0" equiv-text="${futureStartYear}"/></target>
 </trans-unit>
 </body>
 </file>

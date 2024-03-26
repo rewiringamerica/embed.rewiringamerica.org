@@ -7,6 +7,7 @@ import {
   Incentive,
   ItemType,
 } from './api/calculator-types-v1';
+import { getYear, isInFuture } from './api/dates';
 import { PrimaryButton, TextButton } from './buttons';
 import { Card } from './card';
 import { TextInput } from './components/text-input';
@@ -145,11 +146,10 @@ const formatIncentiveType = (incentive: Incentive, msg: MsgFn) =>
     ? msg('Performance rebate')
     : msg('Incentive');
 
-/** We're special-casing these to hardcode an availability start date */
-const isIRARebate = (incentive: Incentive) =>
-  incentive.authority_type === 'federal' &&
-  (incentive.payment_methods[0] === 'pos_rebate' ||
-    incentive.payment_methods[0] === 'performance_rebate');
+const getStartYearIfInFuture = (incentive: Incentive) =>
+  incentive.start_date && isInFuture(incentive.start_date, new Date())
+    ? getYear(incentive.start_date)
+    : null;
 
 const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
   isWarning,
@@ -220,6 +220,7 @@ const IncentiveCard: FC<{ incentive: Incentive }> = ({ incentive }) => {
         </>,
       ]
     : [incentive.item.url, msg('Learn more')];
+  const futureStartYear = getStartYearIfInFuture(incentive);
   return (
     <Card>
       <div className="flex flex-col gap-4 h-full">
@@ -234,12 +235,11 @@ const IncentiveCard: FC<{ incentive: Incentive }> = ({ incentive }) => {
         <div className="text-grey-400 leading-normal">
           {incentive.short_description}
         </div>
-        {
-          /** TODO get real dates in the data! */
-          isIRARebate(incentive) && (
-            <Chip isWarning={true}>{msg('Expected in 2024')}</Chip>
-          )
-        }
+        {futureStartYear && (
+          <Chip isWarning={true}>
+            {msg(str`Expected in ${futureStartYear}`)}
+          </Chip>
+        )}
         <LinkButton href={buttonUrl}>{buttonContent}</LinkButton>
       </div>
     </Card>
@@ -337,8 +337,11 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
 const renderCardCollection = (incentives: Incentive[]) => (
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-start">
     {incentives
-      // Put IRA rebates after everything else
-      .sort((a, b) => +isIRARebate(a) - +isIRARebate(b))
+      // Sort incentives that haven't started yet at the end
+      .sort(
+        (a, b) =>
+          (getStartYearIfInFuture(a) ?? 0) - (getStartYearIfInFuture(b) ?? 0),
+      )
       .map((incentive, index) => (
         <IncentiveCard key={index} incentive={incentive} />
       ))}
