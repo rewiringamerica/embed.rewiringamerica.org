@@ -4,7 +4,13 @@ export type IncentiveType =
   | 'rebate'
   | 'account_credit'
   | 'performance_rebate';
-export type AuthorityType = 'federal' | 'state' | 'utility';
+export type AuthorityType =
+  | 'federal'
+  | 'state'
+  | 'utility'
+  | 'city'
+  | 'county'
+  | 'other';
 
 export type AmountType = 'dollar_amount' | 'percent' | 'dollars_per_unit';
 export type AmountUnit =

@@ -85,6 +85,7 @@ export const templates = {
   s7a73c90a7c3b43b4: `un calentador de agua con bomba de calor`,
   s7bd0de02e230dc75: `Calentador de agua`,
   s7d340cf80adae3a4: `Misuri`,
+  s7f5b705d1bd02849: `La elegibilidad depende de la ubicación de residencia.`,
   s8194d17164cbd6de: `Florida`,
   s81aa671e64f2010e: `Dakota del Norte`,
   s82397872ac9bddcf: `Tamaño del hogar`,
