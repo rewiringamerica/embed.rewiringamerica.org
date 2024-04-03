@@ -4,7 +4,7 @@
 describe('rewiring-america-state-calculator events', () => {
   beforeEach(() => {
     cy.clearAllLocalStorage();
-    cy.visit('http://localhost:1234/state-calculator.html');
+    cy.visit('http://localhost:1234');
   });
 
   it('dispatches the calculator-submitted event', () => {

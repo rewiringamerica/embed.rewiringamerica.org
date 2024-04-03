@@ -3,7 +3,7 @@
 
 describe('rewiring-america-state-calculator', () => {
   beforeEach(function () {
-    cy.visit('http://localhost:1234/state-calculator.html');
+    cy.visit('http://localhost:1234');
 
     // Inject the axe-core library
     cy.injectAxe();
