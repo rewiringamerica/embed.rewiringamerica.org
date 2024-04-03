@@ -80,7 +80,7 @@
         "src/state-calculator.tsx",
         "src/rewiring-fonts.css",
         "src/ira-calculator.html",
-        "src/state-calculator.html"
+        "src/index.html"
       ],
       "outputFormat": "global",
       "context": "browser",
