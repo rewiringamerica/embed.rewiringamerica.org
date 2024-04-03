@@ -79,7 +79,7 @@
         "src/calculator.tsx",
         "src/state-calculator.tsx",
         "src/rewiring-fonts.css",
-        "src/index.html",
+        "src/ira-calculator.html",
         "src/state-calculator.html"
       ],
       "outputFormat": "global",
