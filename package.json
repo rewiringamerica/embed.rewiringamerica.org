@@ -79,8 +79,8 @@
         "src/calculator.tsx",
         "src/state-calculator.tsx",
         "src/rewiring-fonts.css",
-        "src/index.html",
-        "src/state-calculator.html"
+        "src/ira-calculator.html",
+        "src/index.html"
       ],
       "outputFormat": "global",
       "context": "browser",

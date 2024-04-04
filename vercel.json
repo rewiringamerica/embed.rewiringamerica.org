@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/state-calculator.html",
+      "destination": "/",
+      "permanent": true
+    }
+  ]
+}

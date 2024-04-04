@@ -1,6 +1,6 @@
 describe('rewiring-america-calculator', () => {
   it('passes', () => {
-    cy.visit('http://localhost:1234');
+    cy.visit('http://localhost:1234/ira-calculator.html');
     cy.get('rewiring-america-calculator').should('exist');
     // FIXME: is there a way to do this less repetitively?
     // Doing const shadow = cy.get(...).shadow() didn't seem to work.
