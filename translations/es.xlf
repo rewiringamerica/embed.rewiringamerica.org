@@ -580,6 +580,10 @@
   <source>Expected in <x id="0" equiv-text="${futureStartYear}"/></source>
   <target>Esperado en <x id="0" equiv-text="${futureStartYear}"/></target>
 </trans-unit>
+<trans-unit id="s7f5b705d1bd02849">
+  <source>Eligibility depends on residence location.</source>
+  <target>La elegibilidad depende de la ubicación de residencia.</target>
+</trans-unit>
 </body>
 </file>
 </xliff>

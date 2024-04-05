@@ -219,6 +219,20 @@ const IncentiveCard: FC<{ incentive: Incentive }> = ({ incentive }) => {
         </>,
       ];
   const futureStartYear = getStartYearIfInFuture(incentive);
+
+  // The API cannot precisely tell, from zip code alone, whether the user is in
+  // a specific city or county; it takes a permissive approach and returns
+  // incentives for localities the user *might* be in. So this indicates that
+  // the user should check for themselves.
+  //
+  // This is a blunt-instrument approach; in many cases there's actually no
+  // ambiguity as to which city or county a zip code is in, but the API
+  // currently doesn't take that into account.
+  const locationEligibilityText = ['city', 'county', 'other'].includes(
+    incentive.authority_type,
+  )
+    ? msg('Eligibility depends on residence location.')
+    : null;
   return (
     <Card>
       <div className="flex flex-col gap-4 h-full">
@@ -231,7 +245,7 @@ const IncentiveCard: FC<{ incentive: Incentive }> = ({ incentive }) => {
         </div>
         <Separator hideOnSmall={true} />
         <div className="text-grey-400 leading-normal">
-          {incentive.short_description}
+          {incentive.short_description} {locationEligibilityText}
         </div>
         {futureStartYear && (
           <Chip isWarning={true}>
