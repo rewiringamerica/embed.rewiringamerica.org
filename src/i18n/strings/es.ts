@@ -79,6 +79,7 @@ export const templates = {
   s6c8911fbc526fb43: `Tablero eléctrico y cableado`,
   s6cfe26dfc562d2a2: str`Hasta \$${0} de descuento en ${1}`,
   s6ef16f759a2cea7e: `Nevada`,
+  s70fd14cbb0ad4160: `Continúe para ver otros incentivos.`,
   s751ba5ac47cbfabb: `Washington`,
   s777612e8117ff021: `Tennessee`,
   s79fd9ba9e498d3da: str`${0} del costo de ${1}, hasta \$${2}`,

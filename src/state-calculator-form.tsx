@@ -56,11 +56,15 @@ const renderUtilityField = (
 
   const enterZipToSelect = msg('Enter your ZIP code to select a utility.');
   const helpText =
-    utilitiesFetch.state === 'init' || utilitiesFetch.state === 'loading'
+    utilitiesFetch.state === 'init'
       ? enterZipToSelect
+      : utilitiesFetch.state === 'loading'
+      ? ' ' // Empty help text, but maintain vertical space
       : utilitiesFetch.state === 'complete'
       ? Object.keys(utilitiesFetch.response.utilities).length
-        ? enterZipToSelect
+        ? utility === OTHER_UTILITY_ID
+          ? msg('Continue to see other incentives.')
+          : ' '
         : msg('We don’t have utility data for your area yet.')
       : utilitiesFetch.message;
 

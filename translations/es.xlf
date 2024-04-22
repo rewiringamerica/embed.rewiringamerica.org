@@ -588,6 +588,10 @@
   <source>Other</source>
   <target>Otra</target>
 </trans-unit>
+<trans-unit id="s70fd14cbb0ad4160">
+  <source>Continue to see other incentives.</source>
+  <target>Continúe para ver otros incentivos.</target>
+</trans-unit>
 </body>
 </file>
 </xliff>
