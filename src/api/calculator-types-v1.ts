@@ -107,4 +107,5 @@ export interface APIResponse {
   };
   location: APILocation;
   incentives: Incentive[];
+  is_under_150_ami: boolean;
 }

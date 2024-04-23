@@ -591,6 +591,39 @@
 <trans-unit id="s70fd14cbb0ad4160">
   <source>Continue to see other incentives.</source>
   <target>Continúe para ver otros incentivos.</target>
+  </trans-unit>
+<trans-unit id="sb1ef6ac20f1ddfff">
+  <source>Discount off an electric panel</source>
+</trans-unit>
+<trans-unit id="sf8b5deb9ea9f5054">
+  <source>Discount off an electric stove</source>
+</trans-unit>
+<trans-unit id="sae2ffd247e500180">
+  <source>Discount off electric wiring</source>
+</trans-unit>
+<trans-unit id="s9de4186c3f39ea44">
+  <source>Discount off a heat pump water heater</source>
+</trans-unit>
+<trans-unit id="s2b1b3dc2f8da1ce4">
+  <source>Discount off a heat pump</source>
+</trans-unit>
+<trans-unit id="s635e3d7c474426ce">
+  <source>Discount off a heat pump clothes dryer</source>
+</trans-unit>
+<trans-unit id="s1cc63fbd986ae5d9">
+  <source>Discount off weatherization</source>
+</trans-unit>
+<trans-unit id="s1e73057deee4510e">
+  <source>However, rebates will be implemented differently in each state, so we cannot guarantee final amounts, eligibility, or timeline.</source>
+</trans-unit>
+<trans-unit id="sb3615709fedc9d4d">
+  <source>Federal Home Electrification and Appliance Rebates (HEAR)</source>
+</trans-unit>
+<trans-unit id="scc19aa488a295dfd">
+  <source>The federal guidelines allot a discount of up to $<x id="0" equiv-text="${rebate.maxAmount.toLocaleString()}"/>.</source>
+</trans-unit>
+<trans-unit id="sca61f9664c0f6099">
+  <source>https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates</source>
 </trans-unit>
 </body>
 </file>
