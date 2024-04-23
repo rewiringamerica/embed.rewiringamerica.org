@@ -584,6 +584,14 @@
   <source>Eligibility depends on residence location.</source>
   <target>La elegibilidad depende de la ubicación de residencia.</target>
 </trans-unit>
+<trans-unit id="sc9e494c8346b7cb5">
+  <source>Other</source>
+  <target>Otra</target>
+</trans-unit>
+<trans-unit id="s70fd14cbb0ad4160">
+  <source>Continue to see other incentives.</source>
+  <target>Continúe para ver otros incentivos.</target>
+</trans-unit>
 </body>
 </file>
 </xliff>

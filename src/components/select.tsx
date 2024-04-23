@@ -276,11 +276,14 @@ export const Select = <T extends string>({
           </Listbox.Options>
         </Transition>
       </Listbox>
-      {helpText && (
-        <div className="mx-3 mt-1 text-grey-400 text-xsm leading-normal">
-          {helpText}
-        </div>
-      )}
+      {
+        // nbsp forces vertical space even if help text is blank
+        helpText && (
+          <div className="mx-3 mt-1 text-grey-400 text-xsm leading-normal">
+            {helpText}&nbsp;
+          </div>
+        )
+      }
     </div>
   );
 };
