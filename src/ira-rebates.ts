@@ -64,13 +64,13 @@ export function getRebatesFor(state: string, msg: MsgFn): IRARebate[] {
     program: msg('Federal Home Electrification and Appliance Rebates (HEAR)'),
     description:
       msg(
-        str`The federal guidelines allot a discount of up to $${rebate.maxAmount.toLocaleString()}.`,
+        str`The federal guidelines allow for a discount of up to $${rebate.maxAmount.toLocaleString()}.`,
       ) +
       ' ' +
       disclaimerText,
     url: msg(
       'https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates',
     ),
-    timeline: msg('Expected in 2025'),
+    timeline: msg('Expected in 2024-2025'),
   }));
 }

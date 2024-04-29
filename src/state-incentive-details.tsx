@@ -393,7 +393,7 @@ const renderCardCollection = (
           iraRebates.map((rebate, index) => (
             <IncentiveCard
               key={`ira${index}`}
-              typeChip={msg('Rebate')}
+              typeChip={msg('Upfront discount')}
               headline={rebate.headline}
               subHeadline={rebate.program}
               body={rebate.description}
