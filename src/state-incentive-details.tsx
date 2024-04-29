@@ -36,7 +36,8 @@ const formatUnit = (unit: AmountUnit, msg: MsgFn) =>
     : unit;
 
 const formatTitle = (incentive: Incentive, msg: MsgFn) => {
-  const item = itemName(incentive.item.type, msg);
+  const itemValue = incentive.items ? incentive.items[0] : incentive.item.type;
+  const item = itemName(itemValue, msg);
   const amount = incentive.amount;
   if (amount.type === 'dollar_amount') {
     return amount.maximum
@@ -421,9 +422,11 @@ export const StateIncentives: FC<Props> = ({
   const allEligible = response.incentives.filter(i => i.eligible);
 
   const incentivesByProject = Object.fromEntries(
-    Object.entries(PROJECTS).map(([project, info]) => [
+    Object.entries(PROJECTS).map(([project, projectInfo]) => [
       project,
-      allEligible.filter(i => info.items.includes(i.item.type)),
+      allEligible.filter(i =>
+        projectInfo.items.includes(i.items ? i.items[0] : i.item.type),
+      ),
     ]),
   ) as Record<Project, Incentive[]>;
 

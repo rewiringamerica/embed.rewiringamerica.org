@@ -46,7 +46,6 @@ export type ItemType =
 
 export interface Item {
   type: ItemType;
-  name: string;
 }
 
 export interface Incentive {
@@ -56,7 +55,9 @@ export interface Incentive {
   program: string;
   program_url: string;
   more_info_url?: string;
+  // TODO when "items" backend change is deployed, remove "item"
   item: Item;
+  items?: ItemType[];
   amount: Amount;
   start_date?: string;
   end_date?: string;
