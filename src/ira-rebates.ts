@@ -8,6 +8,7 @@ export type IRARebate = {
   program: string;
   description: string;
   url: string;
+  timeline: string | null;
 };
 
 const hearRebates: {
@@ -70,5 +71,6 @@ export function getRebatesFor(state: string, msg: MsgFn): IRARebate[] {
     url: msg(
       'https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates',
     ),
+    timeline: msg('Expected in 2025'),
   }));
 }

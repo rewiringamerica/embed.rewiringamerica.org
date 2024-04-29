@@ -625,6 +625,10 @@
 <trans-unit id="sca61f9664c0f6099">
   <source>https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates</source>
 </trans-unit>
+<trans-unit id="s8fd8a524edc33867">
+  <source>Expected in 2025</source>
+  <target>Esperado en 2025</target>
+</trans-unit>
 </body>
 </file>
 </xliff>

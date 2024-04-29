@@ -9,7 +9,7 @@ import {
 } from './api/calculator-types-v1';
 import { getYear, isInFuture } from './api/dates';
 import { PrimaryButton, TextButton } from './buttons';
-import { Card, CardStyle } from './card';
+import { Card } from './card';
 import { TextInput } from './components/text-input';
 import { wasEmailSubmitted } from './email-signup';
 import { str } from './i18n/str';
@@ -214,7 +214,6 @@ const LinkButton: FC<PropsWithChildren<{ href: string }>> = ({
 );
 
 const IncentiveCard: FC<{
-  cardStyle: CardStyle;
   typeChip: string;
   headline: string;
   subHeadline: string;
@@ -223,7 +222,6 @@ const IncentiveCard: FC<{
   buttonUrl: string;
   buttonContent: string | React.ReactElement;
 }> = ({
-  cardStyle,
   typeChip,
   headline,
   subHeadline,
@@ -232,24 +230,16 @@ const IncentiveCard: FC<{
   buttonUrl,
   buttonContent,
 }) => (
-  <Card cardStyle={cardStyle}>
+  <Card>
     <div className="flex flex-col gap-4 h-full">
       <Chip>{typeChip}</Chip>
       <div className="text-grey-700 text-xl leading-normal">{headline}</div>
       <div className="text-grey-700 font-medium leading-tight">
         {subHeadline}
       </div>
-      <Separator hideOnSmall={true} />
-      <div
-        className={clsx(
-          'leading-normal',
-          cardStyle === CardStyle.HIGHLIGHTED && 'text-grey-500',
-          cardStyle !== CardStyle.HIGHLIGHTED && 'text-grey-400',
-        )}
-      >
-        {body}
-      </div>
       {warningChip && <Chip isWarning={true}>{warningChip}</Chip>}
+      <Separator hideOnSmall={true} />
+      <div className="leading-normal text-grey-400">{body}</div>
       <LinkButton href={buttonUrl}>{buttonContent}</LinkButton>
     </div>
   </Card>
@@ -326,7 +316,7 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
     );
 
   return (
-    <Card cardStyle={CardStyle.FLAT}>
+    <Card isFlat={true}>
       <h1 className="text-grey-700 text-xl font-normal leading-tight text-balance">
         {msg('No incentives available for this project')}
       </h1>
@@ -385,7 +375,6 @@ const renderCardCollection = (
           return (
             <IncentiveCard
               key={`incentive${index}`}
-              cardStyle={CardStyle.NORMAL}
               typeChip={formatIncentiveType(incentive, msg)}
               headline={formatTitle(incentive, msg)!}
               subHeadline={incentive.program}
@@ -404,12 +393,11 @@ const renderCardCollection = (
           iraRebates.map((rebate, index) => (
             <IncentiveCard
               key={`ira${index}`}
-              cardStyle={CardStyle.HIGHLIGHTED}
               typeChip={msg('Rebate')}
               headline={rebate.headline}
               subHeadline={rebate.program}
               body={rebate.description}
-              warningChip={null}
+              warningChip={rebate.timeline}
               buttonUrl={rebate.url}
               buttonContent={msg('Learn more')}
             />

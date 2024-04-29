@@ -95,6 +95,7 @@ export const templates = {
   s8e35f6b4e6e0adb9: `Pensilvania`,
   s8e7e52ad112342ab: `un cargador de vehículos eléctricos`,
   s8fd029fdcc452602: `Ingresa su código postal para seleccionar una empresa de servicios eléctricos.`,
+  s8fd8a524edc33867: `Esperado en 2025`,
   s912b944fa287f7d0: `Nuevo Hampshire`,
   s9afee25dcf31efc1: `un vehículo eléctrico nuevo`,
   s9b0d347a81e8f0a3: `Oklahoma`,
