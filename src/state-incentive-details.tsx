@@ -5,6 +5,7 @@ import {
   APIResponse,
   AmountUnit,
   Incentive,
+  IncentiveType,
   ItemType,
 } from './api/calculator-types-v1';
 import { getYear, isInFuture } from './api/dates';
@@ -134,16 +135,16 @@ const itemName = (itemType: ItemType, msg: MsgFn) =>
       })
     : null;
 
-const formatIncentiveType = (incentive: Incentive, msg: MsgFn) =>
-  incentive.payment_methods[0] === 'tax_credit'
+const formatIncentiveType = (payment_methods: IncentiveType[], msg: MsgFn) =>
+  payment_methods[0] === 'tax_credit'
     ? msg('Tax credit')
-    : incentive.payment_methods[0] === 'pos_rebate'
+    : payment_methods[0] === 'pos_rebate'
     ? msg('Upfront discount')
-    : incentive.payment_methods[0] === 'rebate'
+    : payment_methods[0] === 'rebate'
     ? msg('Rebate')
-    : incentive.payment_methods[0] === 'account_credit'
+    : payment_methods[0] === 'account_credit'
     ? msg('Account credit')
-    : incentive.payment_methods[0] === 'performance_rebate'
+    : payment_methods[0] === 'performance_rebate'
     ? msg('Performance rebate')
     : msg('Incentive');
 
@@ -375,7 +376,7 @@ const renderCardCollection = (
           return (
             <IncentiveCard
               key={`incentive${index}`}
-              typeChip={formatIncentiveType(incentive, msg)}
+              typeChip={formatIncentiveType(incentive.payment_methods, msg)}
               headline={formatTitle(incentive, msg)!}
               subHeadline={incentive.program}
               body={`${incentive.short_description} ${locationEligibilityText}`}
@@ -393,7 +394,7 @@ const renderCardCollection = (
           iraRebates.map((rebate, index) => (
             <IncentiveCard
               key={`ira${index}`}
-              typeChip={msg('Upfront discount')}
+              typeChip={formatIncentiveType([rebate.paymentMethod], msg)}
               headline={rebate.headline}
               subHeadline={rebate.program}
               body={rebate.description}
@@ -508,9 +509,7 @@ export const StateIncentives: FC<Props> = ({
   const selectedIncentives = incentivesByProject[projectTab] ?? [];
   const selectedOtherIncentives = incentivesByProject[otherTab] ?? [];
 
-  const iraRebates = response.is_under_150_ami
-    ? getRebatesFor(response.location.state, msg)
-    : [];
+  const iraRebates = getRebatesFor(response, msg);
   const selectedIraRebates = iraRebates.filter(r => r.project === projectTab);
   const selectedOtherIraRebates = iraRebates.filter(
     r => r.project === otherTab,

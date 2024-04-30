@@ -1,8 +1,10 @@
+import { APIResponse, IncentiveType } from './api/calculator-types-v1';
 import { str } from './i18n/str';
 import { MsgFn } from './i18n/use-translated';
 import { Project } from './projects';
 
 export type IRARebate = {
+  paymentMethod: IncentiveType;
   project: Project;
   headline: string;
   program: string;
@@ -53,24 +55,53 @@ const hearRebates: {
   },
 ];
 
-/* @ts-expect-error(6133) we will condition logic on state in future. */
-export function getRebatesFor(state: string, msg: MsgFn): IRARebate[] {
+export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
   const disclaimerText = msg(
     'However, rebates will be implemented differently in each state, so we cannot guarantee final amounts, eligibility, or timeline.',
   );
-  return hearRebates.map(rebate => ({
-    project: rebate.project,
-    headline: rebate.getHeadline(msg),
-    program: msg('Federal Home Electrification and Appliance Rebates (HEAR)'),
+  const maxHerRebate = response.is_under_80_ami ? 8000 : 4000;
+
+  const result: IRARebate[] = [];
+
+  if (response.is_under_150_ami) {
+    hearRebates.forEach(rebate =>
+      result.push({
+        paymentMethod: 'pos_rebate' as IncentiveType,
+        project: rebate.project,
+        headline: rebate.getHeadline(msg),
+        program: msg(
+          'Federal Home Electrification and Appliance Rebates (HEAR)',
+        ),
+        description:
+          msg(
+            str`The federal guidelines allow for a discount of up to $${rebate.maxAmount.toLocaleString()}.`,
+          ) +
+          ' ' +
+          disclaimerText,
+        url: msg(
+          'https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates',
+        ),
+        timeline: msg('Expected in 2024-2025'),
+      }),
+    );
+  }
+
+  result.push({
+    paymentMethod: 'performance_rebate',
+    project: 'weatherization_and_efficiency',
+    headline: msg('Rebate for efficiency retrofits'),
+    program: msg('Federal Home Efficiency Rebates (HER)'),
     description:
       msg(
-        str`The federal guidelines allow for a discount of up to $${rebate.maxAmount.toLocaleString()}.`,
+        str`The federal guidelines allow for a rebate of up to $${maxHerRebate.toLocaleString()}, based on the modeled energy savings or measured energy savings achieved by the retrofit.`,
       ) +
       ' ' +
       disclaimerText,
     url: msg(
-      'https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates',
+      'https://homes.rewiringamerica.org/federal-incentives/home-efficiency-rebates',
     ),
-    timeline: msg('Expected in 2024-2025'),
-  }));
+    timeline: msg('Expected in 2025'),
+  });
+
+  return result;
 }
