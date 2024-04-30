@@ -55,7 +55,7 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('$8,000 off a heat pump');
+      .contains('Discount off a heat pump');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()

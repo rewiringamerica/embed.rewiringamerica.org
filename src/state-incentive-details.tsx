@@ -5,6 +5,7 @@ import {
   APIResponse,
   AmountUnit,
   Incentive,
+  IncentiveType,
   ItemType,
 } from './api/calculator-types-v1';
 import { getYear, isInFuture } from './api/dates';
@@ -16,6 +17,7 @@ import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
 import { IconTabBar } from './icon-tab-bar';
 import { ExclamationPoint, UpRightArrow } from './icons';
+import { IRARebate, getRebatesFor } from './ira-rebates';
 import { PartnerLogos } from './partner-logos';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { Separator } from './separator';
@@ -134,16 +136,16 @@ const itemName = (itemType: ItemType, msg: MsgFn) =>
       })
     : null;
 
-const formatIncentiveType = (incentive: Incentive, msg: MsgFn) =>
-  incentive.payment_methods[0] === 'tax_credit'
+const formatIncentiveType = (payment_methods: IncentiveType[], msg: MsgFn) =>
+  payment_methods[0] === 'tax_credit'
     ? msg('Tax credit')
-    : incentive.payment_methods[0] === 'pos_rebate'
+    : payment_methods[0] === 'pos_rebate'
     ? msg('Upfront discount')
-    : incentive.payment_methods[0] === 'rebate'
+    : payment_methods[0] === 'rebate'
     ? msg('Rebate')
-    : incentive.payment_methods[0] === 'account_credit'
+    : payment_methods[0] === 'account_credit'
     ? msg('Account credit')
-    : incentive.payment_methods[0] === 'performance_rebate'
+    : payment_methods[0] === 'performance_rebate'
     ? msg('Performance rebate')
     : msg('Incentive');
 
@@ -151,6 +153,11 @@ const getStartYearIfInFuture = (incentive: Incentive) =>
   incentive.start_date && isInFuture(incentive.start_date, new Date())
     ? getYear(incentive.start_date)
     : null;
+
+const isIRARebate = (incentive: Incentive) =>
+  incentive.authority_type === 'federal' &&
+  (incentive.payment_methods.includes('pos_rebate') ||
+    incentive.payment_methods.includes('performance_rebate'));
 
 const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
   isWarning,
@@ -171,7 +178,7 @@ const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
       'uppercase',
       isWarning &&
         'bg-yellow-200 text-[#806c23] py-[0.1875rem] pl-[0.1875rem] pr-2.5',
-      !isWarning && 'bg-purple-100 text-gray-700 px-2.5 py-1',
+      !isWarning && 'bg-purple-100 text-grey-700 px-2.5 py-1',
     )}
   >
     {isWarning ? <ExclamationPoint w={16} h={16} /> : null}
@@ -208,56 +215,37 @@ const LinkButton: FC<PropsWithChildren<{ href: string }>> = ({
   </a>
 );
 
-const IncentiveCard: FC<{ incentive: Incentive }> = ({ incentive }) => {
-  const { msg } = useTranslated();
-  const [buttonUrl, buttonContent] = incentive.more_info_url
-    ? [incentive.more_info_url, msg('Learn more')]
-    : [
-        incentive.program_url,
-        <>
-          {msg('Visit site')}
-          <UpRightArrow w={20} h={20} />
-        </>,
-      ];
-  const futureStartYear = getStartYearIfInFuture(incentive);
-
-  // The API cannot precisely tell, from zip code alone, whether the user is in
-  // a specific city or county; it takes a permissive approach and returns
-  // incentives for localities the user *might* be in. So this indicates that
-  // the user should check for themselves.
-  //
-  // This is a blunt-instrument approach; in many cases there's actually no
-  // ambiguity as to which city or county a zip code is in, but the API
-  // currently doesn't take that into account.
-  const locationEligibilityText = ['city', 'county', 'other'].includes(
-    incentive.authority_type,
-  )
-    ? msg('Eligibility depends on residence location.')
-    : null;
-  return (
-    <Card>
-      <div className="flex flex-col gap-4 h-full">
-        <Chip>{formatIncentiveType(incentive, msg)}</Chip>
-        <div className="text-gray-700 text-xl leading-normal">
-          {formatTitle(incentive, msg)}
-        </div>
-        <div className="text-gray-700 font-medium leading-tight">
-          {incentive.program}
-        </div>
-        <Separator hideOnSmall={true} />
-        <div className="text-grey-400 leading-normal">
-          {incentive.short_description} {locationEligibilityText}
-        </div>
-        {futureStartYear && (
-          <Chip isWarning={true}>
-            {msg(str`Expected in ${futureStartYear}`)}
-          </Chip>
-        )}
-        <LinkButton href={buttonUrl}>{buttonContent}</LinkButton>
+const IncentiveCard: FC<{
+  typeChip: string;
+  headline: string;
+  subHeadline: string;
+  body: string;
+  warningChip: string | null;
+  buttonUrl: string;
+  buttonContent: string | React.ReactElement;
+}> = ({
+  typeChip,
+  headline,
+  subHeadline,
+  body,
+  warningChip,
+  buttonUrl,
+  buttonContent,
+}) => (
+  <Card>
+    <div className="flex flex-col gap-4 h-full">
+      <Chip>{typeChip}</Chip>
+      <div className="text-grey-700 text-xl leading-normal">{headline}</div>
+      <div className="text-grey-700 font-medium leading-tight">
+        {subHeadline}
       </div>
-    </Card>
-  );
-};
+      {warningChip && <Chip isWarning={true}>{warningChip}</Chip>}
+      <Separator hideOnSmall={true} />
+      <div className="leading-normal text-grey-400">{body}</div>
+      <LinkButton href={buttonUrl}>{buttonContent}</LinkButton>
+    </div>
+  </Card>
+);
 
 function scrollToForm(event: React.MouseEvent) {
   const calculator = (
@@ -347,23 +335,84 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
   );
 };
 
-const renderCardCollection = (incentives: Incentive[]) => (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-start">
-    {incentives
-      // Sort incentives that haven't started yet at the end
-      .sort(
-        (a, b) =>
-          (getStartYearIfInFuture(a) ?? 0) - (getStartYearIfInFuture(b) ?? 0),
-      )
-      .map((incentive, index) => (
-        <IncentiveCard key={index} incentive={incentive} />
-      ))}
-  </div>
-);
+const renderCardCollection = (
+  incentives: Incentive[],
+  iraRebates: IRARebate[],
+) => {
+  const { msg } = useTranslated();
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-start">
+      {incentives
+        // Sort incentives that haven't started yet at the end
+        .sort(
+          (a, b) =>
+            (getStartYearIfInFuture(a) ?? 0) - (getStartYearIfInFuture(b) ?? 0),
+        )
+        .map((incentive, index) => {
+          const futureStartYear = getStartYearIfInFuture(incentive);
+
+          // The API cannot precisely tell, from zip code alone, whether the
+          // user is in a specific city or county; it takes a permissive
+          // approach and returns incentives for localities the user *might* be
+          // in. So this indicates that the user should check for themselves.
+          //
+          // This is a blunt-instrument approach; in many cases there's actually
+          // no ambiguity as to which city or county a zip code is in, but the
+          // API currently doesn't take that into account.
+          const locationEligibilityText = ['city', 'county', 'other'].includes(
+            incentive.authority_type,
+          )
+            ? msg('Eligibility depends on residence location.')
+            : '';
+
+          const [buttonUrl, buttonContent] = incentive.more_info_url
+            ? [incentive.more_info_url, msg('Learn more')]
+            : [
+                incentive.program_url,
+                <>
+                  {msg('Visit site')}
+                  <UpRightArrow w={20} h={20} />
+                </>,
+              ];
+          return (
+            <IncentiveCard
+              key={`incentive${index}`}
+              typeChip={formatIncentiveType(incentive.payment_methods, msg)}
+              headline={formatTitle(incentive, msg)!}
+              subHeadline={incentive.program}
+              body={`${incentive.short_description} ${locationEligibilityText}`}
+              warningChip={
+                futureStartYear
+                  ? msg(str`Expected in ${futureStartYear}`)
+                  : null
+              }
+              buttonUrl={buttonUrl}
+              buttonContent={buttonContent}
+            />
+          );
+        })
+        .concat(
+          iraRebates.map((rebate, index) => (
+            <IncentiveCard
+              key={`ira${index}`}
+              typeChip={formatIncentiveType([rebate.paymentMethod], msg)}
+              headline={rebate.headline}
+              subHeadline={rebate.program}
+              body={rebate.description}
+              warningChip={rebate.timeline}
+              buttonUrl={rebate.url}
+              buttonContent={msg('Learn more')}
+            />
+          )),
+        )}
+    </div>
+  );
+};
 
 type IncentiveGridProps = {
   heading: string;
   incentives: Incentive[];
+  iraRebates: IRARebate[];
   tabs: Project[];
   selectedTab: Project;
   onTabSelected: (newSelection: Project) => void;
@@ -372,7 +421,15 @@ type IncentiveGridProps = {
 
 const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
   (
-    { heading, incentives, tabs, selectedTab, onTabSelected, emailSubmitter },
+    {
+      heading,
+      incentives,
+      iraRebates,
+      tabs,
+      selectedTab,
+      onTabSelected,
+      emailSubmitter,
+    },
     ref,
   ) => {
     return tabs.length > 0 ? (
@@ -385,8 +442,8 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
           selectedTab={selectedTab}
           onTabSelected={onTabSelected}
         />
-        {incentives.length > 0
-          ? renderCardCollection(incentives)
+        {incentives.length > 0 || iraRebates.length > 0
+          ? renderCardCollection(incentives, iraRebates)
           : renderNoResults(emailSubmitter)}
       </div>
     ) : null;
@@ -419,7 +476,11 @@ export const StateIncentives: FC<Props> = ({
   emailSubmitter,
 }) => {
   const { msg } = useTranslated();
-  const allEligible = response.incentives.filter(i => i.eligible);
+
+  // We're filtering out IRA rebates in favor of state-specific handling.
+  const allEligible = response.incentives
+    .filter(i => i.eligible)
+    .filter(i => !isIRARebate(i));
 
   const incentivesByProject = Object.fromEntries(
     Object.entries(PROJECTS).map(([project, projectInfo]) => [
@@ -451,12 +512,19 @@ export const StateIncentives: FC<Props> = ({
   const selectedIncentives = incentivesByProject[projectTab] ?? [];
   const selectedOtherIncentives = incentivesByProject[otherTab] ?? [];
 
+  const iraRebates = getRebatesFor(response, msg);
+  const selectedIraRebates = iraRebates.filter(r => r.project === projectTab);
+  const selectedOtherIraRebates = iraRebates.filter(
+    r => r.project === otherTab,
+  );
+
   return (
     <>
       <IncentiveGrid
         ref={firstResultsRef}
         heading={msg('Incentives you’re interested in')}
         incentives={selectedIncentives}
+        iraRebates={selectedIraRebates}
         tabs={interestedProjects}
         selectedTab={projectTab}
         onTabSelected={setProjectTab}
@@ -466,6 +534,7 @@ export const StateIncentives: FC<Props> = ({
         ref={secondResultsRef}
         heading={msg('Other incentives available to you')}
         incentives={selectedOtherIncentives}
+        iraRebates={selectedOtherIraRebates}
         tabs={otherProjects}
         selectedTab={otherTab}
         onTabSelected={setOtherTab}
