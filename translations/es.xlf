@@ -25,7 +25,7 @@
 <trans-unit id="sfe16afc784bb9d76">
   <source>Solar</source>
 
-  <note from="lit-localize">i.e. rooftop solar</note><target>Tejado solar</target></trans-unit>
+  <note from="lit-localize">i.e. rooftop solar</note><target>Techo solar</target></trans-unit>
 <trans-unit id="sa413e4572603726f">
   <source>Battery storage</source>
 <target>Almacenamiento de baterías</target></trans-unit>
@@ -71,7 +71,7 @@
 <target>1 persona</target></trans-unit>
 <trans-unit id="s6c11cef729833743">
   <source>Projects you’re most interested in</source>
-<target>Los proyectos en los que tiene lo más interés</target></trans-unit>
+<target>Los proyectos en los que tiene más interés</target></trans-unit>
 <trans-unit id="sbc39ee880f922370">
   <source>None selected</source>
 <target>Ninguno seleccionado</target></trans-unit>
@@ -207,7 +207,7 @@
 <trans-unit id="s16c70c46d6c9d383">
   <source>rooftop solar</source>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
-<target>tejado solar</target></trans-unit>
+<target>techo solar</target></trans-unit>
 <trans-unit id="s07ecbff17886eb50">
   <source>a used electric vehicle</source>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
@@ -310,11 +310,11 @@
 </trans-unit>
 <trans-unit id="s8fd029fdcc452602">
   <source>Enter your ZIP code to select a utility.</source>
-  <target>Ingresa su código postal para seleccionar una empresa de servicios eléctricos.</target>
+  <target>Ingrese su código postal para seleccionar una empresa de servicios eléctricos.</target>
 </trans-unit>
 <trans-unit id="se510125be9bcd015">
   <source>Select utility</source>
-  <target>Selecciona su empresa de servicios eléctricos</target>
+  <target>Seleccione su empresa de servicios eléctricos</target>
 </trans-unit>
 <trans-unit id="sc997cfdf24ba9b58">
   <source>We don’t have utility data for your area yet.</source>
@@ -330,7 +330,7 @@
 </trans-unit>
 <trans-unit id="s475d01cc643aa9fc">
   <source>To get updates on new incentives, subscribe to our newsletter!</source>
-  <target>Para mantenerse al día sobre los nuevos incentivos, suscríbase a nuestro boletín informativo.</target>
+  <target>Subscríbase para recibir actualizaciones de Rewiring America.</target>
 </trans-unit>
 <trans-unit id="s38887b94b3320533">
   <source>Email address</source>
