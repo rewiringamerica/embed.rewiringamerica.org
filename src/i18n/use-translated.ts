@@ -107,3 +107,9 @@ export const useTranslated = (): { msg: MsgFn; locale: Locale } => {
 
   return { msg, locale };
 };
+
+/** FOR TESTING ONLY: a version of msg that just passes the original through. */
+export const passthroughMsg: MsgFn = str =>
+  typeof str === 'string'
+    ? str
+    : assembleStrResult(str.template, str.values, null);

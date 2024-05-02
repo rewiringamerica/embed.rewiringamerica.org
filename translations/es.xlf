@@ -660,6 +660,116 @@
   <source>The federal guidelines allow for a rebate of up to $<x id="0" equiv-text="${maxHerRebate.toLocaleString()}"/>, based on the modeled energy savings or measured energy savings achieved by the retrofit.</source>
   <target>Los lineamientos federals permiten un reembolso de hasta $<x id="0" equiv-text="${maxHerRebate.toLocaleString()}"/>, basado en el ahorro de energía simulado o en el ahorro de energía medido logrado por el reacondicionamiento.</target>
 </trans-unit>
+<trans-unit id="s8e22cc4a5315cc18">
+  <source>air sealing</source>
+  <target>sellado del aire</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s2361ab00b9155f96">
+  <source>an air-to-water heat pump</source>
+  <target>una bomba de calor de aire a agua</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sec13c0ca288e67eb">
+  <source>attic/roof insulation</source>
+  <target>aislamiento del desván/techo</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sf59668536419404a">
+  <source>basement insulation</source>
+  <target>aislamiento del sótano</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sa9e16de0ec0154b3">
+  <source>a central air conditioner</source>
+  <target>aire acondicionado central</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sc2e0d466583b17f8">
+  <source>crawlspace insulation</source>
+  <target>aislamiento del entrepiso</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s8eb01eb62cbb17ed">
+  <source>door replacement</source>
+  <target>reemplazo de puertas</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sf685070e5a85e7d1">
+  <source>duct replacement</source>
+  <target>reemplazo de ductos</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s7b55523ddae83552">
+  <source>duct sealing</source>
+  <target>sellado de ductos</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sbc39e1d2cd027ca9">
+  <source>a ducted heat pump</source>
+  <target>una bomba de calor con ductos</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sb842284a98e8aed1">
+  <source>a ductless heat pump</source>
+  <target>una bomba de calor sin ductos</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s7ac656d7ee9d3ee9">
+  <source>an energy audit</source>
+  <target>una auditoría energética</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s67d20e39f7ca49f9">
+  <source>floor insulation</source>
+  <target>aislamiento del piso</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s48ad5711856cfb44">
+  <source>a new plug-in hybrid</source>
+  <target>un vehículo híbrido enchufable nuevo</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sa23c90be33fdda77">
+  <source>an electric clothes dryer</source>
+  <target>una secadora eléctrica</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s12bb428bacdba1ab">
+  <source>an electric water heater</source>
+  <target>un calentador de agua eléctrico</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sc991c5ecbb3023ef">
+  <source>insulation</source>
+  <target>aislamiento térmico</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s8d144dc64bfb64a5">
+  <source>a used plug-in hybrid</source>
+  <target>un vehículo híbrido enchufable usado</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="se024b39a39b61641">
+  <source>wall insulation</source>
+  <target>aislamiento del muro</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s025c15001425a689">
+  <source>window replacement</source>
+  <target>reemplazo de ventanas</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sba0e115b257c6647">
+  <source>an air source heat pump</source>
+  <target>una bomba de calor de fuente de aire</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="secc3df112f8ab69d">
+  <source>an electric vehicle</source>
+  <target>un vehículo eléctrico</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

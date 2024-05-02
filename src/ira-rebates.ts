@@ -34,7 +34,7 @@ const hearRebates: {
     maxAmount: 2500,
   },
   {
-    project: 'heat_pump_water_heater',
+    project: 'water_heater',
     getHeadline: msg => msg('Discount off a heat pump water heater'),
     maxAmount: 1750,
   },
@@ -44,7 +44,7 @@ const hearRebates: {
     maxAmount: 8000,
   },
   {
-    project: 'heat_pump_clothes_dryer',
+    project: 'clothes_dryer',
     getHeadline: msg => msg('Discount off a heat pump clothes dryer'),
     maxAmount: 840,
   },
