@@ -3,9 +3,11 @@ import { MsgFn } from './i18n/use-translated';
 
 type ItemGroup =
   | 'air_source_heat_pump'
+  | 'clothes_dryer'
   | 'generic_heat_pump'
   | 'electric_vehicle'
-  | 'insulation';
+  | 'insulation'
+  | 'water_heater';
 
 /**
  * Some incentives are for multiple items. These groups define headlines for
@@ -23,6 +25,13 @@ const ITEM_GROUPS: { group: ItemGroup; members: Set<ItemType> }[] = [
       'ducted_heat_pump',
       'ductless_heat_pump',
       'air_to_water_heat_pump',
+    ]),
+  },
+  {
+    group: 'clothes_dryer',
+    members: new Set([
+      'heat_pump_clothes_dryer',
+      'non_heat_pump_clothes_dryer',
     ]),
   },
   {
@@ -49,6 +58,10 @@ const ITEM_GROUPS: { group: ItemGroup; members: Set<ItemType> }[] = [
       'other_insulation',
       'wall_insulation',
     ]),
+  },
+  {
+    group: 'water_heater',
+    members: new Set(['heat_pump_water_heater', 'non_heat_pump_water_heater']),
   },
 ];
 
@@ -186,6 +199,10 @@ export const itemName = (items: ItemType[], msg: MsgFn) => {
         return msg('an air source heat pump', {
           desc: 'e.g. "$100 off [this string]"',
         });
+      } else if (group === 'clothes_dryer') {
+        return msg('a clothes dryer', {
+          desc: 'e.g. "$100 off [this string]"',
+        });
       } else if (group === 'electric_vehicle') {
         return msg('an electric vehicle', {
           desc: 'e.g. "$100 off [this string]"',
@@ -194,6 +211,8 @@ export const itemName = (items: ItemType[], msg: MsgFn) => {
         return msg('a heat pump', { desc: 'e.g. "$100 off [this string]"' });
       } else if (group === 'insulation') {
         return msg('insulation', { desc: 'e.g. "$100 off [this string]"' });
+      } else if (group === 'water_heater') {
+        return msg('a water heater', { desc: 'e.g. "$100 off [this string]"' });
       } else {
         // This will be a type error if the above if-else is not exhaustive
         const unknownGroup: never = group;

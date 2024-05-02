@@ -770,6 +770,16 @@
   <target>un vehículo eléctrico</target>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
 </trans-unit>
+<trans-unit id="s8735995522894316">
+  <source>a clothes dryer</source>
+  <target>una secadora</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s4c498b8628becdec">
+  <source>a water heater</source>
+  <target>un calentador de agua</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
 </body>
 </file>
 </xliff>
