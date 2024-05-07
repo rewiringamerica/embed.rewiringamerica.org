@@ -18,12 +18,12 @@ type ProjectInfo = {
 };
 
 export type Project =
-  | 'heat_pump_clothes_dryer'
+  | 'clothes_dryer'
   | 'hvac'
   | 'ev'
   | 'solar'
   | 'battery'
-  | 'heat_pump_water_heater'
+  | 'water_heater'
   | 'cooking'
   | 'wiring'
   | 'weatherization_and_efficiency';
@@ -38,15 +38,20 @@ export const shortLabel = (p: Project, msg: MsgFn) =>
  * show incentives.
  */
 export const PROJECTS: Record<Project, ProjectInfo> = {
-  heat_pump_clothes_dryer: {
-    items: ['heat_pump_clothes_dryer'],
+  clothes_dryer: {
+    items: ['heat_pump_clothes_dryer', 'non_heat_pump_clothes_dryer'],
     label: msg => msg('Clothes dryer'),
     getIcon: () => <ClothesDryerIcon width="1em" />,
   },
   hvac: {
     items: [
-      'heat_pump_air_conditioner_heater',
+      'air_to_water_heat_pump',
+      'central_air_conditioner',
+      'ducted_heat_pump',
+      'ductless_heat_pump',
       'geothermal_heating_installation',
+      'other_heat_pump',
+      'heat_pump_air_conditioner_heater',
     ],
     label: msg => msg('Heating, ventilation & cooling'),
     shortLabel: msg =>
@@ -59,6 +64,8 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     items: [
       'new_electric_vehicle',
       'used_electric_vehicle',
+      'new_plugin_hybrid_vehicle',
+      'used_plugin_hybrid_vehicle',
       'electric_vehicle_charger',
     ],
     label: msg => msg('Electric vehicle'),
@@ -76,8 +83,8 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     label: msg => msg('Battery storage'),
     getIcon: () => <BatteryIcon width="1em" />,
   },
-  heat_pump_water_heater: {
-    items: ['heat_pump_water_heater'],
+  water_heater: {
+    items: ['heat_pump_water_heater', 'non_heat_pump_water_heater'],
     label: msg => msg('Water heater'),
     getIcon: () => <WaterHeaterIcon width="1em" />,
   },
@@ -96,7 +103,22 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     getIcon: () => <ElectricalWiringIcon width="1em" />,
   },
   weatherization_and_efficiency: {
-    items: ['weatherization', 'efficiency_rebates'],
+    items: [
+      'air_sealing',
+      'attic_or_roof_insulation',
+      'basement_insulation',
+      'crawlspace_insulation',
+      'door_replacement',
+      'duct_replacement',
+      'duct_sealing',
+      'floor_insulation',
+      'wall_insulation',
+      'weatherization',
+      'window_replacement',
+      'efficiency_rebates',
+      'other_insulation',
+      'other_weatherization',
+    ],
     label: msg => msg('Weatherization & efficiency'),
     shortLabel: msg => msg('Weatherization'),
     getIcon: () => <WeatherizationIcon width="1em" />,

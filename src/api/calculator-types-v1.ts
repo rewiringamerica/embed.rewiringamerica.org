@@ -28,25 +28,46 @@ export interface Amount {
   unit?: AmountUnit;
 }
 
-export type ItemType =
-  | 'battery_storage_installation'
-  | 'efficiency_rebates'
-  | 'electric_panel'
-  | 'electric_stove'
-  | 'electric_vehicle_charger'
-  | 'electric_wiring'
-  | 'geothermal_heating_installation'
-  | 'heat_pump_air_conditioner_heater'
-  | 'heat_pump_clothes_dryer'
-  | 'heat_pump_water_heater'
-  | 'new_electric_vehicle'
-  | 'rooftop_solar_installation'
-  | 'used_electric_vehicle'
-  | 'weatherization';
+export const ITEMS = [
+  'air_sealing',
+  'air_to_water_heat_pump',
+  'attic_or_roof_insulation',
+  'basement_insulation',
+  'battery_storage_installation',
+  'central_air_conditioner',
+  'crawlspace_insulation',
+  'door_replacement',
+  'duct_replacement',
+  'duct_sealing',
+  'ducted_heat_pump',
+  'ductless_heat_pump',
+  'efficiency_rebates',
+  'electric_panel',
+  'electric_stove',
+  'electric_vehicle_charger',
+  'electric_wiring',
+  'energy_audit',
+  'floor_insulation',
+  'geothermal_heating_installation',
+  'heat_pump_air_conditioner_heater',
+  'heat_pump_clothes_dryer',
+  'heat_pump_water_heater',
+  'new_electric_vehicle',
+  'new_plugin_hybrid_vehicle',
+  'non_heat_pump_clothes_dryer',
+  'non_heat_pump_water_heater',
+  'other_heat_pump',
+  'other_insulation',
+  'other_weatherization',
+  'rooftop_solar_installation',
+  'used_electric_vehicle',
+  'used_plugin_hybrid_vehicle',
+  'wall_insulation',
+  'weatherization',
+  'window_replacement',
+] as const;
 
-export interface Item {
-  type: ItemType;
-}
+export type ItemType = (typeof ITEMS)[number];
 
 export interface Incentive {
   payment_methods: IncentiveType[];
@@ -55,9 +76,7 @@ export interface Incentive {
   program: string;
   program_url: string;
   more_info_url?: string;
-  // TODO when "items" backend change is deployed, remove "item"
-  item: Item;
-  items?: ItemType[];
+  items: ItemType[];
   amount: Amount;
   start_date?: string;
   end_date?: string;

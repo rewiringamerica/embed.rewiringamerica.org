@@ -6,7 +6,6 @@ import {
   AmountUnit,
   Incentive,
   IncentiveType,
-  ItemType,
 } from './api/calculator-types-v1';
 import { getYear, isInFuture } from './api/dates';
 import { PrimaryButton, TextButton } from './buttons';
@@ -18,6 +17,7 @@ import { MsgFn, useTranslated } from './i18n/use-translated';
 import { IconTabBar } from './icon-tab-bar';
 import { ExclamationPoint, UpRightArrow } from './icons';
 import { IRARebate, getRebatesFor } from './ira-rebates';
+import { itemName } from './item-name';
 import { PartnerLogos } from './partner-logos';
 import { PROJECTS, Project, shortLabel } from './projects';
 import { Separator } from './separator';
@@ -38,8 +38,11 @@ const formatUnit = (unit: AmountUnit, msg: MsgFn) =>
     : unit;
 
 const formatTitle = (incentive: Incentive, msg: MsgFn) => {
-  const itemValue = incentive.items ? incentive.items[0] : incentive.item.type;
-  const item = itemName(itemValue, msg);
+  const item = itemName(incentive.items, msg);
+  if (!item) {
+    return null;
+  }
+
   const amount = incentive.amount;
   if (amount.type === 'dollar_amount') {
     return amount.maximum
@@ -85,56 +88,6 @@ const formatTitle = (incentive: Incentive, msg: MsgFn) => {
     return null;
   }
 };
-
-/**
- * TODO this is an internationalization sin. Figure out something better!
- */
-const itemName = (itemType: ItemType, msg: MsgFn) =>
-  itemType === 'battery_storage_installation'
-    ? msg('battery storage', { desc: 'e.g. "$100 off [this string]"' })
-    : itemType === 'electric_panel'
-    ? msg('an electric panel', {
-        desc: 'e.g. "$100 off [this string]"',
-      })
-    : itemType === 'electric_stove'
-    ? msg('an electric/induction stove', {
-        desc: 'e.g. "$100 off [this string]"',
-      })
-    : itemType === 'electric_vehicle_charger'
-    ? msg('an EV charger', { desc: 'e.g. "$100 off [this string]"' })
-    : itemType === 'electric_wiring'
-    ? msg('electric wiring', { desc: 'e.g. "$100 off [this string]"' })
-    : itemType === 'geothermal_heating_installation'
-    ? msg('geothermal heating installation', {
-        desc: 'e.g. "$100 off [this string]"',
-      })
-    : itemType === 'heat_pump_air_conditioner_heater'
-    ? msg('a heat pump', { desc: 'e.g. "$100 off [this string]"' })
-    : itemType === 'heat_pump_clothes_dryer'
-    ? msg('a heat pump clothes dryer', {
-        desc: 'e.g. "$100 off [this string]"',
-      })
-    : itemType === 'heat_pump_water_heater'
-    ? msg('a heat pump water heater', {
-        desc: 'e.g. "$100 off [this string]"',
-      })
-    : itemType === 'new_electric_vehicle'
-    ? msg('a new electric vehicle', {
-        desc: 'e.g. "$100 off [this string]"',
-      })
-    : itemType === 'rooftop_solar_installation'
-    ? msg('rooftop solar', { desc: 'e.g. "$100 off [this string]"' })
-    : itemType === 'used_electric_vehicle'
-    ? msg('a used electric vehicle', {
-        desc: 'e.g. "$100 off [this string]"',
-      })
-    : itemType === 'weatherization'
-    ? msg('weatherization', { desc: 'e.g. "$100 off [this string]"' })
-    : itemType === 'efficiency_rebates'
-    ? msg('an energy efficiency retrofit', {
-        desc: 'e.g. "$100 off [this string]"',
-      })
-    : null;
 
 const formatIncentiveType = (payment_methods: IncentiveType[], msg: MsgFn) =>
   payment_methods[0] === 'tax_credit'
@@ -349,6 +302,13 @@ const renderCardCollection = (
             (getStartYearIfInFuture(a) ?? 0) - (getStartYearIfInFuture(b) ?? 0),
         )
         .map((incentive, index) => {
+          const headline = formatTitle(incentive, msg);
+          if (!headline) {
+            // We couldn't generate a headline either because the items are
+            // unknown, or the amount type is unknown. Don't show a card.
+            return null;
+          }
+
           const futureStartYear = getStartYearIfInFuture(incentive);
 
           // The API cannot precisely tell, from zip code alone, whether the
@@ -378,7 +338,7 @@ const renderCardCollection = (
             <IncentiveCard
               key={`incentive${index}`}
               typeChip={formatIncentiveType(incentive.payment_methods, msg)}
-              headline={formatTitle(incentive, msg)!}
+              headline={headline}
               subHeadline={incentive.program}
               body={`${incentive.short_description} ${locationEligibilityText}`}
               warningChip={
@@ -482,11 +442,14 @@ export const StateIncentives: FC<Props> = ({
     .filter(i => i.eligible)
     .filter(i => !isIRARebate(i));
 
+  // Map each project to all incentives that involve it. An incentive may
+  // be in multiple projects, if it has multiple items and those items pertain
+  // to different projects.
   const incentivesByProject = Object.fromEntries(
     Object.entries(PROJECTS).map(([project, projectInfo]) => [
       project,
-      allEligible.filter(i =>
-        projectInfo.items.includes(i.items ? i.items[0] : i.item.type),
+      allEligible.filter(incentive =>
+        incentive.items.every(item => projectInfo.items.includes(item)),
       ),
     ]),
   ) as Record<Project, Incentive[]>;
