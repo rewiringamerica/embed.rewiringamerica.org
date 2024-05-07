@@ -780,6 +780,21 @@
   <target>un calentador de agua</target>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
 </trans-unit>
+<trans-unit id="s22fdf6e102292d52">
+  <source>a plug-in hybrid</source>
+  <target>un vehículo híbrido enchufable</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s50c22fc6197c004a">
+  <source>a new vehicle</source>
+  <target>un vehículo nuevo</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s4fc629e3c9345af1">
+  <source>a used vehicle</source>
+  <target>un vehículo usado</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
 </body>
 </file>
 </xliff>
