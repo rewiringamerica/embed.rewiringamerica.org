@@ -29,7 +29,11 @@ const DEFAULT_HOUSEHOLD_INCOME = '0';
 const DEFAULT_HOUSEHOLD_SIZE = '1';
 const DEFAULT_UTILITY = '';
 
-const FORM_VALUES_LOCAL_STORAGE_KEY = 'RA-calc-form-values';
+/**
+ * If you make a backward-incompatible change to the format of form value
+ * storage, increment the version in this key.
+ */
+const FORM_VALUES_LOCAL_STORAGE_KEY = 'RA-calc-form-values-v2';
 declare module './safe-local-storage' {
   interface SafeLocalStorageMap {
     [FORM_VALUES_LOCAL_STORAGE_KEY]: Partial<FormValues>;
