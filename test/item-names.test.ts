@@ -25,7 +25,9 @@ describe('group names', () => {
     expect(itemName(['wall_insulation', 'other_weatherization'], msg)).toBe(
       'weatherization',
     );
-    expect(itemName(['other_weatherization', 'energy_audit'], msg)).toBeNull();
+    expect(itemName(['other_weatherization', 'energy_audit'], msg)).toBe(
+      'an energy audit and weatherization',
+    );
   });
 
   test('vehicles', () => {

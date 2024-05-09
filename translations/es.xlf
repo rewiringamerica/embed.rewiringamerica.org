@@ -795,6 +795,16 @@
   <target>un vehículo usado</target>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
 </trans-unit>
+<trans-unit id="s07607bad0f288304">
+  <source>door and window replacement</source>
+  <target>reemplazo de puertas y ventanas</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s7709947cefee8560">
+  <source>an energy audit and weatherization</source>
+  <target>una auditoría energética y impermeabilización</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

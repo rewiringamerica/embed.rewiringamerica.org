@@ -9,9 +9,32 @@ type ItemGroup =
   | 'plugin_hybrid'
   | 'new_vehicle'
   | 'used_vehicle'
+  | 'door_and_window'
   | 'insulation'
   | 'weatherization'
+  | 'audit_and_weatherization'
   | 'water_heater';
+
+const ALL_INSULATION: ItemType[] = [
+  'attic_or_roof_insulation',
+  'basement_insulation',
+  'crawlspace_insulation',
+  'floor_insulation',
+  'other_insulation',
+  'wall_insulation',
+];
+
+const ALL_WEATHERIZATION: ItemType[] = [
+  ...ALL_INSULATION,
+  'air_sealing',
+  'door_replacement',
+  'duct_replacement',
+  'duct_sealing',
+  'weatherization',
+  'window_replacement',
+  'efficiency_rebates',
+  'other_weatherization',
+];
 
 /**
  * Some incentives are for multiple items. These groups define headlines for
@@ -68,34 +91,20 @@ const ITEM_GROUPS: { group: ItemGroup; members: Set<ItemType> }[] = [
     members: new Set(['used_electric_vehicle', 'used_plugin_hybrid_vehicle']),
   },
   {
+    group: 'door_and_window',
+    members: new Set(['door_replacement', 'window_replacement']),
+  },
+  {
     group: 'insulation',
-    members: new Set([
-      'attic_or_roof_insulation',
-      'basement_insulation',
-      'crawlspace_insulation',
-      'floor_insulation',
-      'other_insulation',
-      'wall_insulation',
-    ]),
+    members: new Set(ALL_INSULATION),
   },
   {
     group: 'weatherization',
-    members: new Set([
-      'air_sealing',
-      'attic_or_roof_insulation',
-      'basement_insulation',
-      'crawlspace_insulation',
-      'door_replacement',
-      'duct_replacement',
-      'duct_sealing',
-      'floor_insulation',
-      'wall_insulation',
-      'weatherization',
-      'window_replacement',
-      'efficiency_rebates',
-      'other_insulation',
-      'other_weatherization',
-    ]),
+    members: new Set(ALL_WEATHERIZATION),
+  },
+  {
+    group: 'audit_and_weatherization',
+    members: new Set([...ALL_WEATHERIZATION, 'energy_audit']),
   },
   {
     group: 'water_heater',
@@ -139,10 +148,18 @@ const multipleItemsName = (items: ItemType[], msg: MsgFn) => {
           });
         case 'generic_heat_pump':
           return msg('a heat pump', { desc: 'e.g. "$100 off [this string]"' });
+        case 'door_and_window':
+          return msg('door and window replacement', {
+            desc: 'e.g. "$100 off [this string]"',
+          });
         case 'insulation':
           return msg('insulation', { desc: 'e.g. "$100 off [this string]"' });
         case 'weatherization':
           return msg('weatherization', {
+            desc: 'e.g. "$100 off [this string]"',
+          });
+        case 'audit_and_weatherization':
+          return msg('an energy audit and weatherization', {
             desc: 'e.g. "$100 off [this string]"',
           });
         case 'water_heater':
