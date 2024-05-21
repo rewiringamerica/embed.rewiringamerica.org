@@ -49,7 +49,6 @@ export const ITEMS = [
   'energy_audit',
   'floor_insulation',
   'geothermal_heating_installation',
-  'heat_pump_air_conditioner_heater',
   'heat_pump_clothes_dryer',
   'heat_pump_water_heater',
   'new_electric_vehicle',
@@ -63,7 +62,6 @@ export const ITEMS = [
   'used_electric_vehicle',
   'used_plugin_hybrid_vehicle',
   'wall_insulation',
-  'weatherization',
   'window_replacement',
 ] as const;
 

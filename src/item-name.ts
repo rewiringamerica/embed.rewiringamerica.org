@@ -30,7 +30,6 @@ const ALL_WEATHERIZATION: ItemType[] = [
   'door_replacement',
   'duct_replacement',
   'duct_sealing',
-  'weatherization',
   'window_replacement',
   'efficiency_rebates',
   'other_weatherization',
@@ -250,8 +249,6 @@ export const itemName = (items: ItemType[], msg: MsgFn) => {
       return msg('geothermal heating installation', {
         desc: 'e.g. "$100 off [this string]"',
       });
-    case 'heat_pump_air_conditioner_heater':
-      return msg('a heat pump', { desc: 'e.g. "$100 off [this string]"' });
     case 'heat_pump_clothes_dryer':
       return msg('a heat pump clothes dryer', {
         desc: 'e.g. "$100 off [this string]"',
@@ -294,8 +291,6 @@ export const itemName = (items: ItemType[], msg: MsgFn) => {
       });
     case 'wall_insulation':
       return msg('wall insulation', { desc: 'e.g. "$100 off [this string]"' });
-    case 'weatherization':
-      return msg('weatherization', { desc: 'e.g. "$100 off [this string]"' });
     case 'window_replacement':
       return msg('window replacement', {
         desc: 'e.g. "$100 off [this string]"',

@@ -51,7 +51,6 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'ductless_heat_pump',
       'geothermal_heating_installation',
       'other_heat_pump',
-      'heat_pump_air_conditioner_heater',
     ],
     label: msg => msg('Heating, ventilation & cooling'),
     shortLabel: msg =>
@@ -113,7 +112,6 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'duct_sealing',
       'floor_insulation',
       'wall_insulation',
-      'weatherization',
       'window_replacement',
       'efficiency_rebates',
       'other_insulation',
