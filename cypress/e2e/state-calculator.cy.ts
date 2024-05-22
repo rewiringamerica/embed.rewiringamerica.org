@@ -59,11 +59,11 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('$1,000/ton off a heat pump');
+      .contains('$1,000/ton off an air source heat pump');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('$350/ton off a heat pump');
+      .contains('$350/ton off a ducted heat pump');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
@@ -71,7 +71,7 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('$2,000 off a heat pump');
+      .contains('$2,000 off an air source heat pump');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
