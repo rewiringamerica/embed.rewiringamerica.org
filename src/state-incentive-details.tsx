@@ -439,7 +439,9 @@ export const StateIncentives: FC<Props> = ({
 
   // We're filtering out IRA rebates in favor of state-specific handling.
   const allEligible = response.incentives
-    .filter(i => i.eligible)
+    // Forward compatibility for when only eligible incentives are returned from
+    // the API, with no eligible flag.
+    .filter(i => i.eligible === true || i.eligible === undefined)
     .filter(i => !isIRARebate(i));
 
   // Map each project to all incentives that involve it. An incentive may
