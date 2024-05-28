@@ -80,7 +80,7 @@ export interface Incentive {
   end_date?: string;
   short_description?: string;
 
-  eligible: boolean;
+  eligible?: boolean;
 }
 
 export interface APILocation {
