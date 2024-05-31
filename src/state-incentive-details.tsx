@@ -451,7 +451,7 @@ export const StateIncentives: FC<Props> = ({
     Object.entries(PROJECTS).map(([project, projectInfo]) => [
       project,
       allEligible.filter(incentive =>
-        incentive.items.every(item => projectInfo.items.includes(item)),
+        incentive.items.some(item => projectInfo.items.includes(item)),
       ),
     ]),
   ) as Record<Project, Incentive[]>;

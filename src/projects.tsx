@@ -116,6 +116,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'efficiency_rebates',
       'other_insulation',
       'other_weatherization',
+      'energy_audit',
     ],
     label: msg => msg('Weatherization & efficiency'),
     shortLabel: msg => msg('Weatherization'),
