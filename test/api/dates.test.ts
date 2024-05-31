@@ -9,6 +9,10 @@ function localDate(dateStr: string): Date {
   // that isInFuture will see the same year/month/day we see here.
   const date = new Date();
   const [year, month, day] = dateStr.split('-');
+  // Temporarily set day of month to 1, to avoid end-of-month problems. If the
+  // current day of month is 31, and you setMonth to a month with < 31 days,
+  // `date` will get set to the 1st of the *next* month.
+  date.setDate(1);
   date.setFullYear(parseInt(year));
   date.setMonth(parseInt(month) - 1); // Date's months are 0-based
   date.setDate(parseInt(day));
