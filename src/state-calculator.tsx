@@ -256,11 +256,7 @@ const StateCalculator: FC<{
           showEmailField={showEmail && !emailSubmitted}
           emailRequired={emailRequired}
           utilityFetcher={zip => {
-            const query = new URLSearchParams({
-              language: locale,
-              include_beta_states: '' + includeBetaStates,
-              zip,
-            });
+            const query = new URLSearchParams({ language: locale, zip });
 
             return fetchApi<APIUtilitiesResponse>(
               apiKey,
