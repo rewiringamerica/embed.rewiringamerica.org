@@ -82,6 +82,7 @@ const fetch = (
       query.append('items', item);
     });
   });
+  query.append('ra_embed', '1');
 
   return fetchApi<APIResponse>(
     apiKey,
