@@ -82,6 +82,7 @@ const fetch = (
       query.append('items', item);
     });
   });
+  // Tracking usage of the embedded calculator
   query.append('ra_embed', '1');
 
   return fetchApi<APIResponse>(
@@ -258,6 +259,8 @@ const StateCalculator: FC<{
           emailRequired={emailRequired}
           utilityFetcher={zip => {
             const query = new URLSearchParams({ language: locale, zip });
+            // Tracking usage of the embedded calculator
+            query.append('ra_embed', '1');
 
             return fetchApi<APIUtilitiesResponse>(
               apiKey,
