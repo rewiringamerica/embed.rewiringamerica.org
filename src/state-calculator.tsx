@@ -16,7 +16,6 @@ import { str } from './i18n/str';
 import { LocaleContext, MsgFn, useTranslated } from './i18n/use-translated';
 import { PROJECTS } from './projects';
 import { safeLocalStorage } from './safe-local-storage';
-import { Separator } from './separator';
 import { CalculatorForm, FormValues } from './state-calculator-form';
 import { StateIncentives } from './state-incentive-details';
 import { STATES } from './states';
@@ -56,8 +55,7 @@ const fetch = (
       formValues.ownerStatus &&
       formValues.taxFiling &&
       formValues.householdIncome &&
-      formValues.householdSize &&
-      formValues.projects
+      formValues.householdSize
     )
   ) {
     return;
@@ -154,7 +152,6 @@ const StateCalculator: FC<{
       householdSize:
         storedValues?.householdSize ?? attributeValues.householdSize,
       taxFiling: storedValues?.taxFiling ?? attributeValues.taxFiling,
-      projects: storedValues?.projects ?? [],
       utility: storedValues?.utility ?? DEFAULT_UTILITY,
     };
   };
@@ -206,15 +203,13 @@ const StateCalculator: FC<{
   };
 
   // When the fetch completes or errors out, scroll to the appropriate element
-  const firstResultsRef = useRef<HTMLDivElement>(null);
-  const secondResultsRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
   const errorMessageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const target =
-      fetchState.state === 'complete' &&
-      (firstResultsRef.current || secondResultsRef.current)
-        ? firstResultsRef.current ?? secondResultsRef.current
+      fetchState.state === 'complete' && resultsRef.current
+        ? resultsRef.current
         : fetchState.state === 'error' && errorMessageRef.current
         ? errorMessageRef.current
         : null;
@@ -230,7 +225,7 @@ const StateCalculator: FC<{
   }, [fetchState.state]);
 
   return (
-    <div id="calc-root" className="grid gap-4 sm:gap-6 lg:gap-12">
+    <div id="calc-root" className="grid gap-8">
       <Card padding="medium">
         <div className="flex justify-between items-baseline">
           <h1 className="text-base sm:text-xl font-medium leading-tight">
@@ -282,29 +277,24 @@ const StateCalculator: FC<{
           {fetchState.message}
         </Card>
       ) : (
-        <>
-          <Separator />
-          <StateIncentives
-            firstResultsRef={firstResultsRef}
-            secondResultsRef={secondResultsRef}
-            response={fetchState.response}
-            selectedProjects={submittedFormValues!.projects ?? []}
-            emailSubmitter={
-              showEmail
-                ? (email: string) => {
-                    submitEmailSignup(
-                      apiHost,
-                      apiKey,
-                      email,
-                      submittedFormValues!.zip,
-                      emailRequired,
-                    );
-                    setEmailSubmitted(true);
-                  }
-                : null
-            }
-          />
-        </>
+        <StateIncentives
+          resultsRef={resultsRef}
+          response={fetchState.response}
+          emailSubmitter={
+            showEmail
+              ? (email: string) => {
+                  submitEmailSignup(
+                    apiHost,
+                    apiKey,
+                    email,
+                    submittedFormValues!.zip,
+                    emailRequired,
+                  );
+                  setEmailSubmitted(true);
+                }
+              : null
+          }
+        />
       )}
     </div>
   );

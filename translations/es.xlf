@@ -69,12 +69,6 @@
 <trans-unit id="s5c876c284d9dca41">
   <source>1 person</source>
 <target>1 persona</target></trans-unit>
-<trans-unit id="s6c11cef729833743">
-  <source>Projects you’re most interested in</source>
-<target>Los proyectos en los que tiene más interés</target></trans-unit>
-<trans-unit id="sbc39ee880f922370">
-  <source>None selected</source>
-<target>Ninguno seleccionado</target></trans-unit>
 <trans-unit id="sdb1f28de105f079e">
   <source>Email address (optional)</source>
 <target>Dirección de correo electrónico (opcional)</target></trans-unit>
@@ -123,12 +117,6 @@
 <trans-unit id="s31f1afc1bfe1cb3a">
   <source>Learn more</source>
 <target>Más información</target></trans-unit>
-<trans-unit id="s8b29a87eb1bdd138">
-  <source>Other incentives available to you</source>
-<target>Otros incentivos disponibles para usted</target></trans-unit>
-<trans-unit id="s5a3995571bdf3fd4">
-  <source>Incentives you’re interested in</source>
-<target>Incentivos en los que tiene interés</target></trans-unit>
 <trans-unit id="sb9e8a9bfc8bcf398">
   <source>Rhode Island</source>
 <target>Rhode Island</target></trans-unit>
@@ -805,6 +793,18 @@
 <trans-unit id="s0d2b126617a4b9e6">
   <source>View results</source>
   <target>Ver resultados</target>
+</trans-unit>
+<trans-unit id="s4d613d768e2faa0d">
+  <source>1 result</source>
+  <target>1 resultado</target>
+</trans-unit>
+<trans-unit id="s387a4a41718122cb">
+  <source><x id="0" equiv-text="${num}"/> results</source>
+  <target><x id="0" equiv-text="${num}"/> resultados</target>
+</trans-unit>
+<trans-unit id="s581011428ded91a0">
+  <source>We found <x id="0" equiv-text="${response.incentives.length}"/> results across <x id="1" equiv-text="${countOfProjects}"/> projects.</source>
+  <target>Encontramos <x id="0" equiv-text="${response.incentives.length}"/> resultados en <x id="1" equiv-text="${countOfProjects}"/> proyectos.</target>
 </trans-unit>
 </body>
 </file>

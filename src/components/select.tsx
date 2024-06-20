@@ -1,6 +1,8 @@
 import { flip, offset, useFloating } from '@floating-ui/react-dom';
 import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
+import { FC } from 'react';
+import { str } from '../i18n/str';
 import { useTranslated } from '../i18n/use-translated';
 import { Check, DownTriangle } from '../icons';
 import { Separator } from '../separator';
@@ -10,6 +12,8 @@ import { Spinner } from './spinner';
 export type Option<T extends string> = {
   value: T;
   label: string;
+  disabled?: boolean;
+  badge?: number;
   getIcon?: () => React.ReactElement;
 };
 
@@ -73,6 +77,29 @@ const renderTag = (label: string, icon?: () => React.ReactElement) => (
   </div>
 );
 
+/** A circle with a number in the middle. */
+const Badge: FC<{ num: number }> = ({ num }) => {
+  const { msg } = useTranslated();
+  return (
+    <div
+      aria-label={num === 1 ? msg('1 result') : msg(str`${num} results`)}
+      className={clsx(
+        'w-[22px]',
+        'h-[22px]',
+        'text-xsm',
+        'text-center',
+        'bg-purple-100',
+        'text-color-text-primary',
+        'font-bold',
+        'leading-[22px]',
+        'rounded-full',
+      )}
+    >
+      {num}
+    </div>
+  );
+};
+
 const SELECT_ALL_VALUE = 'select-all';
 
 export const Select = <T extends string>({
@@ -110,13 +137,18 @@ export const Select = <T extends string>({
       buttonContents = (
         <div className="grow ml-3 flex gap-2 items-center">
           {firstCurrentOption.getIcon && (
-            <span className="text-lg text-grey-700" aria-hidden={true}>
+            <span className="text-lg text-purple-500" aria-hidden={true}>
               {firstCurrentOption.getIcon()}
             </span>
           )}
-          <div className={clsx(disabled && 'text-grey-500')}>
+          <div
+            className={clsx('grow', 'text-left', disabled && 'text-grey-500')}
+          >
             {firstCurrentOption.label}
           </div>
+          {firstCurrentOption.badge !== undefined && (
+            <Badge num={firstCurrentOption.badge} />
+          )}
         </div>
       );
     }
@@ -216,6 +248,7 @@ export const Select = <T extends string>({
               'group-data-open:rotate-180',
               'mr-3',
               disabled && 'text-grey-500',
+              !disabled && 'text-purple-500',
             )}
             aria-hidden={true}
           >
@@ -251,6 +284,7 @@ export const Select = <T extends string>({
               <Listbox.Option
                 key={o.value}
                 value={o.value}
+                disabled={o.disabled}
                 data-value={o.value}
                 className={clsx(
                   'flex',
@@ -259,18 +293,20 @@ export const Select = <T extends string>({
                   'ui-active:bg-purple-100',
                   'px-4',
                   'py-1.5',
+                  o.disabled && 'opacity-50',
                 )}
               >
-                {multiple &&
-                  (currentValue.includes(o.value) ? (
-                    <Check w={20} h={20} />
-                  ) : (
-                    <div className="w-5" />
-                  ))}
+                {(multiple && currentValue.includes(o.value)) ||
+                currentValue === o.value ? (
+                  <Check w={20} h={20} />
+                ) : (
+                  <div className="w-5" />
+                )}
                 {o.getIcon && (
                   <span className="text-lg text-grey-700">{o.getIcon()}</span>
                 )}
-                {o.label}
+                <span className="grow">{o.label}</span>
+                {o.badge !== undefined && <Badge num={o.badge} />}
               </Listbox.Option>
             ))}
           </Listbox.Options>
