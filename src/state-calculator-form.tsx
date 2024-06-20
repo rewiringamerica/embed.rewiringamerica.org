@@ -9,7 +9,6 @@ import { TextInput } from './components/text-input';
 import { CurrencyInput } from './currency-input';
 import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
-import { PROJECTS, Project } from './projects';
 import { STATES } from './states';
 
 const OWNER_STATUS_OPTIONS: (msg: MsgFn) => Option<OwnerStatus>[] = msg => [
@@ -85,28 +84,6 @@ const renderUtilityField = (
   );
 };
 
-const renderProjectsField = (
-  projects: Project[],
-  setProjects: (newProjects: Project[]) => void,
-  msg: MsgFn,
-) => (
-  <Select
-    id="projects"
-    multiple={true}
-    labelText={msg('Projects you’re most interested in')}
-    options={Object.entries(PROJECTS)
-      .map(([value, data]) => ({
-        value: value as Project,
-        label: data.label(msg),
-        getIcon: data.getIcon,
-      }))
-      .sort((a, b) => a.label.localeCompare(b.label))}
-    currentValue={projects}
-    onChange={setProjects}
-    placeholder={msg('None selected')}
-  />
-);
-
 const renderEmailField = (
   emailRequired: boolean,
   email: string,
@@ -156,7 +133,6 @@ export type FormValues = {
   householdSize: string;
   taxFiling: FilingStatus;
   utility?: string;
-  projects?: Project[];
   email?: string;
 };
 
@@ -187,7 +163,6 @@ export const CalculatorForm: FC<{
   );
   const [taxFiling, setTaxFiling] = useState(initialValues.taxFiling);
   const [utility, setUtility] = useState(initialValues.utility ?? '');
-  const [projects, setProjects] = useState(initialValues.projects ?? []);
   const [email, setEmail] = useState(initialValues.email ?? '');
 
   const [utilitiesFetchState, setUtilitiesFetchState] = useState<
@@ -245,13 +220,11 @@ export const CalculatorForm: FC<{
           householdSize,
           taxFiling,
           utility: utility !== OTHER_UTILITY_ID ? utility : '',
-          projects,
           email,
         });
       }}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
-        {renderProjectsField(projects, setProjects, msg)}
         <Select
           id="owner_status"
           multiple={false}
