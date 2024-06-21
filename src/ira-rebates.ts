@@ -55,6 +55,13 @@ const hearRebates: {
   },
 ];
 
+/**
+ * As states launch their HEAR and HER programs, we'll want to stop showing this
+ * generic info to users in those states.
+ */
+const HEAR_EXCLUDE_STATES = new Set(['NY']);
+const HER_EXCLUDE_STATES = new Set();
+
 export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
   const disclaimerText = msg(
     'However, rebates will be implemented differently in each state, so we cannot guarantee final amounts, eligibility, or timeline.',
@@ -63,7 +70,10 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
 
   const result: IRARebate[] = [];
 
-  if (response.is_under_150_ami) {
+  if (
+    response.is_under_150_ami &&
+    !HEAR_EXCLUDE_STATES.has(response.location.state)
+  ) {
     hearRebates.forEach(rebate =>
       result.push({
         paymentMethod: 'pos_rebate' as IncentiveType,
@@ -86,22 +96,24 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
     );
   }
 
-  result.push({
-    paymentMethod: 'performance_rebate',
-    project: 'weatherization_and_efficiency',
-    headline: msg('Rebate for efficiency retrofits'),
-    program: msg('Federal Home Efficiency Rebates (HER)'),
-    description:
-      msg(
-        str`The federal guidelines allow for a rebate of up to $${maxHerRebate.toLocaleString()}, based on the modeled energy savings or measured energy savings achieved by the retrofit.`,
-      ) +
-      ' ' +
-      disclaimerText,
-    url: msg(
-      'https://homes.rewiringamerica.org/federal-incentives/home-efficiency-rebates',
-    ),
-    timeline: msg('Expected in 2025'),
-  });
+  if (!HER_EXCLUDE_STATES.has(response.location.state)) {
+    result.push({
+      paymentMethod: 'performance_rebate',
+      project: 'weatherization_and_efficiency',
+      headline: msg('Rebate for efficiency retrofits'),
+      program: msg('Federal Home Efficiency Rebates (HER)'),
+      description:
+        msg(
+          str`The federal guidelines allow for a rebate of up to $${maxHerRebate.toLocaleString()}, based on the modeled energy savings or measured energy savings achieved by the retrofit.`,
+        ) +
+        ' ' +
+        disclaimerText,
+      url: msg(
+        'https://homes.rewiringamerica.org/federal-incentives/home-efficiency-rebates',
+      ),
+      timeline: msg('Expected in 2025'),
+    });
+  }
 
   return result;
 }
