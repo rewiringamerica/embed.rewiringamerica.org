@@ -72,5 +72,11 @@
   margin: 0 auto; /* center on page */
   display: block; /* required for max-width to kick in */
   width: 100%;
-  max-width: 1280px;
+  max-width: 720px;
+
+  /* Prevent some undesirable automatic text zooming on mobile */
+  text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
