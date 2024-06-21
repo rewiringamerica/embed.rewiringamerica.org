@@ -120,9 +120,6 @@
 <trans-unit id="sb661e8297dd681e2">
   <source>Incentive</source>
 <target>Incentivo</target></trans-unit>
-<trans-unit id="sd99647a59a6f456f">
-  <source>Visit site</source>
-<target>Visitar sitio web</target></trans-unit>
 <trans-unit id="s31f1afc1bfe1cb3a">
   <source>Learn more</source>
 <target>Más información</target></trans-unit>
@@ -804,6 +801,10 @@
   <source>an energy audit and weatherization</source>
   <target>una auditoría energética y impermeabilización</target>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s3eefce97272df9e4">
+  <source>Learn how to apply</source>
+  <target>Aprende a solicitar</target>
 </trans-unit>
 </body>
 </file>

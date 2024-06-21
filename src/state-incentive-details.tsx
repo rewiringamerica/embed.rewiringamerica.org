@@ -214,7 +214,7 @@ const IncentiveCard: FC<{
 }) => (
   <Card padding="small">
     <div className="flex gap-4 justify-between items-baseline">
-      <div className="text-grey-900 text-lg font-medium leading-tight">
+      <div className="text-grey-900 text-lg font-medium leading-normal">
         {headline}
       </div>
       {/* Only appears on medium and wide layout */}
