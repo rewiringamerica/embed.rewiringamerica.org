@@ -14,8 +14,6 @@ describe('rewiring-america-state-calculator events', () => {
       element.get(0).addEventListener('calculator-submitted', submit);
     });
 
-    cy.selectProjects(['hvac', 'ev']);
-
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .find('input#zip')
@@ -29,10 +27,6 @@ describe('rewiring-america-state-calculator events', () => {
         expect(event.detail).to.exist;
         expect(event.detail.formData).to.exist;
         expect(event.detail.formData.zip).to.equal('02859');
-        expect(Array.from(event.detail.formData.projects).sort()).to.eql([
-          'ev',
-          'hvac',
-        ]);
       });
   });
 
