@@ -441,7 +441,6 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
             id="project-selector"
             labelText={msg('Project', { desc: 'label for a selector input' })}
             hiddenLabel={true}
-            multiple={false}
             currentValue={selectedTab}
             options={options}
             onChange={project => onTabSelected(project)}

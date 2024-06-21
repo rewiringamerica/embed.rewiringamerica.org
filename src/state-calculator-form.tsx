@@ -70,7 +70,6 @@ const renderUtilityField = (
   return (
     <Select
       id="utility"
-      multiple={false}
       labelText={msg('Electric Utility', { desc: 'as in utility company' })}
       tooltipText={msg('Choose the company you pay your electric bill to.')}
       placeholder={msg('Select utility')}
@@ -227,7 +226,6 @@ export const CalculatorForm: FC<{
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
         <Select
           id="owner_status"
-          multiple={false}
           labelText={msg('Rent or own', { desc: 'form field label' })}
           tooltipText={msg(
             'Homeowners and renters qualify for different incentives.',
@@ -284,7 +282,6 @@ export const CalculatorForm: FC<{
         </div>
         <Select
           id="tax_filing"
-          multiple={false}
           labelText={msg('Tax filing', { desc: 'form field label' })}
           tooltipText={msg(
             'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
@@ -295,7 +292,6 @@ export const CalculatorForm: FC<{
         />
         <Select
           id="household_size"
-          multiple={false}
           labelText={msg('Household size')}
           tooltipText={msg(
             'Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.',

@@ -5,7 +5,6 @@ import { FC } from 'react';
 import { str } from '../i18n/str';
 import { useTranslated } from '../i18n/use-translated';
 import { Check, DownTriangle } from '../icons';
-import { Separator } from '../separator';
 import { FormLabel } from './form-label';
 import { Spinner } from './spinner';
 
@@ -39,43 +38,9 @@ export type SelectProps<T extends string> = {
   placeholder?: string;
   /** Shown below the select element. */
   helpText?: string;
-} & (
-  | {
-      multiple: false;
-      currentValue: T;
-      onChange: (newValue: T) => void;
-    }
-  | {
-      multiple: true;
-      currentValue: T[];
-      onChange: (newValues: T[]) => void;
-    }
-);
-
-/** Renders the tags in the multiselect. */
-const renderTag = (label: string, icon?: () => React.ReactElement) => (
-  <div
-    className={clsx(
-      'flex',
-      'gap-2',
-      'px-3',
-      'bg-grey-100',
-      'rounded',
-      'border',
-      'border-grey-200',
-      'items-center',
-      'text-sm',
-      // If this has an icon, it may have long text; let the browser
-      // shrink it as necessary
-      icon && 'min-w-0',
-    )}
-  >
-    {icon && <span className="text-base text-grey-700">{icon()}</span>}
-    <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-      {label}
-    </span>
-  </div>
-);
+  currentValue: T;
+  onChange: (newValue: T) => void;
+};
 
 /** A circle with a number in the middle. */
 const Badge: FC<{ num: number }> = ({ num }) => {
@@ -100,14 +65,11 @@ const Badge: FC<{ num: number }> = ({ num }) => {
   );
 };
 
-const SELECT_ALL_VALUE = 'select-all';
-
 export const Select = <T extends string>({
   id,
   options,
   disabled,
   loading,
-  multiple,
   labelText,
   hiddenLabel,
   tooltipText,
@@ -116,75 +78,34 @@ export const Select = <T extends string>({
   currentValue,
   onChange,
 }: SelectProps<T>) => {
-  const firstCurrentOption = multiple
-    ? options.find(o => currentValue.includes(o.value))
-    : options.find(o => o.value === currentValue);
+  const currentOption = options.find(o => o.value === currentValue);
 
-  let buttonContents = null;
-  if (multiple) {
-    // Render a tag for the first selected option (if any), followed by a
-    // tag with "+N" if there are additional selected options.
-    if (currentValue.length > 0) {
-      buttonContents = (
-        <div className="grow ml-1 py-1 h-full min-w-0 flex gap-1">
-          {renderTag(firstCurrentOption!.label, firstCurrentOption!.getIcon)}
-          {currentValue.length > 1 && renderTag(`+${currentValue.length - 1}`)}
-        </div>
-      );
-    }
-  } else {
-    if (firstCurrentOption) {
-      buttonContents = (
-        <div className="grow ml-3 flex gap-2 items-center">
-          {firstCurrentOption.getIcon && (
+  const buttonContents = (
+    <div className="grow ml-3 flex gap-2 text-left items-center">
+      {currentOption ? (
+        <>
+          {currentOption.getIcon && (
             <span className="text-lg text-purple-500" aria-hidden={true}>
-              {firstCurrentOption.getIcon()}
+              {currentOption.getIcon()}
             </span>
           )}
-          <div
-            className={clsx('grow', 'text-left', disabled && 'text-grey-500')}
-          >
-            {firstCurrentOption.label}
+          <div className={clsx('grow', disabled && 'text-grey-500')}>
+            {currentOption.label}
           </div>
-          {firstCurrentOption.badge !== undefined && (
-            <Badge num={firstCurrentOption.badge} />
+          {currentOption.badge !== undefined && (
+            <Badge num={currentOption.badge} />
           )}
-        </div>
-      );
-    }
-  }
-
+        </>
+      ) : (
+        <div className="text-grey-500">{placeholder}</div>
+      )}
+    </div>
+  );
   // For positioning the Listbox.Options. It will be below the Listbox.Button
   // unless there's not enough space, in which case it will be above.
   const { refs, floatingStyles } = useFloating({
     middleware: [flip(), offset(1)],
   });
-
-  // The multiselect has a special "select all" item at the top.
-  const { msg } = useTranslated();
-  let selectAllItem: React.ReactElement | null = null;
-  const areAllSelected = multiple && options.length === currentValue.length;
-  if (multiple) {
-    selectAllItem = (
-      <>
-        <Listbox.Option
-          value={SELECT_ALL_VALUE}
-          className={clsx(
-            'px-4',
-            'py-1.5',
-            'ui-active:bg-purple-100',
-            'text-purple-500',
-            'font-bold',
-            'leading-normal',
-            'hover:underline',
-          )}
-        >
-          {areAllSelected ? msg('Deselect all') : msg('Select all')}
-        </Listbox.Option>
-        <Separator className="my-2" />
-      </>
-    );
-  }
 
   return (
     <div>
@@ -194,18 +115,7 @@ export const Select = <T extends string>({
         name={id}
         value={currentValue}
         disabled={disabled}
-        multiple={multiple}
-        onChange={newValue => {
-          if (multiple) {
-            if (newValue.includes(SELECT_ALL_VALUE as T)) {
-              onChange(areAllSelected ? [] : options.map(o => o.value));
-            } else {
-              onChange(newValue as T[]);
-            }
-          } else {
-            onChange(newValue as T);
-          }
-        }}
+        onChange={onChange}
       >
         <FormLabel hidden={hiddenLabel} tooltipText={tooltipText}>
           <Listbox.Label>{labelText}</Listbox.Label>
@@ -234,11 +144,7 @@ export const Select = <T extends string>({
             'bg-white',
           )}
         >
-          {buttonContents ?? (
-            <div className="grow ml-3 text-left text-grey-500">
-              {placeholder}
-            </div>
-          )}
+          {buttonContents}
           {loading && <Spinner className="w-4 h-4 text-color-text-primary" />}
           {/* This will look for the parent element with the "group" class, and
            * check whether its data-headlessui-state attribute contains "open"
@@ -279,7 +185,6 @@ export const Select = <T extends string>({
               'py-2',
             )}
           >
-            {selectAllItem}
             {options.map(o => (
               <Listbox.Option
                 key={o.value}
@@ -296,8 +201,7 @@ export const Select = <T extends string>({
                   o.disabled && 'opacity-50',
                 )}
               >
-                {(multiple && currentValue.includes(o.value)) ||
-                currentValue === o.value ? (
+                {currentValue === o.value ? (
                   <Check w={20} h={20} />
                 ) : (
                   <div className="w-5" />
