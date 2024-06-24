@@ -231,7 +231,7 @@ const StateCalculator: FC<{
 
   return (
     <div id="calc-root" className="grid gap-4 sm:gap-6 lg:gap-12">
-      <Card>
+      <Card padding="medium">
         <div className="flex justify-between items-baseline">
           <h1 className="text-base sm:text-xl font-medium leading-tight">
             {msg('Your household info')}
@@ -274,11 +274,11 @@ const StateCalculator: FC<{
         />
       </Card>
       {fetchState.state === 'init' ? null : fetchState.state === 'loading' ? (
-        <Card>
+        <Card padding="medium">
           <Spinner className="mx-auto w-7 h-7 text-color-text-primary" />
         </Card>
       ) : fetchState.state === 'error' ? (
-        <Card ref={errorMessageRef} id="error-msg">
+        <Card padding="medium" ref={errorMessageRef} id="error-msg">
           {fetchState.message}
         </Card>
       ) : (

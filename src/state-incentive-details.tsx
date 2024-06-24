@@ -15,7 +15,7 @@ import { wasEmailSubmitted } from './email-signup';
 import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
 import { IconTabBar } from './icon-tab-bar';
-import { ExclamationPoint, UpRightArrow } from './icons';
+import { ExclamationPoint, ExternalLink, UpRightArrow } from './icons';
 import { IRARebate, getRebatesFor } from './ira-rebates';
 import { itemName } from './item-name';
 import { PartnerLogos } from './partner-logos';
@@ -129,6 +129,7 @@ const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
       'leading-tight',
       'tracking-[0.03438rem]',
       'uppercase',
+      'whitespace-nowrap',
       isWarning &&
         'bg-yellow-200 text-[#806c23] py-[0.1875rem] pl-[0.1875rem] pr-2.5',
       !isWarning && 'bg-purple-100 text-grey-700 px-2.5 py-1',
@@ -139,13 +140,15 @@ const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
   </div>
 );
 
-const LinkButton: FC<PropsWithChildren<{ href: string }>> = ({
+/** Rendered as a button, with a border. */
+const BorderedLinkButton: FC<PropsWithChildren<{ href: string }>> = ({
   href,
   children,
 }) => (
   <a
     className={clsx(
       'flex',
+      'sm:hidden',
       'gap-2',
       'justify-center',
       'items-center',
@@ -168,6 +171,30 @@ const LinkButton: FC<PropsWithChildren<{ href: string }>> = ({
   </a>
 );
 
+/** Rendered as a pseudo-link, without a border */
+const BorderlessLinkButton: FC<PropsWithChildren<{ href: string }>> = ({
+  href,
+  children,
+}) => (
+  <a
+    className={clsx(
+      'hidden',
+      'sm:flex',
+      'gap-2',
+      'items-center',
+      'text-purple-500',
+      'text-base',
+      'font-medium',
+      'leading-tight',
+      'whitespace-nowrap',
+    )}
+    target="_blank"
+    href={href}
+  >
+    {children}
+  </a>
+);
+
 const IncentiveCard: FC<{
   typeChip: string;
   headline: string;
@@ -175,7 +202,7 @@ const IncentiveCard: FC<{
   body: string;
   warningChip: string | null;
   buttonUrl: string;
-  buttonContent: string | React.ReactElement;
+  buttonText: string;
 }> = ({
   typeChip,
   headline,
@@ -183,20 +210,30 @@ const IncentiveCard: FC<{
   body,
   warningChip,
   buttonUrl,
-  buttonContent,
+  buttonText,
 }) => (
-  <Card>
-    <div className="flex flex-col gap-4 h-full">
-      <Chip>{typeChip}</Chip>
-      <div className="text-grey-700 text-xl leading-normal">{headline}</div>
-      <div className="text-grey-700 font-medium leading-tight">
-        {subHeadline}
+  <Card padding="small">
+    <div className="flex gap-4 justify-between items-baseline">
+      <div className="text-grey-900 text-lg font-medium leading-normal">
+        {headline}
       </div>
-      {warningChip && <Chip isWarning={true}>{warningChip}</Chip>}
-      <Separator hideOnSmall={true} />
-      <div className="leading-normal text-grey-400">{body}</div>
-      <LinkButton href={buttonUrl}>{buttonContent}</LinkButton>
+      {/* Only appears on medium and wide layout */}
+      <BorderlessLinkButton href={buttonUrl}>
+        {buttonText} <ExternalLink w={20} h={20} />
+      </BorderlessLinkButton>
     </div>
+    <div className="text-grey-400 text-base font-medium leading-tight">
+      {subHeadline}
+    </div>
+    <div className="text-grey-600 text-base leading-normal">{body}</div>
+    <div className="flex flex-wrap gap-2.5">
+      <Chip>{typeChip}</Chip>
+      {warningChip && <Chip isWarning={true}>{warningChip}</Chip>}
+    </div>
+    {/* Only appears on narrow layout */}
+    <BorderedLinkButton href={buttonUrl}>
+      {buttonText} <UpRightArrow w={20} h={20} />
+    </BorderedLinkButton>
   </Card>
 );
 
@@ -271,7 +308,7 @@ const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
     );
 
   return (
-    <Card isFlat={true}>
+    <Card isFlat={true} padding="large">
       <h1 className="text-grey-700 text-xl font-normal leading-tight text-balance">
         {msg('No incentives available for this project')}
       </h1>
@@ -294,7 +331,7 @@ const renderCardCollection = (
 ) => {
   const { msg } = useTranslated();
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-start">
+    <div className="flex flex-col gap-4">
       {incentives
         // Sort incentives that haven't started yet at the end
         .sort(
@@ -325,14 +362,11 @@ const renderCardCollection = (
             ? msg('Eligibility depends on residence location.')
             : '';
 
-          const [buttonUrl, buttonContent] = incentive.more_info_url
+          const [buttonUrl, buttonText] = incentive.more_info_url
             ? [incentive.more_info_url, msg('Learn more')]
             : [
                 incentive.program_url,
-                <>
-                  {msg('Visit site')}
-                  <UpRightArrow w={20} h={20} />
-                </>,
+                futureStartYear ? msg('Learn more') : msg('Learn how to apply'),
               ];
           return (
             <IncentiveCard
@@ -347,7 +381,7 @@ const renderCardCollection = (
                   : null
               }
               buttonUrl={buttonUrl}
-              buttonContent={buttonContent}
+              buttonText={buttonText}
             />
           );
         })
@@ -361,7 +395,7 @@ const renderCardCollection = (
               body={rebate.description}
               warningChip={rebate.timeline}
               buttonUrl={rebate.url}
-              buttonContent={msg('Learn more')}
+              buttonText={msg('Learn more')}
             />
           )),
         )}
