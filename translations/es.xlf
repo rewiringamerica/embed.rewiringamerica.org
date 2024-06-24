@@ -338,10 +338,6 @@
   <target>Suscribirse</target>
   <note from="lit-localize">button text</note>
 </trans-unit>
-<trans-unit id="sfe81d5d73a35a2cf">
-  <source>Calculate</source>
-  <target>Calcular</target>
-</trans-unit>
 <trans-unit id="sb21ad862204e6186">
   <source>View our</source>
   <note from="lit-localize">as in view our terms</note>
@@ -805,6 +801,10 @@
 <trans-unit id="s3eefce97272df9e4">
   <source>Learn how to apply</source>
   <target>Aprende a solicitar</target>
+</trans-unit>
+<trans-unit id="s0d2b126617a4b9e6">
+  <source>View results</source>
+  <target>Ver resultados</target>
 </trans-unit>
 </body>
 </file>

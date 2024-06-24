@@ -336,7 +336,7 @@ export const CalculatorForm: FC<{
           : null}
         <div className="col-start-[-2] col-end-[-1]">
           <div className="h-0 sm:h-9"></div>
-          <PrimaryButton id="calculate">{msg('Calculate')}</PrimaryButton>
+          <PrimaryButton id="calculate">{msg('View results')}</PrimaryButton>
         </div>
       </div>
     </form>
