@@ -493,9 +493,16 @@ export const StateIncentives: FC<Props> = ({
     incentives => incentives.length > 0,
   ).length;
 
+  const iraRebates = getRebatesFor(response, msg);
+
   // Sort projects with nonzero incentives first, then alphabetically.
   const projectOptions = (Object.keys(PROJECTS) as Project[])
-    .map(project => ({ project, count: incentivesByProject[project].length }))
+    .map(project => ({
+      project,
+      count:
+        incentivesByProject[project].length +
+        iraRebates.filter(r => r.project === project).length,
+    }))
     .sort((a, b) => {
       // "false" compares before "true"
       const aStr = `${a.count === 0} ${PROJECTS[a.project].label(msg)}`;
@@ -507,8 +514,6 @@ export const StateIncentives: FC<Props> = ({
   const [projectTab, setProjectTab] = useState(projectOptions[0].project);
 
   const selectedIncentives = projectTab ? incentivesByProject[projectTab] : [];
-
-  const iraRebates = getRebatesFor(response, msg);
   const selectedIraRebates = iraRebates.filter(r => r.project === projectTab);
 
   return (

@@ -51,13 +51,17 @@ const Badge: FC<{ num: number }> = ({ num }) => {
       className={clsx(
         'w-[22px]',
         'h-[22px]',
-        'text-xsm',
+        'flex',
+        'flex-col',
+        'justify-center',
         'text-center',
+        'text-xsm',
         'bg-purple-100',
         'text-color-text-primary',
         'font-bold',
-        'leading-[22px]',
         'rounded-full',
+        'ui-active:border',
+        'ui-active:border-grey-300',
       )}
     >
       {num}
