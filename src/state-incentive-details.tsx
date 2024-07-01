@@ -182,6 +182,7 @@ const BorderlessLinkButton: FC<PropsWithChildren<{ href: string }>> = ({
       'font-medium',
       'leading-tight',
       'whitespace-nowrap',
+      'hover:underline',
     )}
     target="_blank"
     href={href}
