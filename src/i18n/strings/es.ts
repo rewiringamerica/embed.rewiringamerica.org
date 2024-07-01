@@ -14,6 +14,7 @@ export const templates = {
   s07607bad0f288304: `reemplazo de puertas y ventanas`,
   s07ecbff17886eb50: `un vehículo eléctrico usado`,
   s08fb6007b5965c82: `Vehículo eléctrico`,
+  s0d2b126617a4b9e6: `Ver resultados`,
   s0ec469a91a15f4a5: `kilovatio hora`,
   s0f06604c95e47b84: `Wisconsin`,
   s12603afef80b713c: `Estufa/cocina`,
@@ -209,5 +210,4 @@ export const templates = {
   sfa7338035e1ef173: `Alquilar o poseer`,
   sfc7214f623fe475d: `Selecciona la empresa a la que paga su factura de electricidad.`,
   sfe16afc784bb9d76: `Techo solar`,
-  sfe81d5d73a35a2cf: `Calcular`,
 };
