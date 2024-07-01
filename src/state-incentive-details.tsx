@@ -20,6 +20,7 @@ import { IRARebate, getRebatesFor } from './ira-rebates';
 import { itemName } from './item-name';
 import { PartnerLogos } from './partner-logos';
 import { PROJECTS, Project } from './projects';
+import { safeLocalStorage } from './safe-local-storage';
 import { Separator } from './separator';
 
 const formatUnit = (unit: AmountUnit, msg: MsgFn) =>
@@ -432,7 +433,7 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
       disabled: count === 0,
     }));
 
-    return tabs.length > 0 ? (
+    return (
       <>
         <div className="flex flex-col gap-4 min-w-50" ref={ref}>
           <h2 className="text-grey-700 text-center text-balance text-3xl font-medium leading-tight">
@@ -451,9 +452,20 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
           ? renderCardCollection(incentives, iraRebates)
           : renderNoResults(emailSubmitter)}
       </>
-    ) : null;
+    );
   },
 );
+
+/**
+ * If you make a backward-incompatible change to the format of form value
+ * storage, increment the version in this key.
+ */
+const SELECTED_PROJECT_LOCAL_STORAGE_KEY = 'RA-calc-selected-project-v1';
+declare module './safe-local-storage' {
+  interface SafeLocalStorageMap {
+    [SELECTED_PROJECT_LOCAL_STORAGE_KEY]: Project;
+  }
+}
 
 type Props = {
   resultsRef?: React.Ref<HTMLDivElement>;
@@ -498,21 +510,37 @@ export const StateIncentives: FC<Props> = ({
 
   // Sort projects with nonzero incentives first, then alphabetically.
   const projectOptions = (Object.keys(PROJECTS) as Project[])
-    .map(project => ({
-      project,
-      count:
+    .map(project => {
+      const count =
         incentivesByProject[project].length +
-        iraRebates.filter(r => r.project === project).length,
-    }))
-    .sort((a, b) => {
-      // "false" compares before "true"
-      const aStr = `${a.count === 0} ${PROJECTS[a.project].label(msg)}`;
-      const bStr = `${b.count === 0} ${PROJECTS[b.project].label(msg)}`;
-      return aStr.localeCompare(bStr);
-    });
+        iraRebates.filter(r => r.project === project).length;
 
-  // If a nonexistent tab is selected, pretend the first one is selected.
-  const [projectTab, setProjectTab] = useState(projectOptions[0].project);
+      // The string "false" compares before "true"
+      const sortKey = `${count === 0} ${PROJECTS[project].label(msg)}`;
+
+      return { project, count, sortKey };
+    })
+    .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+
+  // If a project selection is saved in local storage AND that project has
+  // nonzero incentives, select that project.
+  //
+  // Otherwise, select the first project in the menu (which, by virtue of the
+  // sorting above, will have incentives unless there are zero results total).
+  const [projectTab, setProjectTab] = useState(() => {
+    const storedProject = safeLocalStorage.getItem(
+      SELECTED_PROJECT_LOCAL_STORAGE_KEY,
+    );
+
+    if (
+      storedProject !== null &&
+      incentivesByProject[storedProject].length > 0
+    ) {
+      return storedProject;
+    } else {
+      return projectOptions[0].project;
+    }
+  });
 
   const selectedIncentives = projectTab ? incentivesByProject[projectTab] : [];
   const selectedIraRebates = iraRebates.filter(r => r.project === projectTab);
@@ -529,7 +557,10 @@ ${countOfProjects} projects.`,
         iraRebates={selectedIraRebates}
         tabs={projectOptions}
         selectedTab={projectTab}
-        onTabSelected={setProjectTab}
+        onTabSelected={tab => {
+          safeLocalStorage.setItem(SELECTED_PROJECT_LOCAL_STORAGE_KEY, tab);
+          setProjectTab(tab);
+        }}
         emailSubmitter={emailSubmitter}
       />
       <PartnerLogos response={response} />
