@@ -109,4 +109,27 @@ describe('rewiring-america-state-calculator', () => {
       .find('#error-msg')
       .should('contain.text', 'That ZIP code is not in Rhode Island.');
   });
+
+  it('shows "coming soon" banner', () => {
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .find('#zip')
+      .type('57104'); // South Dakota
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .find('button#calculate')
+      .click();
+
+    // Don't show it until a project is selected and results are displayed
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .should('not.contain.text', 'More money coming soon!');
+
+    cy.selectProjects(['hvac']);
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .should('contain.text', 'More money coming soon!');
+  });
 });
