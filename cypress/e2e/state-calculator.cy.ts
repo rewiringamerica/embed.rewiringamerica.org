@@ -51,6 +51,12 @@ describe('rewiring-america-state-calculator', () => {
       .shadow()
       .contains(/We found \d+ results across \d+ projects./);
 
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .contains(
+        'To view your eligible savings programs, select a project above.',
+      );
+
     cy.selectProjects(['hvac']);
 
     cy.get('rewiring-america-state-calculator')

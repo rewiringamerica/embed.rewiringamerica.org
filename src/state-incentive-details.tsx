@@ -1,5 +1,4 @@
 import { FC, forwardRef, useState } from 'react';
-import scrollIntoView from 'scroll-into-view-if-needed';
 import {
   APIResponse,
   AmountUnit,
@@ -7,11 +6,8 @@ import {
   IncentiveType,
 } from './api/calculator-types-v1';
 import { getYear, isInFuture } from './api/dates';
-import { PrimaryButton, TextButton } from './buttons';
 import { Card } from './card';
 import { Option, Select } from './components/select';
-import { TextInput } from './components/text-input';
-import { wasEmailSubmitted } from './email-signup';
 import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
 import { IncentiveCard } from './incentive-card';
@@ -20,7 +16,6 @@ import { itemName } from './item-name';
 import { PartnerLogos } from './partner-logos';
 import { PROJECTS, Project } from './projects';
 import { safeLocalStorage } from './safe-local-storage';
-import { Separator } from './separator';
 
 const formatUnit = (unit: AmountUnit, msg: MsgFn) =>
   unit === 'btuh10k'
@@ -107,90 +102,24 @@ const getStartYearIfInFuture = (incentive: Incentive) =>
     ? getYear(incentive.start_date)
     : null;
 
-function scrollToForm(event: React.MouseEvent) {
-  const calculator = (
-    event.currentTarget.getRootNode() as ShadowRoot
-  )?.getElementById('calc-root');
-
-  if (!calculator) {
-    return;
-  }
-  scrollIntoView(calculator, {
-    behavior: 'smooth',
-    block: 'start',
-    inline: 'start',
-    scrollMode: 'always',
-  });
-}
-
-const renderNoResults = (emailSubmitter: ((email: string) => void) | null) => {
+const renderSelectProjectCard = () => {
   const { msg } = useTranslated();
-  const [email, setEmail] = useState('');
-
-  const emailForm =
-    emailSubmitter === null ? null : wasEmailSubmitted() ? (
-      <>
-        <Separator />
-        <div className="text-grey-700 font-bold leading-normal">
-          {msg('You’re subscribed to our newsletter!')}
-        </div>
-        <div className="text-grey-500 leading-normal">
-          {msg(
-            'You’ll get updates on incentives, rebates, and more from Rewiring America.',
-          )}
-        </div>
-      </>
-    ) : (
-      <>
-        <Separator />
-        <div className="text-grey-700 font-bold leading-normal">
-          {msg(
-            'To get updates on new incentives, subscribe to our newsletter!',
-          )}
-        </div>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            if (email) {
-              emailSubmitter(email);
-            }
-          }}
-        >
-          <div className="grid gap-4 auto-rows-min">
-            <TextInput
-              type="email"
-              autoComplete="email"
-              placeholder={msg('you@example.com', {
-                desc: 'example email address',
-              })}
-              name="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              aria-label={msg('Email address')}
-              required
-            />
-            <PrimaryButton>
-              {msg('Subscribe', { desc: 'button text' })}
-            </PrimaryButton>
-          </div>
-        </form>
-      </>
-    );
-
+  // TODO replace the PNG image with an SVG
   return (
-    <Card isFlat={true} padding="large">
-      <h1 className="text-grey-700 text-xl font-normal leading-tight text-balance">
-        {msg('No incentives available for this project')}
-      </h1>
-      <p className="leading-normal">
-        {msg(
-          'This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.',
-        )}
+    <Card theme="grey" padding="large">
+      <img
+        className="mx-auto"
+        src={new URL('./project.png', import.meta.url).toString()}
+        width={120}
+        height={120}
+        aria-hidden={true}
+      />
+      <h3 className="text-center text-xl text-grey-600 font-medium leading-tight">
+        {msg('Select a project')}
+      </h3>
+      <p className="text-center text-base leading-normal">
+        {msg('To view your eligible savings programs, select a project above.')}
       </p>
-      <TextButton onClick={scrollToForm}>
-        {msg('Back to calculator')}
-      </TextButton>
-      {emailForm}
     </Card>
   );
 };
@@ -278,22 +207,14 @@ type IncentiveGridProps = {
   incentives: Incentive[];
   iraRebates: IRARebate[];
   tabs: { project: Project; count: number }[];
-  selectedTab: Project;
+  selectedTab: Project | null;
   onTabSelected: (newSelection: Project) => void;
   emailSubmitter: ((email: string) => void) | null;
 };
 
 const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
   (
-    {
-      heading,
-      incentives,
-      iraRebates,
-      tabs,
-      selectedTab,
-      onTabSelected,
-      emailSubmitter,
-    },
+    { heading, incentives, iraRebates, tabs, selectedTab, onTabSelected },
     ref,
   ) => {
     const { msg } = useTranslated();
@@ -316,14 +237,15 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
             id="project-selector"
             labelText={msg('Project', { desc: 'label for a selector input' })}
             hiddenLabel={true}
+            placeholder={msg('Select project…')}
             currentValue={selectedTab}
             options={options}
             onChange={project => onTabSelected(project)}
           />
         </div>
-        {incentives.length > 0 || iraRebates.length > 0
+        {selectedTab !== null
           ? renderCardCollection(incentives, iraRebates)
-          : renderNoResults(emailSubmitter)}
+          : renderSelectProjectCard()}
       </>
     );
   },
@@ -407,7 +329,8 @@ export const StateIncentives: FC<Props> = ({
     ) {
       return storedProject;
     } else {
-      return projectOptions[0].project;
+      safeLocalStorage.removeItem(SELECTED_PROJECT_LOCAL_STORAGE_KEY);
+      return null;
     }
   });
 

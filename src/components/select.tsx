@@ -38,7 +38,7 @@ export type SelectProps<T extends string> = {
   placeholder?: string;
   /** Shown below the select element. */
   helpText?: string;
-  currentValue: T;
+  currentValue: T | null;
   onChange: (newValue: T) => void;
 };
 
