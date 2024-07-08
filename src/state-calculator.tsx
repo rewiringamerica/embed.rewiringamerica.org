@@ -131,8 +131,6 @@ const StateCalculator: FC<{
   const [formKey, setFormKey] = useState(0);
 
   const [emailSubmitted, setEmailSubmitted] = useState(wasEmailSubmitted());
-  const [submittedFormValues, setSubmittedFormValues] =
-    useState<FormValues | null>(null);
   const [fetchState, setFetchState] = useState<FetchState<APIResponse>>({
     state: 'init',
   });
@@ -170,7 +168,6 @@ const StateCalculator: FC<{
   };
 
   const submit = (formValues: FormValues) => {
-    setSubmittedFormValues(formValues);
     safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, formValues);
 
     const email = formValues.email;
@@ -280,20 +277,6 @@ const StateCalculator: FC<{
         <StateIncentives
           resultsRef={resultsRef}
           response={fetchState.response}
-          emailSubmitter={
-            showEmail
-              ? (email: string) => {
-                  submitEmailSignup(
-                    apiHost,
-                    apiKey,
-                    email,
-                    submittedFormValues!.zip,
-                    emailRequired,
-                  );
-                  setEmailSubmitted(true);
-                }
-              : null
-          }
         />
       )}
     </div>

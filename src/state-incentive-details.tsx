@@ -209,7 +209,6 @@ type IncentiveGridProps = {
   tabs: { project: Project; count: number }[];
   selectedTab: Project | null;
   onTabSelected: (newSelection: Project) => void;
-  emailSubmitter: ((email: string) => void) | null;
 };
 
 const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
@@ -265,7 +264,6 @@ declare module './safe-local-storage' {
 type Props = {
   resultsRef?: React.Ref<HTMLDivElement>;
   response: APIResponse;
-  emailSubmitter: ((email: string) => void) | null;
 };
 
 /**
@@ -278,11 +276,7 @@ type Props = {
  * @param selectedOtherTab The project among the "others" section whose tab is
  * currently selected.
  */
-export const StateIncentives: FC<Props> = ({
-  resultsRef,
-  response,
-  emailSubmitter,
-}) => {
+export const StateIncentives: FC<Props> = ({ resultsRef, response }) => {
   const { msg } = useTranslated();
 
   // Map each project to all incentives that involve it. An incentive may
@@ -356,7 +350,6 @@ ${countOfProjects} projects.`,
           safeLocalStorage.setItem(SELECTED_PROJECT_LOCAL_STORAGE_KEY, tab);
           setProjectTab(tab);
         }}
-        emailSubmitter={emailSubmitter}
       />
       <PartnerLogos response={response} />
     </>
