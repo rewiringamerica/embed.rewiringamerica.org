@@ -10,16 +10,17 @@ import {
 import { getYear, isInFuture } from './api/dates';
 import { PrimaryButton, TextButton } from './buttons';
 import { Card } from './card';
+import { Option, Select } from './components/select';
 import { TextInput } from './components/text-input';
 import { wasEmailSubmitted } from './email-signup';
 import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
-import { IconTabBar } from './icon-tab-bar';
 import { ExclamationPoint, ExternalLink, UpRightArrow } from './icons';
 import { IRARebate, getRebatesFor } from './ira-rebates';
 import { itemName } from './item-name';
 import { PartnerLogos } from './partner-logos';
-import { PROJECTS, Project, shortLabel } from './projects';
+import { PROJECTS, Project } from './projects';
+import { safeLocalStorage } from './safe-local-storage';
 import { Separator } from './separator';
 
 const formatUnit = (unit: AmountUnit, msg: MsgFn) =>
@@ -107,11 +108,6 @@ const getStartYearIfInFuture = (incentive: Incentive) =>
     ? getYear(incentive.start_date)
     : null;
 
-const isIRARebate = (incentive: Incentive) =>
-  incentive.authority_type === 'federal' &&
-  (incentive.payment_methods.includes('pos_rebate') ||
-    incentive.payment_methods.includes('performance_rebate'));
-
 const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
   isWarning,
   children,
@@ -187,6 +183,7 @@ const BorderlessLinkButton: FC<PropsWithChildren<{ href: string }>> = ({
       'font-medium',
       'leading-tight',
       'whitespace-nowrap',
+      'hover:underline',
     )}
     target="_blank"
     href={href}
@@ -407,7 +404,7 @@ type IncentiveGridProps = {
   heading: string;
   incentives: Incentive[];
   iraRebates: IRARebate[];
-  tabs: Project[];
+  tabs: { project: Project; count: number }[];
   selectedTab: Project;
   onTabSelected: (newSelection: Project) => void;
   emailSubmitter: ((email: string) => void) | null;
@@ -426,29 +423,53 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
     },
     ref,
   ) => {
-    return tabs.length > 0 ? (
-      <div className="min-w-50" ref={ref}>
-        <h2 className="mb-6 text-grey-700 text-center text-balance text-3xl font-medium leading-tight">
-          {heading}
-        </h2>
-        <IconTabBar
-          tabs={tabs}
-          selectedTab={selectedTab}
-          onTabSelected={onTabSelected}
-        />
+    const { msg } = useTranslated();
+
+    const options: Option<Project>[] = tabs.map(({ project, count }) => ({
+      value: project,
+      label: PROJECTS[project].label(msg),
+      getIcon: PROJECTS[project].getIcon,
+      badge: count,
+      disabled: count === 0,
+    }));
+
+    return (
+      <>
+        <div className="flex flex-col gap-4 min-w-50" ref={ref}>
+          <h2 className="text-grey-700 text-center text-balance text-3xl font-medium leading-tight">
+            {heading}
+          </h2>
+          <Select
+            id="project-selector"
+            labelText={msg('Project', { desc: 'label for a selector input' })}
+            hiddenLabel={true}
+            currentValue={selectedTab}
+            options={options}
+            onChange={project => onTabSelected(project)}
+          />
+        </div>
         {incentives.length > 0 || iraRebates.length > 0
           ? renderCardCollection(incentives, iraRebates)
           : renderNoResults(emailSubmitter)}
-      </div>
-    ) : null;
+      </>
+    );
   },
 );
 
+/**
+ * If you make a backward-incompatible change to the format of form value
+ * storage, increment the version in this key.
+ */
+const SELECTED_PROJECT_LOCAL_STORAGE_KEY = 'RA-calc-selected-project-v1';
+declare module './safe-local-storage' {
+  interface SafeLocalStorageMap {
+    [SELECTED_PROJECT_LOCAL_STORAGE_KEY]: Project;
+  }
+}
+
 type Props = {
-  firstResultsRef?: React.Ref<HTMLDivElement>;
-  secondResultsRef?: React.Ref<HTMLDivElement>;
+  resultsRef?: React.Ref<HTMLDivElement>;
   response: APIResponse;
-  selectedProjects: Project[];
   emailSubmitter: ((email: string) => void) | null;
 };
 
@@ -463,20 +484,11 @@ type Props = {
  * currently selected.
  */
 export const StateIncentives: FC<Props> = ({
-  firstResultsRef,
-  secondResultsRef,
+  resultsRef,
   response,
-  selectedProjects,
   emailSubmitter,
 }) => {
   const { msg } = useTranslated();
-
-  // We're filtering out IRA rebates in favor of state-specific handling.
-  const allEligible = response.incentives
-    // Forward compatibility for when only eligible incentives are returned from
-    // the API, with no eligible flag.
-    .filter(i => i.eligible === true || i.eligible === undefined)
-    .filter(i => !isIRARebate(i));
 
   // Map each project to all incentives that involve it. An incentive may
   // be in multiple projects, if it has multiple items and those items pertain
@@ -484,61 +496,71 @@ export const StateIncentives: FC<Props> = ({
   const incentivesByProject = Object.fromEntries(
     Object.entries(PROJECTS).map(([project, projectInfo]) => [
       project,
-      allEligible.filter(incentive =>
+      response.incentives.filter(incentive =>
         incentive.items.some(item => projectInfo.items.includes(item)),
       ),
     ]),
   ) as Record<Project, Incentive[]>;
 
-  const projectsWithIncentives = (
-    Object.entries(incentivesByProject) as [Project, Incentive[]][]
-  )
-    .filter(([, incentives]) => incentives.length > 0)
-    .map(([project]) => project);
-
-  const interestedProjects = selectedProjects.sort((a, b) =>
-    shortLabel(a, msg).localeCompare(shortLabel(b, msg)),
-  );
-
-  const otherProjects = projectsWithIncentives
-    .filter(project => !interestedProjects.includes(project))
-    .sort((a, b) => shortLabel(a, msg).localeCompare(shortLabel(b, msg)));
-
-  // If a nonexistent tab is selected, pretend the first one is selected.
-  const [projectTab, setProjectTab] = useState(interestedProjects[0]);
-  const [otherTab, setOtherTab] = useState(otherProjects[0]);
-
-  const selectedIncentives = incentivesByProject[projectTab] ?? [];
-  const selectedOtherIncentives = incentivesByProject[otherTab] ?? [];
-
   const iraRebates = getRebatesFor(response, msg);
+
+  // Sort projects with nonzero incentives first, then alphabetically.
+  const projectOptions = (Object.keys(PROJECTS) as Project[])
+    .map(project => {
+      const count =
+        incentivesByProject[project].length +
+        iraRebates.filter(r => r.project === project).length;
+
+      // The string "false" compares before "true"
+      const sortKey = `${count === 0} ${PROJECTS[project].label(msg)}`;
+
+      return { project, count, sortKey };
+    })
+    .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+
+  // If a project selection is saved in local storage AND that project has
+  // nonzero incentives, select that project.
+  //
+  // Otherwise, select the first project in the menu (which, by virtue of the
+  // sorting above, will have incentives unless there are zero results total).
+  const [projectTab, setProjectTab] = useState(() => {
+    const storedProject = safeLocalStorage.getItem(
+      SELECTED_PROJECT_LOCAL_STORAGE_KEY,
+    );
+
+    if (
+      storedProject !== null &&
+      incentivesByProject[storedProject].length > 0
+    ) {
+      return storedProject;
+    } else {
+      return projectOptions[0].project;
+    }
+  });
+
+  const selectedIncentives = projectTab ? incentivesByProject[projectTab] : [];
   const selectedIraRebates = iraRebates.filter(r => r.project === projectTab);
-  const selectedOtherIraRebates = iraRebates.filter(
-    r => r.project === otherTab,
-  );
+
+  const totalResults = projectOptions.reduce((acc, opt) => acc + opt.count, 0);
+  const countOfProjects = projectOptions.filter(opt => opt.count > 0).length;
 
   return (
     <>
       <IncentiveGrid
-        ref={firstResultsRef}
-        heading={msg('Incentives you’re interested in')}
+        ref={resultsRef}
+        heading={msg(
+          str`We found ${totalResults} results across \
+${countOfProjects} projects.`,
+        )}
         incentives={selectedIncentives}
         iraRebates={selectedIraRebates}
-        tabs={interestedProjects}
+        tabs={projectOptions}
         selectedTab={projectTab}
-        onTabSelected={setProjectTab}
+        onTabSelected={tab => {
+          safeLocalStorage.setItem(SELECTED_PROJECT_LOCAL_STORAGE_KEY, tab);
+          setProjectTab(tab);
+        }}
         emailSubmitter={emailSubmitter}
-      />
-      <IncentiveGrid
-        ref={secondResultsRef}
-        heading={msg('Other incentives available to you')}
-        incentives={selectedOtherIncentives}
-        iraRebates={selectedOtherIraRebates}
-        tabs={otherProjects}
-        selectedTab={otherTab}
-        onTabSelected={setOtherTab}
-        // We won't show the empty state in this seciton, so no email submission
-        emailSubmitter={null}
       />
       <PartnerLogos response={response} />
     </>

@@ -88,7 +88,7 @@ Cypress.Commands.add(
   (projects: string[]) => {
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .find('button#projects')
+      .find('button#project-selector')
       .click();
 
     projects.forEach(project =>
@@ -98,11 +98,5 @@ Cypress.Commands.add(
         .find(`li[data-value="${project}"]`)
         .click(),
     );
-
-    // Unfocus the project selector
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .find('button#projects')
-      .click();
   },
 );

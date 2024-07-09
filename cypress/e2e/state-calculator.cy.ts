@@ -26,8 +26,6 @@ describe('rewiring-america-state-calculator', () => {
   });
 
   it('fetches results if you submit after entering a RI zip code', () => {
-    cy.selectProjects(['hvac']);
-
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .find('input#zip')
@@ -51,7 +49,9 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('Incentives you’re interested in');
+      .contains(/We found \d+ results across \d+ projects./);
+
+    cy.selectProjects(['hvac']);
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
@@ -75,10 +75,6 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('Other incentives available to you');
-
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
       .contains('Brought to you in partnership with');
 
     cy.get('rewiring-america-state-calculator')
@@ -86,54 +82,6 @@ describe('rewiring-america-state-calculator', () => {
       .checkA11y(null, {
         runOnly: ['wcag2a', 'wcag2aa'],
       });
-  });
-
-  it('shows an empty state if you are not eligible for any incentives for your chosen project', () => {
-    cy.selectProjects(['cooking']);
-
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .find('#zip')
-      .type('02859');
-
-    // "force" to work around a Cypress bug
-    // https://github.com/cypress-io/cypress/issues/5830
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .find('#household_income')
-      .type('200000{enter}', { force: true });
-
-    // make sure we saw an empty result state, and scroll down to it:
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .contains('No incentives available for this project')
-      .scrollIntoView();
-
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .checkA11y(null, {
-        runOnly: ['wcag2a', 'wcag2aa'],
-      });
-
-    // // make sure we have scrolled down
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .contains('Your household info')
-      .isNotInViewport();
-
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .contains('Back to calculator')
-      .click();
-
-    // wait for animated scroll
-    cy.wait(1000);
-
-    // make sure we scrolled back up
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .contains('Your household info')
-      .isInViewport();
   });
 
   it('shows an error if you query in the wrong state', () => {

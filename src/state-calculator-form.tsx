@@ -9,7 +9,6 @@ import { TextInput } from './components/text-input';
 import { CurrencyInput } from './currency-input';
 import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
-import { PROJECTS, Project } from './projects';
 import { STATES } from './states';
 
 const OWNER_STATUS_OPTIONS: (msg: MsgFn) => Option<OwnerStatus>[] = msg => [
@@ -71,7 +70,6 @@ const renderUtilityField = (
   return (
     <Select
       id="utility"
-      multiple={false}
       labelText={msg('Electric Utility', { desc: 'as in utility company' })}
       tooltipText={msg('Choose the company you pay your electric bill to.')}
       placeholder={msg('Select utility')}
@@ -84,28 +82,6 @@ const renderUtilityField = (
     />
   );
 };
-
-const renderProjectsField = (
-  projects: Project[],
-  setProjects: (newProjects: Project[]) => void,
-  msg: MsgFn,
-) => (
-  <Select
-    id="projects"
-    multiple={true}
-    labelText={msg('Projects you’re most interested in')}
-    options={Object.entries(PROJECTS)
-      .map(([value, data]) => ({
-        value: value as Project,
-        label: data.label(msg),
-        getIcon: data.getIcon,
-      }))
-      .sort((a, b) => a.label.localeCompare(b.label))}
-    currentValue={projects}
-    onChange={setProjects}
-    placeholder={msg('None selected')}
-  />
-);
 
 const renderEmailField = (
   emailRequired: boolean,
@@ -156,7 +132,6 @@ export type FormValues = {
   householdSize: string;
   taxFiling: FilingStatus;
   utility?: string;
-  projects?: Project[];
   email?: string;
 };
 
@@ -187,7 +162,6 @@ export const CalculatorForm: FC<{
   );
   const [taxFiling, setTaxFiling] = useState(initialValues.taxFiling);
   const [utility, setUtility] = useState(initialValues.utility ?? '');
-  const [projects, setProjects] = useState(initialValues.projects ?? []);
   const [email, setEmail] = useState(initialValues.email ?? '');
 
   const [utilitiesFetchState, setUtilitiesFetchState] = useState<
@@ -245,16 +219,13 @@ export const CalculatorForm: FC<{
           householdSize,
           taxFiling,
           utility: utility !== OTHER_UTILITY_ID ? utility : '',
-          projects,
           email,
         });
       }}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
-        {renderProjectsField(projects, setProjects, msg)}
         <Select
           id="owner_status"
-          multiple={false}
           labelText={msg('Rent or own', { desc: 'form field label' })}
           tooltipText={msg(
             'Homeowners and renters qualify for different incentives.',
@@ -311,7 +282,6 @@ export const CalculatorForm: FC<{
         </div>
         <Select
           id="tax_filing"
-          multiple={false}
           labelText={msg('Tax filing', { desc: 'form field label' })}
           tooltipText={msg(
             'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
@@ -322,7 +292,6 @@ export const CalculatorForm: FC<{
         />
         <Select
           id="household_size"
-          multiple={false}
           labelText={msg('Household size')}
           tooltipText={msg(
             'Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.',
