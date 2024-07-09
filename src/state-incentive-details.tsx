@@ -502,10 +502,6 @@ export const StateIncentives: FC<Props> = ({
     ]),
   ) as Record<Project, Incentive[]>;
 
-  const countOfProjects = Object.values(incentivesByProject).filter(
-    incentives => incentives.length > 0,
-  ).length;
-
   const iraRebates = getRebatesFor(response, msg);
 
   // Sort projects with nonzero incentives first, then alphabetically.
@@ -545,12 +541,15 @@ export const StateIncentives: FC<Props> = ({
   const selectedIncentives = projectTab ? incentivesByProject[projectTab] : [];
   const selectedIraRebates = iraRebates.filter(r => r.project === projectTab);
 
+  const totalResults = projectOptions.reduce((acc, opt) => acc + opt.count, 0);
+  const countOfProjects = projectOptions.filter(opt => opt.count > 0).length;
+
   return (
     <>
       <IncentiveGrid
         ref={resultsRef}
         heading={msg(
-          str`We found ${response.incentives.length} results across \
+          str`We found ${totalResults} results across \
 ${countOfProjects} projects.`,
         )}
         incentives={selectedIncentives}
