@@ -795,8 +795,8 @@
   <target><x id="0" equiv-text="${num}"/> resultados</target>
 </trans-unit>
 <trans-unit id="s581011428ded91a0">
-  <source>We found <x id="0" equiv-text="${response.incentives.length}"/> results across <x id="1" equiv-text="${countOfProjects}"/> projects.</source>
-  <target>Encontramos <x id="0" equiv-text="${response.incentives.length}"/> resultados en <x id="1" equiv-text="${countOfProjects}"/> proyectos.</target>
+  <source>We found <x id="0" equiv-text="${totalResults}"/> results across <x id="1" equiv-text="${countOfProjects}"/> projects.</source>
+  <target>Encontramos <x id="0" equiv-text="${totalResults}"/> resultados en <x id="1" equiv-text="${countOfProjects}"/> proyectos.</target>
 </trans-unit>
 </body>
 </file>
