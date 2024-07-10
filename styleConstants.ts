@@ -49,6 +49,10 @@ export const SUPPORTED_COLORS = [
   'color-text-primary',
   'color-text-secondary',
   'color-text-tertiary',
+  // SPECIFIC UI ELEMENTS
+  'color-background-button',
+  'color-text-button',
+  'color-text-link',
 ];
 
 export type SupportedColorsType = (typeof SUPPORTED_COLORS)[number];

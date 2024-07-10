@@ -55,6 +55,11 @@
   --color-text-primary: var(--grey-700);
   --color-text-secondary: var(--grey-400);
   --color-text-tertiary: var(--yellow-800);
+
+  /* SPECIFIC UI ELEMENTS */
+  --color-background-button: var(--color-action-primary);
+  --color-text-button: var(--color-text-primary-on-dark);
+  --color-text-link: var(--color-action-primary);
 }
 
 :host {

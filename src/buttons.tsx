@@ -2,9 +2,10 @@ import clsx from 'clsx';
 import { FC, PropsWithChildren } from 'react';
 
 /** A button that looks like a real button; white text on purple. */
-export const PrimaryButton: FC<
-  PropsWithChildren<{ id?: string; onClick?: (e: React.MouseEvent) => void }>
-> = ({ id, children, onClick }) => (
+export const PrimaryButton: FC<PropsWithChildren<{ id?: string }>> = ({
+  id,
+  children,
+}) => (
   <button
     id={id}
     className={clsx(
@@ -12,8 +13,8 @@ export const PrimaryButton: FC<
       'text-base',
       'leading-7',
       'p-2',
-      'bg-color-action-primary',
-      'text-color-text-primary-on-dark',
+      'bg-color-background-button',
+      'text-color-text-button',
       'rounded',
       'font-semibold',
       'hover:bg-gradient-to-r',
@@ -28,7 +29,6 @@ export const PrimaryButton: FC<
       'focus-visible:from-color-shadow-primary/25 focus-visible:from-0%',
       'focus-visible:via-color-shadow-primary/25 focus-visible:via-100%',
     )}
-    onClick={onClick}
   >
     {children}
   </button>
@@ -39,7 +39,7 @@ export const TextButton: FC<
   PropsWithChildren<{ onClick?: (e: React.MouseEvent) => void }>
 > = ({ children, onClick }) => (
   <button
-    className="text-purple-500 text-base font-medium leading-tight hover:underline"
+    className="text-color-text-link text-base font-medium leading-tight hover:underline"
     onClick={onClick}
   >
     {children}
