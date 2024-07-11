@@ -13,8 +13,8 @@ export const PrimaryButton: FC<PropsWithChildren<{ id?: string }>> = ({
       'text-base',
       'leading-7',
       'p-2',
-      'bg-color-background-button',
-      'text-color-text-button',
+      'bg-ra-color-background-button',
+      'text-ra-color-text-button',
       'rounded',
       'font-semibold',
       'hover:bg-gradient-to-r',
@@ -39,7 +39,7 @@ export const TextButton: FC<
   PropsWithChildren<{ onClick?: (e: React.MouseEvent) => void }>
 > = ({ children, onClick }) => (
   <button
-    className="text-color-text-link text-base font-medium leading-tight hover:underline"
+    className="text-ra-color-text-link text-base font-medium leading-tight hover:underline"
     onClick={onClick}
   >
     {children}

@@ -57,9 +57,10 @@
   --color-text-tertiary: var(--yellow-800);
 
   /* SPECIFIC UI ELEMENTS */
-  --color-background-button: var(--color-action-primary);
-  --color-text-button: var(--color-text-primary-on-dark);
-  --color-text-link: var(--color-action-primary);
+  /* These are documented customization points for embedders */
+  --ra-color-background-button: var(--color-action-primary);
+  --ra-color-text-button: var(--color-text-primary-on-dark);
+  --ra-color-text-link: var(--color-action-primary);
 }
 
 :host {

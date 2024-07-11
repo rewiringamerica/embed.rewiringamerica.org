@@ -50,9 +50,10 @@ export const SUPPORTED_COLORS = [
   'color-text-secondary',
   'color-text-tertiary',
   // SPECIFIC UI ELEMENTS
-  'color-background-button',
-  'color-text-button',
-  'color-text-link',
+  // These are documented customization points for embedders
+  'ra-color-background-button',
+  'ra-color-text-button',
+  'ra-color-text-link',
 ];
 
 export type SupportedColorsType = (typeof SUPPORTED_COLORS)[number];
