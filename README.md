@@ -53,9 +53,22 @@ Values are pre-populated from attributes on page load, and when the user clicks 
 
 ### Events
 
-The calculator components dispatches custom events when the form is submitted and reset. Their `target` is the calculator component. You can listen for them with `addEventListener()`. These events are not cancelable.
+The calculator component dispatches custom events when the form is submitted and reset. These are intended to be used for analytics. When the event is dispatched, the form submission or reset has already happened, and you don't need to do anything.
 
-When the event is dispatched, the form submission or reset has already happened, and you don't need to do anything. These events are exposed for analytics purposes.
+The events' `target` is the calculator component. They are not cancelable. You can listen for them with `addEventListener()`, as follows:
+
+```html
+<script>
+  // NB:- place *after* the <rewiring-america-state-calculator> tag to ensure it exists:
+  var calc = document.getElementsByTagName(
+    'rewiring-america-state-calculator',
+  )[0];
+  calc.addEventListener('calculator-submitted', function (event) {
+    // replace the following with a call to your event tracking system:
+    console.log(event.detail.formData);
+  });
+</script>
+```
 
 | Event name             | `detail`                                                                                                                                                                                  |
 | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
