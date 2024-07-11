@@ -62,6 +62,30 @@ When the event is dispatched, the form submission or reset has already happened,
 | `calculator-submitted` | The key `formData` contains an object with the form data that was submitted. Possible keys are `zip`, `owner_status`, `household_income`, `household_size`, `tax_filing`, and `projects`. |
 | `calculator-reset`     | None                                                                                                                                                                                      |
 
+### Customizing Colors
+
+The colors of some UI elements can be customized by overriding CSS variables.
+
+Overriding values must be defined on the calculator element. The values must be a color in absolute or relative [CSS `rgb()` syntax](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb), and must not include an alpha value. For example:
+
+```css
+rewiring-america-state-calculator {
+  /* Absolute value syntax */
+  --ra-color-background-button: 195 0 74;
+
+  /* Relative color syntax */
+  --ra-color-text-link: from blue r g b;
+}
+```
+
+| Variable name                  | Usage                                                             |
+| ------------------------------ | ----------------------------------------------------------------- |
+| `--ra-color-background-button` | The background color of the submit button in the calculator form. |
+| `--ra-color-text-button`       | The text color of the submit button in the calculator form.       |
+| `--ra-color-text-link`         | The text color of links throughout the calculator UI.             |
+
+The calculator defines and uses many other CSS variables, but **their existence and behavior are not guaranteed to be stable**; override them at your own risk. Only variables prefixed with `--ra-` are supported customization points.
+
 ## Running / building
 
 ### Run a development server
