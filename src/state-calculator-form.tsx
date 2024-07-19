@@ -109,18 +109,20 @@ const renderEmailField = (
       required={emailRequired}
     />
     <div className="mt-1 mx-3 text-color-text-secondary text-xsm leading-normal">
-      {msg(
-        'Get updates on incentives, rebates, and more from Rewiring America.',
-      )}{' '}
-      {msg('View our')}{' '}
-      <a
-        className="text-color-action-primary font-medium"
-        href="https://rewiringamerica.org/terms-of-use"
-        target="_blank"
-      >
-        {msg('terms')}
-      </a>
-      .
+      <slot name="email-helper">
+        {msg(
+          'Get updates on incentives, rebates, and more from Rewiring America.',
+        )}{' '}
+        {msg('View our')}{' '}
+        <a
+          className="text-color-action-primary font-medium"
+          href="https://rewiringamerica.org/terms-of-use"
+          target="_blank"
+        >
+          {msg('terms')}
+        </a>
+        .
+      </slot>
     </div>
   </div>
 );
