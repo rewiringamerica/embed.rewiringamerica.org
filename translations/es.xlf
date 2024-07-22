@@ -803,6 +803,70 @@
 <trans-unit id="s4cc06ab146dba194">
   <source>Electric transportation</source>
 <target>Transporte eléctrico</target></trans-unit>
+<trans-unit id="s21d732f30093580e">
+  <source>An account credit is a credit applied to the total amount owed on a utility account bill.</source>
+</trans-unit>
+<trans-unit id="sf8aa7c1ad930864e">
+  <source>Typically, you receive an account credit after meeting income eligibility or participating in an energy saving program.</source>
+</trans-unit>
+<trans-unit id="s7903680222950710">
+  <source>Your utility will apply the credit to your billing account, which will reduce the amount you owe on your next bill.</source>
+</trans-unit>
+<trans-unit id="sda26e62d22ed7245">
+  <source>Assistance program</source>
+</trans-unit>
+<trans-unit id="s70a1610e40612f81">
+  <source>An assistance program is a program funded by government agencies, utility companies, or non-profit organizations that provides products or services like EV chargers and weatherization for free.</source>
+</trans-unit>
+<trans-unit id="sd31986cdb3a8bcbd">
+  <source>Typically, you are eligible to receive assistance based on income level, household size, and energy usage.</source>
+</trans-unit>
+<trans-unit id="se646cd89781702c9">
+  <source>You may receive this assistance directly in the form of a home service or appliance installation, or you may receive a voucher or coupon to complete the purchase yourself.</source>
+</trans-unit>
+<trans-unit id="sce99871785d95461">
+  <source>A post-purchase rebate that depends on measured or modeled efficiency improvements.</source>
+</trans-unit>
+<trans-unit id="s67a5270759e957c7">
+  <source>Rebate (post-purchase)</source>
+</trans-unit>
+<trans-unit id="sc35d11d8267deec3">
+  <source>A post-purchase rebate reduces the overall cost of a product by providing a partial or full reimbursement after the purchase.</source>
+</trans-unit>
+<trans-unit id="scd7dd59edbdcea8e">
+  <source>You will receive this rebate directly in the form of a reimbursement, either as a check or a refund to the original payment method.</source>
+</trans-unit>
+<trans-unit id="s0741effe7b99c7bd">
+  <source>A tax credit reduces the amount of tax you owe, or increases your refund amount.</source>
+</trans-unit>
+<trans-unit id="s3316ac17ffe1b283">
+  <source>Typically, claiming a tax credit requires purchasing and installing eligible energy-efficient products or making eligible home improvements in a specific timeframe.</source>
+</trans-unit>
+<trans-unit id="s6485e8c3d8bc0cef">
+  <source>You will claim tax credits when filing your tax returns.</source>
+</trans-unit>
+<trans-unit id="s8405d4e662b5fe5f">
+  <source>An upfront discount, or point-of-sale rebate, reduces the overall cost of a product by providing an instant discount at the time of purchase.</source>
+</trans-unit>
+<trans-unit id="sb47273967c96111a">
+  <source>Typically, these rebates will apply to products you can purchase on your own, like an induction stove or EV charger.</source>
+</trans-unit>
+<trans-unit id="s0a9dcc7e3dd02eef">
+  <source>You will receive this rebate directly in the form of a discount applied when you purchase the product in-person or online.</source>
+</trans-unit>
+<trans-unit id="s785a04ea0278a9f3">
+  <source>Savings Programs Glossary</source>
+</trans-unit>
+<trans-unit id="scc927054cd8d396c">
+  <source>There are tons of savings programs that help people purchase electric appliances and reduce their energy costs. This glossary explains how different programs work!</source>
+</trans-unit>
+<trans-unit id="sa29805436437d2bc">
+  <source>Show glossary</source>
+</trans-unit>
+<trans-unit id="s1065e0aff37235c1">
+  <source>Close glossary</source>
+  <note from="lit-localize">button caption</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

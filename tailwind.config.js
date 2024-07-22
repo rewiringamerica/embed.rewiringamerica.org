@@ -37,6 +37,8 @@ module.exports = {
         DEFAULT: '0px 0px 15px 0px rgba(0, 0, 0, 0.08)',
         elevation:
           '0px 5px 5px -3px rgba(0, 0, 0, 0.20), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12)',
+        modal: '0px 0px 10px 0px rgba(0, 0, 0, 0.05)',
+        modalHeader: '0px 4px 8px 0px rgba(0, 0, 0, 0.15)',
       },
       fontSize: {
         xsm: '0.6875rem', // 11px

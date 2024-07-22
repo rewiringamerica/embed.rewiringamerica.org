@@ -1,5 +1,5 @@
 import ProjectIcon from 'jsx:../static/icons/project.svg';
-import { FC, forwardRef, useState } from 'react';
+import React, { FC, forwardRef, useRef, useState } from 'react';
 import {
   APIResponse,
   AmountUnit,
@@ -9,9 +9,11 @@ import {
 import { getYear, isInFuture } from './api/dates';
 import { Card } from './card';
 import { Option, Select } from './components/select';
+import { Glossary } from './glossary';
 import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
-import { IncentiveCard } from './incentive-card';
+import { QuestionIcon } from './icons';
+import { Chip, IncentiveCard } from './incentive-card';
 import { IRARebate, getRebatesFor } from './ira-rebates';
 import { itemName } from './item-name';
 import { PartnerLogos } from './partner-logos';
@@ -85,18 +87,37 @@ const formatTitle = (incentive: Incentive, msg: MsgFn) => {
   }
 };
 
-const formatIncentiveType = (payment_methods: IncentiveType[], msg: MsgFn) =>
-  payment_methods[0] === 'tax_credit'
-    ? msg('Tax credit')
-    : payment_methods[0] === 'pos_rebate'
-    ? msg('Upfront discount')
-    : payment_methods[0] === 'rebate'
-    ? msg('Rebate')
-    : payment_methods[0] === 'account_credit'
-    ? msg('Account credit')
-    : payment_methods[0] === 'performance_rebate'
-    ? msg('Performance rebate')
-    : msg('Incentive');
+const formatIncentiveType = (payment_methods: IncentiveType[]) => {
+  const { msg } = useTranslated();
+  const label =
+    payment_methods[0] === 'tax_credit'
+      ? msg('Tax credit')
+      : payment_methods[0] === 'pos_rebate'
+      ? msg('Upfront discount')
+      : payment_methods[0] === 'rebate'
+      ? msg('Rebate')
+      : payment_methods[0] === 'account_credit'
+      ? msg('Account credit')
+      : payment_methods[0] === 'performance_rebate'
+      ? msg('Performance rebate')
+      : payment_methods[0] === 'assistance_program'
+      ? msg('Assistance program')
+      : msg('Incentive');
+
+  return (
+    <div className="flex gap-1 items-center">
+      {label}
+      <span className="text-purple-500">
+        <QuestionIcon
+          aria-label={msg('Show glossary')}
+          w={10}
+          h={10}
+          opacity={1.0}
+        />
+      </span>
+    </div>
+  );
+};
 
 const getStartYearIfInFuture = (incentive: Incentive) =>
   incentive.start_date && isInFuture(incentive.start_date, new Date())
@@ -147,8 +168,25 @@ const renderCardCollection = (
   showComingSoon: boolean,
 ) => {
   const { msg } = useTranslated();
+  const [glossarySection, setGlossarySection] = useState<IncentiveType | null>(
+    null,
+  );
+
+  // Reference to the button that caused the glossary to open, so we can
+  // refocus it when the glossary closes.
+  const glossaryOpener = useRef<HTMLButtonElement | undefined>(undefined);
+
   return (
     <div className="flex flex-col gap-4">
+      {!!glossarySection && (
+        <Glossary
+          expandedSection={glossarySection}
+          onClose={() => {
+            setGlossarySection(null);
+            glossaryOpener.current?.focus();
+          }}
+        />
+      )}
       {incentives
         // Sort incentives that haven't started yet at the end
         .sort(
@@ -185,14 +223,27 @@ const renderCardCollection = (
                 incentive.program_url,
                 futureStartYear ? msg('Learn more') : msg('Learn how to apply'),
               ];
+
+          const typeChip = (
+            <button
+              type="button"
+              onClick={event => {
+                setGlossarySection(incentive.payment_methods[0]);
+                glossaryOpener.current = event.currentTarget;
+              }}
+            >
+              <Chip>{formatIncentiveType(incentive.payment_methods)}</Chip>
+            </button>
+          );
+
           return (
             <IncentiveCard
               key={`incentive${index}`}
-              typeChip={formatIncentiveType(incentive.payment_methods, msg)}
+              typeChip={typeChip}
               headline={headline}
               subHeadline={incentive.program}
               body={`${incentive.short_description} ${locationEligibilityText}`}
-              warningChip={
+              warningChipText={
                 futureStartYear
                   ? msg(str`Expected in ${futureStartYear}`)
                   : null
@@ -206,11 +257,21 @@ const renderCardCollection = (
           iraRebates.map((rebate, index) => (
             <IncentiveCard
               key={`ira${index}`}
-              typeChip={formatIncentiveType([rebate.paymentMethod], msg)}
+              typeChip={
+                <button
+                  type="button"
+                  onClick={event => {
+                    setGlossarySection(rebate.paymentMethod);
+                    glossaryOpener.current = event.currentTarget;
+                  }}
+                >
+                  <Chip>{formatIncentiveType([rebate.paymentMethod])}</Chip>
+                </button>
+              }
               headline={rebate.headline}
               subHeadline={rebate.program}
               body={rebate.description}
-              warningChip={rebate.timeline}
+              warningChipText={rebate.timeline}
               buttonUrl={rebate.url}
               buttonText={msg('Learn more')}
             />
