@@ -783,9 +783,11 @@
 </trans-unit>
 <trans-unit id="s084d252e989bd0d1">
   <source>More money coming soon!</source>
+  <target>¡Pronto dispondremos de más dinero!</target>
 </trans-unit>
 <trans-unit id="s60361aefb7d94a79">
   <source>You can take advantage of federal incentives now, but your state, city, and utility may also provide incentives for this project. We’re working hard to identify each one!</source>
+  <target>Ahora puede aprovechar los incentivos federales, pero es posible que su estado, ciudad y compañía de suministro de luz también ofrezcan incentivos para este proyecto. ¡Estamos trabajando duro para identificar cada uno de ellos!</target>
 </trans-unit>
 </body>
 </file>
