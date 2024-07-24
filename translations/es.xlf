@@ -771,12 +771,15 @@
 </trans-unit>
 <trans-unit id="sd57f177db8fa7777">
   <source>Select a project</source>
+  <target>Seleccione un proyecto</target>
 </trans-unit>
 <trans-unit id="sc0a81e0d1ea51046">
   <source>Select project…</source>
+  <target>Seleccione proyecto…</target>
 </trans-unit>
 <trans-unit id="s7e231660ddfd30fa">
   <source>To view your eligible savings programs, select a project above.</source>
+  <target>Para ver los programas de ahorro en los que puede participar, seleccione un proyecto más arriba.</target>
 </trans-unit>
 </body>
 </file>
