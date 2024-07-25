@@ -107,7 +107,12 @@ const renderSelectProjectCard = () => {
   const { msg } = useTranslated();
   return (
     <Card theme="yellow" padding="large">
-      <ProjectIcon className="mx-auto text-grey-500" width={120} height={120} />
+      <ProjectIcon
+        className="mx-auto text-grey-500"
+        width={120}
+        height={120}
+        aria-hidden={true}
+      />
       <h3 className="text-center text-xl text-grey-600 font-medium leading-tight">
         {msg('Select a project')}
       </h3>
