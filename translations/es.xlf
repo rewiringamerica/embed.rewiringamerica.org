@@ -273,18 +273,6 @@
   <source>Vermont</source>
   <target>Vermont</target>
 </trans-unit>
-<trans-unit id="sd779d8c944d0ab51">
-  <source>No incentives available for this project</source>
-  <target>No hay incentivos disponibles para este proyecto</target>
-</trans-unit>
-<trans-unit id="s67ef2eb5002eaaa5">
-  <source>This could be because there are no incentives in your area, or you don’t financially qualify for any incentives.</source>
-  <target>Podría ser que no hay incentivos en su área o que usted no califica financieramente para recibir ningún incentivo.</target>
-</trans-unit>
-<trans-unit id="sdc1f8a2139793221">
-  <source>Back to calculator</source>
-  <target>Volver a la calculadora</target>
-</trans-unit>
 <trans-unit id="s255857544a9d5ec0">
   <source>Reset</source>
   <target>Reiniciar</target>
@@ -305,26 +293,9 @@
   <source>We don’t have utility data for your area yet.</source>
   <target>Aún no tenemos datos sobre las empresas de servicios eléctricos en su área.</target>
 </trans-unit>
-<trans-unit id="se86b0c32ca2d7413">
-  <source>You’re subscribed to our newsletter!</source>
-  <target>Ahora está suscrito a nuestro boletín informativo.</target>
-</trans-unit>
-<trans-unit id="s9fbb21f25571fff1">
-  <source>You’ll get updates on incentives, rebates, and more from Rewiring America.</source>
-  <target>Le informaremos sobre incentivos, reembolsos, y más de Rewiring America.</target>
-</trans-unit>
-<trans-unit id="s475d01cc643aa9fc">
-  <source>To get updates on new incentives, subscribe to our newsletter!</source>
-  <target>Subscríbase para recibir actualizaciones de Rewiring America.</target>
-</trans-unit>
 <trans-unit id="s38887b94b3320533">
   <source>Email address</source>
   <target>Dirección de correo electrónico</target>
-</trans-unit>
-<trans-unit id="s58aac558ddaa15a3">
-  <source>Subscribe</source>
-  <target>Suscribirse</target>
-  <note from="lit-localize">button text</note>
 </trans-unit>
 <trans-unit id="sb21ad862204e6186">
   <source>View our</source>
@@ -797,6 +768,18 @@
 <trans-unit id="s581011428ded91a0">
   <source>We found <x id="0" equiv-text="${totalResults}"/> results across <x id="1" equiv-text="${countOfProjects}"/> projects.</source>
   <target>Encontramos <x id="0" equiv-text="${totalResults}"/> resultados en <x id="1" equiv-text="${countOfProjects}"/> proyectos.</target>
+</trans-unit>
+<trans-unit id="sd57f177db8fa7777">
+  <source>Select a project</source>
+  <target>Seleccione un proyecto</target>
+</trans-unit>
+<trans-unit id="sc0a81e0d1ea51046">
+  <source>Select project…</source>
+  <target>Seleccione proyecto…</target>
+</trans-unit>
+<trans-unit id="s7e231660ddfd30fa">
+  <source>To view your eligible savings programs, select a project above.</source>
+  <target>Para ver los programas de ahorro en los que puede participar, seleccione un proyecto más arriba.</target>
 </trans-unit>
 </body>
 </file>

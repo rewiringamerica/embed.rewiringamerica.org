@@ -11,18 +11,18 @@ export const Card = forwardRef<
   HTMLDivElement,
   PropsWithChildren<{
     id?: string;
-    isFlat?: boolean;
+    theme?: 'white' | 'yellow';
     padding: 'small' | 'medium' | 'large';
   }>
->(({ id, isFlat, children, padding }, ref) => (
+>(({ id, theme, children, padding }, ref) => (
   <div
     ref={ref}
     id={id}
     className={clsx(
       'rounded-xl',
       'min-w-52',
-      isFlat && 'bg-yellow-200',
-      !isFlat && 'bg-white shadow',
+      theme === 'yellow' && 'bg-yellow-200 border border-yellow-300',
+      (!theme || theme === 'white') && 'bg-white shadow',
     )}
   >
     <div
@@ -30,7 +30,6 @@ export const Card = forwardRef<
         'grid',
         'grid-cols-1',
         'gap-4',
-        isFlat && 'mx-auto text-center max-w-78',
         padding === 'large' && 'px-4 py-8',
         padding === 'medium' && 'p-4 sm:p-6',
         padding === 'small' && 'p-4',
