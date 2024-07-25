@@ -11,7 +11,7 @@ export const Card = forwardRef<
   HTMLDivElement,
   PropsWithChildren<{
     id?: string;
-    theme?: 'white' | 'grey';
+    theme?: 'white' | 'yellow';
     padding: 'small' | 'medium' | 'large';
   }>
 >(({ id, theme, children, padding }, ref) => (
@@ -21,7 +21,7 @@ export const Card = forwardRef<
     className={clsx(
       'rounded-xl',
       'min-w-52',
-      theme === 'grey' && 'bg-grey-100 border border-grey-200',
+      theme === 'yellow' && 'bg-yellow-200 border border-yellow-300',
       (!theme || theme === 'white') && 'bg-white shadow',
     )}
   >

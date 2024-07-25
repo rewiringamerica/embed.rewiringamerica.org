@@ -1,3 +1,4 @@
+import ProjectIcon from 'jsx:../static/icons/project.svg';
 import { FC, forwardRef, useState } from 'react';
 import {
   APIResponse,
@@ -104,16 +105,9 @@ const getStartYearIfInFuture = (incentive: Incentive) =>
 
 const renderSelectProjectCard = () => {
   const { msg } = useTranslated();
-  // TODO replace the PNG image with an SVG
   return (
-    <Card theme="grey" padding="large">
-      <img
-        className="mx-auto"
-        src={new URL('./project.png', import.meta.url).toString()}
-        width={120}
-        height={120}
-        aria-hidden={true}
-      />
+    <Card theme="yellow" padding="large">
+      <ProjectIcon className="mx-auto text-grey-500" width={120} height={120} />
       <h3 className="text-center text-xl text-grey-600 font-medium leading-tight">
         {msg('Select a project')}
       </h3>
