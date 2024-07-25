@@ -11,14 +11,6 @@
 <trans-unit id="s5a2b25d2a25ce5b9">
   <source>Heating, ventilation &amp; cooling</source>
 <target>Sistemas de climatización</target></trans-unit>
-<trans-unit id="sb6975fd8aa3fa26f">
-  <source>HVAC</source>
-
-  <note from="lit-localize">short label for "heating, ventilation &amp; cooling"</note><target>Climatización</target></trans-unit>
-<trans-unit id="s08fb6007b5965c82">
-  <source>EV</source>
-
-  <note from="lit-localize">short label for "electric transportation"</note><target>Vehículo eléctrico</target></trans-unit>
 <trans-unit id="sfe16afc784bb9d76">
   <source>Solar</source>
 
@@ -35,16 +27,9 @@
 <trans-unit id="s6c8911fbc526fb43">
   <source>Electrical panel &amp; wiring</source>
 <target>Tablero eléctrico y cableado</target></trans-unit>
-<trans-unit id="se94a76041107bbf3">
-  <source>Electrical</source>
-
-  <note from="lit-localize">short for "electrical panel and wiring"</note><target>Eléctrico</target></trans-unit>
 <trans-unit id="s39aa50b686d665a8">
   <source>Weatherization &amp; efficiency</source>
 <target>Impermeabilización y eficiencia energética</target></trans-unit>
-<trans-unit id="sf459faf797f733a9">
-  <source>Weatherization</source>
-<target>Impermeabilización</target></trans-unit>
 <trans-unit id="s3ec21e39dec13351">
   <source>Homeowner</source>
 <target>Propietario</target></trans-unit>
@@ -246,10 +231,6 @@
   <source>Project</source>
   <note from="lit-localize">label for a selector input</note>
 <target>Proyecto</target></trans-unit>
-<trans-unit id="sc373af4c1a974b57">
-  <source>Cooking</source>
-  <note from="lit-localize">short label for stove/range incentives</note>
-<target>Cocina</target></trans-unit>
 <trans-unit id="sf12bd6cb13bc154f">
   <source>Arizona</source>
   <target>Arizona</target>
@@ -789,9 +770,6 @@
 <trans-unit id="s8ff568239ce4b254">
   <source>Lawn Care</source>
 <target>Cuidado del césped</target></trans-unit>
-<trans-unit id="s81f5c9b4a6da995f">
-  <source>Lawn</source>
-<target>Césped</target></trans-unit>
 <trans-unit id="sab856460d5aed19e">
   <source>electric outdoor equipment</source>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>

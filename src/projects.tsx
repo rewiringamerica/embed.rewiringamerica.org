@@ -13,7 +13,6 @@ import { MsgFn } from './i18n/use-translated';
 
 type ProjectInfo = {
   label: (msg: MsgFn) => string;
-  shortLabel?: (msg: MsgFn) => string;
   getIcon: () => React.ReactElement;
   items: ItemType[];
 };
@@ -31,9 +30,6 @@ export type Project =
   | 'lawn_care';
 
 export const NO_PROJECT = '';
-
-export const shortLabel = (p: Project, msg: MsgFn) =>
-  (PROJECTS[p].shortLabel ?? PROJECTS[p].label)(msg);
 
 /**
  * Icons, labels, and API `item` values for the various projects for which we
@@ -55,10 +51,6 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'other_heat_pump',
     ],
     label: msg => msg('Heating, ventilation & cooling'),
-    shortLabel: msg =>
-      msg('HVAC', {
-        desc: 'short label for "heating, ventilation & cooling"',
-      }),
     getIcon: () => <HvacIcon width="1em" />,
   },
   ev: {
@@ -71,8 +63,6 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'ebike',
     ],
     label: msg => msg('Electric transportation'),
-    shortLabel: msg =>
-      msg('EV', { desc: 'short label for "electric transportation"' }),
     getIcon: () => <EvIcon width="1em" />,
   },
   solar: {
@@ -93,15 +83,11 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
   cooking: {
     items: ['electric_stove'],
     label: msg => msg('Cooking stove/range'),
-    shortLabel: msg =>
-      msg('Cooking', { desc: 'short label for stove/range incentives' }),
     getIcon: () => <CookingIcon width="1em" />,
   },
   wiring: {
     items: ['electric_panel', 'electric_wiring'],
     label: msg => msg('Electrical panel & wiring'),
-    shortLabel: msg =>
-      msg('Electrical', { desc: 'short for "electrical panel and wiring"' }),
     getIcon: () => <ElectricalWiringIcon width="1em" />,
   },
   weatherization_and_efficiency: {
@@ -122,13 +108,11 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'energy_audit',
     ],
     label: msg => msg('Weatherization & efficiency'),
-    shortLabel: msg => msg('Weatherization'),
     getIcon: () => <WeatherizationIcon width="1em" />,
   },
   lawn_care: {
     items: ['electric_outdoor_equipment'],
     label: msg => msg('Lawn Care'),
-    shortLabel: msg => msg('Lawn'),
     getIcon: () => <LawnMowerIcon width="1em" height="1em" />,
   },
 };
