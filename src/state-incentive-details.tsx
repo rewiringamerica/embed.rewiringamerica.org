@@ -103,6 +103,24 @@ const getStartYearIfInFuture = (incentive: Incentive) =>
     ? getYear(incentive.start_date)
     : null;
 
+const ComingSoonCard = () => {
+  const { msg } = useTranslated();
+  return (
+    <Card theme="yellow" padding="medium">
+      <h3 className="text-color-text-primary text-center text-xl font-medium leading-tight">
+        {msg('More money coming soon!')}
+      </h3>
+      <p className="text-color-text-primary text-center text-base leading-normal">
+        {msg(
+          `You can take advantage of federal incentives now, but your state, \
+city, and utility may also provide incentives for this project. We’re working \
+hard to identify each one!`,
+        )}
+      </p>
+    </Card>
+  );
+};
+
 const renderSelectProjectCard = () => {
   const { msg } = useTranslated();
   return (
@@ -126,6 +144,7 @@ const renderSelectProjectCard = () => {
 const renderCardCollection = (
   incentives: Incentive[],
   iraRebates: IRARebate[],
+  showComingSoon: boolean,
 ) => {
   const { msg } = useTranslated();
   return (
@@ -197,6 +216,7 @@ const renderCardCollection = (
             />
           )),
         )}
+      {showComingSoon && <ComingSoonCard />}
     </div>
   );
 };
@@ -205,6 +225,7 @@ type IncentiveGridProps = {
   heading: string;
   incentives: Incentive[];
   iraRebates: IRARebate[];
+  hasStateCoverage: boolean;
   tabs: { project: Project; count: number }[];
   selectedTab: Project | null;
   onTabSelected: (newSelection: Project) => void;
@@ -212,7 +233,15 @@ type IncentiveGridProps = {
 
 const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
   (
-    { heading, incentives, iraRebates, tabs, selectedTab, onTabSelected },
+    {
+      heading,
+      incentives,
+      iraRebates,
+      hasStateCoverage,
+      tabs,
+      selectedTab,
+      onTabSelected,
+    },
     ref,
   ) => {
     const { msg } = useTranslated();
@@ -242,7 +271,7 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
           />
         </div>
         {selectedTab !== null
-          ? renderCardCollection(incentives, iraRebates)
+          ? renderCardCollection(incentives, iraRebates, !hasStateCoverage)
           : renderSelectProjectCard()}
       </>
     );
@@ -343,6 +372,7 @@ ${countOfProjects} projects.`,
         )}
         incentives={selectedIncentives}
         iraRebates={selectedIraRebates}
+        hasStateCoverage={response.coverage.state !== null}
         tabs={projectOptions}
         selectedTab={projectTab}
         onTabSelected={tab => {
