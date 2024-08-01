@@ -60,7 +60,7 @@ const hearRebates: {
  * generic info to users in those states.
  */
 const HEAR_EXCLUDE_STATES = new Set(['NY']);
-const HER_EXCLUDE_STATES = new Set();
+const HER_EXCLUDE_STATES = new Set(['WI']);
 
 export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
   const disclaimerText = msg(
