@@ -73,7 +73,11 @@ const ITEM_GROUPS: { group: ItemGroup; members: Set<ItemType> }[] = [
   },
   {
     group: 'electric_vehicle',
-    members: new Set(['new_electric_vehicle', 'used_electric_vehicle']),
+    members: new Set([
+      'new_electric_vehicle',
+      'used_electric_vehicle',
+      'ebike',
+    ]),
   },
   {
     group: 'plugin_hybrid',
@@ -306,6 +310,10 @@ export const itemName = (items: ItemType[], msg: MsgFn) => {
       });
     case 'electric_outdoor_equipment':
       return msg('electric outdoor equipment', {
+        desc: 'e.g. "$100 off [this string]"',
+      });
+    case 'ebike':
+      return msg('an E-bike', {
         desc: 'e.g. "$100 off [this string]"',
       });
     default: {

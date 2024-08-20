@@ -68,6 +68,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'new_plugin_hybrid_vehicle',
       'used_plugin_hybrid_vehicle',
       'electric_vehicle_charger',
+      'ebike',
     ],
     label: msg => msg('Electric vehicle'),
     shortLabel: msg =>
@@ -128,6 +129,6 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     items: ['electric_outdoor_equipment'],
     label: msg => msg('Lawn Care'),
     shortLabel: msg => msg('Lawn'),
-    getIcon: () => <LawnMowerIcon width="1em" height="1em"/>,
+    getIcon: () => <LawnMowerIcon width="1em" height="1em" />,
   },
 };

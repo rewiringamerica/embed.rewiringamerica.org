@@ -41,6 +41,7 @@ export const ITEMS = [
   'duct_sealing',
   'ducted_heat_pump',
   'ductless_heat_pump',
+  'ebike',
   'efficiency_rebates',
   'electric_outdoor_equipment',
   'electric_panel',
