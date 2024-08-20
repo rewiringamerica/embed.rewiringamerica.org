@@ -4,6 +4,7 @@ import CookingIcon from 'jsx:../static/icons/cooking.svg';
 import ElectricalWiringIcon from 'jsx:../static/icons/electrical-wiring.svg';
 import EvIcon from 'jsx:../static/icons/ev.svg';
 import HvacIcon from 'jsx:../static/icons/hvac.svg';
+import LawnMowerIcon from 'jsx:../static/icons/lawnmower.svg';
 import SolarIcon from 'jsx:../static/icons/solar.svg';
 import WaterHeaterIcon from 'jsx:../static/icons/water-heater.svg';
 import WeatherizationIcon from 'jsx:../static/icons/weatherization.svg';
@@ -26,7 +27,8 @@ export type Project =
   | 'water_heater'
   | 'cooking'
   | 'wiring'
-  | 'weatherization_and_efficiency';
+  | 'weatherization_and_efficiency'
+  | 'lawn_care';
 
 export const NO_PROJECT = '';
 
@@ -121,5 +123,11 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     label: msg => msg('Weatherization & efficiency'),
     shortLabel: msg => msg('Weatherization'),
     getIcon: () => <WeatherizationIcon width="1em" />,
+  },
+  lawn_care: {
+    items: ['electric_outdoor_equipment'],
+    label: msg => msg('Lawn Care'),
+    shortLabel: msg => msg('Lawn'),
+    getIcon: () => <LawnMowerIcon width="1em" height="1em"/>,
   },
 };

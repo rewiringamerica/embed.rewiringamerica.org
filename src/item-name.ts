@@ -13,7 +13,8 @@ type ItemGroup =
   | 'insulation'
   | 'weatherization'
   | 'audit_and_weatherization'
-  | 'water_heater';
+  | 'water_heater'
+  | 'electric_outdoor_equipment';
 
 const ALL_INSULATION: ItemType[] = [
   'attic_or_roof_insulation',
@@ -165,6 +166,10 @@ const multipleItemsName = (items: ItemType[], msg: MsgFn) => {
           return msg('a water heater', {
             desc: 'e.g. "$100 off [this string]"',
           });
+        case 'electric_outdoor_equipment':
+          return msg('electric outdoor equipment', {
+            desc: 'e.g. "$100 off [this string]"',
+          });
         default: {
           // This will be a type error if the above switch is not exhaustive
           const unknownGroup: never = group;
@@ -297,6 +302,10 @@ export const itemName = (items: ItemType[], msg: MsgFn) => {
       });
     case 'efficiency_rebates':
       return msg('an energy efficiency retrofit', {
+        desc: 'e.g. "$100 off [this string]"',
+      });
+    case 'electric_outdoor_equipment':
+      return msg('electric outdoor equipment', {
         desc: 'e.g. "$100 off [this string]"',
       });
     default: {

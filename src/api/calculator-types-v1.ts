@@ -42,6 +42,7 @@ export const ITEMS = [
   'ducted_heat_pump',
   'ductless_heat_pump',
   'efficiency_rebates',
+  'electric_outdoor_equipment',
   'electric_panel',
   'electric_stove',
   'electric_vehicle_charger',
