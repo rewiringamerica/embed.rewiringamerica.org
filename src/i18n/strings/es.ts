@@ -205,4 +205,8 @@ export const templates = {
   sfa7338035e1ef173: `Alquilar o poseer`,
   sfc7214f623fe475d: `Selecciona la empresa a la que paga su factura de electricidad.`,
   sfe16afc784bb9d76: `Techo solar`,
+  s8ff568239ce4b254: `Lawn Care`,
+  s81f5c9b4a6da995f: `Lawn`,
+  sab856460d5aed19e: `electric outdoor equipment`,
+  sca0eca5aae5454cd: `an E-bike`,
 };

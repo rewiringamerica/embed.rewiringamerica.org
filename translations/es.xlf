@@ -789,6 +789,20 @@
   <source>You can take advantage of federal incentives now, but your state, city, and utility may also provide incentives for this project. We’re working hard to identify each one!</source>
   <target>Ahora puede aprovechar los incentivos federales, pero es posible que su estado, ciudad y compañía de suministro de luz también ofrezcan incentivos para este proyecto. ¡Estamos trabajando duro para identificar cada uno de ellos!</target>
 </trans-unit>
+<trans-unit id="s8ff568239ce4b254">
+  <source>Lawn Care</source>
+</trans-unit>
+<trans-unit id="s81f5c9b4a6da995f">
+  <source>Lawn</source>
+</trans-unit>
+<trans-unit id="sab856460d5aed19e">
+  <source>electric outdoor equipment</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sca0eca5aae5454cd">
+  <source>an E-bike</source>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
 </body>
 </file>
 </xliff>
