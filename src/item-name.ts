@@ -313,7 +313,7 @@ export const itemName = (items: ItemType[], msg: MsgFn) => {
         desc: 'e.g. "$100 off [this string]"',
       });
     case 'ebike':
-      return msg('an E-bike', {
+      return msg('an e-bike', {
         desc: 'e.g. "$100 off [this string]"',
       });
     default: {

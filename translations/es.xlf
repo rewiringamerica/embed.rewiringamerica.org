@@ -799,8 +799,8 @@
   <source>electric outdoor equipment</source>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
 </trans-unit>
-<trans-unit id="sca0eca5aae5454cd">
-  <source>an E-bike</source>
+<trans-unit id="s579f082fddf5ad2d">
+  <source>an e-bike</source>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
 </trans-unit>
 </body>

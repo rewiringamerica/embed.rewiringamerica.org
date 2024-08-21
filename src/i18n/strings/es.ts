@@ -208,5 +208,5 @@ export const templates = {
   s8ff568239ce4b254: `Lawn Care`,
   s81f5c9b4a6da995f: `Lawn`,
   sab856460d5aed19e: `electric outdoor equipment`,
-  sca0eca5aae5454cd: `an E-bike`,
+  s579f082fddf5ad2d: `an e-bike`,
 };
