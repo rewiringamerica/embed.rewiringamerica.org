@@ -15,13 +15,10 @@
   <source>HVAC</source>
 
   <note from="lit-localize">short label for "heating, ventilation &amp; cooling"</note><target>Climatización</target></trans-unit>
-<trans-unit id="s26946b3c896d36d6">
-  <source>Electric vehicle</source>
-<target>Vehículo eléctrico</target></trans-unit>
 <trans-unit id="s08fb6007b5965c82">
   <source>EV</source>
 
-  <note from="lit-localize">short label for "electric vehicle"</note><target>Vehículo eléctrico</target></trans-unit>
+  <note from="lit-localize">short label for "electric transportation"</note><target>Vehículo eléctrico</target></trans-unit>
 <trans-unit id="sfe16afc784bb9d76">
   <source>Solar</source>
 
@@ -791,18 +788,21 @@
 </trans-unit>
 <trans-unit id="s8ff568239ce4b254">
   <source>Lawn Care</source>
-</trans-unit>
+<target>Cuidado del césped</target></trans-unit>
 <trans-unit id="s81f5c9b4a6da995f">
   <source>Lawn</source>
-</trans-unit>
+<target>Césped</target></trans-unit>
 <trans-unit id="sab856460d5aed19e">
   <source>electric outdoor equipment</source>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
-</trans-unit>
+<target>equipo eléctrico para exteriores</target></trans-unit>
 <trans-unit id="s579f082fddf5ad2d">
   <source>an e-bike</source>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
-</trans-unit>
+<target>una bicicleta eléctrica</target></trans-unit>
+<trans-unit id="s4cc06ab146dba194">
+  <source>Electric transportation</source>
+<target>Transporte eléctrico</target></trans-unit>
 </body>
 </file>
 </xliff>

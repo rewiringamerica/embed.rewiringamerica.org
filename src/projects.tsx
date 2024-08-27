@@ -70,9 +70,9 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'electric_vehicle_charger',
       'ebike',
     ],
-    label: msg => msg('Electric vehicle'),
+    label: msg => msg('Electric transportation'),
     shortLabel: msg =>
-      msg('EV', { desc: 'short label for "electric vehicle"' }),
+      msg('EV', { desc: 'short label for "electric transportation"' }),
     getIcon: () => <EvIcon width="1em" />,
   },
   solar: {
