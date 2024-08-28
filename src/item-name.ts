@@ -13,7 +13,8 @@ type ItemGroup =
   | 'insulation'
   | 'weatherization'
   | 'audit_and_weatherization'
-  | 'water_heater';
+  | 'water_heater'
+  | 'electric_outdoor_equipment';
 
 const ALL_INSULATION: ItemType[] = [
   'attic_or_roof_insulation',
@@ -72,7 +73,11 @@ const ITEM_GROUPS: { group: ItemGroup; members: Set<ItemType> }[] = [
   },
   {
     group: 'electric_vehicle',
-    members: new Set(['new_electric_vehicle', 'used_electric_vehicle']),
+    members: new Set([
+      'new_electric_vehicle',
+      'used_electric_vehicle',
+      'ebike',
+    ]),
   },
   {
     group: 'plugin_hybrid',
@@ -163,6 +168,10 @@ const multipleItemsName = (items: ItemType[], msg: MsgFn) => {
           });
         case 'water_heater':
           return msg('a water heater', {
+            desc: 'e.g. "$100 off [this string]"',
+          });
+        case 'electric_outdoor_equipment':
+          return msg('electric outdoor equipment', {
             desc: 'e.g. "$100 off [this string]"',
           });
         default: {
@@ -297,6 +306,14 @@ export const itemName = (items: ItemType[], msg: MsgFn) => {
       });
     case 'efficiency_rebates':
       return msg('an energy efficiency retrofit', {
+        desc: 'e.g. "$100 off [this string]"',
+      });
+    case 'electric_outdoor_equipment':
+      return msg('electric outdoor equipment', {
+        desc: 'e.g. "$100 off [this string]"',
+      });
+    case 'ebike':
+      return msg('an e-bike', {
         desc: 'e.g. "$100 off [this string]"',
       });
     default: {
