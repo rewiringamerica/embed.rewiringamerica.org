@@ -41,7 +41,7 @@ function Section({
           <CircledChevron
             w={40}
             h={40}
-            fillClass="fill-[#ebebeb] group-data-open:fill-color-action-primary"
+            fillClass="fill-grey-200 group-data-open:fill-color-action-primary"
             strokeClass="stroke-grey-900 group-data-open:stroke-color-text-primary-on-dark"
           />
         </span>
@@ -225,7 +225,8 @@ applied when you purchase the product in-person or online.`,
             'shadow-modal',
             'overflow-hidden',
           )}
-          // Prevent clicks on the body from closing the modal
+          // Prevent clicks on the modal itself from closing the modal -- only
+          // clicks on the background should close it.
           onClick={e => e.stopPropagation()}
           role="dialog"
           aria-labelledby={titleId}

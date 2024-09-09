@@ -43,7 +43,7 @@ export const TooltipButton: FC<{ text: string }> = ({ text }) => {
         aria-controls={isOpen ? panelId : undefined}
       >
         <span aria-hidden={true}>
-          <QuestionIcon w={13} h={13} />
+          <QuestionIcon w={13} h={13} opacity={0.5} />
         </span>
       </button>
       {isOpen && (

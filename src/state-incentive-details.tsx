@@ -108,12 +108,7 @@ const formatIncentiveType = (payment_methods: IncentiveType[]) => {
     <div className="flex gap-1 items-center">
       {label}
       <span className="text-purple-500">
-        <QuestionIcon
-          aria-label={msg('Show glossary')}
-          w={10}
-          h={10}
-          opacity={1.0}
-        />
+        <QuestionIcon aria-label={msg('Show glossary')} w={10} h={10} />
       </span>
     </div>
   );

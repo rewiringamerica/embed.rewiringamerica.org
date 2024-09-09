@@ -43,7 +43,7 @@ export const QuestionIcon: FC<
     width={w}
     height={h}
     viewBox="0 0 24 24"
-    opacity={opacity ?? '0.5'}
+    opacity={opacity ?? '1.0'}
     style={{ verticalAlign: 'text-top' }}
     fill="none"
     stroke="currentColor"
