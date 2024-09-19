@@ -59,7 +59,7 @@ const hearRebates: {
  * As states launch their HEAR and HER programs, we'll want to stop showing this
  * generic info to users in those states.
  */
-const HEAR_EXCLUDE_STATES = new Set(['NY']);
+const HEAR_EXCLUDE_STATES = new Set(['NY', 'RI']);
 const HER_EXCLUDE_STATES = new Set(['ME', 'WI']);
 
 export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
