@@ -61,7 +61,7 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('Discount off a heat pump');
+      .contains('Up to $1,840 off a heat pump'); // Reflects RI's HEAR implementation
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
