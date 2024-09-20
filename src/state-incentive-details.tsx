@@ -33,8 +33,8 @@ const formatUnit = (unit: AmountUnit, msg: MsgFn) =>
     ? msg('watt')
     : unit;
 
-const formatTitle = (incentive: Incentive, msg: MsgFn) => {
-  const item = itemName(incentive.items, msg);
+const formatTitle = (incentive: Incentive, msg: MsgFn, project: Project) => {
+  const item = itemName(incentive.items, msg, project);
   if (!item) {
     return null;
   }
@@ -145,6 +145,7 @@ const renderCardCollection = (
   incentives: Incentive[],
   iraRebates: IRARebate[],
   showComingSoon: boolean,
+  project: Project,
 ) => {
   const { msg } = useTranslated();
   return (
@@ -156,7 +157,7 @@ const renderCardCollection = (
             (getStartYearIfInFuture(a) ?? 0) - (getStartYearIfInFuture(b) ?? 0),
         )
         .map((incentive, index) => {
-          const headline = formatTitle(incentive, msg);
+          const headline = formatTitle(incentive, msg, project);
           if (!headline) {
             // We couldn't generate a headline either because the items are
             // unknown, or the amount type is unknown. Don't show a card.
@@ -271,7 +272,12 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
           />
         </div>
         {selectedTab !== null
-          ? renderCardCollection(incentives, iraRebates, !hasStateCoverage)
+          ? renderCardCollection(
+              incentives,
+              iraRebates,
+              !hasStateCoverage,
+              selectedTab,
+            )
           : renderSelectProjectCard()}
       </>
     );
