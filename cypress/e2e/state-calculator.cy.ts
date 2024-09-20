@@ -93,7 +93,7 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('Up to $1,840 off an electric/induction stove');
+      .contains('Up to $420 off an electric/induction stove');
   });
 
   it('shows an error if you query in the wrong state', () => {
