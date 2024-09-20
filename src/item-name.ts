@@ -198,18 +198,22 @@ const hearName = (items: ItemType[], msg: MsgFn, project: Project) => {
   const HEAR_INCENTIVE_PROJECT_MSG_LIST: {
     item: ItemType;
     project: Project;
-    itemName: string;
+    msg: string;
   }[] = [
     {
       item: 'heat_pump_clothes_dryer',
       project: 'clothes_dryer',
-      itemName: 'a heat pump clothes dryer',
+      msg: msg('a heat pump clothes dryer', {
+        desc: 'e.g. "$100 off [this string]"',
+      }),
     },
 
     {
       item: 'electric_stove',
       project: 'cooking',
-      itemName: 'an electric/induction stove',
+      msg: msg('an electric/induction stove', {
+        desc: 'e.g. "$100 off [this string]"',
+      }),
     },
   ];
 
@@ -219,7 +223,7 @@ const hearName = (items: ItemType[], msg: MsgFn, project: Project) => {
 
   if (!match) return null;
 
-  return msg(match.itemName, { desc: 'e.g. "$100 off [this string]"' });
+  return match.msg;
 };
 
 /**
