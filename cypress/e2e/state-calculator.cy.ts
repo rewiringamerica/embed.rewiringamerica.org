@@ -84,6 +84,12 @@ describe('rewiring-america-state-calculator', () => {
       .checkA11y(null, {
         runOnly: ['wcag2a', 'wcag2aa'],
       });
+
+    cy.selectProjects(['cooking']);
+
+    cy.get('rewiring-america-state-calculator')
+      .shadow()
+      .contains('Up to $420 off an electric/induction stove');
   });
 
   it('shows an error if you query in the wrong state', () => {
