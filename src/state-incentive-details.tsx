@@ -15,6 +15,7 @@ import { IncentiveCard } from './incentive-card';
 import { IRARebate, getRebatesFor } from './ira-rebates';
 import { itemName } from './item-name';
 import { PartnerLogos } from './partner-logos';
+import { PROJECT_ICONS } from './project-icons';
 import { PROJECTS, Project } from './projects';
 import { safeLocalStorage } from './safe-local-storage';
 
@@ -250,7 +251,7 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
     const options: Option<Project>[] = tabs.map(({ project, count }) => ({
       value: project,
       label: PROJECTS[project].label(msg),
-      getIcon: PROJECTS[project].getIcon,
+      getIcon: PROJECT_ICONS[project],
       badge: count,
       disabled: count === 0,
     }));

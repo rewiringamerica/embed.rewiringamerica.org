@@ -1,6 +1,6 @@
 import { ItemType } from './api/calculator-types-v1';
 import { MsgFn } from './i18n/use-translated';
-import { Project } from './projects';
+import { Project, PROJECTS } from './projects';
 
 type ItemGroup =
   | 'air_source_heat_pump'
@@ -15,8 +15,7 @@ type ItemGroup =
   | 'weatherization'
   | 'audit_and_weatherization'
   | 'water_heater'
-  | 'electric_outdoor_equipment'
-  | 'hear_projects';
+  | 'electric_outdoor_equipment';
 
 const ALL_INSULATION: ItemType[] = [
   'attic_or_roof_insulation',
@@ -116,17 +115,13 @@ const ITEM_GROUPS: { group: ItemGroup; members: Set<ItemType> }[] = [
     group: 'water_heater',
     members: new Set(['heat_pump_water_heater', 'non_heat_pump_water_heater']),
   },
-  {
-    group: 'hear_projects',
-    members: new Set(['heat_pump_clothes_dryer', 'electric_stove']),
-  },
 ];
 
 const itemsBelongToGroup = (items: ItemType[], members: Set<ItemType>) => {
   return items.every(i => members.has(i));
 };
 
-const multipleItemsName = (items: ItemType[], msg: MsgFn, project: Project) => {
+const multipleItemsName = (items: ItemType[], msg: MsgFn) => {
   // For a multiple-items case, check whether all the items are in one of the
   // defined groups.
   for (const { group, members } of ITEM_GROUPS) {
@@ -180,8 +175,6 @@ const multipleItemsName = (items: ItemType[], msg: MsgFn, project: Project) => {
           return msg('electric outdoor equipment', {
             desc: 'e.g. "$100 off [this string]"',
           });
-        case 'hear_projects':
-          return hearName(items, msg, project);
         default: {
           // This will be a type error if the above switch is not exhaustive
           const unknownGroup: never = group;
@@ -194,51 +187,27 @@ const multipleItemsName = (items: ItemType[], msg: MsgFn, project: Project) => {
   return null;
 };
 
-const hearName = (items: ItemType[], msg: MsgFn, project: Project) => {
-  const HEAR_INCENTIVE_PROJECT_MSG_LIST: {
-    item: ItemType;
-    project: Project;
-    msg: string;
-  }[] = [
-    {
-      item: 'heat_pump_clothes_dryer',
-      project: 'clothes_dryer',
-      msg: msg('a heat pump clothes dryer', {
-        desc: 'e.g. "$100 off [this string]"',
-      }),
-    },
-
-    {
-      item: 'electric_stove',
-      project: 'cooking',
-      msg: msg('an electric/induction stove', {
-        desc: 'e.g. "$100 off [this string]"',
-      }),
-    },
-  ];
-
-  const match = HEAR_INCENTIVE_PROJECT_MSG_LIST.find(
-    group => items.includes(group.item) && project === group.project,
-  );
-
-  if (!match) return null;
-
-  return match.msg;
-};
-
 /**
  * TODO this is an internationalization sin. Figure out something better!
  */
-export const itemName = (items: ItemType[], msg: MsgFn, project: Project) => {
-  if (items.length > 1) {
-    return multipleItemsName(items, msg, project);
+export const itemName = (
+  incentiveItems: ItemType[],
+  msg: MsgFn,
+  project: Project,
+) => {
+  const itemsToRender = incentiveItems.filter(item =>
+    PROJECTS[project].items.includes(item),
+  );
+
+  if (itemsToRender.length > 1) {
+    return multipleItemsName(itemsToRender, msg);
   }
 
-  if (items.length !== 1) {
+  if (itemsToRender.length !== 1) {
     return null;
   }
 
-  const item = items[0];
+  const item = itemsToRender[0];
   switch (item) {
     case 'air_sealing':
       return msg('air sealing', { desc: 'e.g. "$100 off [this string]"' });
