@@ -10,10 +10,13 @@
     "@shoelace-style/shoelace": "^2.12.0",
     "autonumeric": "^4.8.1",
     "clsx": "^2.1.0",
+    "focus-trap-react": "^10.2.3",
     "lit": "^2.6.1",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "scroll-into-view-if-needed": "^3.1.0"
+    "scroll-into-view-if-needed": "^3.1.0",
+    "tua-body-scroll-lock": "^1.5.0"
   },
   "scripts": {
     "build:widget": "parcel build --target default",

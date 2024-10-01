@@ -3,7 +3,7 @@ import { FC, PropsWithChildren } from 'react';
 import { Card } from './card';
 import { ExclamationPoint, ExternalLink, UpRightArrow } from './icons';
 
-const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
+export const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
   isWarning,
   children,
 }) => (
@@ -88,11 +88,11 @@ const BorderlessLinkButton: FC<PropsWithChildren<{ href: string }>> = ({
 );
 
 export const IncentiveCard: FC<{
-  typeChip: string;
+  typeChip: React.ReactNode;
   headline: string;
   subHeadline: string;
   body: string;
-  warningChip: string | null;
+  warningChipText: string | null;
   buttonUrl: string;
   buttonText: string;
 }> = ({
@@ -100,7 +100,7 @@ export const IncentiveCard: FC<{
   headline,
   subHeadline,
   body,
-  warningChip,
+  warningChipText,
   buttonUrl,
   buttonText,
 }) => (
@@ -119,8 +119,8 @@ export const IncentiveCard: FC<{
     </div>
     <div className="text-grey-600 text-base leading-normal">{body}</div>
     <div className="flex flex-wrap gap-2.5">
-      <Chip>{typeChip}</Chip>
-      {warningChip && <Chip isWarning={true}>{warningChip}</Chip>}
+      {typeChip}
+      {warningChipText && <Chip isWarning={true}>{warningChipText}</Chip>}
     </div>
     {/* Only appears on narrow layout */}
     <BorderedLinkButton href={buttonUrl}>

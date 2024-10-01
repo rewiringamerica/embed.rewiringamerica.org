@@ -3,6 +3,7 @@ export type IncentiveType =
   | 'pos_rebate'
   | 'rebate'
   | 'account_credit'
+  | 'assistance_program'
   | 'performance_rebate';
 export type AuthorityType =
   | 'federal'

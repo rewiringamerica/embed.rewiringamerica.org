@@ -98,7 +98,7 @@ export const TooltipButton: FC<{
         type="button"
         title={msg('More information', { desc: 'button caption' })}
       >
-        <QuestionIcon w={iconSize} h={iconSize} />
+        <QuestionIcon w={iconSize} h={iconSize} opacity={0.5} />
       </button>
     </SlTooltip>
   );

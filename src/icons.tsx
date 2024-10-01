@@ -34,13 +34,16 @@ export const DownIcon: FC<IconProps> = ({ w, h }) => (
   </svg>
 );
 
-export const QuestionIcon: FC<IconProps> = ({ w, h }) => (
+export const QuestionIcon: FC<
+  IconProps & { opacity?: number; 'aria-label'?: string }
+> = ({ w, h, opacity, 'aria-label': ariaLabel }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
+    aria-label={ariaLabel}
     width={w}
     height={h}
     viewBox="0 0 24 24"
-    opacity="0.5"
+    opacity={opacity ?? '1.0'}
     style={{ verticalAlign: 'text-top' }}
     fill="none"
     stroke="currentColor"
@@ -211,3 +214,51 @@ export const ExternalLink: FC<IconProps> = ({ w, h }) => (
     />
   </svg>
 );
+
+export const Cross: FC<IconProps> = ({ w, h }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={w}
+    height={h}
+    viewBox="0 0 21 20"
+    fill="none"
+  >
+    <path
+      d="M15.0547 5L5.05469 15"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M5.05469 5L15.0547 15"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+export const CircledChevron: FC<
+  IconProps & { fillClass: string; strokeClass: string }
+> = ({ w, h, fillClass, strokeClass }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={w}
+      height={h}
+      viewBox="0 0 40 40"
+      fill="none"
+    >
+      <circle cx="20" cy="20" r="20" className={fillClass} />
+      <path
+        d="M26.3438 21.3164L19.893 16.1268C19.8557 16.0967 19.8022 16.0974 19.7656 16.1285L13.6569 21.3164"
+        className={strokeClass}
+        transform="rotate(180 20 20)"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};
