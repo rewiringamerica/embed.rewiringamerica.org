@@ -255,10 +255,6 @@
   <source>Reset</source>
   <target>Reiniciar</target>
 </trans-unit>
-<trans-unit id="s45d344440b59c309">
-  <source>Get updates on incentives, rebates, and more from Rewiring America.</source>
-  <target>Manténgase al día sobre incentivos, reembolsos, y más de Rewiring America.</target>
-</trans-unit>
 <trans-unit id="s8fd029fdcc452602">
   <source>Enter your ZIP code to select a utility.</source>
   <target>Ingrese su código postal para seleccionar una empresa de servicios eléctricos.</target>
@@ -275,19 +271,10 @@
   <source>Email address</source>
   <target>Dirección de correo electrónico</target>
 </trans-unit>
-<trans-unit id="sb21ad862204e6186">
-  <source>View our</source>
-  <note from="lit-localize">as in view our terms</note>
-<target>Ver nuestros</target>
-</trans-unit>
 <trans-unit id="s180a95484a16608c">
   <source>terms</source>
   <note from="lit-localize">as in terms of service</note>
 <target>términos</target>
-</trans-unit>
-<trans-unit id="s64fbe9b97e397b12">
-  <source>We’re dedicated to safeguarding your privacy.</source>
-<target>Estamos dedicados a proteger su privacidad.</target>
 </trans-unit>
 <trans-unit id="s4455d8f660ceaa3b">
   <source>10,000 Btuh</source>
@@ -781,6 +768,22 @@
 <trans-unit id="s4cc06ab146dba194">
   <source>Electric transportation</source>
 <target>Transporte eléctrico</target></trans-unit>
+<trans-unit id="sbb254e3763405cb1">
+  <source>By sharing your email, you agree to our</source>
+  <target>Al compartir tu correo electrónico, aceptas nuestros</target>
+</trans-unit>
+<trans-unit id="s52ca6c8b262e0183">
+  <source>and to receive updates from Rewiring America.</source>
+  <target>y recibir actualizaciones de Rewiring America.</target>
+</trans-unit>
+<trans-unit id="s0571211bbc7d4cce">
+  <source>We’ll store and protect your data in accordance with our</source>
+  <target>Almacenaremos y protegeremos sus datos de acuerdo con nuestra</target>
+</trans-unit>
+<trans-unit id="sbc6953a36ced943f">
+  <source>privacy policy</source>
+  <target>política de privacidad</target>
+</trans-unit>
 </body>
 </file>
 </xliff>
