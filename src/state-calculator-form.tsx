@@ -110,16 +110,26 @@ const renderEmailField = (
     />
     <div className="mt-1 mx-3 text-color-text-secondary text-xsm leading-normal">
       <slot name="email-helper">
-        {msg(
-          'Get updates on incentives, rebates, and more from Rewiring America.',
-        )}{' '}
-        {msg('View our')}{' '}
+        {msg('By sharing your email, you agree to our', {
+          desc: 'will be followed by "terms", as in terms of service',
+        })}{' '}
         <a
           className="text-color-action-primary font-medium"
-          href="https://rewiringamerica.org/terms-of-use"
+          href="https://www.rewiringamerica.org/terms"
           target="_blank"
         >
           {msg('terms')}
+        </a>{' '}
+        {msg('and to receive updates from Rewiring America.')}{' '}
+        {msg('We’ll store and protect your data in accordance with our', {
+          desc: 'will be followed by "privacy policy"',
+        })}{' '}
+        <a
+          className="text-color-action-primary font-medium"
+          href="https://content.rewiringamerica.org/view/privacy-policy.pdf"
+          target="_blank"
+        >
+          {msg('privacy policy')}
         </a>
         .
       </slot>
