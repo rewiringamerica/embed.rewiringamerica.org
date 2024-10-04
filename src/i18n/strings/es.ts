@@ -158,7 +158,7 @@ export const templates = {
   sb9e8a9bfc8bcf398: `Rhode Island`,
   sba0e115b257c6647: `una bomba de calor de fuente de aire`,
   sbafed52303428041: `https://homes.rewiringamerica.org/es/federal-incentives/home-efficiency-rebates`,
-  sbb254e3763405cb1: `Al compartir tu correo electrónico, aceptas nuestros`,
+  sbb254e3763405cb1: `Al compartir su correo electrónico, acepta nuestros`,
   sbc39e1d2cd027ca9: `una bomba de calor con ductos`,
   sbc6953a36ced943f: `política de privacidad`,
   sbc6f031a2851e3fd: str`\$${0}/${1} de descuento en ${2}, hasta \$${3}`,
