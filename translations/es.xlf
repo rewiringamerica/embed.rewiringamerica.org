@@ -770,7 +770,7 @@
 <target>Transporte eléctrico</target></trans-unit>
 <trans-unit id="sbb254e3763405cb1">
   <source>By sharing your email, you agree to our</source>
-  <target>Al compartir su correo electrónico, acepta nuestros</target>
+  <target>Al compartir su correo electrónico, usted acepta nuestros</target>
   <note from="lit-localize">will be followed by "terms", as in terms of service</note>
 </trans-unit>
 <trans-unit id="s52ca6c8b262e0183">
