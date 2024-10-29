@@ -170,9 +170,8 @@ const StateCalculator: FC<{
   const submit = (formValues: FormValues) => {
     safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, formValues);
 
-    const email = formValues.email;
-    if (email && !emailSubmitted) {
-      submitEmailSignup(apiHost, apiKey, email, formValues.zip, emailRequired);
+    if (formValues.email && !emailSubmitted) {
+      submitEmailSignup(apiHost, apiKey, formValues, emailRequired);
       // This hides the email field
       setEmailSubmitted(true);
     }

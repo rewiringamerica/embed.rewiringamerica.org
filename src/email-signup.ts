@@ -1,4 +1,5 @@
 import { safeLocalStorage } from './safe-local-storage';
+import { FormValues } from './state-calculator-form';
 
 const LOCAL_STORAGE_KEY = 'RA-calc-email-submitted';
 
@@ -15,8 +16,7 @@ export function wasEmailSubmitted(): boolean {
 export async function submitEmailSignup(
   apiHost: string,
   apiKey: string,
-  email: string,
-  zip: string,
+  formValues: FormValues,
   emailRequired: boolean,
 ): Promise<boolean> {
   safeLocalStorage.setItem(LOCAL_STORAGE_KEY, true);
@@ -27,7 +27,7 @@ export async function submitEmailSignup(
 
     const response = await fetch(url, {
       method: 'POST',
-      body: JSON.stringify({ email, zip, emailRequired }),
+      body: JSON.stringify({ ...formValues, emailRequired }),
       headers: {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
