@@ -48,7 +48,7 @@ The calculator component supports the following attributes to customize its beha
 | `household-income` | number          | A household income to pre-populate in the form.                                                                                              | `0`                                               |
 | `tax-filing`       | string          | A tax-filing status to pre-populate in the form.<br/>Valid values: `single`, `joint`, `married_filing_separately`, `hoh`                     | `single`                                          |
 | `household-size`   | number          | A household size to pre-populate in the form. <br/>Valid values: 1 through 8 inclusive                                                       | `1`                                               |
-| `show-email`       | boolean          | Whether to display the email field to collect emails. If true, and user enters an email, it will go to Rewiring America.                     | `false`                                          |
+| `show-email`       | boolean          | Whether to display the email field to collect emails. If true, and user enters an email, it will go to Rewiring America.                    | `false`                                          |
 
 Values are pre-populated from attributes on page load, and when the user clicks "Reset calculator".
 
