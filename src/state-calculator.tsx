@@ -114,6 +114,7 @@ const StateCalculator: FC<{
   stateId?: string;
   showEmail: boolean;
   emailRequired: boolean;
+  emailToStaging: boolean;
   includeBetaStates: boolean;
 }> = ({
   shadowRoot,
@@ -123,6 +124,7 @@ const StateCalculator: FC<{
   stateId,
   showEmail,
   emailRequired,
+  emailToStaging,
   includeBetaStates,
 }) => {
   const { msg, locale } = useTranslated();
@@ -171,7 +173,13 @@ const StateCalculator: FC<{
     safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, formValues);
 
     if (formValues.email && !emailSubmitted) {
-      submitEmailSignup(apiHost, apiKey, formValues, emailRequired);
+      submitEmailSignup(
+        apiHost,
+        apiKey,
+        formValues,
+        emailRequired,
+        emailToStaging,
+      );
       // This hides the email field
       setEmailSubmitted(true);
     }
@@ -282,6 +290,12 @@ class CalculatorElement extends HTMLElement {
    */
   emailRequired: boolean = false;
 
+  /**
+   * Property to submit emails to the staging environment instead of prod.
+   * Intentionally undocumented; for RA use only.
+   */
+  emailToStaging: boolean = false;
+
   /* property to include incentives from states that aren't formally launched */
   includeBetaStates: boolean = false;
 
@@ -304,6 +318,7 @@ class CalculatorElement extends HTMLElement {
     'lang',
     'show-email',
     'email-required',
+    'email-to-staging',
     'include-beta-states',
     'api-key',
     'api-host',
@@ -358,6 +373,8 @@ class CalculatorElement extends HTMLElement {
       this.showEmail = newValue !== null;
     } else if (attr === 'email-required') {
       this.emailRequired = newValue !== null;
+    } else if (attr === 'email-to-staging') {
+      this.emailToStaging = newValue !== null;
     } else if (attr === 'state') {
       this.state = newValue ?? '';
     } else if (attr === 'zip') {
@@ -398,6 +415,7 @@ class CalculatorElement extends HTMLElement {
           stateId={this.state}
           showEmail={this.showEmail}
           emailRequired={this.emailRequired}
+          emailToStaging={this.emailToStaging}
           includeBetaStates={this.includeBetaStates}
         />
       </LocaleContext.Provider>,
