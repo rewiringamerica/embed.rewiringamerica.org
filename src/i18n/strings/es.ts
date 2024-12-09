@@ -137,6 +137,7 @@ export const templates = {
   sa9e16de0ec0154b3: `aire acondicionado central`,
   saa36bebd89cbd670: `Alaska`,
   sab07cf2bfae8483f: `Política de privacidad`,
+  sab68e846cf3e7e02: `Empresa de gas`,
   sab856460d5aed19e: `equipo eléctrico para exteriores`,
   sabd5662f3f0a76be: `Descuento por adelantado`,
   sad181d4343ef967f: `Wyoming`,
@@ -170,6 +171,7 @@ export const templates = {
   sc2e0d466583b17f8: `aislamiento del entrepiso`,
   sc5b20cb72269bc4f: `Los propietarios y inquilinos califican para diferentes incentivos.`,
   sc9266b1b6ae1aad4: `Esperado en 2024-2025`,
+  sc967ff75e8a58273: `Selecciona la empresa a la que paga su factura de gas.`,
   sc991c5ecbb3023ef: `aislamiento térmico`,
   sc997cfdf24ba9b58: `Aún no tenemos datos sobre las empresas de servicios eléctricos en su área.`,
   sc9e494c8346b7cb5: `Otra`,
@@ -204,4 +206,6 @@ export const templates = {
   sfa7338035e1ef173: `Alquilar o poseer`,
   sfc7214f623fe475d: `Selecciona la empresa a la que paga su factura de electricidad.`,
   sfe16afc784bb9d76: `Techo solar`,
+  sb2d056e8d2ea5bc5: `Delivered propane or fuel oil`,
+  s52d768131ca697d4: `No gas service`,
 };
