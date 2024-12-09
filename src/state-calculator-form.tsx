@@ -38,11 +38,15 @@ const HOUSEHOLD_SIZE_OPTIONS: (
     value: count,
   }));
 
+const NO_GAS_UTILITY_ID = 'no-gas';
+const DELIVERED_FUEL_UTILITY_ID = 'delivered';
 const OTHER_UTILITY_ID = 'other';
 
-const renderUtilityField = (
+const renderUtilityFields = (
   utility: string,
   setUtility: (newValue: string) => void,
+  gasUtility: string,
+  setGasUtility: (newValue: string) => void,
   utilitiesFetch: FetchState<APIUtilitiesResponse>,
   msg: MsgFn,
 ) => {
@@ -67,7 +71,7 @@ const renderUtilityField = (
         : msg('We don’t have utility data for your area yet.')
       : utilitiesFetch.message;
 
-  return (
+  const electricSelector = (
     <Select
       id="utility"
       labelText={msg('Electric Utility', { desc: 'as in utility company' })}
@@ -80,6 +84,53 @@ const renderUtilityField = (
       helpText={helpText}
       loading={utilitiesFetch.state === 'loading'}
     />
+  );
+
+  let gasSelector = null;
+  const gasUtilities =
+    utilitiesFetch.state === 'complete'
+      ? utilitiesFetch.response.gas_utilities
+      : utilitiesFetch.state === 'loading'
+      ? utilitiesFetch.previousResponse?.gas_utilities
+      : null;
+
+  // If the response does not contain the gas utilities key, that means the
+  // user's gas utility is irrelevant, so we don't show the selector. If the key
+  // is present, we need to show the selector even if the gas utilities map is
+  // empty, because it matters whether the user actually has no gas service, or
+  // has gas service that's not listed here (indicated by the Other item).
+  if (gasUtilities) {
+    const gasOptions = Object.entries(gasUtilities)
+      .map(([id, info]) => ({ value: id, label: info.name }))
+      .concat([
+        {
+          value: DELIVERED_FUEL_UTILITY_ID,
+          label: msg('Delivered propane or fuel oil'),
+        },
+        { value: NO_GAS_UTILITY_ID, label: msg('No gas service') },
+        { value: OTHER_UTILITY_ID, label: msg('Other') },
+      ]);
+    gasSelector = (
+      <Select
+        id="gas_utility"
+        labelText={msg('Gas Utility', { desc: 'as in utility company' })}
+        tooltipText={msg('Choose the company you pay your gas bill to.')}
+        placeholder={msg('Select utility')}
+        disabled={
+          gasOptions.length === 0 || utilitiesFetch.state !== 'complete'
+        }
+        options={gasOptions}
+        currentValue={gasUtility}
+        onChange={setGasUtility}
+      />
+    );
+  }
+
+  return (
+    <>
+      {electricSelector}
+      {gasSelector}
+    </>
   );
 };
 
@@ -144,6 +195,7 @@ export type FormValues = {
   householdSize: string;
   taxFiling: FilingStatus;
   utility?: string;
+  gasUtility?: string;
   email?: string;
 };
 
@@ -174,6 +226,7 @@ export const CalculatorForm: FC<{
   );
   const [taxFiling, setTaxFiling] = useState(initialValues.taxFiling);
   const [utility, setUtility] = useState(initialValues.utility ?? '');
+  const [gasUtility, setGasUtility] = useState(initialValues.gasUtility ?? '');
   const [email, setEmail] = useState(initialValues.email ?? '');
 
   const [utilitiesFetchState, setUtilitiesFetchState] = useState<
@@ -187,13 +240,17 @@ export const CalculatorForm: FC<{
       return;
     }
 
-    setUtilitiesFetchState({ state: 'loading' });
+    setUtilitiesFetchState(prev => ({
+      state: 'loading',
+      previousResponse: prev.state === 'complete' ? prev.response : undefined,
+    }));
     utilityFetcher(zip)
       .then(response => {
         // If our "state" attribute is set, enforce that the entered location is
         // in that state.
         if (stateId && stateId !== response.location.state) {
           setUtility('');
+          setGasUtility('');
 
           // Throw to put the task into the ERROR state for rendering.
           const stateCodeOrName = STATES[stateId]?.name(msg) ?? stateId;
@@ -214,6 +271,16 @@ export const CalculatorForm: FC<{
         } else {
           setUtility(OTHER_UTILITY_ID);
         }
+
+        const gasKeys = Object.keys(response.gas_utilities || {});
+        if (gasKeys.length > 0) {
+          if (!gasKeys.includes(gasUtility)) {
+            setGasUtility(gasKeys[0]);
+          }
+        } else {
+          // If there are no gas utilities, choose the "no gas service" option.
+          setGasUtility(NO_GAS_UTILITY_ID);
+        }
       })
       .catch(exc =>
         setUtilitiesFetchState({ state: 'error', message: exc.message }),
@@ -231,6 +298,13 @@ export const CalculatorForm: FC<{
           householdSize,
           taxFiling,
           utility: utility !== OTHER_UTILITY_ID ? utility : '',
+          gasUtility:
+            gasUtility === OTHER_UTILITY_ID
+              ? ''
+              : gasUtility === DELIVERED_FUEL_UTILITY_ID ||
+                gasUtility === NO_GAS_UTILITY_ID
+              ? 'none'
+              : '',
           email,
         });
       }}
@@ -273,7 +347,14 @@ export const CalculatorForm: FC<{
             onChange={event => setZip(event.currentTarget.value)}
           />
         </div>
-        {renderUtilityField(utility, setUtility, utilitiesFetchState, msg)}
+        {renderUtilityFields(
+          utility,
+          setUtility,
+          gasUtility,
+          setGasUtility,
+          utilitiesFetchState,
+          msg,
+        )}
         <div>
           <FormLabel
             tooltipText={msg(
