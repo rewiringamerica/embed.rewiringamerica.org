@@ -98,6 +98,7 @@ export interface APIUtilityMap {
 export interface APIUtilitiesResponse {
   location: APILocation;
   utilities: APIUtilityMap;
+  gas_utilities?: APIUtilityMap;
 }
 
 export interface APIResponse {
