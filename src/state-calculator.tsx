@@ -75,6 +75,9 @@ const fetch = (
   if (formValues.utility) {
     query.set('utility', formValues.utility);
   }
+  if (formValues.gasUtility) {
+    query.set('gas_utility', formValues.gasUtility);
+  }
   Object.values(PROJECTS).forEach(project => {
     project.items.forEach(item => {
       query.append('items', item);
