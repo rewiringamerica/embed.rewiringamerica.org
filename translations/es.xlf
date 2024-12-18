@@ -786,6 +786,23 @@
   <source>privacy policy</source>
   <target>política de privacidad</target>
 </trans-unit>
+<trans-unit id="sb2d056e8d2ea5bc5">
+  <source>Delivered propane or fuel oil</source>
+  <target>Propano o fueloil entregado</target>
+</trans-unit>
+<trans-unit id="s52d768131ca697d4">
+  <source>No gas service</source>
+  <target>Sin servicio de gas</target>
+</trans-unit>
+<trans-unit id="sc967ff75e8a58273">
+  <source>Choose the company you pay your gas bill to.</source>
+  <target>Selecciona la empresa a la que paga su factura de gas.</target>
+</trans-unit>
+<trans-unit id="sab68e846cf3e7e02">
+  <source>Gas Utility</source>
+  <target>Empresa de gas</target>
+  <note from="lit-localize">as in utility company</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

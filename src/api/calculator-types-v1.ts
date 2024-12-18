@@ -98,6 +98,8 @@ export interface APIUtilityMap {
 export interface APIUtilitiesResponse {
   location: APILocation;
   utilities: APIUtilityMap;
+  gas_utilities?: APIUtilityMap;
+  gas_utility_affects_incentives?: boolean;
 }
 
 export interface APIResponse {
