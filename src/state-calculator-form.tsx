@@ -87,20 +87,20 @@ const renderUtilityFields = (
   );
 
   let gasSelector = null;
-  const gasUtilities =
+  const gasResponse =
     utilitiesFetch.state === 'complete'
-      ? utilitiesFetch.response.gas_utilities
+      ? utilitiesFetch.response
       : utilitiesFetch.state === 'loading'
-      ? utilitiesFetch.previousResponse?.gas_utilities
+      ? utilitiesFetch.previousResponse
       : null;
 
-  // If the response does not contain the gas utilities key, that means the
-  // user's gas utility is irrelevant, so we don't show the selector. If the key
-  // is present, we need to show the selector even if the gas utilities map is
-  // empty, because it matters whether the user actually has no gas service, or
-  // has gas service that's not listed here (indicated by the Other item).
-  if (gasUtilities) {
-    const gasOptions = Object.entries(gasUtilities)
+  // Show the gas utility selector if and only if the choice is relevant to
+  // incentive eligibility. Even if the map of gas utilities is empty, we need
+  // to show the selector to allow the user to distinguish between actually
+  // having no gas service, and having gas service that's not listed here
+  // (indicated by the Other item).
+  if (gasResponse?.gas_utility_affects_incentives) {
+    const gasOptions = Object.entries(gasResponse.gas_utilities || {})
       .map(([id, info]) => ({ value: id, label: info.name }))
       .concat([
         {
