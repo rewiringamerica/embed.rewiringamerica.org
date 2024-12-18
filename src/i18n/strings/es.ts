@@ -76,6 +76,7 @@ export const templates = {
   s50c22fc6197c004a: `un vehículo nuevo`,
   s50e95c2064db3522: `Calculadora por`,
   s52ca6c8b262e0183: `y recibir actualizaciones de Rewiring America.`,
+  s52d768131ca697d4: `Sin servicio de gas`,
   s56f9b2194465973e: `tonelada`,
   s57355ce02837df3c: `Illinois`,
   s579f082fddf5ad2d: `una bicicleta eléctrica`,
@@ -150,6 +151,7 @@ export const templates = {
   sb04b1070af7f7b76: `Washington, DC`,
   sb1b20a59970ba607: `Incluye a cualquier persona con la que viva y que reclame como dependiente en sus impuestos, y a su cónyuge o pareja si presenta impuestos conjuntos.`,
   sb1ef6ac20f1ddfff: `Descuento en un tablero eléctrico`,
+  sb2d056e8d2ea5bc5: `Propano o fueloil entregado`,
   sb3615709fedc9d4d: `Reembolsos para la Electrificación del Hogar y Electrodomésticos (HEAR)`,
   sb5b955a693af9c2e: `Virginia`,
   sb661e8297dd681e2: `Incentivo`,
@@ -206,6 +208,4 @@ export const templates = {
   sfa7338035e1ef173: `Alquilar o poseer`,
   sfc7214f623fe475d: `Selecciona la empresa a la que paga su factura de electricidad.`,
   sfe16afc784bb9d76: `Techo solar`,
-  sb2d056e8d2ea5bc5: `Delivered propane or fuel oil`,
-  s52d768131ca697d4: `No gas service`,
 };
