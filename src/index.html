@@ -85,6 +85,16 @@
           This information may not be accurate.
         </label>
       </div>
+      <div class="checkbox-and-label">
+        <input
+          type="checkbox"
+          id="filterInactive"
+          onChange="this.checked ? document.getElementById('calculator').setAttribute('status-to-include', 'active') : document.getElementById('calculator').setAttribute('status-to-include', 'all')"
+        />
+        <label for="filterInactive">
+          Exclude incentives that have been marked inactive.
+        </label>
+      </div>
       <div class="separator"></div>
       <rewiring-america-state-calculator
         id="calculator"

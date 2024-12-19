@@ -27,6 +27,7 @@ const DEFAULT_TAX_FILING: FilingStatus = 'single';
 const DEFAULT_HOUSEHOLD_INCOME = '0';
 const DEFAULT_HOUSEHOLD_SIZE = '1';
 const DEFAULT_UTILITY = '';
+const DEFAULT_STATUS_TO_INCLUDE = 'all';
 
 /**
  * If you make a backward-incompatible change to the format of form value
@@ -299,6 +300,9 @@ class CalculatorElement extends HTMLElement {
   /* property to include incentives from states that aren't formally launched */
   includeBetaStates: boolean = false;
 
+  /* supported property to control whether to limit incentives to those marked "active" */
+  statusToInclude: string = DEFAULT_STATUS_TO_INCLUDE;
+
   /* supported properties to control which API path and key is used to load the calculator results */
   apiKey: string = '';
   apiHost: string = DEFAULT_CALCULATOR_API_HOST;
@@ -328,6 +332,7 @@ class CalculatorElement extends HTMLElement {
     'household-income',
     'tax-filing',
     'household-size',
+    'status-to-include',
   ] as const;
 
   reactRootCalculator: Root | null = null;
@@ -387,6 +392,8 @@ class CalculatorElement extends HTMLElement {
       this.householdSize = newValue ?? DEFAULT_HOUSEHOLD_SIZE;
     } else if (attr === 'tax-filing') {
       this.taxFiling = (newValue as FilingStatus) ?? DEFAULT_TAX_FILING;
+    } else if (attr === 'status-to-include') {
+      this.statusToInclude = newValue ?? DEFAULT_STATUS_TO_INCLUDE;
     } else {
       // This will fail typechecking if the cases above aren't exhaustive
       // with respect to observedAttributes
