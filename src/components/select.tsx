@@ -213,7 +213,7 @@ export const Select = <T extends string>({
                 {o.getIcon && (
                   <span className="text-lg text-grey-700">{o.getIcon()}</span>
                 )}
-                <span className="grow">{o.label}</span>
+                <span className="grow text-color-text-primary">{o.label}</span>
                 {o.badge !== undefined && <Badge num={o.badge} />}
               </Listbox.Option>
             ))}
