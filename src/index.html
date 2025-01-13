@@ -78,6 +78,7 @@
           type="checkbox"
           id="includeBeta"
           onChange="this.checked ? document.getElementById('calculator').setAttribute('include-beta-states', '') : document.getElementById('calculator').removeAttribute('include-beta-states')"
+          checked
         />
         <label for="includeBeta">
           Include incentives from states that are not yet ready for full launch.
@@ -93,6 +94,7 @@
         household-size="1"
         tax-filing="single"
         owner-status="homeowner"
+        include-beta-states
       ></rewiring-america-state-calculator>
     </main>
   </body>
