@@ -59,18 +59,19 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.selectProjects(['hvac']);
 
+    // RI Energy incentive
+    // Note: if there are no RI-specific HVAC incentives left,
+    // please switch this test case to another state!
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .contains('$750/ton off an air source heat pump');
 
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .contains('$350/ton off a ducted heat pump');
-
+    // 25D
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .contains('30% of cost of geothermal heating installation');
 
+    // 25C
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .contains('$2,000 off an air source heat pump');
