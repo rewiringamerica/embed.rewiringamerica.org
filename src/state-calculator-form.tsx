@@ -300,11 +300,11 @@ export const CalculatorForm: FC<{
           utility: utility !== OTHER_UTILITY_ID ? utility : '',
           gasUtility:
             gasUtility === OTHER_UTILITY_ID
-              ? ''
+              ? '' // Don't send the param at all
               : gasUtility === DELIVERED_FUEL_UTILITY_ID ||
                 gasUtility === NO_GAS_UTILITY_ID
-              ? 'none'
-              : '',
+              ? 'none' // Special value in the API
+              : gasUtility,
           email,
         });
       }}

@@ -57,24 +57,17 @@ describe('rewiring-america-state-calculator', () => {
         'To view your eligible savings programs, select a project above.',
       );
 
-    cy.selectProjects(['hvac']);
+    cy.selectProjects(['ev']);
 
-    // RI Energy incentive
-    // Note: if there are no RI-specific HVAC incentives left,
-    // please switch this test case to another state!
+    // RI state incentive
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('$750/ton off an air source heat pump');
+      .contains('Up to $1,500 off a new electric vehicle');
 
-    // 25D
+    // 30D
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('30% of cost of geothermal heating installation');
-
-    // 25C
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .contains('$2,000 off an air source heat pump');
+      .contains('$7,500 off a new electric vehicle');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
