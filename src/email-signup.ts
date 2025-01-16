@@ -30,6 +30,7 @@ export async function submitEmailSignup(
       method: 'POST',
       body: JSON.stringify({
         ...formValues,
+        sourceUrl: window.location.href,
         emailRequired,
         // Only include this if it's true
         emailToStaging: emailToStaging ? true : undefined,
