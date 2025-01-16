@@ -98,5 +98,14 @@ Cypress.Commands.add(
         .find(`li[data-value="${project}"]`)
         .click(),
     );
+
+    // Wait for the dropdown to disappear, or else it will cause spurious a11y
+    // failures (apparently because it will see the semitransparent colors of
+    // the dropdown items as they animate out, and those don't have enough
+    // contrast with the background?)
+    //
+    // It's a 100-ms animation (defined in Select.tsx), so give it 200 to be
+    // safe. This is short enough not to be annoying when running tests.
+    cy.wait(200);
   },
 );
