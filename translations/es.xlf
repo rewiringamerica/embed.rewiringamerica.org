@@ -541,10 +541,6 @@
   <source>https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates</source>
   <target>https://homes.rewiringamerica.org/es/federal-incentives/home-electrification-appliance-rebates</target>
 </trans-unit>
-<trans-unit id="sc9266b1b6ae1aad4">
-  <source>Expected in 2025</source>
-  <target>Esperado en 2025</target>
-</trans-unit>
 <trans-unit id="s3fba93629af19a87">
   <source>The federal guidelines allow for a discount of up to $<x id="0" equiv-text="${rebate.maxAmount.toLocaleString()}"/>.</source>
   <target>Los lineamientos federales permiten un descuento de hasta $<x id="0" equiv-text="${rebate.maxAmount.toLocaleString()}"/>.</target>
