@@ -82,7 +82,7 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
     hearRebates.forEach(rebate => {
       if (
         stateExclusions !== true &&
-        (!stateExclusions || !stateExclusions.includes(rebate.project))
+        !stateExclusions.includes(rebate.project)
       ) {
         result.push({
           paymentMethod: 'pos_rebate' as IncentiveType,
