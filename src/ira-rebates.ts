@@ -100,7 +100,7 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
           url: msg(
             'https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates',
           ),
-          timeline: msg('Expected in 2024-2025'),
+          timeline: msg('Expected in 2025'),
         });
       }
     });
