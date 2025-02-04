@@ -172,7 +172,6 @@ export const templates = {
   sc0a81e0d1ea51046: `Seleccione proyecto…`,
   sc2e0d466583b17f8: `aislamiento del entrepiso`,
   sc5b20cb72269bc4f: `Los propietarios y inquilinos califican para diferentes incentivos.`,
-  sc9266b1b6ae1aad4: `Esperado en 2024-2025`,
   sc967ff75e8a58273: `Selecciona la empresa a la que paga su factura de gas.`,
   sc991c5ecbb3023ef: `aislamiento térmico`,
   sc997cfdf24ba9b58: `Aún no tenemos datos sobre las empresas de servicios eléctricos en su área.`,
