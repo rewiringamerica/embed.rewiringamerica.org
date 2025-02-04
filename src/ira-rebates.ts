@@ -59,7 +59,15 @@ const hearRebates: {
  * As states launch their HEAR and HER programs, we'll want to stop showing this
  * generic info to users in those states.
  */
-const HEAR_EXCLUDE_STATES = new Set(['DC', 'GA', 'ME', 'NY', 'RI', 'SD']);
+const HEAR_EXCLUSION_RULES: Record<string, true | Project[]> = {
+  DC: true,
+  GA: true,
+  ME: true,
+  NY: true,
+  RI: true,
+  SD: true,
+  NM: ['cooking', 'clothes_dryer'], // only exclude stoves and dryers in NM for now
+};
 const HER_EXCLUDE_STATES = new Set(['DC', 'GA', 'ME', 'NY', 'SD', 'WI']);
 
 export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
@@ -67,33 +75,35 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
     'However, rebates will be implemented differently in each state, so we cannot guarantee final amounts, eligibility, or timeline.',
   );
   const maxHerRebate = response.is_under_80_ami ? 8000 : 4000;
-
+  const stateExclusions = HEAR_EXCLUSION_RULES[response.location.state];
   const result: IRARebate[] = [];
 
-  if (
-    response.is_under_150_ami &&
-    !HEAR_EXCLUDE_STATES.has(response.location.state)
-  ) {
-    hearRebates.forEach(rebate =>
-      result.push({
-        paymentMethod: 'pos_rebate' as IncentiveType,
-        project: rebate.project,
-        headline: rebate.getHeadline(msg),
-        program: msg(
-          'Federal Home Electrification and Appliance Rebates (HEAR)',
-        ),
-        description:
-          msg(
-            str`The federal guidelines allow for a discount of up to $${rebate.maxAmount.toLocaleString()}.`,
-          ) +
-          ' ' +
-          disclaimerText,
-        url: msg(
-          'https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates',
-        ),
-        timeline: msg('Expected in 2024-2025'),
-      }),
-    );
+  if (response.is_under_150_ami) {
+    hearRebates.forEach(rebate => {
+      if (
+        stateExclusions !== true &&
+        (!stateExclusions || !stateExclusions.includes(rebate.project))
+      ) {
+        result.push({
+          paymentMethod: 'pos_rebate' as IncentiveType,
+          project: rebate.project,
+          headline: rebate.getHeadline(msg),
+          program: msg(
+            'Federal Home Electrification and Appliance Rebates (HEAR)',
+          ),
+          description:
+            msg(
+              str`The federal guidelines allow for a discount of up to $${rebate.maxAmount.toLocaleString()}.`,
+            ) +
+            ' ' +
+            disclaimerText,
+          url: msg(
+            'https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates',
+          ),
+          timeline: msg('Expected in 2024-2025'),
+        });
+      }
+    });
   }
 
   if (!HER_EXCLUDE_STATES.has(response.location.state)) {
