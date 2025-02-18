@@ -11,7 +11,7 @@ export const Card = forwardRef<
   HTMLDivElement,
   PropsWithChildren<{
     id?: string;
-    theme?: 'white' | 'yellow';
+    theme?: 'white' | 'yellow' | 'grey';
     padding: 'small' | 'medium' | 'large';
   }>
 >(({ id, theme, children, padding }, ref) => (
@@ -22,6 +22,7 @@ export const Card = forwardRef<
       'rounded-xl',
       'min-w-52',
       theme === 'yellow' && 'bg-yellow-200 border border-yellow-300',
+      theme === 'grey' && 'bg-[#efefef] border border-grey-200',
       (!theme || theme === 'white') && 'bg-white shadow',
     )}
   >
