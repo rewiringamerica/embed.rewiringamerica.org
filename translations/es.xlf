@@ -799,6 +799,16 @@
   <target>Empresa de gas</target>
   <note from="lit-localize">as in utility company</note>
 </trans-unit>
+<trans-unit id="s0ecb1faa5d6b45b8">
+  <source>While we don't have detailed state and local utility coverage for <x id="0" equiv-text="${STATES[state].name(msg)}"/>,</source>
+  <target>Aunque no disponemos de cobertura detallada de los servicios públicos estatales y locales para <x id="0" equiv-text="${STATES[state].name(msg)}"/>,</target>
+  <note from="lit-localize">followed by "The Switch is On is a ...</note>
+</trans-unit>
+<trans-unit id="sf597f4db453ddcad">
+  <source>is a comprehensive resource that includes detailed information for your state.</source>
+  <target>es un recurso completo que incluye información detallada para su estado.</target>
+  <note from="lit-localize">preceded by "The Switch is On", name of an organization</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

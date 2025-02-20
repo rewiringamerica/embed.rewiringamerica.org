@@ -18,6 +18,7 @@ import { PartnerLogos } from './partner-logos';
 import { PROJECT_ICONS } from './project-icons';
 import { PROJECTS, Project } from './projects';
 import { safeLocalStorage } from './safe-local-storage';
+import { STATES } from './states';
 
 const formatUnit = (unit: AmountUnit, msg: MsgFn) =>
   unit === 'btuh10k'
@@ -104,19 +105,50 @@ const getStartYearIfInFuture = (incentive: Incentive) =>
     ? getYear(incentive.start_date)
     : null;
 
-const ComingSoonCard = () => {
+const ComingSoonCard = ({ state }: { state: string }) => {
   const { msg } = useTranslated();
+
+  // Show link to The Switch is On for states where they have good coverage.
+  const url = new URL('https://incentives.switchison.org/residents/incentives');
+  url.searchParams.set('state', state);
+  url.searchParams.set('utm_source', 'partner');
+  url.searchParams.set('utm_medium', 'referral');
+  url.searchParams.set('utm_campaign', 'rewiring_america');
+  const body =
+    state === 'CA' || state === 'WA' ? (
+      <>
+        {msg(
+          str`While we don't have detailed state and local utility coverage \
+for ${STATES[state].name(msg)},`,
+          { desc: 'followed by "The Switch is On is a ...' },
+        )}{' '}
+        <a
+          className="text-color-action-primary hover:underline"
+          href={url.toString()}
+          target="_blank"
+        >
+          The Switch is On
+        </a>{' '}
+        {msg(
+          `is a comprehensive resource that includes detailed information for your state.`,
+          { desc: 'preceded by "The Switch is On", name of an organization' },
+        )}
+      </>
+    ) : (
+      msg(
+        `You can take advantage of federal incentives now, but your state, \
+city, and utility may also provide incentives for this project. We’re working \
+hard to identify each one!`,
+      )
+    );
+
   return (
-    <Card theme="yellow" padding="medium">
+    <Card theme="grey" padding="medium">
       <h3 className="text-color-text-primary text-center text-xl font-medium leading-tight">
         {msg('More money coming soon!')}
       </h3>
       <p className="text-color-text-primary text-center text-base leading-normal">
-        {msg(
-          `You can take advantage of federal incentives now, but your state, \
-city, and utility may also provide incentives for this project. We’re working \
-hard to identify each one!`,
-        )}
+        {body}
       </p>
     </Card>
   );
@@ -145,7 +177,8 @@ const renderSelectProjectCard = () => {
 const renderCardCollection = (
   incentives: Incentive[],
   iraRebates: IRARebate[],
-  showComingSoon: boolean,
+  coverageState: string | null,
+  locationState: string,
   project: Project,
 ) => {
   const { msg } = useTranslated();
@@ -218,7 +251,7 @@ const renderCardCollection = (
             />
           )),
         )}
-      {showComingSoon && <ComingSoonCard />}
+      {coverageState === null && <ComingSoonCard state={locationState} />}
     </div>
   );
 };
@@ -227,7 +260,8 @@ type IncentiveGridProps = {
   heading: string;
   incentives: Incentive[];
   iraRebates: IRARebate[];
-  hasStateCoverage: boolean;
+  coverageState: string | null;
+  locationState: string;
   tabs: { project: Project; count: number }[];
   selectedTab: Project | null;
   onTabSelected: (newSelection: Project) => void;
@@ -239,7 +273,8 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
       heading,
       incentives,
       iraRebates,
-      hasStateCoverage,
+      coverageState,
+      locationState,
       tabs,
       selectedTab,
       onTabSelected,
@@ -276,7 +311,8 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
           ? renderCardCollection(
               incentives,
               iraRebates,
-              !hasStateCoverage,
+              coverageState,
+              locationState,
               selectedTab,
             )
           : renderSelectProjectCard()}
@@ -379,7 +415,8 @@ ${countOfProjects} projects.`,
         )}
         incentives={selectedIncentives}
         iraRebates={selectedIraRebates}
-        hasStateCoverage={response.coverage.state !== null}
+        coverageState={response.coverage.state}
+        locationState={response.location.state}
         tabs={projectOptions}
         selectedTab={projectTab}
         onTabSelected={tab => {
