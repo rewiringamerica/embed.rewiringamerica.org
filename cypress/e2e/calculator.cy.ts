@@ -13,7 +13,7 @@ describe('rewiring-america-calculator', () => {
       .shadow()
       .contains('Available Tax Credits')
       .siblings()
-      .contains('$9,850');
+      .contains('$9,200');
     cy.get('rewiring-america-calculator')
       .shadow()
       .contains('Estimated Bill Savings Per Year')
