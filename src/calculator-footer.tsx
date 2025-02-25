@@ -23,7 +23,7 @@ export const CalculatorFooter = () => {
           <a
             className="underline text-color-action-primary"
             target="_blank"
-            href="https://content.rewiringamerica.org/view/privacy-policy.pdf"
+            href="https://www.rewiringamerica.org/privacy-policy"
           >
             {toNbsp(msg('Privacy Policy'))}
           </a>
