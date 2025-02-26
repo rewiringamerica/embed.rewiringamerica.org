@@ -57,9 +57,6 @@
 <trans-unit id="sc5b20cb72269bc4f">
   <source>Homeowners and renters qualify for different incentives.</source>
 <target>Los propietarios y inquilinos califican para diferentes incentivos.</target></trans-unit>
-<trans-unit id="sb694f3d582a0dbb9">
-  <source>Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.</source>
-<target>Selecciona "Cabeza de familia" si tiene un hijo o pariente que vive con usted y paga más de la mitad de los gastos de su hogar. Selecciona "Conjunta" si declara sus impuestos como pareja casada.</target></trans-unit>
 <trans-unit id="s82397872ac9bddcf">
   <source>Household size</source>
 <target>Tamaño del hogar</target></trans-unit>
@@ -72,9 +69,6 @@
 <trans-unit id="s459781c939bc83e5">
   <source>Household income</source>
 <target>Ingresos del hogar</target></trans-unit>
-<trans-unit id="s1f0dc611dbdf4115">
-  <source>Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.</source>
-<target>Ingresa sus ingresos brutos (ingresos antes de impuestos). Incluye salarios y sueldos, además de otras formas de ingresos, como pensiones, intereses, dividendos e ingresos por alquiler. Si está casado y presenta una declaración conjunta, incluye los ingresos de su cónyuge.</target></trans-unit>
 <trans-unit id="s2ef277dcb08bbedd">
   <source>Error loading incentives.</source>
 <target>Error al cargar los incentivos.</target></trans-unit>
@@ -808,6 +802,14 @@
   <source>is a comprehensive resource that includes detailed information for your state.</source>
   <target>es un recurso completo que incluye información detallada para su estado.</target>
   <note from="lit-localize">preceded by "The Switch is On", name of an organization</note>
+</trans-unit>
+<trans-unit id="s7f91b88f65cb788d">
+  <source>Your income may qualify you for specific savings programs. Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.</source>
+  <target>Sus ingresos pueden calificarlo para programas de ahorro específicos. Ingresa sus ingresos brutos (ingresos antes de impuestos). Incluye salarios y sueldos, además de otras formas de ingresos, como pensiones, intereses, dividendos e ingresos por alquiler. Si está casado y presenta una declaración conjunta, incluye los ingresos de su cónyuge.</target>
+</trans-unit>
+<trans-unit id="se3b71225f30e5435">
+  <source>Your tax filing status helps determine the savings programs you qualify for. Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.</source>
+  <target>Su estado civil para la declaración de impuestos ayuda a determinar los programas de ahorro para los que califica. Selecciona "Cabeza de familia" si tiene un hijo o pariente que vive con usted y paga más de la mitad de los gastos de su hogar. Selecciona "Conjunta" si declara sus impuestos como pareja casada.</target>
 </trans-unit>
 </body>
 </file>
