@@ -177,7 +177,7 @@ const renderEmailField = (
         })}{' '}
         <a
           className="text-color-action-primary font-medium"
-          href="https://content.rewiringamerica.org/view/privacy-policy.pdf"
+          href="https://www.rewiringamerica.org/privacy-policy"
           target="_blank"
         >
           {msg('privacy policy')}
