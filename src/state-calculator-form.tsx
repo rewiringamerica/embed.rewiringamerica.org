@@ -375,7 +375,7 @@ export const CalculatorForm: FC<{
         </div>
         <Select
           id="tax_filing"
-          labelText={msg('Tax filing', { desc: 'form field label' })}
+          labelText={msg('Tax filing status', { desc: 'form field label' })}
           tooltipText={msg(
             'Your tax filing status helps determine the savings programs you qualify for. Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
           )}
