@@ -157,7 +157,7 @@ hard to identify each one!`,
 const renderSelectProjectCard = () => {
   const { msg } = useTranslated();
   return (
-    <Card theme="yellow" padding="large">
+    <Card theme="grey" padding="large">
       <ProjectIcon
         className="mx-auto text-grey-500"
         width={120}
