@@ -358,7 +358,7 @@ export const CalculatorForm: FC<{
         <div>
           <FormLabel
             tooltipText={msg(
-              'Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
+              'Your income may qualify you for specific savings programs. Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.',
             )}
           >
             <label htmlFor="household_income">{msg('Household income')}</label>
@@ -375,9 +375,9 @@ export const CalculatorForm: FC<{
         </div>
         <Select
           id="tax_filing"
-          labelText={msg('Tax filing', { desc: 'form field label' })}
+          labelText={msg('Tax filing status', { desc: 'form field label' })}
           tooltipText={msg(
-            'Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
+            'Your tax filing status helps determine the savings programs you qualify for. Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.',
           )}
           options={TAX_FILING_OPTIONS(msg)}
           currentValue={taxFiling}
