@@ -1,3 +1,4 @@
+import AutoNumeric from 'autonumeric';
 import { FC, useEffect, useState } from 'react';
 import { APIUtilitiesResponse } from './api/calculator-types-v1';
 import { FetchState } from './api/fetch-state';
@@ -5,6 +6,7 @@ import { PrimaryButton } from './buttons';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { FormLabel } from './components/form-label';
 import { Option, Select } from './components/select';
+import { Spinner } from './components/spinner';
 import { TextInput } from './components/text-input';
 import { CurrencyInput } from './currency-input';
 import { str } from './i18n/str';
@@ -38,9 +40,60 @@ const HOUSEHOLD_SIZE_OPTIONS: (
     value: count,
   }));
 
-const NO_GAS_UTILITY_ID = 'no-gas';
-const DELIVERED_FUEL_UTILITY_ID = 'delivered';
-const OTHER_UTILITY_ID = 'other';
+export const NO_GAS_UTILITY_ID = 'no-gas';
+export const DELIVERED_FUEL_UTILITY_ID = 'delivered';
+export const OTHER_UTILITY_ID = 'other';
+
+const SPECIAL_GAS_UTILITY_IDS = [
+  OTHER_UTILITY_ID,
+  DELIVERED_FUEL_UTILITY_ID,
+  NO_GAS_UTILITY_ID,
+];
+
+function getElectricOptions(
+  utilitiesFetch: FetchState<APIUtilitiesResponse>,
+  msg: MsgFn,
+): Option<string>[] {
+  return utilitiesFetch.state === 'complete'
+    ? Object.entries(utilitiesFetch.response.utilities)
+        .map(([id, info]) => ({ value: id, label: info.name }))
+        .concat([{ value: OTHER_UTILITY_ID, label: msg('Other') }])
+    : [];
+}
+
+function getGasOptions(
+  utilitiesFetch: FetchState<APIUtilitiesResponse>,
+  msg: MsgFn,
+): Option<string>[] | null {
+  const gasResponse =
+    utilitiesFetch.state === 'complete'
+      ? utilitiesFetch.response
+      : utilitiesFetch.state === 'loading'
+      ? utilitiesFetch.previousResponse
+      : null;
+
+  if (gasResponse?.gas_utility_affects_incentives) {
+    return Object.entries(gasResponse.gas_utilities || {})
+      .map(([id, info]) => ({ value: id, label: info.name }))
+      .concat([
+        {
+          value: DELIVERED_FUEL_UTILITY_ID,
+          label: msg('Delivered propane or fuel oil'),
+        },
+        { value: NO_GAS_UTILITY_ID, label: msg('No gas service') },
+        { value: OTHER_UTILITY_ID, label: msg('Other') },
+      ]);
+  } else {
+    return null;
+  }
+}
+
+function labelForValue<T extends string>(
+  options: Option<T>[],
+  value: T,
+): string {
+  return options.find(opt => opt.value === value)!.label;
+}
 
 const renderUtilityFields = (
   utility: string,
@@ -50,13 +103,7 @@ const renderUtilityFields = (
   utilitiesFetch: FetchState<APIUtilitiesResponse>,
   msg: MsgFn,
 ) => {
-  const options: Option<string>[] =
-    utilitiesFetch.state === 'complete'
-      ? Object.entries(utilitiesFetch.response.utilities)
-          .map(([id, info]) => ({ value: id, label: info.name }))
-          .concat([{ value: OTHER_UTILITY_ID, label: msg('Other') }])
-      : [];
-
+  const options: Option<string>[] = getElectricOptions(utilitiesFetch, msg);
   const enterZipToSelect = msg('Enter your ZIP code to select a utility.');
   const helpText =
     utilitiesFetch.state === 'init'
@@ -74,7 +121,7 @@ const renderUtilityFields = (
   const electricSelector = (
     <Select
       id="utility"
-      labelText={msg('Electric Utility', { desc: 'as in utility company' })}
+      labelText={msg('Electric utility', { desc: 'as in utility company' })}
       tooltipText={msg('Choose the company you pay your electric bill to.')}
       placeholder={msg('Select utility')}
       disabled={options.length === 0}
@@ -87,33 +134,18 @@ const renderUtilityFields = (
   );
 
   let gasSelector = null;
-  const gasResponse =
-    utilitiesFetch.state === 'complete'
-      ? utilitiesFetch.response
-      : utilitiesFetch.state === 'loading'
-      ? utilitiesFetch.previousResponse
-      : null;
+  const gasOptions = getGasOptions(utilitiesFetch, msg);
 
   // Show the gas utility selector if and only if the choice is relevant to
   // incentive eligibility. Even if the map of gas utilities is empty, we need
   // to show the selector to allow the user to distinguish between actually
   // having no gas service, and having gas service that's not listed here
   // (indicated by the Other item).
-  if (gasResponse?.gas_utility_affects_incentives) {
-    const gasOptions = Object.entries(gasResponse.gas_utilities || {})
-      .map(([id, info]) => ({ value: id, label: info.name }))
-      .concat([
-        {
-          value: DELIVERED_FUEL_UTILITY_ID,
-          label: msg('Delivered propane or fuel oil'),
-        },
-        { value: NO_GAS_UTILITY_ID, label: msg('No gas service') },
-        { value: OTHER_UTILITY_ID, label: msg('Other') },
-      ]);
+  if (gasOptions) {
     gasSelector = (
       <Select
         id="gas_utility"
-        labelText={msg('Gas Utility', { desc: 'as in utility company' })}
+        labelText={msg('Gas utility', { desc: 'as in utility company' })}
         tooltipText={msg('Choose the company you pay your gas bill to.')}
         placeholder={msg('Select utility')}
         disabled={
@@ -199,17 +231,23 @@ export type FormValues = {
   email?: string;
 };
 
+export type FormLabels = { [k in keyof FormValues]: string };
+
 export const CalculatorForm: FC<{
   initialValues: FormValues;
   showEmailField: boolean;
   emailRequired: boolean;
+  loading: boolean;
+  errorMessage: string | null;
   utilityFetcher: (zip: string) => Promise<APIUtilitiesResponse>;
   stateId?: string;
-  onSubmit: (formValues: FormValues) => void;
+  onSubmit: (values: FormValues, labels: FormLabels) => void;
 }> = ({
   initialValues,
   showEmailField,
   emailRequired,
+  loading,
+  errorMessage,
   utilityFetcher,
   stateId,
   onSubmit,
@@ -265,7 +303,7 @@ export const CalculatorForm: FC<{
         // Select the first option in the list otherwise.
         const keys = Object.keys(response.utilities);
         if (keys.length > 0) {
-          if (!keys.includes(utility)) {
+          if (!keys.includes(utility) && utility !== OTHER_UTILITY_ID) {
             setUtility(keys[0]);
           }
         } else {
@@ -274,7 +312,10 @@ export const CalculatorForm: FC<{
 
         const gasKeys = Object.keys(response.gas_utilities || {});
         if (gasKeys.length > 0) {
-          if (!gasKeys.includes(gasUtility)) {
+          if (
+            !gasKeys.includes(gasUtility) &&
+            !SPECIAL_GAS_UTILITY_IDS.includes(gasUtility)
+          ) {
             setGasUtility(gasKeys[0]);
           }
         } else {
@@ -291,22 +332,40 @@ export const CalculatorForm: FC<{
     <form
       onSubmit={e => {
         e.preventDefault();
-        onSubmit({
+        const values: FormValues = {
           zip,
           ownerStatus,
           householdIncome,
           householdSize,
           taxFiling,
-          utility: utility !== OTHER_UTILITY_ID ? utility : '',
-          gasUtility:
-            gasUtility === OTHER_UTILITY_ID
-              ? '' // Don't send the param at all
-              : gasUtility === DELIVERED_FUEL_UTILITY_ID ||
-                gasUtility === NO_GAS_UTILITY_ID
-              ? 'none' // Special value in the API
-              : gasUtility,
+          utility,
+          gasUtility,
           email,
-        });
+        };
+
+        const gasOptions = getGasOptions(utilitiesFetchState, msg);
+        const labels: FormLabels = {
+          zip,
+          householdIncome: AutoNumeric.format(householdIncome, {
+            ...AutoNumeric.getPredefinedOptions().NorthAmerican,
+            decimalPlaces: 0,
+          }),
+          householdSize: labelForValue(
+            HOUSEHOLD_SIZE_OPTIONS(msg),
+            householdSize,
+          ),
+          taxFiling: labelForValue(TAX_FILING_OPTIONS(msg), taxFiling),
+          ownerStatus: labelForValue(OWNER_STATUS_OPTIONS(msg), ownerStatus),
+          utility: labelForValue(
+            getElectricOptions(utilitiesFetchState, msg),
+            utility,
+          ),
+          gasUtility: gasOptions
+            ? labelForValue(gasOptions, gasUtility)
+            : undefined,
+        };
+
+        onSubmit(values, labels);
       }}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
@@ -398,7 +457,15 @@ export const CalculatorForm: FC<{
           : null}
         <div className="col-start-[-2] col-end-[-1]">
           <div className="h-0 sm:h-9"></div>
-          <PrimaryButton id="calculate">{msg('View results')}</PrimaryButton>
+          <PrimaryButton id="calculate" disabled={loading}>
+            {loading && <Spinner className="w-4 h-4" />}
+            {msg('View results')}
+          </PrimaryButton>
+          {errorMessage && (
+            <div className="mt-1 mx-3 text-color-text-secondary text-xsm leading-normal">
+              {errorMessage}
+            </div>
+          )}
         </div>
       </div>
     </form>
