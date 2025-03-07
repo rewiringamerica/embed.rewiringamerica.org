@@ -91,8 +91,8 @@ function getGasOptions(
 function labelForValue<T extends string>(
   options: Option<T>[],
   value: T,
-): string {
-  return options.find(opt => opt.value === value)!.label;
+): string | undefined {
+  return options.find(opt => opt.value === value)?.label;
 }
 
 const renderUtilityFields = (
@@ -353,9 +353,9 @@ export const CalculatorForm: FC<{
           householdSize: labelForValue(
             HOUSEHOLD_SIZE_OPTIONS(msg),
             householdSize,
-          ),
-          taxFiling: labelForValue(TAX_FILING_OPTIONS(msg), taxFiling),
-          ownerStatus: labelForValue(OWNER_STATUS_OPTIONS(msg), ownerStatus),
+          )!,
+          taxFiling: labelForValue(TAX_FILING_OPTIONS(msg), taxFiling)!,
+          ownerStatus: labelForValue(OWNER_STATUS_OPTIONS(msg), ownerStatus)!,
           utility: labelForValue(
             getElectricOptions(utilitiesFetchState, msg),
             utility,
@@ -462,7 +462,10 @@ export const CalculatorForm: FC<{
             {msg('View results')}
           </PrimaryButton>
           {errorMessage && (
-            <div className="mt-1 mx-3 text-color-text-secondary text-xsm leading-normal">
+            <div
+              id="error-msg"
+              className="mt-1 mx-3 text-color-text-secondary text-xsm leading-normal"
+            >
               {errorMessage}
             </div>
           )}
