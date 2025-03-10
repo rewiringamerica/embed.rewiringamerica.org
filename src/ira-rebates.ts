@@ -63,6 +63,7 @@ const HEAR_EXCLUSION_RULES: Record<string, true | Project[]> = {
   DC: true,
   GA: true,
   ME: true,
+  MD: true,
   NY: true,
   RI: true,
   SD: true,
