@@ -314,7 +314,13 @@ export const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
             placeholder={msg('Select project…')}
             currentValue={projectTab}
             options={options}
-            onChange={project => setProjectTab(project)}
+            onChange={project => {
+              safeLocalStorage.setItem(
+                SELECTED_PROJECT_LOCAL_STORAGE_KEY,
+                project,
+              );
+              setProjectTab(project);
+            }}
           />
         </div>
         {projectTab !== null
