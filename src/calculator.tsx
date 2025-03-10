@@ -144,6 +144,15 @@ export class RewiringAmericaCalculator extends LitElement {
         tax_filing,
         household_size,
       });
+      if (this.hideForm) {
+        query.set('hide_form', '1');
+      }
+      if (this.hideSummary) {
+        query.set('hide_summary', '1');
+      }
+      if (this.hideResult) {
+        query.set('hide_result', '1');
+      }
       return await fetchApi<ICalculatedIncentiveResults>(
         this.apiKey,
         this.apiHost,
