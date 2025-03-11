@@ -109,10 +109,6 @@
   <source>Terms</source>
   <note from="lit-localize">as in terms of service</note>
 <target>Términos</target></trans-unit>
-<trans-unit id="s12c2889034735d5e">
-  <source>Electric Utility</source>
-  <note from="lit-localize">as in utility company</note>
-<target>Empresa de servicios eléctricos</target></trans-unit>
 <trans-unit id="se4572a1a2528a7d4">
   <source>Zip</source>
   <note from="lit-localize">as in zip code</note>
@@ -716,10 +712,6 @@
   <source><x id="0" equiv-text="${num}"/> results</source>
   <target><x id="0" equiv-text="${num}"/> resultados</target>
 </trans-unit>
-<trans-unit id="s581011428ded91a0">
-  <source>We found <x id="0" equiv-text="${totalResults}"/> results across <x id="1" equiv-text="${countOfProjects}"/> projects.</source>
-  <target>Encontramos <x id="0" equiv-text="${totalResults}"/> resultados en <x id="1" equiv-text="${countOfProjects}"/> proyectos.</target>
-</trans-unit>
 <trans-unit id="sd57f177db8fa7777">
   <source>Select a project</source>
   <target>Seleccione un proyecto</target>
@@ -784,11 +776,6 @@
   <source>Choose the company you pay your gas bill to.</source>
   <target>Selecciona la empresa a la que paga su factura de gas.</target>
 </trans-unit>
-<trans-unit id="sab68e846cf3e7e02">
-  <source>Gas Utility</source>
-  <target>Empresa de gas</target>
-  <note from="lit-localize">as in utility company</note>
-</trans-unit>
 <trans-unit id="s0ecb1faa5d6b45b8">
   <source>While we don't have detailed state and local utility coverage for <x id="0" equiv-text="${STATES[state].name(msg)}"/>,</source>
   <target>Aunque no disponemos de cobertura detallada de los servicios públicos estatales y locales para <x id="0" equiv-text="${STATES[state].name(msg)}"/>,</target>
@@ -811,6 +798,29 @@
   <source>Tax filing status</source>
   <target>Estado de declaración de impuestos</target>
   <note from="lit-localize">form field label</note>
+</trans-unit>
+<trans-unit id="s59dd6c4027bbb066">
+  <source>We found <x id="0" equiv-text="${totalResults}"/> results across     <x id="1" equiv-text="${countOfProjects}"/> projects,</source>
+  <target>Encontramos <x id="0" equiv-text="${totalResults}"/> resultados en <x id="1" equiv-text="${countOfProjects}"/> proyectos,</target>
+</trans-unit>
+<trans-unit id="s442fb1c19566bdb9">
+  <source>ZIP code</source>
+  <target>Código postal</target>
+</trans-unit>
+<trans-unit id="s4047f0acceaa73fe">
+  <source>Electric utility</source>
+  <target>Empresa de servicios eléctricos</target>
+  <note from="lit-localize">as in utility company</note>
+</trans-unit>
+<trans-unit id="sd640aaac6c6ec262">
+  <source>Gas utility</source>
+  <target>Empresa de gas</target>
+  <note from="lit-localize">as in utility company</note>
+</trans-unit>
+<trans-unit id="s4d39828d70b784d7">
+  <source>based on your household information.</source>
+  <target>según su información del hogar.</target>
+  <note from="lit-localize">preceded by "we found N projects"</note>
 </trans-unit>
 </body>
 </file>

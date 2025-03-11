@@ -9,15 +9,24 @@ import { TextButton } from './buttons';
 import { CalculatorFooter } from './calculator-footer';
 import { FilingStatus, OwnerStatus } from './calculator-types';
 import { Card } from './card';
-import { Spinner } from './components/spinner';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
+import { FormSnapshot } from './form-snapshot';
 import { allLocales } from './i18n/locales';
 import { str } from './i18n/str';
 import { LocaleContext, MsgFn, useTranslated } from './i18n/use-translated';
+import { PartnerLogos } from './partner-logos';
 import { PROJECTS } from './projects';
+import { getResultsForDisplay } from './results';
 import { safeLocalStorage } from './safe-local-storage';
-import { CalculatorForm, FormValues } from './state-calculator-form';
-import { StateIncentives } from './state-incentive-details';
+import {
+  CalculatorForm,
+  DELIVERED_FUEL_UTILITY_ID,
+  FormLabels,
+  FormValues,
+  NO_GAS_UTILITY_ID,
+  OTHER_UTILITY_ID,
+} from './state-calculator-form';
+import { IncentiveGrid } from './state-incentive-details';
 import { STATES } from './states';
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
@@ -72,11 +81,19 @@ const fetch = (
     tax_filing: formValues.taxFiling,
     household_size: formValues.householdSize,
   });
-  if (formValues.utility) {
+  // Only send this param if "other" wasn't chosen
+  if (formValues.utility && formValues.utility !== OTHER_UTILITY_ID) {
     query.set('utility', formValues.utility);
   }
-  if (formValues.gasUtility) {
-    query.set('gas_utility', formValues.gasUtility);
+  // Only send this param if "other" wasn't chosen
+  if (formValues.gasUtility && formValues.gasUtility !== OTHER_UTILITY_ID) {
+    query.set(
+      'gas_utility',
+      formValues.gasUtility === DELIVERED_FUEL_UTILITY_ID ||
+        formValues.gasUtility === NO_GAS_UTILITY_ID
+        ? 'none' // Special value in the API
+        : formValues.gasUtility,
+    );
   }
   Object.values(PROJECTS).forEach(project => {
     project.items.forEach(item => {
@@ -139,6 +156,9 @@ const StateCalculator: FC<{
   const [fetchState, setFetchState] = useState<FetchState<APIResponse>>({
     state: 'init',
   });
+  const [submittedLabels, setSubmittedLabels] = useState<FormLabels | null>(
+    null,
+  );
 
   // First read the values from local storage, falling back to the values in
   // the element's HTML attributes, falling back to hardcoded defaults.
@@ -156,6 +176,7 @@ const StateCalculator: FC<{
         storedValues?.householdSize ?? attributeValues.householdSize,
       taxFiling: storedValues?.taxFiling ?? attributeValues.taxFiling,
       utility: storedValues?.utility ?? DEFAULT_UTILITY,
+      gasUtility: storedValues?.gasUtility ?? DEFAULT_UTILITY,
     };
   };
 
@@ -172,8 +193,9 @@ const StateCalculator: FC<{
     );
   };
 
-  const submit = (formValues: FormValues) => {
+  const submit = (formValues: FormValues, formLabels: FormLabels) => {
     safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, formValues);
+    setSubmittedLabels(formLabels);
 
     if (formValues.email && !emailSubmitted) {
       submitEmailSignup(
@@ -209,16 +231,13 @@ const StateCalculator: FC<{
     );
   };
 
-  // When the fetch completes or errors out, scroll to the appropriate element
+  // When the fetch completes, scroll to the appropriate element
   const resultsRef = useRef<HTMLDivElement>(null);
-  const errorMessageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const target =
       fetchState.state === 'complete' && resultsRef.current
         ? resultsRef.current
-        : fetchState.state === 'error' && errorMessageRef.current
-        ? errorMessageRef.current
         : null;
 
     if (target) {
@@ -231,55 +250,78 @@ const StateCalculator: FC<{
     }
   }, [fetchState.state]);
 
-  return (
-    <div id="calc-root" className="grid gap-8">
-      <Card padding="medium">
-        <div className="flex justify-between items-baseline">
-          <h1 className="text-base sm:text-xl font-medium leading-tight">
-            {msg('Your household info')}
-          </h1>
-          <div>
-            <TextButton onClick={resetFormValues}>{msg('Reset')}</TextButton>
-          </div>
-        </div>
-        <CalculatorForm
-          key={formKey}
-          stateId={stateId}
-          initialValues={getInitialFormValues()}
-          showEmailField={showEmail && !emailSubmitted}
-          emailRequired={emailRequired}
-          utilityFetcher={zip => {
-            const query = new URLSearchParams({ language: locale, zip });
-            // Tracking usage of the embedded calculator
-            query.append('ra_embed', '1');
+  if (fetchState.state === 'complete') {
+    const response = fetchState.response;
+    const {
+      incentivesByProject,
+      iraRebatesByProject,
+      projectOptions,
+      totalResults,
+      countOfProjects,
+    } = getResultsForDisplay(response, msg);
 
-            return fetchApi<APIUtilitiesResponse>(
-              apiKey,
-              apiHost,
-              '/api/v1/utilities',
-              query,
-              msg,
-            );
-          }}
-          onSubmit={submit}
+    return (
+      <div id="calc-root" className="grid gap-8">
+        <Card padding="small">
+          <FormSnapshot
+            formLabels={submittedLabels!}
+            totalResults={totalResults}
+            countOfProjects={countOfProjects}
+            onEditClicked={() => setFetchState({ state: 'init' })}
+          />
+        </Card>
+        <IncentiveGrid
+          ref={resultsRef}
+          incentivesByProject={incentivesByProject}
+          iraRebatesByProject={iraRebatesByProject}
+          coverageState={response.coverage.state}
+          locationState={response.location.state}
+          tabs={projectOptions}
         />
-      </Card>
-      {fetchState.state === 'init' ? null : fetchState.state === 'loading' ? (
+        <PartnerLogos response={response} />
+      </div>
+    );
+  } else {
+    return (
+      <div id="calc-root" className="grid gap-8">
         <Card padding="medium">
-          <Spinner className="mx-auto w-7 h-7 text-color-text-primary" />
+          <div className="flex justify-between items-baseline">
+            <h1 className="text-base sm:text-xl font-medium leading-tight">
+              {msg('Your household info')}
+            </h1>
+            <div>
+              <TextButton onClick={resetFormValues}>{msg('Reset')}</TextButton>
+            </div>
+          </div>
+          <CalculatorForm
+            key={formKey}
+            stateId={stateId}
+            initialValues={getInitialFormValues()}
+            showEmailField={showEmail && !emailSubmitted}
+            emailRequired={emailRequired}
+            loading={fetchState.state === 'loading'}
+            errorMessage={
+              fetchState.state === 'error' ? fetchState.message : null
+            }
+            utilityFetcher={zip => {
+              const query = new URLSearchParams({ language: locale, zip });
+              // Tracking usage of the embedded calculator
+              query.append('ra_embed', '1');
+
+              return fetchApi<APIUtilitiesResponse>(
+                apiKey,
+                apiHost,
+                '/api/v1/utilities',
+                query,
+                msg,
+              );
+            }}
+            onSubmit={submit}
+          />
         </Card>
-      ) : fetchState.state === 'error' ? (
-        <Card padding="medium" ref={errorMessageRef} id="error-msg">
-          {fetchState.message}
-        </Card>
-      ) : (
-        <StateIncentives
-          resultsRef={resultsRef}
-          response={fetchState.response}
-        />
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 };
 
 class CalculatorElement extends HTMLElement {

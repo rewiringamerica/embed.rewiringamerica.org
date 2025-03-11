@@ -2,14 +2,19 @@ import clsx from 'clsx';
 import { FC, PropsWithChildren } from 'react';
 
 /** A button that looks like a real button; white text on purple. */
-export const PrimaryButton: FC<PropsWithChildren<{ id?: string }>> = ({
-  id,
-  children,
-}) => (
+export const PrimaryButton: FC<
+  PropsWithChildren<{ id?: string; disabled?: boolean }>
+> = ({ id, disabled, children }) => (
   <button
     id={id}
+    disabled={disabled}
     className={clsx(
+      'flex',
+      'gap-2',
+      'items-center',
+      'justify-center',
       'w-full',
+      'h-12',
       'text-base',
       'leading-7',
       'p-2',
@@ -17,9 +22,11 @@ export const PrimaryButton: FC<PropsWithChildren<{ id?: string }>> = ({
       'text-ra-color-text-button',
       'rounded',
       'font-semibold',
-      'hover:bg-gradient-to-r',
-      'hover:from-color-shadow-primary/25 hover:from-0%',
-      'hover:via-color-shadow-primary/25 hover:via-100%',
+      'disabled:text-color-state-disabled',
+      'disabled:bg-color-state-disabled-on-dark',
+      'hover:enabled:bg-gradient-to-r',
+      'hover:enabled:from-color-shadow-primary/25 hover:from-0%',
+      'hover:enabled:via-color-shadow-primary/25 hover:via-100%',
       'active:bg-gradient-to-r',
       'active:from-white/25 active:from-0%',
       'active:via-white/25 active:via-100%',

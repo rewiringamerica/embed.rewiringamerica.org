@@ -1,7 +1,6 @@
 import ProjectIcon from 'jsx:../static/icons/project.svg';
-import { FC, forwardRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import {
-  APIResponse,
   AmountUnit,
   Incentive,
   IncentiveType,
@@ -12,9 +11,8 @@ import { Option, Select } from './components/select';
 import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
 import { IncentiveCard } from './incentive-card';
-import { IRARebate, getRebatesFor } from './ira-rebates';
+import { IRARebate } from './ira-rebates';
 import { itemName } from './item-name';
-import { PartnerLogos } from './partner-logos';
 import { PROJECT_ICONS } from './project-icons';
 import { PROJECTS, Project } from './projects';
 import { safeLocalStorage } from './safe-local-storage';
@@ -257,31 +255,46 @@ const renderCardCollection = (
 };
 
 type IncentiveGridProps = {
-  heading: string;
-  incentives: Incentive[];
-  iraRebates: IRARebate[];
+  incentivesByProject: Record<Project, Incentive[]>;
+  iraRebatesByProject: Record<Project, IRARebate[]>;
   coverageState: string | null;
   locationState: string;
   tabs: { project: Project; count: number }[];
-  selectedTab: Project | null;
-  onTabSelected: (newSelection: Project) => void;
 };
 
-const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
+export const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
   (
     {
-      heading,
-      incentives,
-      iraRebates,
+      incentivesByProject,
+      iraRebatesByProject,
       coverageState,
       locationState,
       tabs,
-      selectedTab,
-      onTabSelected,
     },
     ref,
   ) => {
     const { msg } = useTranslated();
+
+    // If a project selection is saved in local storage AND that project has
+    // nonzero incentives, select that project.
+    //
+    // Otherwise, select the first project in the menu (which, by virtue of the
+    // sorting above, will have incentives unless there are zero results total).
+    const [projectTab, setProjectTab] = useState(() => {
+      const storedProject = safeLocalStorage.getItem(
+        SELECTED_PROJECT_LOCAL_STORAGE_KEY,
+      );
+
+      if (
+        storedProject !== null &&
+        incentivesByProject[storedProject].length > 0
+      ) {
+        return storedProject;
+      } else {
+        safeLocalStorage.removeItem(SELECTED_PROJECT_LOCAL_STORAGE_KEY);
+        return null;
+      }
+    });
 
     const options: Option<Project>[] = tabs.map(({ project, count }) => ({
       value: project,
@@ -293,27 +306,30 @@ const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
 
     return (
       <>
-        <div className="flex flex-col gap-4 min-w-50" ref={ref}>
-          <h2 className="text-grey-700 text-center text-balance text-3xl font-medium leading-tight">
-            {heading}
-          </h2>
+        <div className="min-w-50" ref={ref}>
           <Select
             id="project-selector"
             labelText={msg('Project', { desc: 'label for a selector input' })}
             hiddenLabel={true}
             placeholder={msg('Select project…')}
-            currentValue={selectedTab}
+            currentValue={projectTab}
             options={options}
-            onChange={project => onTabSelected(project)}
+            onChange={project => {
+              safeLocalStorage.setItem(
+                SELECTED_PROJECT_LOCAL_STORAGE_KEY,
+                project,
+              );
+              setProjectTab(project);
+            }}
           />
         </div>
-        {selectedTab !== null
+        {projectTab !== null
           ? renderCardCollection(
-              incentives,
-              iraRebates,
+              incentivesByProject[projectTab],
+              iraRebatesByProject[projectTab],
               coverageState,
               locationState,
-              selectedTab,
+              projectTab,
             )
           : renderSelectProjectCard()}
       </>
@@ -331,100 +347,3 @@ declare module './safe-local-storage' {
     [SELECTED_PROJECT_LOCAL_STORAGE_KEY]: Project;
   }
 }
-
-type Props = {
-  resultsRef?: React.Ref<HTMLDivElement>;
-  response: APIResponse;
-};
-
-/**
- * Renders a grid of tab-bar switchable incentive cards about the projects you
- * selected in the main form, then a grid of tab-bar switchable incentive cards
- * about other projects.
- *
- * @param selectedProject The project whose incentives should get hoisted into
- * their own section above all the others.
- * @param selectedOtherTab The project among the "others" section whose tab is
- * currently selected.
- */
-export const StateIncentives: FC<Props> = ({ resultsRef, response }) => {
-  const { msg } = useTranslated();
-
-  // Map each project to all incentives that involve it. An incentive may
-  // be in multiple projects, if it has multiple items and those items pertain
-  // to different projects.
-  const incentivesByProject = Object.fromEntries(
-    Object.entries(PROJECTS).map(([project, projectInfo]) => [
-      project,
-      response.incentives.filter(incentive =>
-        incentive.items.some(item => projectInfo.items.includes(item)),
-      ),
-    ]),
-  ) as Record<Project, Incentive[]>;
-
-  const iraRebates = getRebatesFor(response, msg);
-
-  // Sort projects with nonzero incentives first, then alphabetically.
-  const projectOptions = (Object.keys(PROJECTS) as Project[])
-    .map(project => {
-      const count =
-        incentivesByProject[project].length +
-        iraRebates.filter(r => r.project === project).length;
-
-      // The string "false" compares before "true"
-      const sortKey = `${count === 0} ${PROJECTS[project].label(msg)}`;
-
-      return { project, count, sortKey };
-    })
-    .sort((a, b) => a.sortKey.localeCompare(b.sortKey));
-
-  // If a project selection is saved in local storage AND that project has
-  // nonzero incentives, select that project.
-  //
-  // Otherwise, select the first project in the menu (which, by virtue of the
-  // sorting above, will have incentives unless there are zero results total).
-  const [projectTab, setProjectTab] = useState(() => {
-    const storedProject = safeLocalStorage.getItem(
-      SELECTED_PROJECT_LOCAL_STORAGE_KEY,
-    );
-
-    if (
-      storedProject !== null &&
-      incentivesByProject[storedProject].length > 0
-    ) {
-      return storedProject;
-    } else {
-      safeLocalStorage.removeItem(SELECTED_PROJECT_LOCAL_STORAGE_KEY);
-      return null;
-    }
-  });
-
-  const selectedIncentives = projectTab ? incentivesByProject[projectTab] : [];
-  const selectedIraRebates = iraRebates.filter(r => r.project === projectTab);
-
-  const totalResults = projectOptions.reduce((acc, opt) => acc + opt.count, 0);
-  const countOfProjects = projectOptions.filter(opt => opt.count > 0).length;
-
-  return (
-    <>
-      <IncentiveGrid
-        ref={resultsRef}
-        heading={msg(
-          str`We found ${totalResults} results across \
-${countOfProjects} projects.`,
-        )}
-        incentives={selectedIncentives}
-        iraRebates={selectedIraRebates}
-        coverageState={response.coverage.state}
-        locationState={response.location.state}
-        tabs={projectOptions}
-        selectedTab={projectTab}
-        onTabSelected={tab => {
-          safeLocalStorage.setItem(SELECTED_PROJECT_LOCAL_STORAGE_KEY, tab);
-          setProjectTab(tab);
-        }}
-      />
-      <PartnerLogos response={response} />
-    </>
-  );
-};
