@@ -29,6 +29,7 @@ const ALL_INSULATION: ItemType[] = [
 const ALL_WEATHERIZATION: ItemType[] = [
   ...ALL_INSULATION,
   'air_sealing',
+  'cool_roof',
   'door_replacement',
   'duct_replacement',
   'duct_sealing',
@@ -113,7 +114,11 @@ const ITEM_GROUPS: { group: ItemGroup; members: Set<ItemType> }[] = [
   },
   {
     group: 'water_heater',
-    members: new Set(['heat_pump_water_heater', 'non_heat_pump_water_heater']),
+    members: new Set([
+      'heat_pump_water_heater',
+      'non_heat_pump_water_heater',
+      'solar_water_heater',
+    ]),
   },
 ];
 
@@ -229,6 +234,8 @@ export const itemName = (
       return msg('a central air conditioner', {
         desc: 'e.g. "$100 off [this string]"',
       });
+    case 'cool_roof':
+      return msg('a cool roof', { desc: 'e.g. "$100 off [this string]' });
     case 'crawlspace_insulation':
       return msg('crawlspace insulation', {
         desc: 'e.g. "$100 off [this string]"',
@@ -299,6 +306,10 @@ export const itemName = (
       return msg('weatherization', { desc: 'e.g. "$100 off [this string]"' });
     case 'rooftop_solar_installation':
       return msg('rooftop solar', { desc: 'e.g. "$100 off [this string]"' });
+    case 'solar_water_heater':
+      return msg('a solar water heater', {
+        desc: 'e.g. "$100 off [this string]',
+      });
     case 'used_electric_vehicle':
       return msg('a used electric vehicle', {
         desc: 'e.g. "$100 off [this string]"',

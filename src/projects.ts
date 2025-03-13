@@ -60,7 +60,11 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     label: msg => msg('Battery storage'),
   },
   water_heater: {
-    items: ['heat_pump_water_heater', 'non_heat_pump_water_heater'],
+    items: [
+      'heat_pump_water_heater',
+      'non_heat_pump_water_heater',
+      'solar_water_heater',
+    ],
     label: msg => msg('Water heater'),
   },
   cooking: {
@@ -76,6 +80,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'air_sealing',
       'attic_or_roof_insulation',
       'basement_insulation',
+      'cool_roof',
       'crawlspace_insulation',
       'door_replacement',
       'duct_replacement',
