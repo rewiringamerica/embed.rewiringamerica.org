@@ -16,6 +16,23 @@ describe('group names', () => {
     ).toBe('a heat pump');
   });
 
+  test('water heaters', () => {
+    expect(
+      itemName(
+        ['heat_pump_water_heater', 'non_heat_pump_water_heater'],
+        msg,
+        'water_heater',
+      ),
+    ).toBe('a water heater');
+    expect(
+      itemName(
+        ['heat_pump_water_heater', 'solar_water_heater'],
+        msg,
+        'water_heater',
+      ),
+    ).toBe('a water heater');
+  });
+
   test('weatherization and insulation', () => {
     expect(
       itemName(
@@ -41,6 +58,13 @@ describe('group names', () => {
     expect(
       itemName(
         ['wall_insulation', 'other_weatherization'],
+        msg,
+        'weatherization_and_efficiency',
+      ),
+    ).toBe('weatherization');
+    expect(
+      itemName(
+        ['cool_roof', 'other_weatherization'],
         msg,
         'weatherization_and_efficiency',
       ),

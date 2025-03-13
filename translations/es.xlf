@@ -822,6 +822,16 @@
   <target>según su información del hogar.</target>
   <note from="lit-localize">preceded by "we found N projects"</note>
 </trans-unit>
+<trans-unit id="scb772323dbbe9641">
+  <source>a cool roof</source>
+  <target>un techo frío</target>
+  <note from="lit-localize">e.g. "$100 off [this string]</note>
+</trans-unit>
+<trans-unit id="sd8bca9deffec6553">
+  <source>a solar water heater</source>
+  <target>un calentador de agua solar</target>
+  <note from="lit-localize">e.g. "$100 off [this string]</note>
+</trans-unit>
 </body>
 </file>
 </xliff>
