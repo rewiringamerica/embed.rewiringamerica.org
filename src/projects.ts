@@ -37,6 +37,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'ductless_heat_pump',
       'geothermal_heating_installation',
       'other_heat_pump',
+      'smart_thermostat',
     ],
     label: msg => msg('Heating, ventilation & cooling'),
   },

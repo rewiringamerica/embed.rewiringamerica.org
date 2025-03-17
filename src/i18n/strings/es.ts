@@ -43,6 +43,7 @@ export const templates = {
   s2b1b3dc2f8da1ce4: `Descuento en una bomba de calor`,
   s2bb426aeeaeede1a: `Texas`,
   s2c430b6a8a07370e: str`${0} del costo de ${1}`,
+  s2d4cc60d1e81984a: `un termostato inteligente`,
   s2de33deca4490a2f: `Kentucky`,
   s2e599ea4064cdc68: str`${0} personas`,
   s2ef277dcb08bbedd: `Error al cargar los incentivos.`,
