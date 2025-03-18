@@ -306,6 +306,10 @@ export const itemName = (
       return msg('weatherization', { desc: 'e.g. "$100 off [this string]"' });
     case 'rooftop_solar_installation':
       return msg('rooftop solar', { desc: 'e.g. "$100 off [this string]"' });
+    case 'smart_thermostat':
+      return msg('a smart thermostat', {
+        desc: 'e.g. "$100 off [this string]"',
+      });
     case 'solar_water_heater':
       return msg('a solar water heater', {
         desc: 'e.g. "$100 off [this string]',

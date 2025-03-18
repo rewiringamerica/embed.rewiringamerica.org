@@ -832,6 +832,11 @@
   <target>un calentador de agua solar</target>
   <note from="lit-localize">e.g. "$100 off [this string]</note>
 </trans-unit>
+<trans-unit id="s2d4cc60d1e81984a">
+  <source>a smart thermostat</source>
+  <target>un termostato inteligente</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

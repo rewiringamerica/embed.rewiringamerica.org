@@ -62,6 +62,7 @@ export const ITEMS = [
   'other_insulation',
   'other_weatherization',
   'rooftop_solar_installation',
+  'smart_thermostat',
   'solar_water_heater',
   'used_electric_vehicle',
   'used_plugin_hybrid_vehicle',
