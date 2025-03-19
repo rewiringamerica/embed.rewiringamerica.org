@@ -57,6 +57,7 @@ const fetch = (
   formValues: FormValues,
   setFetchState: (fs: FetchState<APIResponse>) => void,
   msg: MsgFn,
+  projectFilter: string[],
 ) => {
   if (
     !(
@@ -95,11 +96,14 @@ const fetch = (
         : formValues.gasUtility,
     );
   }
-  Object.values(PROJECTS).forEach(project => {
-    project.items.forEach(item => {
-      query.append('items', item);
-    });
+  Object.entries(PROJECTS).forEach(([project, projectInfo]) => {
+    if (projectFilter.length === 0 || projectFilter.includes(project)) {
+      projectInfo.items.forEach(item => {
+        query.append('items', item);
+      });
+    }
   });
+
   // Tracking usage of the embedded calculator
   query.append('ra_embed', '1');
 
@@ -136,6 +140,7 @@ const StateCalculator: FC<{
   emailRequired: boolean;
   emailToStaging: boolean;
   includeBetaStates: boolean;
+  projectFilter: string[];
 }> = ({
   shadowRoot,
   apiHost,
@@ -146,6 +151,7 @@ const StateCalculator: FC<{
   emailRequired,
   emailToStaging,
   includeBetaStates,
+  projectFilter,
 }) => {
   const { msg, locale } = useTranslated();
 
@@ -218,6 +224,7 @@ const StateCalculator: FC<{
       formValues,
       setFetchState,
       msg,
+      projectFilter,
     );
 
     shadowRoot.dispatchEvent(
@@ -258,7 +265,7 @@ const StateCalculator: FC<{
       projectOptions,
       totalResults,
       countOfProjects,
-    } = getResultsForDisplay(response, msg);
+    } = getResultsForDisplay(response, msg, projectFilter);
 
     return (
       <div id="calc-root" className="grid gap-8">
@@ -358,6 +365,9 @@ class CalculatorElement extends HTMLElement {
   taxFiling: FilingStatus = DEFAULT_TAX_FILING;
   householdSize: string = DEFAULT_HOUSEHOLD_SIZE;
 
+  /* supported properties to filter API results */
+  projectFilter: string = '';
+
   /* attributeChangedCallback() will be called when any of these changes */
   static observedAttributes = [
     'lang',
@@ -373,6 +383,7 @@ class CalculatorElement extends HTMLElement {
     'household-income',
     'tax-filing',
     'household-size',
+    'project-filter',
   ] as const;
 
   reactRootCalculator: Root | null = null;
@@ -432,6 +443,8 @@ class CalculatorElement extends HTMLElement {
       this.householdSize = newValue ?? DEFAULT_HOUSEHOLD_SIZE;
     } else if (attr === 'tax-filing') {
       this.taxFiling = (newValue as FilingStatus) ?? DEFAULT_TAX_FILING;
+    } else if (attr === 'project-filter') {
+      this.projectFilter = newValue ?? '';
     } else {
       // This will fail typechecking if the cases above aren't exhaustive
       // with respect to observedAttributes
@@ -462,6 +475,9 @@ class CalculatorElement extends HTMLElement {
           emailRequired={this.emailRequired}
           emailToStaging={this.emailToStaging}
           includeBetaStates={this.includeBetaStates}
+          projectFilter={
+            this.projectFilter.length > 0 ? this.projectFilter.split(',') : []
+          }
         />
       </LocaleContext.Provider>,
     );

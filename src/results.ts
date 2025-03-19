@@ -14,9 +14,20 @@ export type Results = {
 export function getResultsForDisplay(
   response: APIResponse,
   msg: MsgFn,
+  projectFilter: string[],
 ): Results {
+  const projects = Object.fromEntries(
+    Object.entries(PROJECTS).filter(([project]) => {
+      // Filter project types, when provided by the client
+      if (projectFilter.length > 0) {
+        return projectFilter.includes(project);
+      }
+      return true;
+    }),
+  );
+
   const incentivesByProject = Object.fromEntries(
-    Object.entries(PROJECTS).map(([project, projectInfo]) => [
+    Object.entries(projects).map(([project, projectInfo]) => [
       project,
       response.incentives.filter(incentive =>
         incentive.items.some(item => projectInfo.items.includes(item)),
@@ -26,21 +37,21 @@ export function getResultsForDisplay(
 
   const iraRebates = getRebatesFor(response, msg);
   const iraRebatesByProject = Object.fromEntries(
-    Object.keys(PROJECTS).map(project => [
+    Object.keys(projects).map(project => [
       project,
       iraRebates.filter(rebate => rebate.project === project),
     ]),
   ) as Record<Project, IRARebate[]>;
 
   // Sort projects with nonzero incentives first, then alphabetically.
-  const projectOptions = (Object.keys(PROJECTS) as Project[])
+  const projectOptions = (Object.keys(projects) as Project[])
     .map(project => {
       const count =
         incentivesByProject[project].length +
         iraRebatesByProject[project].length;
 
       // The string "false" compares before "true"
-      const sortKey = `${count === 0} ${PROJECTS[project].label(msg)}`;
+      const sortKey = `${count === 0} ${projects[project].label(msg)}`;
 
       return { project, count, sortKey };
     })

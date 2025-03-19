@@ -287,6 +287,7 @@ export const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
 
       if (
         storedProject !== null &&
+        incentivesByProject[storedProject] &&
         incentivesByProject[storedProject].length > 0
       ) {
         return storedProject;
