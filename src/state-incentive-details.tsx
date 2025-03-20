@@ -190,15 +190,28 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
   return (
     <div className="flex flex-col gap-4">
       {incentives
+        // Sort incentives that haven't started yet at the end
         .sort(
           (a, b) =>
             (getStartYearIfInFuture(a) ?? 0) - (getStartYearIfInFuture(b) ?? 0),
         )
         .map((incentive, index) => {
           const headline = formatTitle(incentive, msg, project);
-          if (!headline) return null;
+          if (!headline) {
+            // We couldn't generate a headline either because the items are
+            // unknown, or the amount type is unknown. Don't show a card.
+            return null;
+          }
 
           const futureStartYear = getStartYearIfInFuture(incentive);
+          // The API cannot precisely tell, from zip code alone, whether the
+          // user is in a specific city or county; it takes a permissive
+          // approach and returns incentives for localities the user *might* be
+          // in. So this indicates that the user should check for themselves.
+          //
+          // This is a blunt-instrument approach; in many cases there's actually
+          // no ambiguity as to which city or county a zip code is in, but the
+          // API currently doesn't take that into account.
           const locationEligibilityText = ['city', 'county', 'other'].includes(
             incentive.authority_type,
           )
@@ -211,7 +224,6 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
                 incentive.program_url,
                 futureStartYear ? msg('Learn more') : msg('Learn how to apply'),
               ];
-
           return (
             <IncentiveCard
               key={`incentive${index}`}
@@ -220,7 +232,9 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
               subHeadline={incentive.program}
               body={`${incentive.short_description} ${locationEligibilityText}`}
               warningChip={
-                futureStartYear ? msg(`Expected in ${futureStartYear}`) : null
+                futureStartYear
+                  ? msg(str`Expected in ${futureStartYear}`)
+                  : null
               }
               buttonUrl={buttonUrl}
               buttonText={buttonText}
@@ -241,7 +255,6 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
             />
           )),
         )}
-
       {coverageState === null && <ComingSoonCard state={locationState} />}
     </div>
   );
