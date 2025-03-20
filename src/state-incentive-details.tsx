@@ -103,6 +103,25 @@ const getStartYearIfInFuture = (incentive: Incentive) =>
     ? getYear(incentive.start_date)
     : null;
 
+/**
+ * The API cannot precisely tell, from zip code alone, whether the user is in a
+ * specific city or county; it takes a permissive approach and returns
+ * incentives for localities the user *might* be in. So this indicates that the
+ * user should check for themselves.
+ *
+ * This is a blunt-instrument approach; in many cases there's actually no
+ * ambiguity as to which city or county a zip code is in, but the API currently
+ * doesn't take that into account.
+ *
+ * We exclude a specific set of authorities from this treatment as well, since
+ * we know they're not city- or county-dependent. This is a short-term fix; we
+ * anticipate adding a concept of "conditional eligibility" to the API, which
+ * will let us show the hedging message only when it's actually needed.
+ */
+const shouldShowLocationHedging = (incentive: Incentive) =>
+  ['city', 'county', 'other'].includes(incentive.authority_type) &&
+  !['ma-massSave'].includes(incentive.authority || '');
+
 const ComingSoonCard = ({ state }: { state: string }) => {
   const { msg } = useTranslated();
 
@@ -204,17 +223,7 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
           }
 
           const futureStartYear = getStartYearIfInFuture(incentive);
-          // The API cannot precisely tell, from zip code alone, whether the
-          // user is in a specific city or county; it takes a permissive
-          // approach and returns incentives for localities the user *might* be
-          // in. So this indicates that the user should check for themselves.
-          //
-          // This is a blunt-instrument approach; in many cases there's actually
-          // no ambiguity as to which city or county a zip code is in, but the
-          // API currently doesn't take that into account.
-          const locationEligibilityText = ['city', 'county', 'other'].includes(
-            incentive.authority_type,
-          )
+          const locationEligibilityText = shouldShowLocationHedging(incentive)
             ? msg('Eligibility depends on residence location.')
             : '';
 
