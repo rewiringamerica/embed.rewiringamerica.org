@@ -1,13 +1,14 @@
 import { TextButton } from './buttons';
-import { str } from './i18n/str';
 import { useTranslated } from './i18n/use-translated';
 import { EditIcon } from './icons';
+import { Project, PROJECTS } from './projects';
 import { FormLabels } from './state-calculator-form';
 
 type Props = {
   formLabels: FormLabels;
   totalResults: number;
   countOfProjects: number;
+  singleProject: Project | null;
   onEditClicked: () => void;
 };
 
@@ -19,18 +20,23 @@ export const FormSnapshot: React.FC<Props> = ({
   formLabels,
   totalResults,
   countOfProjects,
+  singleProject,
   onEditClicked,
 }) => {
   const { msg } = useTranslated();
-  const countOfProjectsMsg =
-    countOfProjects === 1 ? '' : ` across ${countOfProjects} projects,`;
+
+  let title: string;
+  if (singleProject) {
+    const projectLabel = PROJECTS[singleProject].label(msg).toLowerCase();
+    title = `We found ${totalResults} savings programs for ${projectLabel},`;
+  } else {
+    title = `We found ${totalResults} savings programs across ${countOfProjects} projects,`;
+  }
 
   return (
     <div className="flex flex-col gap-3">
       <div className="leading-normal text-color-text-primary">
-        <span className="font-medium">
-          {msg(str`We found ${totalResults} results${countOfProjectsMsg}`)}
-        </span>{' '}
+        <span className="font-medium">{msg(title)}</span>{' '}
         {msg('based on your household information.', {
           desc: 'preceded by "we found N projects"',
         })}

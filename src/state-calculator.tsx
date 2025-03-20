@@ -15,7 +15,7 @@ import { allLocales } from './i18n/locales';
 import { str } from './i18n/str';
 import { LocaleContext, MsgFn, useTranslated } from './i18n/use-translated';
 import { PartnerLogos } from './partner-logos';
-import { PROJECTS } from './projects';
+import { PROJECTS, Project } from './projects';
 import { getResultsForDisplay } from './results';
 import { safeLocalStorage } from './safe-local-storage';
 import {
@@ -57,7 +57,7 @@ const fetch = (
   formValues: FormValues,
   setFetchState: (fs: FetchState<APIResponse>) => void,
   msg: MsgFn,
-  projectFilter: string[],
+  projectFilter: Project[],
 ) => {
   if (
     !(
@@ -97,7 +97,10 @@ const fetch = (
     );
   }
   Object.entries(PROJECTS).forEach(([project, projectInfo]) => {
-    if (projectFilter.length === 0 || projectFilter.includes(project)) {
+    if (
+      projectFilter.length === 0 ||
+      projectFilter.includes(project as Project)
+    ) {
       projectInfo.items.forEach(item => {
         query.append('items', item);
       });
@@ -140,7 +143,7 @@ const StateCalculator: FC<{
   emailRequired: boolean;
   emailToStaging: boolean;
   includeBetaStates: boolean;
-  projectFilter: string[];
+  projectFilter: Project[];
 }> = ({
   shadowRoot,
   apiHost,
@@ -269,7 +272,7 @@ const StateCalculator: FC<{
 
     let incentiveResults;
     if (projectFilter.length === 1) {
-      const selectedProject = projectOptions[0].project;
+      const selectedProject = projectFilter[0];
       incentiveResults = (
         <CardCollection
           incentives={incentivesByProject[selectedProject]}
@@ -299,6 +302,7 @@ const StateCalculator: FC<{
             formLabels={submittedLabels!}
             totalResults={totalResults}
             countOfProjects={countOfProjects}
+            singleProject={projectFilter.length === 1 ? projectFilter[0] : null}
             onEditClicked={() => setFetchState({ state: 'init' })}
           />
         </Card>
@@ -495,7 +499,9 @@ class CalculatorElement extends HTMLElement {
           includeBetaStates={this.includeBetaStates}
           projectFilter={
             this.projectFilter.length > 0
-              ? this.projectFilter.split(',').map(p => p.toLocaleLowerCase())
+              ? this.projectFilter
+                  .split(',')
+                  .map(p => p.toLocaleLowerCase() as Project)
               : []
           }
         />

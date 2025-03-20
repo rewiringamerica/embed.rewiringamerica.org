@@ -14,13 +14,13 @@ export type Results = {
 export function getResultsForDisplay(
   response: APIResponse,
   msg: MsgFn,
-  projectFilter: string[],
+  projectFilter: Project[],
 ): Results {
   const projects = Object.fromEntries(
     Object.entries(PROJECTS).filter(([project]) => {
       // Filter project types, when provided by the client
       if (projectFilter.length > 0) {
-        return projectFilter.includes(project);
+        return projectFilter.includes(project as Project);
       }
       return true;
     }),
