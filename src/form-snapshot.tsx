@@ -22,13 +22,14 @@ export const FormSnapshot: React.FC<Props> = ({
   onEditClicked,
 }) => {
   const { msg } = useTranslated();
+  const countOfProjectsMsg =
+    countOfProjects === 1 ? '' : ` across ${countOfProjects} projects,`;
 
   return (
     <div className="flex flex-col gap-3">
       <div className="leading-normal text-color-text-primary">
         <span className="font-medium">
-          {msg(str`We found ${totalResults} results across \
-    ${countOfProjects} projects,`)}
+          {msg(str`We found ${totalResults} results${countOfProjectsMsg}`)}
         </span>{' '}
         {msg('based on your household information.', {
           desc: 'preceded by "we found N projects"',

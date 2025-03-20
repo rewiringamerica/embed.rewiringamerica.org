@@ -1,5 +1,5 @@
 import ProjectIcon from 'jsx:../static/icons/project.svg';
-import { forwardRef, useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import {
   AmountUnit,
   Incentive,
@@ -172,40 +172,33 @@ const renderSelectProjectCard = () => {
   );
 };
 
-const renderCardCollection = (
-  incentives: Incentive[],
-  iraRebates: IRARebate[],
-  coverageState: string | null,
-  locationState: string,
-  project: Project,
-) => {
+type CardCollectionProps = {
+  incentives: Incentive[];
+  iraRebates: IRARebate[];
+  coverageState: string | null;
+  locationState: string;
+  project: Project;
+};
+export const CardCollection: React.FC<CardCollectionProps> = ({
+  incentives,
+  iraRebates,
+  coverageState,
+  locationState,
+  project,
+}) => {
   const { msg } = useTranslated();
   return (
     <div className="flex flex-col gap-4">
       {incentives
-        // Sort incentives that haven't started yet at the end
         .sort(
           (a, b) =>
             (getStartYearIfInFuture(a) ?? 0) - (getStartYearIfInFuture(b) ?? 0),
         )
         .map((incentive, index) => {
           const headline = formatTitle(incentive, msg, project);
-          if (!headline) {
-            // We couldn't generate a headline either because the items are
-            // unknown, or the amount type is unknown. Don't show a card.
-            return null;
-          }
+          if (!headline) return null;
 
           const futureStartYear = getStartYearIfInFuture(incentive);
-
-          // The API cannot precisely tell, from zip code alone, whether the
-          // user is in a specific city or county; it takes a permissive
-          // approach and returns incentives for localities the user *might* be
-          // in. So this indicates that the user should check for themselves.
-          //
-          // This is a blunt-instrument approach; in many cases there's actually
-          // no ambiguity as to which city or county a zip code is in, but the
-          // API currently doesn't take that into account.
           const locationEligibilityText = ['city', 'county', 'other'].includes(
             incentive.authority_type,
           )
@@ -218,6 +211,7 @@ const renderCardCollection = (
                 incentive.program_url,
                 futureStartYear ? msg('Learn more') : msg('Learn how to apply'),
               ];
+
           return (
             <IncentiveCard
               key={`incentive${index}`}
@@ -226,9 +220,7 @@ const renderCardCollection = (
               subHeadline={incentive.program}
               body={`${incentive.short_description} ${locationEligibilityText}`}
               warningChip={
-                futureStartYear
-                  ? msg(str`Expected in ${futureStartYear}`)
-                  : null
+                futureStartYear ? msg(`Expected in ${futureStartYear}`) : null
               }
               buttonUrl={buttonUrl}
               buttonText={buttonText}
@@ -249,6 +241,7 @@ const renderCardCollection = (
             />
           )),
         )}
+
       {coverageState === null && <ComingSoonCard state={locationState} />}
     </div>
   );
@@ -287,8 +280,7 @@ export const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
 
       if (
         storedProject !== null &&
-        incentivesByProject[storedProject] &&
-        incentivesByProject[storedProject].length > 0
+        incentivesByProject[storedProject]?.length > 0
       ) {
         return storedProject;
       } else {
@@ -324,15 +316,17 @@ export const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
             }}
           />
         </div>
-        {projectTab !== null
-          ? renderCardCollection(
-              incentivesByProject[projectTab],
-              iraRebatesByProject[projectTab],
-              coverageState,
-              locationState,
-              projectTab,
-            )
-          : renderSelectProjectCard()}
+        {projectTab !== null ? (
+          <CardCollection
+            incentives={incentivesByProject[projectTab]}
+            iraRebates={iraRebatesByProject[projectTab]}
+            coverageState={coverageState}
+            locationState={locationState}
+            project={projectTab}
+          />
+        ) : (
+          renderSelectProjectCard()
+        )}
       </>
     );
   },

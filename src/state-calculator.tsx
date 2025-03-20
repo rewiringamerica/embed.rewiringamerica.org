@@ -26,7 +26,7 @@ import {
   NO_GAS_UTILITY_ID,
   OTHER_UTILITY_ID,
 } from './state-calculator-form';
-import { IncentiveGrid } from './state-incentive-details';
+import { CardCollection, IncentiveGrid } from './state-incentive-details';
 import { STATES } from './states';
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
@@ -267,6 +267,31 @@ const StateCalculator: FC<{
       countOfProjects,
     } = getResultsForDisplay(response, msg, projectFilter);
 
+    let incentiveResults;
+    if (projectFilter.length === 1) {
+      const selectedProject = projectOptions[0].project;
+      incentiveResults = (
+        <CardCollection
+          incentives={incentivesByProject[selectedProject]}
+          iraRebates={iraRebatesByProject[selectedProject]}
+          coverageState={response.coverage.state}
+          locationState={response.location.state}
+          project={selectedProject}
+        />
+      );
+    } else {
+      incentiveResults = (
+        <IncentiveGrid
+          ref={resultsRef}
+          incentivesByProject={incentivesByProject}
+          iraRebatesByProject={iraRebatesByProject}
+          coverageState={response.coverage.state}
+          locationState={response.location.state}
+          tabs={projectOptions}
+        />
+      );
+    }
+
     return (
       <div id="calc-root" className="grid gap-8">
         <Card padding="small">
@@ -277,14 +302,7 @@ const StateCalculator: FC<{
             onEditClicked={() => setFetchState({ state: 'init' })}
           />
         </Card>
-        <IncentiveGrid
-          ref={resultsRef}
-          incentivesByProject={incentivesByProject}
-          iraRebatesByProject={iraRebatesByProject}
-          coverageState={response.coverage.state}
-          locationState={response.location.state}
-          tabs={projectOptions}
-        />
+        {incentiveResults}
         <PartnerLogos response={response} />
       </div>
     );
@@ -476,7 +494,9 @@ class CalculatorElement extends HTMLElement {
           emailToStaging={this.emailToStaging}
           includeBetaStates={this.includeBetaStates}
           projectFilter={
-            this.projectFilter.length > 0 ? this.projectFilter.split(',') : []
+            this.projectFilter.length > 0
+              ? this.projectFilter.split(',').map(p => p.toLocaleLowerCase())
+              : []
           }
         />
       </LocaleContext.Provider>,
