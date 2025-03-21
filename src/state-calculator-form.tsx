@@ -382,11 +382,11 @@ export const CalculatorForm: FC<{
         <div>
           <FormLabel
             tooltipText={msg(
-              'Your zip code helps determine the amount of discounts and tax credits you qualify for.',
+              'Your ZIP code helps determine the amount of discounts and tax credits you qualify for.',
             )}
           >
             <label htmlFor="zip">
-              {msg('Zip', { desc: 'as in zip code' })}
+              {msg('ZIP', { desc: 'as in ZIP code' })}
             </label>
           </FormLabel>
 
