@@ -1,8 +1,8 @@
 import { TextButton } from './buttons';
 import { str } from './i18n/str';
-import { useTranslated } from './i18n/use-translated';
+import { MsgFn, useTranslated } from './i18n/use-translated';
 import { EditIcon } from './icons';
-import { Project, PROJECTS } from './projects';
+import { PROJECTS, Project } from './projects';
 import { FormLabels } from './state-calculator-form';
 
 type Props = {
@@ -28,7 +28,7 @@ export const FormSnapshot: React.FC<Props> = ({
 
   let title: string;
   if (singleProject) {
-    const projectLabel = PROJECTS[singleProject].label(msg).toLowerCase();
+    const projectLabel = getSingleProjectLabel(singleProject, msg);
     title = msg(
       str`We found ${totalResults} savings programs for ${projectLabel},`,
     );
@@ -95,3 +95,21 @@ export const FormSnapshot: React.FC<Props> = ({
     </div>
   );
 };
+
+// Use this for more grammatically correct titles
+function getSingleProjectLabel(project: Project, msg: MsgFn) {
+  switch (project) {
+    case 'clothes_dryer':
+      return msg('clothes dryers');
+    case 'solar':
+      return msg('solar installation');
+    case 'water_heater':
+      return msg('water heaters');
+    case 'cooking':
+      return msg('cooking stoves/ranges');
+    case 'wiring':
+      return msg('electrical panels and wiring');
+    default:
+      return PROJECTS[project].label(msg).toLocaleLowerCase();
+  }
+}

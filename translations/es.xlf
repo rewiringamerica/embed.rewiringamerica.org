@@ -841,6 +841,26 @@
   <source>We found <x id="0" equiv-text="${totalResults}"/> savings programs across <x id="1" equiv-text="${countOfProjects}"/> projects,</source>
   <target>Encontramos <x id="0" equiv-text="${totalResults}"/> programas de ahorro en <x id="1" equiv-text="${countOfProjects}"/> proyectos,</target>
 </trans-unit>
+<trans-unit id="sdb2de09e3926710a">
+  <source>clothes dryers</source>
+  <target>secadoras</target>
+</trans-unit>
+<trans-unit id="s5d276c727ffc287a">
+  <source>solar installation</source>
+  <target>solar installation</target>
+</trans-unit>
+<trans-unit id="s84fdf8ef099cc6d2">
+  <source>water heaters</source>
+  <target>calentadores de agua</target>
+</trans-unit>
+<trans-unit id="s64b946f9cb37d1de">
+  <source>cooking stoves/ranges</source>
+  <target>estufas/cocinas</target>
+</trans-unit>
+<trans-unit id="sd431582bed5b1d77">
+  <source>electrical panels and wiring</source>
+  <target>tableros eléctricos y cableado</target>
+</trans-unit>
 </body>
 </file>
 </xliff>

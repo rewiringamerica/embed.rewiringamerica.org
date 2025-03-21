@@ -405,7 +405,7 @@ class CalculatorElement extends HTMLElement {
     'household-income',
     'tax-filing',
     'household-size',
-    'project-filter',
+    'projects',
   ] as const;
 
   reactRootCalculator: Root | null = null;
@@ -465,7 +465,7 @@ class CalculatorElement extends HTMLElement {
       this.householdSize = newValue ?? DEFAULT_HOUSEHOLD_SIZE;
     } else if (attr === 'tax-filing') {
       this.taxFiling = (newValue as FilingStatus) ?? DEFAULT_TAX_FILING;
-    } else if (attr === 'project-filter') {
+    } else if (attr === 'projects') {
       this.projectFilter = newValue ?? '';
     } else {
       // This will fail typechecking if the cases above aren't exhaustive
