@@ -388,7 +388,7 @@ class CalculatorElement extends HTMLElement {
   householdSize: string = DEFAULT_HOUSEHOLD_SIZE;
 
   /* supported properties to filter API results */
-  projectFilter: string = '';
+  projects: string = '';
 
   /* attributeChangedCallback() will be called when any of these changes */
   static observedAttributes = [
@@ -466,7 +466,7 @@ class CalculatorElement extends HTMLElement {
     } else if (attr === 'tax-filing') {
       this.taxFiling = (newValue as FilingStatus) ?? DEFAULT_TAX_FILING;
     } else if (attr === 'projects') {
-      this.projectFilter = newValue ?? '';
+      this.projects = newValue ?? '';
     } else {
       // This will fail typechecking if the cases above aren't exhaustive
       // with respect to observedAttributes
@@ -497,13 +497,7 @@ class CalculatorElement extends HTMLElement {
           emailRequired={this.emailRequired}
           emailToStaging={this.emailToStaging}
           includeBetaStates={this.includeBetaStates}
-          projectFilter={
-            this.projectFilter.length > 0
-              ? this.projectFilter
-                  .split(',')
-                  .map(p => p.toLocaleLowerCase() as Project)
-              : []
-          }
+          projectFilter={this.buildProjectFilter()}
         />
       </LocaleContext.Provider>,
     );
@@ -521,6 +515,25 @@ class CalculatorElement extends HTMLElement {
     return (allLocales as readonly string[]).includes(closestLang)
       ? closestLang
       : 'en';
+  }
+
+  private buildProjectFilter(): Project[] {
+    if (this.projects.length === 0) {
+      return [];
+    }
+
+    const validProjects = Object.keys(PROJECTS);
+    const projectFilter = this.projects
+      .split(',')
+      .map(p => p.toLowerCase() as Project);
+
+    for (const project of projectFilter) {
+      if (!validProjects.includes(project)) {
+        throw new Error(`Invalid project attribute: ${project}`);
+      }
+    }
+
+    return projectFilter;
   }
 }
 
