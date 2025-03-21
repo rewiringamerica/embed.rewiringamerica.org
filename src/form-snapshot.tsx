@@ -100,15 +100,25 @@ export const FormSnapshot: React.FC<Props> = ({
 function getSingleProjectLabel(project: Project, msg: MsgFn) {
   switch (project) {
     case 'clothes_dryer':
-      return msg('clothes dryers');
+      return msg('clothes dryers', {
+        desc: 'comes after "we found N savings programs for"',
+      });
     case 'solar':
-      return msg('solar installation');
+      return msg('solar installation', {
+        desc: 'comes after "we found N savings programs for"',
+      });
     case 'water_heater':
-      return msg('water heaters');
+      return msg('water heaters', {
+        desc: 'comes after "we found N savings programs for"',
+      });
     case 'cooking':
-      return msg('cooking stoves/ranges');
+      return msg('cooking stoves/ranges', {
+        desc: 'comes after "we found N savings programs for"',
+      });
     case 'wiring':
-      return msg('electrical panels and wiring');
+      return msg('electrical panels and wiring', {
+        desc: 'comes after "we found N savings programs for"',
+      });
     default:
       return PROJECTS[project].label(msg).toLocaleLowerCase();
   }

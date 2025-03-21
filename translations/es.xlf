@@ -844,22 +844,27 @@
 <trans-unit id="sdb2de09e3926710a">
   <source>clothes dryers</source>
   <target>secadoras</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
 </trans-unit>
 <trans-unit id="s5d276c727ffc287a">
   <source>solar installation</source>
   <target>solar installation</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
 </trans-unit>
 <trans-unit id="s84fdf8ef099cc6d2">
   <source>water heaters</source>
   <target>calentadores de agua</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
 </trans-unit>
 <trans-unit id="s64b946f9cb37d1de">
   <source>cooking stoves/ranges</source>
   <target>estufas/cocinas</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
 </trans-unit>
 <trans-unit id="sd431582bed5b1d77">
   <source>electrical panels and wiring</source>
   <target>tableros eléctricos y cableado</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
 </trans-unit>
 </body>
 </file>
