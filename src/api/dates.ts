@@ -1,11 +1,9 @@
 /**
- * Returns whether the given API date is unambiguously in the future, relative
- * to "now". (start_date and end_date in the API can represent a range of dates
+ * Returns the earliest possible timestamp for the given API date string.
+ * (`start_date` and `end_date` in the API can represent a range of dates
  * rather than just a single one.)
- *
- * The [now] param will be interpreted in local time.
  */
-export function isInFuture(apiDate: string, now: Date): boolean {
+export function parseApiDate(apiDate: string): number {
   // Construct the timestamp at UTC midnight on the earliest possible day that
   // the API date refers to.
   let earliestPossibleInstant: number;
@@ -30,11 +28,41 @@ export function isInFuture(apiDate: string, now: Date): boolean {
     earliestPossibleInstant = Date.UTC(parsedYear, parsedMonth, parsedDay);
   }
 
+  return earliestPossibleInstant;
+}
+
+/**
+ * Returns whether the given API date is unambiguously in the future, relative
+ * to "now". (start_date and end_date in the API can represent a range of dates
+ * rather than just a single one.)
+ *
+ * The [now] param will be interpreted in local time.
+ */
+export function isInFuture(apiDate: string, now: Date): boolean {
+  const earliestPossibleInstant = parseApiDate(apiDate);
   // Construct the timestamp at UTC midnight, with the Y/M/D of now, as
   // interpreted in local time. This avoids timezone issues by only comparing
   // timestamps with the same time and timezone component.
   const utcNow = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
   return utcNow < earliestPossibleInstant;
+}
+
+/**
+ * Returns whether the given API date is within 60 days in the future, relative
+ * to "now". (start_date and end_date in the API can represent a range of dates
+ * rather than just a single one.)
+ *
+ * The [now] param will be interpreted in local time.
+ */
+export function isChangingSoon(apiDate: string, now: Date): boolean {
+  const earliestPossibleInstant = parseApiDate(apiDate);
+  // Construct the timestamp at UTC midnight, with the Y/M/D of now, as
+  // interpreted in local time. This avoids timezone issues by only comparing
+  // timestamps with the same time and timezone component.
+  const utcNow = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const sixtyDays = 60 * 24 * 60 * 60 * 1000;
+  return utcNow + sixtyDays > earliestPossibleInstant;
 }
 
 export function getYear(apiDate: string): number {
