@@ -49,7 +49,7 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains(/We found \d+ results across \d+ projects./);
+      .contains(/We found \d+ savings programs across \d+ projects./);
 
     cy.get('rewiring-america-state-calculator')
       .shadow()

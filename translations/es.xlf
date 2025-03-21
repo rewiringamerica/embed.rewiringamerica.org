@@ -799,10 +799,6 @@
   <target>Estado de declaración de impuestos</target>
   <note from="lit-localize">form field label</note>
 </trans-unit>
-<trans-unit id="s59dd6c4027bbb066">
-  <source>We found <x id="0" equiv-text="${totalResults}"/> results across     <x id="1" equiv-text="${countOfProjects}"/> projects,</source>
-  <target>Encontramos <x id="0" equiv-text="${totalResults}"/> resultados en <x id="1" equiv-text="${countOfProjects}"/> proyectos,</target>
-</trans-unit>
 <trans-unit id="s442fb1c19566bdb9">
   <source>ZIP code</source>
   <target>Código postal</target>
@@ -836,6 +832,39 @@
   <source>a smart thermostat</source>
   <target>un termostato inteligente</target>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s15baab178b16cd70">
+  <source>We found <x id="0" equiv-text="${totalResults}"/> savings programs for <x id="1" equiv-text="${projectLabel}"/>,</source>
+  <target>Encontramos <x id="0" equiv-text="${totalResults}"/> programas de ahorro para <x id="1" equiv-text="${projectLabel}"/>,</target>
+</trans-unit>
+<trans-unit id="se769dd566c4c69b6">
+  <source>We found <x id="0" equiv-text="${totalResults}"/> savings programs across <x id="1" equiv-text="${countOfProjects}"/> projects,</source>
+  <target>Encontramos <x id="0" equiv-text="${totalResults}"/> programas de ahorro en <x id="1" equiv-text="${countOfProjects}"/> proyectos,</target>
+</trans-unit>
+<trans-unit id="sdb2de09e3926710a">
+  <source>clothes dryers</source>
+  <target>secadoras</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
+</trans-unit>
+<trans-unit id="s5d276c727ffc287a">
+  <source>solar installation</source>
+  <target>solar installation</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
+</trans-unit>
+<trans-unit id="s84fdf8ef099cc6d2">
+  <source>water heaters</source>
+  <target>calentadores de agua</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
+</trans-unit>
+<trans-unit id="s64b946f9cb37d1de">
+  <source>cooking stoves/ranges</source>
+  <target>estufas/cocinas</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
+</trans-unit>
+<trans-unit id="sd431582bed5b1d77">
+  <source>electrical panels and wiring</source>
+  <target>tableros eléctricos y cableado</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
 </trans-unit>
 </body>
 </file>
