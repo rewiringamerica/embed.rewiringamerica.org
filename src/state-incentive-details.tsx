@@ -5,7 +5,7 @@ import {
   Incentive,
   IncentiveType,
 } from './api/calculator-types-v1';
-import { getYear, isInFuture } from './api/dates';
+import { getYear, isChangingSoon, isInFuture } from './api/dates';
 import { Card } from './card';
 import { Option, Select } from './components/select';
 import { str } from './i18n/str';
@@ -122,6 +122,32 @@ const shouldShowLocationHedging = (incentive: Incentive) =>
   ['city', 'county', 'other'].includes(incentive.authority_type) &&
   !['ma-massSave'].includes(incentive.authority || '');
 
+// Determines if there should be a warning chip for the incentive based on
+// whether it is ending within 60 days, starting within 60 days, or starting
+// further in the future, in that order of priority.
+const isChangingSoonWarning = (
+  incentive: Incentive,
+  futureStartYear: number | null,
+  msg: MsgFn,
+) => {
+  if (incentive.end_date && isChangingSoon(incentive.end_date, new Date())) {
+    return msg('Ending soon');
+  }
+
+  if (
+    incentive.start_date &&
+    isChangingSoon(incentive.start_date, new Date())
+  ) {
+    return msg('Coming soon');
+  }
+
+  if (futureStartYear) {
+    msg(str`Expected in ${futureStartYear}`);
+  }
+
+  return null;
+};
+
 const ComingSoonCard = ({ state }: { state: string }) => {
   const { msg } = useTranslated();
 
@@ -226,6 +252,11 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
           const locationEligibilityText = shouldShowLocationHedging(incentive)
             ? msg('Eligibility depends on residence location.')
             : '';
+          const timeSensitiveWarning = isChangingSoonWarning(
+            incentive,
+            futureStartYear,
+            msg,
+          );
 
           const [buttonUrl, buttonText] = incentive.more_info_url
             ? [incentive.more_info_url, msg('Learn more')]
@@ -240,11 +271,7 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
               headline={headline}
               subHeadline={incentive.program}
               body={`${incentive.short_description} ${locationEligibilityText}`}
-              warningChip={
-                futureStartYear
-                  ? msg(str`Expected in ${futureStartYear}`)
-                  : null
-              }
+              warningChip={timeSensitiveWarning}
               buttonUrl={buttonUrl}
               buttonText={buttonText}
             />
