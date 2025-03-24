@@ -75,7 +75,7 @@ export type ItemType = (typeof ITEMS)[number];
 export interface Incentive {
   payment_methods: IncentiveType[];
   authority_type: AuthorityType;
-  authority_name: string | null;
+  authority: string | null;
   program: string;
   program_url: string;
   more_info_url?: string;
