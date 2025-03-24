@@ -15,7 +15,7 @@ import { allLocales } from './i18n/locales';
 import { str } from './i18n/str';
 import { LocaleContext, MsgFn, useTranslated } from './i18n/use-translated';
 import { PartnerLogos } from './partner-logos';
-import { PROJECTS } from './projects';
+import { PROJECTS, Project } from './projects';
 import { getResultsForDisplay } from './results';
 import { safeLocalStorage } from './safe-local-storage';
 import {
@@ -26,7 +26,7 @@ import {
   NO_GAS_UTILITY_ID,
   OTHER_UTILITY_ID,
 } from './state-calculator-form';
-import { IncentiveGrid } from './state-incentive-details';
+import { CardCollection, IncentiveGrid } from './state-incentive-details';
 import { STATES } from './states';
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
@@ -57,6 +57,7 @@ const fetch = (
   formValues: FormValues,
   setFetchState: (fs: FetchState<APIResponse>) => void,
   msg: MsgFn,
+  projectFilter: Project[],
 ) => {
   if (
     !(
@@ -95,11 +96,17 @@ const fetch = (
         : formValues.gasUtility,
     );
   }
-  Object.values(PROJECTS).forEach(project => {
-    project.items.forEach(item => {
-      query.append('items', item);
-    });
+  Object.entries(PROJECTS).forEach(([project, projectInfo]) => {
+    if (
+      projectFilter.length === 0 ||
+      projectFilter.includes(project as Project)
+    ) {
+      projectInfo.items.forEach(item => {
+        query.append('items', item);
+      });
+    }
   });
+
   // Tracking usage of the embedded calculator
   query.append('ra_embed', '1');
 
@@ -136,6 +143,7 @@ const StateCalculator: FC<{
   emailRequired: boolean;
   emailToStaging: boolean;
   includeBetaStates: boolean;
+  projectFilter: Project[];
 }> = ({
   shadowRoot,
   apiHost,
@@ -146,6 +154,7 @@ const StateCalculator: FC<{
   emailRequired,
   emailToStaging,
   includeBetaStates,
+  projectFilter,
 }) => {
   const { msg, locale } = useTranslated();
 
@@ -218,6 +227,7 @@ const StateCalculator: FC<{
       formValues,
       setFetchState,
       msg,
+      projectFilter,
     );
 
     shadowRoot.dispatchEvent(
@@ -258,18 +268,22 @@ const StateCalculator: FC<{
       projectOptions,
       totalResults,
       countOfProjects,
-    } = getResultsForDisplay(response, msg);
+    } = getResultsForDisplay(response, msg, projectFilter);
 
-    return (
-      <div id="calc-root" className="grid gap-8">
-        <Card padding="small">
-          <FormSnapshot
-            formLabels={submittedLabels!}
-            totalResults={totalResults}
-            countOfProjects={countOfProjects}
-            onEditClicked={() => setFetchState({ state: 'init' })}
-          />
-        </Card>
+    let incentiveResults;
+    if (projectFilter.length === 1) {
+      const selectedProject = projectFilter[0];
+      incentiveResults = (
+        <CardCollection
+          incentives={incentivesByProject[selectedProject]}
+          iraRebates={iraRebatesByProject[selectedProject]}
+          coverageState={response.coverage.state}
+          locationState={response.location.state}
+          project={selectedProject}
+        />
+      );
+    } else {
+      incentiveResults = (
         <IncentiveGrid
           ref={resultsRef}
           incentivesByProject={incentivesByProject}
@@ -278,6 +292,21 @@ const StateCalculator: FC<{
           locationState={response.location.state}
           tabs={projectOptions}
         />
+      );
+    }
+
+    return (
+      <div id="calc-root" className="grid gap-8">
+        <Card padding="small">
+          <FormSnapshot
+            formLabels={submittedLabels!}
+            totalResults={totalResults}
+            countOfProjects={countOfProjects}
+            singleProject={projectFilter.length === 1 ? projectFilter[0] : null}
+            onEditClicked={() => setFetchState({ state: 'init' })}
+          />
+        </Card>
+        {incentiveResults}
         <PartnerLogos response={response} />
       </div>
     );
@@ -358,6 +387,9 @@ class CalculatorElement extends HTMLElement {
   taxFiling: FilingStatus = DEFAULT_TAX_FILING;
   householdSize: string = DEFAULT_HOUSEHOLD_SIZE;
 
+  /* supported properties to filter API results */
+  projects: string = '';
+
   /* attributeChangedCallback() will be called when any of these changes */
   static observedAttributes = [
     'lang',
@@ -373,6 +405,7 @@ class CalculatorElement extends HTMLElement {
     'household-income',
     'tax-filing',
     'household-size',
+    'projects',
   ] as const;
 
   reactRootCalculator: Root | null = null;
@@ -432,6 +465,8 @@ class CalculatorElement extends HTMLElement {
       this.householdSize = newValue ?? DEFAULT_HOUSEHOLD_SIZE;
     } else if (attr === 'tax-filing') {
       this.taxFiling = (newValue as FilingStatus) ?? DEFAULT_TAX_FILING;
+    } else if (attr === 'projects') {
+      this.projects = newValue ?? '';
     } else {
       // This will fail typechecking if the cases above aren't exhaustive
       // with respect to observedAttributes
@@ -462,6 +497,7 @@ class CalculatorElement extends HTMLElement {
           emailRequired={this.emailRequired}
           emailToStaging={this.emailToStaging}
           includeBetaStates={this.includeBetaStates}
+          projectFilter={this.buildProjectFilter()}
         />
       </LocaleContext.Provider>,
     );
@@ -479,6 +515,25 @@ class CalculatorElement extends HTMLElement {
     return (allLocales as readonly string[]).includes(closestLang)
       ? closestLang
       : 'en';
+  }
+
+  private buildProjectFilter(): Project[] {
+    if (this.projects.length === 0) {
+      return [];
+    }
+
+    const validProjects = Object.keys(PROJECTS);
+    const projectFilter = this.projects
+      .split(',')
+      .map(p => p.toLowerCase() as Project);
+
+    for (const project of projectFilter) {
+      if (!validProjects.includes(project)) {
+        throw new Error(`Invalid project attribute: ${project}`);
+      }
+    }
+
+    return projectFilter;
   }
 }
 

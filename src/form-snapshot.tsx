@@ -1,13 +1,15 @@
 import { TextButton } from './buttons';
 import { str } from './i18n/str';
-import { useTranslated } from './i18n/use-translated';
+import { MsgFn, useTranslated } from './i18n/use-translated';
 import { EditIcon } from './icons';
+import { PROJECTS, Project } from './projects';
 import { FormLabels } from './state-calculator-form';
 
 type Props = {
   formLabels: FormLabels;
   totalResults: number;
   countOfProjects: number;
+  singleProject: Project | null;
   onEditClicked: () => void;
 };
 
@@ -19,17 +21,27 @@ export const FormSnapshot: React.FC<Props> = ({
   formLabels,
   totalResults,
   countOfProjects,
+  singleProject,
   onEditClicked,
 }) => {
   const { msg } = useTranslated();
 
+  let title: string;
+  if (singleProject) {
+    const projectLabel = getSingleProjectLabel(singleProject, msg);
+    title = msg(
+      str`We found ${totalResults} savings programs for ${projectLabel},`,
+    );
+  } else {
+    title = msg(
+      str`We found ${totalResults} savings programs across ${countOfProjects} projects,`,
+    );
+  }
+
   return (
     <div className="flex flex-col gap-3">
       <div className="leading-normal text-color-text-primary">
-        <span className="font-medium">
-          {msg(str`We found ${totalResults} results across \
-    ${countOfProjects} projects,`)}
-        </span>{' '}
+        <span className="font-medium">{title}</span>{' '}
         {msg('based on your household information.', {
           desc: 'preceded by "we found N projects"',
         })}
@@ -83,3 +95,31 @@ export const FormSnapshot: React.FC<Props> = ({
     </div>
   );
 };
+
+// Use this for more grammatically correct titles
+function getSingleProjectLabel(project: Project, msg: MsgFn) {
+  switch (project) {
+    case 'clothes_dryer':
+      return msg('clothes dryers', {
+        desc: 'comes after "we found N savings programs for"',
+      });
+    case 'solar':
+      return msg('solar installation', {
+        desc: 'comes after "we found N savings programs for"',
+      });
+    case 'water_heater':
+      return msg('water heaters', {
+        desc: 'comes after "we found N savings programs for"',
+      });
+    case 'cooking':
+      return msg('cooking stoves/ranges', {
+        desc: 'comes after "we found N savings programs for"',
+      });
+    case 'wiring':
+      return msg('electrical panels and wiring', {
+        desc: 'comes after "we found N savings programs for"',
+      });
+    default:
+      return PROJECTS[project].label(msg).toLocaleLowerCase();
+  }
+}

@@ -1,5 +1,5 @@
 import ProjectIcon from 'jsx:../static/icons/project.svg';
-import { forwardRef, useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import {
   AmountUnit,
   Incentive,
@@ -172,13 +172,20 @@ const renderSelectProjectCard = () => {
   );
 };
 
-const renderCardCollection = (
-  incentives: Incentive[],
-  iraRebates: IRARebate[],
-  coverageState: string | null,
-  locationState: string,
-  project: Project,
-) => {
+type CardCollectionProps = {
+  incentives: Incentive[];
+  iraRebates: IRARebate[];
+  coverageState: string | null;
+  locationState: string;
+  project: Project;
+};
+export const CardCollection: React.FC<CardCollectionProps> = ({
+  incentives,
+  iraRebates,
+  coverageState,
+  locationState,
+  project,
+}) => {
   const { msg } = useTranslated();
   return (
     <div className="flex flex-col gap-4">
@@ -197,7 +204,6 @@ const renderCardCollection = (
           }
 
           const futureStartYear = getStartYearIfInFuture(incentive);
-
           // The API cannot precisely tell, from zip code alone, whether the
           // user is in a specific city or county; it takes a permissive
           // approach and returns incentives for localities the user *might* be
@@ -287,7 +293,7 @@ export const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
 
       if (
         storedProject !== null &&
-        incentivesByProject[storedProject].length > 0
+        incentivesByProject[storedProject]?.length > 0
       ) {
         return storedProject;
       } else {
@@ -323,15 +329,17 @@ export const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
             }}
           />
         </div>
-        {projectTab !== null
-          ? renderCardCollection(
-              incentivesByProject[projectTab],
-              iraRebatesByProject[projectTab],
-              coverageState,
-              locationState,
-              projectTab,
-            )
-          : renderSelectProjectCard()}
+        {projectTab !== null ? (
+          <CardCollection
+            incentives={incentivesByProject[projectTab]}
+            iraRebates={iraRebatesByProject[projectTab]}
+            coverageState={coverageState}
+            locationState={locationState}
+            project={projectTab}
+          />
+        ) : (
+          renderSelectProjectCard()
+        )}
       </>
     );
   },
