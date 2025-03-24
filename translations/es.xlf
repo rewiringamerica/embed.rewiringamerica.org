@@ -883,6 +883,14 @@
   <target>un tablero eléctrico y cableado</target>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
 </trans-unit>
+<trans-unit id="s834fb215f6b3658d">
+  <source>Ending soon</source>
+  <target>Finaliza pronto</target>
+</trans-unit>
+<trans-unit id="s392f667420703599">
+  <source>Coming soon</source>
+  <target>Próximamente</target>
+</trans-unit>
 </body>
 </file>
 </xliff>
