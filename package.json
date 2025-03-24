@@ -7,7 +7,7 @@
     "@floating-ui/react-dom": "^2.0.6",
     "@headlessui/react": "^1.7.19",
     "@lit-labs/task": "^2.0.0",
-    "@shoelace-style/shoelace": "^2.12.0",
+    "@shoelace-style/shoelace": "^2.20.1",
     "autonumeric": "^4.8.1",
     "clsx": "^2.1.1",
     "lit": "^2.6.1",
