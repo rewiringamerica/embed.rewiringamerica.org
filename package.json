@@ -48,7 +48,7 @@
     "@types/react-dom": "^18.2.18",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
-    "@xmldom/xmldom": "^0.8.2",
+    "@xmldom/xmldom": "^0.9.8",
     "axe-core": "^4.8.2",
     "commander": "^11.1.0",
     "csv": "^6.3.11",
