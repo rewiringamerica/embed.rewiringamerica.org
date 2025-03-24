@@ -118,6 +118,12 @@ describe('group names', () => {
     ).toBeNull();
   });
 
+  test('electrical', () => {
+    expect(itemName(['electric_wiring', 'electric_panel'], msg, 'wiring')).toBe(
+      'an electrical panel and wiring',
+    );
+  });
+
   test('HEAR rebates applicable to multiple appliances', () => {
     expect(
       itemName(['heat_pump_clothes_dryer', 'electric_stove'], msg, 'cooking'),
@@ -130,5 +136,30 @@ describe('group names', () => {
         'clothes_dryer',
       ),
     ).toBe('a heat pump clothes dryer');
+  });
+
+  test('cross-project groups', () => {
+    // Test in both projects
+    expect(
+      itemName(['electric_vehicle_charger', 'electric_wiring'], msg, 'ev'),
+    ).toBe('wiring for EV charging');
+    expect(
+      itemName(['electric_vehicle_charger', 'electric_wiring'], msg, 'wiring'),
+    ).toBe('wiring for EV charging');
+
+    expect(
+      itemName(
+        ['electric_vehicle_charger', 'electric_wiring', 'electric_panel'],
+        msg,
+        'ev',
+      ),
+    ).toBe('panel and wiring upgrades for EV charging');
+    expect(
+      itemName(
+        ['electric_vehicle_charger', 'electric_wiring', 'electric_panel'],
+        msg,
+        'wiring',
+      ),
+    ).toBe('panel and wiring upgrades for EV charging');
   });
 });
