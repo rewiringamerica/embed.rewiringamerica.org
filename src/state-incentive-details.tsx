@@ -123,13 +123,17 @@ const shouldShowLocationHedging = (incentive: Incentive) =>
   !['ma-massSave'].includes(incentive.authority || '');
 
 // Determines if there should be a warning chip for the incentive based on
-// whether it is ending within 60 days, starting within 60 days, or starting
-// further in the future, in that order of priority.
-const isChangingSoonWarning = (
+// whether it is currently paused, ending within 60 days, starting within
+// 60 days, or starting further in the future, in that order of priority.
+const generateTimeSensitiveMessages = (
   incentive: Incentive,
   futureStartYear: number | null,
   msg: MsgFn,
 ) => {
+  if (incentive.paused) {
+    return msg('On hold');
+  }
+
   if (incentive.end_date && isChangingSoon(incentive.end_date, new Date())) {
     return msg('Ending soon');
   }
@@ -252,7 +256,7 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
           const locationEligibilityText = shouldShowLocationHedging(incentive)
             ? msg('Eligibility depends on residence location.')
             : '';
-          const timeSensitiveWarning = isChangingSoonWarning(
+          const timeSensitiveMessage = generateTimeSensitiveMessages(
             incentive,
             futureStartYear,
             msg,
@@ -271,7 +275,7 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
               headline={headline}
               subHeadline={incentive.program}
               body={`${incentive.short_description} ${locationEligibilityText}`}
-              warningChip={timeSensitiveWarning}
+              warningChip={timeSensitiveMessage}
               buttonUrl={buttonUrl}
               buttonText={buttonText}
             />
