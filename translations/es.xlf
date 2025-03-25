@@ -63,9 +63,6 @@
 <trans-unit id="sb1b20a59970ba607">
   <source>Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.</source>
 <target>Incluye a cualquier persona con la que viva y que reclame como dependiente en sus impuestos, y a su cónyuge o pareja si presenta impuestos conjuntos.</target></trans-unit>
-<trans-unit id="sb932cf0734934406">
-  <source>Your zip code helps determine the amount of discounts and tax credits you qualify for.</source>
-<target>Su código postal ayuda a determinar la cantidad de descuentos y créditos fiscales para los que califica.</target></trans-unit>
 <trans-unit id="s459781c939bc83e5">
   <source>Household income</source>
 <target>Ingresos del hogar</target></trans-unit>
@@ -109,10 +106,6 @@
   <source>Terms</source>
   <note from="lit-localize">as in terms of service</note>
 <target>Términos</target></trans-unit>
-<trans-unit id="se4572a1a2528a7d4">
-  <source>Zip</source>
-  <note from="lit-localize">as in zip code</note>
-<target>Código postal</target></trans-unit>
 <trans-unit id="s9eba0933010df96e">
   <source>More information</source>
   <note from="lit-localize">button caption</note>
@@ -865,6 +858,15 @@
   <source>electrical panels and wiring</source>
   <target>tableros eléctricos y cableado</target>
   <note from="lit-localize">comes after "we found N savings programs for"</note>
+</trans-unit>
+<trans-unit id="se549d84bd6822826">
+  <source>Your ZIP code helps determine the amount of discounts and tax credits you qualify for.</source>
+  <target>Su código postal ayuda a determinar la cantidad de descuentos y créditos fiscales para los que califica.</target>
+</trans-unit>
+<trans-unit id="se3ea0a1a24cb9f94">
+  <source>ZIP</source>
+  <target>Código postal</target>
+  <note from="lit-localize">as in ZIP code</note>
 </trans-unit>
 </body>
 </file>
