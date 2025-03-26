@@ -868,6 +868,21 @@
   <target>Código postal</target>
   <note from="lit-localize">as in ZIP code</note>
 </trans-unit>
+<trans-unit id="sbd1436bbb92185d2">
+  <source>panel and wiring upgrades for EV charging</source>
+  <target>un tablero eléctrico y cableado para carga de vehículos eléctricos</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sa732d69cf764c91a">
+  <source>wiring for EV charging</source>
+  <target>cableado para carga de vehículos eléctricos</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s0f8bbefd1394db7f">
+  <source>an electrical panel and wiring</source>
+  <target>un tablero eléctrico y cableado</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

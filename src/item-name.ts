@@ -15,6 +15,9 @@ type ItemGroup =
   | 'weatherization'
   | 'audit_and_weatherization'
   | 'water_heater'
+  | 'charger_wiring_panel'
+  | 'charger_wiring'
+  | 'panel_and_wiring'
   | 'electric_outdoor_equipment';
 
 const ALL_INSULATION: ItemType[] = [
@@ -120,6 +123,22 @@ const ITEM_GROUPS: { group: ItemGroup; members: Set<ItemType> }[] = [
       'solar_water_heater',
     ]),
   },
+  {
+    group: 'panel_and_wiring',
+    members: new Set(['electric_panel', 'electric_wiring']),
+  },
+  {
+    group: 'charger_wiring',
+    members: new Set(['electric_vehicle_charger', 'electric_wiring']),
+  },
+  {
+    group: 'charger_wiring_panel',
+    members: new Set([
+      'electric_vehicle_charger',
+      'electric_wiring',
+      'electric_panel',
+    ]),
+  },
 ];
 
 const itemsBelongToGroup = (items: ItemType[], members: Set<ItemType>) => {
@@ -180,6 +199,18 @@ const multipleItemsName = (items: ItemType[], msg: MsgFn) => {
           return msg('electric outdoor equipment', {
             desc: 'e.g. "$100 off [this string]"',
           });
+        case 'charger_wiring_panel':
+          return msg('panel and wiring upgrades for EV charging', {
+            desc: 'e.g. "$100 off [this string]"',
+          });
+        case 'charger_wiring':
+          return msg('wiring for EV charging', {
+            desc: 'e.g. "$100 off [this string]"',
+          });
+        case 'panel_and_wiring':
+          return msg('an electrical panel and wiring', {
+            desc: 'e.g. "$100 off [this string]"',
+          });
         default: {
           // This will be a type error if the above switch is not exhaustive
           const unknownGroup: never = group;
@@ -200,6 +231,17 @@ export const itemName = (
   msg: MsgFn,
   project: Project,
 ) => {
+  // First try to find a multi-item group for all the items, regardless of what
+  // project we're looking at
+  if (incentiveItems.length > 1) {
+    const name = multipleItemsName(incentiveItems, msg);
+    if (name) {
+      return name;
+    }
+  }
+
+  // If that didn't work, filter the items down to ones relevant to the project
+  // we're looking at, and try again
   const itemsToRender = incentiveItems.filter(item =>
     PROJECTS[project].items.includes(item),
   );
