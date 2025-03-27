@@ -216,6 +216,7 @@ export const templates = {
   sf05c1c17e90b0ddd: `Inquilino`,
   sf12bd6cb13bc154f: `Arizona`,
   sf1e2063bc64f3539: `Arkansas`,
+  sf24f64352974cf1d: `Pausada`,
   sf3affd5c9f2915e0: `Connecticut`,
   sf59668536419404a: `aislamiento del sótano`,
   sf597f4db453ddcad: `es un recurso completo que incluye información detallada para su estado.`,

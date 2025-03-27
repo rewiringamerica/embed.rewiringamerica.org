@@ -891,6 +891,11 @@
   <source>Coming soon</source>
   <target>Próximamente</target>
 </trans-unit>
+<trans-unit id="sf24f64352974cf1d">
+  <source>On hold</source>
+  <target>Pausada</target>
+  <note from="lit-localize">such as when an incentive is "paused"</note>
+</trans-unit>
 </body>
 </file>
 </xliff>
