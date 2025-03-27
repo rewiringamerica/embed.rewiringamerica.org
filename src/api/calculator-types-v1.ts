@@ -83,8 +83,8 @@ export interface Incentive {
   amount: Amount;
   start_date?: string;
   end_date?: string;
+  paused?: boolean;
   short_description?: string;
-
   eligible?: boolean;
 }
 
