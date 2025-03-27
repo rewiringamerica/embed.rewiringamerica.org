@@ -76,7 +76,7 @@ const fetch = (
   const query = new URLSearchParams({
     language,
     include_beta_states: '' + includeBetaStates,
-    zip: formValues.zip,
+    zip: formValues.zip.slice(-5), // only send the ZIP if the form collected a full address
     owner_status: formValues.ownerStatus,
     household_income: formValues.householdIncome,
     tax_filing: formValues.taxFiling,
@@ -139,6 +139,7 @@ const StateCalculator: FC<{
   apiKey: string;
   attributeValues: FormValues;
   stateId?: string;
+  showAddress?: boolean;
   showEmail: boolean;
   emailRequired: boolean;
   emailToStaging: boolean;
@@ -150,6 +151,7 @@ const StateCalculator: FC<{
   apiKey,
   attributeValues,
   stateId,
+  showAddress,
   showEmail,
   emailRequired,
   emailToStaging,
@@ -326,6 +328,7 @@ const StateCalculator: FC<{
             key={formKey}
             stateId={stateId}
             initialValues={getInitialFormValues()}
+            showAddressField={showAddress}
             showEmailField={showEmail && !emailSubmitted}
             emailRequired={emailRequired}
             loading={fetchState.state === 'loading'}
@@ -354,6 +357,9 @@ const StateCalculator: FC<{
 };
 
 class CalculatorElement extends HTMLElement {
+  /* property to show the address field instead of the ZIP field */
+  showAddress: boolean = false;
+
   /* property to show the email signup field */
   showEmail: boolean = false;
 
@@ -393,6 +399,7 @@ class CalculatorElement extends HTMLElement {
   /* attributeChangedCallback() will be called when any of these changes */
   static observedAttributes = [
     'lang',
+    'show-address-field',
     'show-email',
     'email-required',
     'email-to-staging',
@@ -447,6 +454,8 @@ class CalculatorElement extends HTMLElement {
       this.apiKey = newValue ?? '';
     } else if (attr === 'include-beta-states') {
       this.includeBetaStates = newValue !== null;
+    } else if (attr === 'show-address-field') {
+      this.showAddress = newValue !== null;
     } else if (attr === 'show-email') {
       this.showEmail = newValue !== null;
     } else if (attr === 'email-required') {
@@ -493,6 +502,7 @@ class CalculatorElement extends HTMLElement {
             taxFiling: this.taxFiling,
           }}
           stateId={this.state}
+          showAddress={this.showAddress}
           showEmail={this.showEmail}
           emailRequired={this.emailRequired}
           emailToStaging={this.emailToStaging}
