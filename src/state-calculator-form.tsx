@@ -13,6 +13,8 @@ import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
 import { STATES } from './states';
 
+const MAX_USPS_ADDRESS1_LENGTH = 46;
+
 const OWNER_STATUS_OPTIONS: (msg: MsgFn) => Option<OwnerStatus>[] = msg => [
   { value: 'homeowner', label: msg('Homeowner') },
   { value: 'renter', label: msg('Renter') },
@@ -235,6 +237,7 @@ export type FormLabels = { [k in keyof FormValues]: string };
 
 export const CalculatorForm: FC<{
   initialValues: FormValues;
+  showAddressField?: boolean;
   showEmailField: boolean;
   emailRequired: boolean;
   loading: boolean;
@@ -244,6 +247,7 @@ export const CalculatorForm: FC<{
   onSubmit: (values: FormValues, labels: FormLabels) => void;
 }> = ({
   initialValues,
+  showAddressField,
   showEmailField,
   emailRequired,
   loading,
@@ -274,7 +278,14 @@ export const CalculatorForm: FC<{
   });
 
   useEffect(() => {
-    if (!utilityFetcher || !zip.match(/^\d{5}$/)) {
+    // is `showAddressField` is `true`, `zip` is actually a full address,
+    // so we need to extract the actual short ZIP code from it.
+    let shortZip = zip;
+    if (showAddressField) {
+      shortZip = zip.slice(-5);
+    }
+
+    if (!utilityFetcher || !shortZip.match(/^\d{5}$/)) {
       return;
     }
 
@@ -282,7 +293,7 @@ export const CalculatorForm: FC<{
       state: 'loading',
       previousResponse: prev.state === 'complete' ? prev.response : undefined,
     }));
-    utilityFetcher(zip)
+    utilityFetcher(shortZip)
       .then(response => {
         // If our "state" attribute is set, enforce that the entered location is
         // in that state.
@@ -380,15 +391,25 @@ export const CalculatorForm: FC<{
           onChange={v => setOwnerStatus(v as OwnerStatus)}
         />
         <div>
-          <FormLabel
-            tooltipText={msg(
-              'Your ZIP code helps determine the amount of discounts and tax credits you qualify for.',
-            )}
-          >
-            <label htmlFor="zip">
-              {msg('ZIP', { desc: 'as in ZIP code' })}
-            </label>
-          </FormLabel>
+          {showAddressField ? (
+            <FormLabel
+              tooltipText={msg(
+                'Your address helps determine the amount of discounts and tax credits you qualify for.',
+              )}
+            >
+              <label htmlFor="zip">{msg('Address')}</label>
+            </FormLabel>
+          ) : (
+            <FormLabel
+              tooltipText={msg(
+                'Your ZIP code helps determine the amount of discounts and tax credits you qualify for.',
+              )}
+            >
+              <label htmlFor="zip">
+                {msg('ZIP', { desc: 'as in ZIP code' })}
+              </label>
+            </FormLabel>
+          )}
 
           <TextInput
             tabIndex={0}
@@ -398,9 +419,9 @@ export const CalculatorForm: FC<{
             required
             type="text"
             minLength={5}
-            maxLength={5}
-            inputMode="numeric"
-            pattern="[0-9]{5}"
+            maxLength={showAddressField ? MAX_USPS_ADDRESS1_LENGTH : 5}
+            inputMode={showAddressField ? 'text' : 'numeric'}
+            pattern={showAddressField ? '^.{0,41}[0-9]{5}$' : '[0-9]{5}'}
             autoComplete="postal-code"
             value={zip}
             onChange={event => setZip(event.currentTarget.value)}
