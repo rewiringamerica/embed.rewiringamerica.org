@@ -62,6 +62,7 @@ const hearRebates: {
 const HEAR_EXCLUSION_RULES: Record<string, true | Project[]> = {
   DC: true,
   GA: true,
+  ID: true,
   ME: true,
   MD: true,
   NY: true,
@@ -69,7 +70,7 @@ const HEAR_EXCLUSION_RULES: Record<string, true | Project[]> = {
   SD: true,
   NM: ['cooking', 'clothes_dryer'], // only exclude stoves and dryers in NM for now
 };
-const HER_EXCLUDE_STATES = new Set(['DC', 'GA', 'ME', 'NY', 'SD', 'WI']);
+const HER_EXCLUDE_STATES = new Set(['DC', 'GA', 'ID', 'ME', 'NY', 'SD', 'WI']);
 
 export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
   const disclaimerText = msg(
