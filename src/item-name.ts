@@ -394,7 +394,7 @@ export const itemName = (
       });
     case 'solar_screen_films':
       return msg('shade screen or window films', {
-        desc: 'e.g. "$1/square foot"',
+        desc: 'e.g. "$0.5/square foot off"',
       });
     default: {
       // This will be a type error if the above if-else is not exhaustive
