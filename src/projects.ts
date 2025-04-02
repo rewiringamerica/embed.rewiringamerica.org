@@ -38,6 +38,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'geothermal_heating_installation',
       'other_heat_pump',
       'smart_thermostat',
+      'integrated_heat_pump_controls',
     ],
     label: msg => msg('Heating, ventilation & cooling'),
   },
@@ -73,7 +74,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
     label: msg => msg('Cooking stove/range'),
   },
   wiring: {
-    items: ['electric_panel', 'electric_wiring'],
+    items: ['electric_panel', 'electric_wiring', 'electric_service_upgrades'],
     label: msg => msg('Electrical panel & wiring'),
   },
   weatherization_and_efficiency: {
@@ -93,6 +94,7 @@ export const PROJECTS: Record<Project, ProjectInfo> = {
       'other_insulation',
       'other_weatherization',
       'energy_audit',
+      'solar_screen_films',
     ],
     label: msg => msg('Weatherization & efficiency'),
   },
