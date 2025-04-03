@@ -62,7 +62,12 @@ export function isChangingSoon(apiDate: string, now: Date): boolean {
   const utcNow = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
 
   const sixtyDays = 60 * 24 * 60 * 60 * 1000;
-  return utcNow + sixtyDays > earliestPossibleInstant;
+  const sixtyDaysFromNow = utcNow + sixtyDays;
+
+  return (
+    earliestPossibleInstant > utcNow &&
+    sixtyDaysFromNow > earliestPossibleInstant
+  );
 }
 
 export function getYear(apiDate: string): number {

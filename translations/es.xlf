@@ -908,6 +908,21 @@
   <source>Enter your address to select a utility.</source>
   <target>Ingrese su dirección para seleccionar una empresa de servicios eléctricos.</target>
 </trans-unit>
+<trans-unit id="s7d0f073444968fe2">
+  <source>shade screen or window films</source>
+  <target>película para pantalla de sombra o ventana</target>
+  <note from="lit-localize">e.g. "$0.5/square foot off"</note>
+</trans-unit>
+<trans-unit id="s2aff515f3b6f6529">
+  <source>electric service upgrades to your home</source>
+  <target>mejoras en el servicio eléctrico de tu hogar</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s0e8b54f023eea1b6">
+  <source>integrated heat pump controls</source>
+  <target>controles integrados de bomba de calor</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
 </body>
 </file>
 </xliff>

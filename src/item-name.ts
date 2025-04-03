@@ -38,6 +38,7 @@ const ALL_WEATHERIZATION: ItemType[] = [
   'duct_sealing',
   'window_replacement',
   'efficiency_rebates',
+  'solar_screen_films',
   'other_weatherization',
 ];
 
@@ -73,6 +74,7 @@ const ITEM_GROUPS: { group: ItemGroup; members: Set<ItemType> }[] = [
       'ducted_heat_pump',
       'ductless_heat_pump',
       'geothermal_heating_installation',
+      'integrated_heat_pump_controls',
       'other_heat_pump',
     ]),
   },
@@ -381,6 +383,18 @@ export const itemName = (
     case 'ebike':
       return msg('an e-bike', {
         desc: 'e.g. "$100 off [this string]"',
+      });
+    case 'electric_service_upgrades':
+      return msg('electric service upgrades to your home', {
+        desc: 'e.g. "$100 off [this string]"',
+      });
+    case 'integrated_heat_pump_controls':
+      return msg('integrated heat pump controls', {
+        desc: 'e.g. "$100 off [this string]"',
+      });
+    case 'solar_screen_films':
+      return msg('shade screen or window films', {
+        desc: 'e.g. "$0.5/square foot off"',
       });
     default: {
       // This will be a type error if the above if-else is not exhaustive
