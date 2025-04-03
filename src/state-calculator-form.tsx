@@ -13,7 +13,7 @@ import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
 import { STATES } from './states';
 
-const MAX_USPS_ADDRESS1_LENGTH = 46;
+const MAX_USPS_ADDRESS_LENGTH = 192;
 
 const OWNER_STATUS_OPTIONS: (msg: MsgFn) => Option<OwnerStatus>[] = msg => [
   { value: 'homeowner', label: msg('Homeowner') },
@@ -104,12 +104,18 @@ const renderUtilityFields = (
   setGasUtility: (newValue: string) => void,
   utilitiesFetch: FetchState<APIUtilitiesResponse>,
   msg: MsgFn,
+  showAddressField?: boolean,
 ) => {
   const options: Option<string>[] = getElectricOptions(utilitiesFetch, msg);
+  const enterAddressToSelect = msg('Enter your address to select a utility.');
   const enterZipToSelect = msg('Enter your ZIP code to select a utility.');
+  const enterLocationToSelect = showAddressField
+    ? enterAddressToSelect
+    : enterZipToSelect;
+
   const helpText =
     utilitiesFetch.state === 'init'
-      ? enterZipToSelect
+      ? enterLocationToSelect
       : utilitiesFetch.state === 'loading'
       ? ' ' // Empty help text, but maintain vertical space
       : utilitiesFetch.state === 'complete'
@@ -223,7 +229,8 @@ const renderEmailField = (
 );
 
 export type FormValues = {
-  zip: string;
+  address?: string;
+  zip?: string;
   ownerStatus: OwnerStatus;
   householdIncome: string;
   householdSize: string;
@@ -242,7 +249,10 @@ export const CalculatorForm: FC<{
   emailRequired: boolean;
   loading: boolean;
   errorMessage: string | null;
-  utilityFetcher: (zip: string) => Promise<APIUtilitiesResponse>;
+  utilityFetcher: (
+    address: string | undefined,
+    zip: string | undefined,
+  ) => Promise<APIUtilitiesResponse>;
   stateId?: string;
   onSubmit: (values: FormValues, labels: FormLabels) => void;
 }> = ({
@@ -258,7 +268,10 @@ export const CalculatorForm: FC<{
 }) => {
   const { msg } = useTranslated();
 
-  const [zip, setZip] = useState(initialValues.zip);
+  const [address, setAddress] = useState(initialValues.address);
+  const [zip, setZip] = useState(
+    showAddressField ? undefined : initialValues.zip,
+  );
   const [ownerStatus, setOwnerStatus] = useState(initialValues.ownerStatus);
   const [householdIncome, setHouseholdIncome] = useState(
     initialValues.householdIncome,
@@ -277,23 +290,16 @@ export const CalculatorForm: FC<{
     state: 'init',
   });
 
-  useEffect(() => {
-    // is `showAddressField` is `true`, `zip` is actually a full address,
-    // so we need to extract the actual short ZIP code from it.
-    let shortZip = zip;
-    if (showAddressField) {
-      shortZip = zip.slice(-5);
-    }
-
-    if (!utilityFetcher || !shortZip.match(/^\d{5}$/)) {
-      return;
-    }
-
+  const fetchUtility = (
+    address: string | undefined,
+    zip: string | undefined,
+  ) => {
     setUtilitiesFetchState(prev => ({
       state: 'loading',
       previousResponse: prev.state === 'complete' ? prev.response : undefined,
     }));
-    utilityFetcher(shortZip)
+
+    utilityFetcher(address, zip)
       .then(response => {
         // If our "state" attribute is set, enforce that the entered location is
         // in that state.
@@ -337,6 +343,14 @@ export const CalculatorForm: FC<{
       .catch(exc =>
         setUtilitiesFetchState({ state: 'error', message: exc.message }),
       );
+  };
+
+  useEffect(() => {
+    if (showAddressField || !utilityFetcher || !zip || !zip.match(/^\d{5}$/)) {
+      return;
+    }
+
+    fetchUtility(undefined, zip);
   }, [stateId, zip]);
 
   return (
@@ -397,7 +411,7 @@ export const CalculatorForm: FC<{
                 'Your address helps determine the amount of discounts and tax credits you qualify for.',
               )}
             >
-              <label htmlFor="zip">{msg('Address')}</label>
+              <label htmlFor="address">{msg('Address')}</label>
             </FormLabel>
           ) : (
             <FormLabel
@@ -410,22 +424,39 @@ export const CalculatorForm: FC<{
               </label>
             </FormLabel>
           )}
-
-          <TextInput
-            tabIndex={0}
-            id="zip"
-            placeholder="12345"
-            name="zip"
-            required
-            type="text"
-            minLength={5}
-            maxLength={showAddressField ? MAX_USPS_ADDRESS1_LENGTH : 5}
-            inputMode={showAddressField ? 'text' : 'numeric'}
-            pattern={showAddressField ? '^.{0,41}[0-9]{5}$' : '[0-9]{5}'}
-            autoComplete="postal-code"
-            value={zip}
-            onChange={event => setZip(event.currentTarget.value)}
-          />
+          {showAddressField ? (
+            <TextInput
+              tabIndex={0}
+              id="address"
+              placeholder="1 Main St, 12345"
+              name="address"
+              required
+              type="text"
+              minLength={5}
+              maxLength={MAX_USPS_ADDRESS_LENGTH}
+              inputMode="text"
+              autoComplete="street-address"
+              value={address}
+              onChange={event => setAddress(event.currentTarget.value)}
+              onBlur={() => fetchUtility(address, zip)}
+            />
+          ) : (
+            <TextInput
+              tabIndex={0}
+              id="zip"
+              placeholder="12345"
+              name="zip"
+              required
+              type="text"
+              minLength={5}
+              maxLength={5}
+              inputMode="numeric"
+              pattern="[0-9]{5}"
+              autoComplete="postal-code"
+              value={zip}
+              onChange={event => setZip(event.currentTarget.value)}
+            />
+          )}
         </div>
         {renderUtilityFields(
           utility,
@@ -434,6 +465,7 @@ export const CalculatorForm: FC<{
           setGasUtility,
           utilitiesFetchState,
           msg,
+          showAddressField,
         )}
         <div>
           <FormLabel

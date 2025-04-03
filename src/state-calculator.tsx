@@ -76,12 +76,19 @@ const fetch = (
   const query = new URLSearchParams({
     language,
     include_beta_states: '' + includeBetaStates,
-    zip: formValues.zip.slice(-5), // only send the ZIP if the form collected a full address
     owner_status: formValues.ownerStatus,
     household_income: formValues.householdIncome,
     tax_filing: formValues.taxFiling,
     household_size: formValues.householdSize,
   });
+
+  // the API expects only EITHER the `address` OR `zip` to be sent
+  if (formValues.address) {
+    query.set('address', formValues.address);
+  } else {
+    query.set('zip', formValues.zip);
+  }
+
   // Only send this param if "other" wasn't chosen
   if (formValues.utility && formValues.utility !== OTHER_UTILITY_ID) {
     query.set('utility', formValues.utility);
@@ -179,6 +186,7 @@ const StateCalculator: FC<{
     );
 
     return {
+      address: storedValues?.address ?? attributeValues.address,
       zip: storedValues?.zip ?? attributeValues.zip,
       ownerStatus: storedValues?.ownerStatus ?? attributeValues.ownerStatus,
       householdIncome:
@@ -335,8 +343,16 @@ const StateCalculator: FC<{
             errorMessage={
               fetchState.state === 'error' ? fetchState.message : null
             }
-            utilityFetcher={zip => {
-              const query = new URLSearchParams({ language: locale, zip });
+            utilityFetcher={(
+              address: string | undefined,
+              zip: string | undefined,
+            ) => {
+              const query = new URLSearchParams({ language: locale });
+
+              // each of the following location properties can potentially be undefined
+              address && query.append('address', address);
+              zip && query.append('zip', zip);
+
               // Tracking usage of the embedded calculator
               query.append('ra_embed', '1');
 

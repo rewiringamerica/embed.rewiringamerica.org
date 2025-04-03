@@ -904,6 +904,10 @@
   <source>Your address helps determine the amount of discounts and tax credits you qualify for.</source>
   <target>Su dirección ayuda a determinar la cantidad de descuentos y créditos fiscales para los que califica.</target>
 </trans-unit>
+<trans-unit id="s9a7f0b084a46d64e">
+  <source>Enter your address to select a utility.</source>
+  <target>Ingrese su dirección para seleccionar una empresa de servicios eléctricos.</target>
+</trans-unit>
 </body>
 </file>
 </xliff>
