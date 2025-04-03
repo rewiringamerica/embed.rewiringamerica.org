@@ -294,6 +294,10 @@ export const CalculatorForm: FC<{
     address: string | undefined,
     zip: string | undefined,
   ) => {
+    if (!address && !zip) {
+      return;
+    }
+
     setUtilitiesFetchState(prev => ({
       state: 'loading',
       previousResponse: prev.state === 'complete' ? prev.response : undefined,
@@ -346,12 +350,22 @@ export const CalculatorForm: FC<{
   };
 
   useEffect(() => {
-    if (showAddressField || !utilityFetcher || !zip || !zip.match(/^\d{5}$/)) {
+    let shortZip = zip;
+
+    if (!utilityFetcher) {
       return;
     }
 
-    fetchUtility(undefined, zip);
-  }, [stateId, zip]);
+    if (!showAddressField && (!zip || !zip.match(/^\d{5}$/))) {
+      return;
+    }
+
+    if (showAddressField && address && address.slice(-5).match(/^\d{5}$/)) {
+      shortZip = address.slice(-5);
+    }
+
+    fetchUtility(undefined, shortZip);
+  }, [address, stateId, zip]);
 
   return (
     <form
