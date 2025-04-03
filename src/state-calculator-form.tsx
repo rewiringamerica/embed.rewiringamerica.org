@@ -350,8 +350,6 @@ export const CalculatorForm: FC<{
   };
 
   useEffect(() => {
-    let shortZip = zip;
-
     if (!utilityFetcher) {
       return;
     }
@@ -360,11 +358,15 @@ export const CalculatorForm: FC<{
       return;
     }
 
-    if (showAddressField && address && address.slice(-5).match(/^\d{5}$/)) {
-      shortZip = address.slice(-5);
+    if (showAddressField && address) {
+      if (!address.slice(-5).match(/^\d{5}$/)) {
+        return;
+      }
+
+      fetchUtility(undefined, address.slice(-5));
     }
 
-    fetchUtility(undefined, shortZip);
+    fetchUtility(undefined, zip);
   }, [address, stateId, zip]);
 
   return (
@@ -452,7 +454,7 @@ export const CalculatorForm: FC<{
               autoComplete="street-address"
               value={address}
               onChange={event => setAddress(event.currentTarget.value)}
-              onBlur={() => fetchUtility(address, zip)}
+              onBlur={() => fetchUtility(address, undefined)}
             />
           ) : (
             <TextInput
