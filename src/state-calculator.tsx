@@ -59,9 +59,10 @@ const fetch = (
   msg: MsgFn,
   projectFilter: Project[],
 ) => {
+  const locationProvided = formValues.address || formValues.zip;
   if (
     !(
-      formValues.zip &&
+      locationProvided &&
       formValues.ownerStatus &&
       formValues.taxFiling &&
       formValues.householdIncome &&
@@ -85,7 +86,7 @@ const fetch = (
   // the API expects only EITHER the `address` OR `zip` to be sent
   if (formValues.address) {
     query.set('address', formValues.address);
-  } else {
+  } else if (formValues.zip) {
     query.set('zip', formValues.zip);
   }
 
