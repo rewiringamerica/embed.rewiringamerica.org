@@ -268,7 +268,9 @@ export const CalculatorForm: FC<{
 }) => {
   const { msg } = useTranslated();
 
-  const [address, setAddress] = useState(initialValues.address);
+  const [address, setAddress] = useState(
+    showAddressField ? initialValues.address : undefined,
+  );
   const [zip, setZip] = useState(
     showAddressField ? undefined : initialValues.zip,
   );
@@ -350,11 +352,13 @@ export const CalculatorForm: FC<{
   };
 
   useEffect(() => {
+    let shortZip = zip;
+
     if (!utilityFetcher) {
       return;
     }
 
-    if (!showAddressField && (!zip || !zip.match(/^\d{5}$/))) {
+    if (!showAddressField && (!shortZip || !shortZip.match(/^\d{5}$/))) {
       return;
     }
 
@@ -363,10 +367,10 @@ export const CalculatorForm: FC<{
         return;
       }
 
-      fetchUtility(undefined, address.slice(-5));
+      shortZip = address.slice(-5);
     }
 
-    fetchUtility(undefined, zip);
+    fetchUtility(undefined, shortZip);
   }, [address, stateId, zip]);
 
   return (
@@ -374,7 +378,8 @@ export const CalculatorForm: FC<{
       onSubmit={e => {
         e.preventDefault();
         const values: FormValues = {
-          zip,
+          address: showAddressField ? address : undefined,
+          zip: showAddressField ? undefined : zip,
           ownerStatus,
           householdIncome,
           householdSize,
@@ -386,7 +391,8 @@ export const CalculatorForm: FC<{
 
         const gasOptions = getGasOptions(utilitiesFetchState, msg);
         const labels: FormLabels = {
-          zip,
+          address: showAddressField ? address : undefined,
+          zip: showAddressField ? undefined : zip,
           householdIncome: AutoNumeric.format(householdIncome, {
             ...AutoNumeric.getPredefinedOptions().NorthAmerican,
             decimalPlaces: 0,
