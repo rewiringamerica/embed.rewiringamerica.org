@@ -205,15 +205,13 @@ export const Select = <T extends string>({
                   o.disabled && 'opacity-50',
                 )}
               >
-                {currentValue === o.value ? (
-                  <Check w={20} h={20} />
-                ) : (
-                  <div className="w-5" />
-                )}
+                <div className="w-5 shrink-0">
+                  {currentValue === o.value && <Check w={20} h={20} />}
+                </div>
                 {o.getIcon && (
                   <span className="text-lg text-grey-700">{o.getIcon()}</span>
                 )}
-                <span className="grow text-color-text-primary">{o.label}</span>
+                <span className="text-color-text-primary">{o.label}</span>
                 {o.badge !== undefined && <Badge num={o.badge} />}
               </Listbox.Option>
             ))}
