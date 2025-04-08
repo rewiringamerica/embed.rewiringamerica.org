@@ -63,6 +63,7 @@ const HEAR_EXCLUSION_RULES: Record<string, true | Project[]> = {
   DC: true,
   GA: true,
   ID: true,
+  MA: true,
   ME: true,
   MD: true,
   NY: true,
@@ -70,7 +71,17 @@ const HEAR_EXCLUSION_RULES: Record<string, true | Project[]> = {
   SD: true,
   NM: ['cooking', 'clothes_dryer'], // only exclude stoves and dryers in NM for now
 };
-const HER_EXCLUDE_STATES = new Set(['DC', 'GA', 'ID', 'ME', 'NY', 'SD', 'WI']);
+
+const HER_EXCLUDE_STATES = new Set([
+  'DC',
+  'GA',
+  'ID',
+  'MA',
+  'ME',
+  'NY',
+  'SD',
+  'WI',
+]);
 
 export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
   const disclaimerText = msg(
@@ -78,9 +89,6 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
   );
   const maxHerRebate = response.is_under_80_ami ? 8000 : 4000;
   const stateExclusions = HEAR_EXCLUSION_RULES[response.location.state];
-  // Mass Save includes HEAR/HER rebates, so we should not show the timeline chip for that location
-  const timeline =
-    response.location.state === 'MA' ? null : msg('Expected in 2025');
   const result: IRARebate[] = [];
 
   if (response.is_under_150_ami) {
@@ -105,7 +113,7 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
           url: msg(
             'https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates',
           ),
-          timeline,
+          timeline: msg('Expected in 2025'),
         });
       }
     });
@@ -126,7 +134,7 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
       url: msg(
         'https://homes.rewiringamerica.org/federal-incentives/home-efficiency-rebates',
       ),
-      timeline,
+      timeline: msg('Expected in 2025'),
     });
   }
 
