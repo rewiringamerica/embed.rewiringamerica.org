@@ -105,7 +105,7 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
           url: msg(
             'https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates',
           ),
-          timeline: timeline,
+          timeline,
         });
       }
     });
@@ -126,7 +126,7 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
       url: msg(
         'https://homes.rewiringamerica.org/federal-incentives/home-efficiency-rebates',
       ),
-      timeline: timeline,
+      timeline,
     });
   }
 
