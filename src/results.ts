@@ -11,6 +11,17 @@ export type Results = {
   countOfProjects: number;
 };
 
+// MA residents are already eligible for free energy audits, so do not include
+// that federal incentive
+function excludeFederalEnergyAuditForMA(state: string, incentive: Incentive) {
+  return (
+    state === 'MA' &&
+    incentive.authority_type === 'federal' &&
+    incentive.items.length === 1 &&
+    incentive.items[0] === 'energy_audit'
+  );
+}
+
 export function getResultsForDisplay(
   response: APIResponse,
   msg: MsgFn,
@@ -29,8 +40,10 @@ export function getResultsForDisplay(
   const incentivesByProject = Object.fromEntries(
     Object.entries(projects).map(([project, projectInfo]) => [
       project,
-      response.incentives.filter(incentive =>
-        incentive.items.some(item => projectInfo.items.includes(item)),
+      response.incentives.filter(
+        incentive =>
+          incentive.items.some(item => projectInfo.items.includes(item)) &&
+          !excludeFederalEnergyAuditForMA(response.location.state, incentive),
       ),
     ]),
   ) as Record<Project, Incentive[]>;
