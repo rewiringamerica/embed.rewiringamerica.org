@@ -13,8 +13,6 @@ import { str } from './i18n/str';
 import { MsgFn, useTranslated } from './i18n/use-translated';
 import { STATES } from './states';
 
-const MAX_USPS_ADDRESS_LENGTH = 192;
-
 const OWNER_STATUS_OPTIONS: (msg: MsgFn) => Option<OwnerStatus>[] = msg => [
   { value: 'homeowner', label: msg('Homeowner') },
   { value: 'renter', label: msg('Renter') },
@@ -447,7 +445,6 @@ export const CalculatorForm: FC<{
               required
               type="text"
               minLength={5}
-              maxLength={MAX_USPS_ADDRESS_LENGTH}
               inputMode="text"
               autoComplete="street-address"
               value={address}
