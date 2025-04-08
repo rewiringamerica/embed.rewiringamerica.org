@@ -250,8 +250,7 @@ export const CalculatorForm: FC<{
   loading: boolean;
   errorMessage: string | null;
   utilityFetcher: (
-    address: string | undefined,
-    zip: string | undefined,
+    zipOrAddress: string | undefined,
   ) => Promise<APIUtilitiesResponse>;
   stateId?: string;
   onSubmit: (values: FormValues, labels: FormLabels) => void;
@@ -292,11 +291,8 @@ export const CalculatorForm: FC<{
     state: 'init',
   });
 
-  const fetchUtility = (
-    address: string | undefined,
-    zip: string | undefined,
-  ) => {
-    if (!address && !zip) {
+  const fetchUtility = (zipOrAddress: string | undefined) => {
+    if (!zipOrAddress) {
       return;
     }
 
@@ -305,7 +301,7 @@ export const CalculatorForm: FC<{
       previousResponse: prev.state === 'complete' ? prev.response : undefined,
     }));
 
-    utilityFetcher(address, zip)
+    utilityFetcher(zipOrAddress)
       .then(response => {
         // If our "state" attribute is set, enforce that the entered location is
         // in that state.
@@ -352,13 +348,11 @@ export const CalculatorForm: FC<{
   };
 
   useEffect(() => {
-    let shortZip = zip;
-
     if (!utilityFetcher) {
       return;
     }
 
-    if (!showAddressField && (!shortZip || !shortZip.match(/^\d{5}$/))) {
+    if (!showAddressField && (!zip || !zip.match(/^\d{5}$/))) {
       return;
     }
 
@@ -366,11 +360,9 @@ export const CalculatorForm: FC<{
       if (!address.slice(-5).match(/^\d{5}$/)) {
         return;
       }
-
-      shortZip = address.slice(-5);
     }
 
-    fetchUtility(undefined, shortZip);
+    fetchUtility(showAddressField ? address : zip);
   }, [address, stateId, zip]);
 
   return (

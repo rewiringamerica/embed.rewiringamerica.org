@@ -344,15 +344,15 @@ const StateCalculator: FC<{
             errorMessage={
               fetchState.state === 'error' ? fetchState.message : null
             }
-            utilityFetcher={(
-              address: string | undefined,
-              zip: string | undefined,
-            ) => {
+            utilityFetcher={(zipOrAddress: string | undefined) => {
               const query = new URLSearchParams({ language: locale });
 
-              // each of the following location properties can potentially be undefined
-              address && query.append('address', address);
-              zip && query.append('zip', zip);
+              // add EITHER `zip` OR `address` to the query based on the value of `showAddress`
+              if (zipOrAddress) {
+                showAddress
+                  ? query.append('address', zipOrAddress)
+                  : query.append('zip', zipOrAddress);
+              }
 
               // Tracking usage of the embedded calculator
               query.append('ra_embed', '1');
