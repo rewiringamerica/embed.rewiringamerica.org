@@ -452,7 +452,7 @@ export const CalculatorForm: FC<{
               autoComplete="street-address"
               value={address}
               onChange={event => setAddress(event.currentTarget.value)}
-              onBlur={() => fetchUtility(address, undefined)}
+              onBlur={() => fetchUtility(address)}
             />
           ) : (
             <TextInput
