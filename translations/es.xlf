@@ -896,6 +896,18 @@
   <target>Pausada</target>
   <note from="lit-localize">such as when an incentive is "paused"</note>
 </trans-unit>
+<trans-unit id="sfcdd8e672c75b713">
+  <source>Address</source>
+  <target>Dirección</target>
+</trans-unit>
+<trans-unit id="se97a708c1c2cad76">
+  <source>Your address helps determine the amount of discounts and tax credits you qualify for.</source>
+  <target>Su dirección ayuda a determinar la cantidad de descuentos y créditos fiscales para los que califica.</target>
+</trans-unit>
+<trans-unit id="s9a7f0b084a46d64e">
+  <source>Enter your address to select a utility.</source>
+  <target>Ingrese su dirección para seleccionar una empresa de servicios eléctricos.</target>
+</trans-unit>
 <trans-unit id="s7d0f073444968fe2">
   <source>shade screen or window films</source>
   <target>película para pantalla de sombra o ventana</target>
