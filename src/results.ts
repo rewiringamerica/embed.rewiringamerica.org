@@ -1,6 +1,7 @@
 import { APIResponse, Incentive } from './api/calculator-types-v1';
 import { MsgFn } from './i18n/use-translated';
 import { IRARebate, getRebatesFor } from './ira-rebates';
+import { isIncentiveHeadlineable } from './item-name';
 import { PROJECTS, Project } from './projects';
 
 export type Results = {
@@ -29,8 +30,10 @@ export function getResultsForDisplay(
   const incentivesByProject = Object.fromEntries(
     Object.entries(projects).map(([project, projectInfo]) => [
       project,
-      response.incentives.filter(incentive =>
-        incentive.items.some(item => projectInfo.items.includes(item)),
+      response.incentives.filter(
+        incentive =>
+          incentive.items.some(item => projectInfo.items.includes(item)) &&
+          isIncentiveHeadlineable(incentive.items, project as Project),
       ),
     ]),
   ) as Record<Project, Incentive[]>;
