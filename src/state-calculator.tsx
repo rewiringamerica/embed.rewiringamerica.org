@@ -285,7 +285,6 @@ const StateCalculator: FC<{
     } else {
       incentiveResults = (
         <IncentiveGrid
-          ref={resultsRef}
           incentivesByProject={incentivesByProject}
           iraRebatesByProject={iraRebatesByProject}
           coverageState={response.coverage.state}
@@ -296,7 +295,11 @@ const StateCalculator: FC<{
     }
 
     return (
-      <div id="calc-root" className="grid gap-8">
+      <div
+        id="calc-root"
+        className="grid gap-8 scroll-m-[24px]"
+        ref={resultsRef}
+      >
         <Card padding="small">
           <FormSnapshot
             formLabels={submittedLabels!}

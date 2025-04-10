@@ -1,5 +1,5 @@
 import ProjectIcon from 'jsx:../static/icons/project.svg';
-import React, { forwardRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   AmountUnit,
   Incentive,
@@ -308,82 +308,77 @@ type IncentiveGridProps = {
   tabs: { project: Project; count: number }[];
 };
 
-export const IncentiveGrid = forwardRef<HTMLDivElement, IncentiveGridProps>(
-  (
-    {
-      incentivesByProject,
-      iraRebatesByProject,
-      coverageState,
-      locationState,
-      tabs,
-    },
-    ref,
-  ) => {
-    const { msg } = useTranslated();
+export const IncentiveGrid = ({
+  incentivesByProject,
+  iraRebatesByProject,
+  coverageState,
+  locationState,
+  tabs,
+}: IncentiveGridProps) => {
+  const { msg } = useTranslated();
 
-    // If a project selection is saved in local storage AND that project has
-    // nonzero incentives, select that project.
-    //
-    // Otherwise, select the first project in the menu (which, by virtue of the
-    // sorting above, will have incentives unless there are zero results total).
-    const [projectTab, setProjectTab] = useState(() => {
-      const storedProject = safeLocalStorage.getItem(
-        SELECTED_PROJECT_LOCAL_STORAGE_KEY,
-      );
-
-      if (
-        storedProject !== null &&
-        incentivesByProject[storedProject]?.length > 0
-      ) {
-        return storedProject;
-      } else {
-        safeLocalStorage.removeItem(SELECTED_PROJECT_LOCAL_STORAGE_KEY);
-        return null;
-      }
-    });
-
-    const options: Option<Project>[] = tabs.map(({ project, count }) => ({
-      value: project,
-      label: PROJECTS[project].label(msg),
-      getIcon: PROJECT_ICONS[project],
-      badge: count,
-      disabled: count === 0,
-    }));
-
-    return (
-      <>
-        <div className="min-w-50" ref={ref}>
-          <Select
-            id="project-selector"
-            labelText={msg('Project', { desc: 'label for a selector input' })}
-            hiddenLabel={true}
-            placeholder={msg('Select project…')}
-            currentValue={projectTab}
-            options={options}
-            onChange={project => {
-              safeLocalStorage.setItem(
-                SELECTED_PROJECT_LOCAL_STORAGE_KEY,
-                project,
-              );
-              setProjectTab(project);
-            }}
-          />
-        </div>
-        {projectTab !== null ? (
-          <CardCollection
-            incentives={incentivesByProject[projectTab]}
-            iraRebates={iraRebatesByProject[projectTab]}
-            coverageState={coverageState}
-            locationState={locationState}
-            project={projectTab}
-          />
-        ) : (
-          renderSelectProjectCard()
-        )}
-      </>
+  // If a project selection is saved in local storage AND that project has
+  // nonzero incentives, select that project.
+  //
+  // Otherwise, select the first project in the menu (which, by virtue of the
+  // sorting above, will have incentives unless there are zero results total).
+  const [projectTab, setProjectTab] = useState(() => {
+    const storedProject = safeLocalStorage.getItem(
+      SELECTED_PROJECT_LOCAL_STORAGE_KEY,
     );
-  },
-);
+
+    if (
+      storedProject !== null &&
+      incentivesByProject[storedProject]?.length > 0
+    ) {
+      return storedProject;
+    } else {
+      safeLocalStorage.removeItem(SELECTED_PROJECT_LOCAL_STORAGE_KEY);
+      return null;
+    }
+  });
+
+  const options: Option<Project>[] = tabs.map(({ project, count }) => ({
+    value: project,
+    label: PROJECTS[project].label(msg),
+    getIcon: PROJECT_ICONS[project],
+    badge: count,
+    disabled: count === 0,
+  }));
+
+  return (
+    <>
+      <div className="min-w-50">
+        <Select
+          id="project-selector"
+          labelText={msg('Project', { desc: 'label for a selector input' })}
+          hiddenLabel={true}
+          placeholder={msg('Select project…')}
+          currentValue={projectTab}
+          options={options}
+          onChange={project => {
+            safeLocalStorage.setItem(
+              SELECTED_PROJECT_LOCAL_STORAGE_KEY,
+              project,
+            );
+            setProjectTab(project);
+          }}
+        />
+      </div>
+      {projectTab !== null ? (
+        <CardCollection
+          incentives={incentivesByProject[projectTab]}
+          iraRebates={iraRebatesByProject[projectTab]}
+          coverageState={coverageState}
+          locationState={locationState}
+          project={projectTab}
+        />
+      ) : (
+        renderSelectProjectCard()
+      )}
+    </>
+  );
+};
 
 /**
  * If you make a backward-incompatible change to the format of form value
