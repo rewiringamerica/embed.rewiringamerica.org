@@ -242,19 +242,19 @@ const StateCalculator: FC<{
   };
 
   // When the fetch completes, scroll to the appropriate element
-  const resultsRef = useRef<HTMLDivElement>(null);
+  const calcContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const target =
-      fetchState.state === 'complete' && resultsRef.current
-        ? resultsRef.current
+      fetchState.state === 'complete' && calcContainerRef.current
+        ? calcContainerRef.current
         : null;
 
     if (target) {
       scrollIntoView(target, {
         behavior: 'smooth',
-        block: 'nearest',
-        inline: 'nearest',
+        block: 'start',
+        inline: 'start',
         scrollMode: 'if-needed',
       });
     }
@@ -295,7 +295,11 @@ const StateCalculator: FC<{
     }
 
     return (
-      <div id="calc-root" className="grid gap-8 scroll-m-6" ref={resultsRef}>
+      <div
+        id="calc-root"
+        className="grid gap-8 scroll-m-[90px]"
+        ref={calcContainerRef}
+      >
         <Card padding="small">
           <FormSnapshot
             formLabels={submittedLabels!}
