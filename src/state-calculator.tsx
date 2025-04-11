@@ -242,12 +242,12 @@ const StateCalculator: FC<{
   };
 
   // When the fetch completes, scroll to the appropriate element
-  const resultsRef = useRef<HTMLDivElement>(null);
+  const calcContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const target =
-      fetchState.state === 'complete' && resultsRef.current
-        ? resultsRef.current
+      fetchState.state === 'complete' && calcContainerRef.current
+        ? calcContainerRef.current
         : null;
 
     if (target) {
@@ -298,7 +298,7 @@ const StateCalculator: FC<{
       <div
         id="calc-root"
         className="grid gap-8 scroll-m-[90px]"
-        ref={resultsRef}
+        ref={calcContainerRef}
       >
         <Card padding="small">
           <FormSnapshot
