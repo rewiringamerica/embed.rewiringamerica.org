@@ -1,7 +1,7 @@
 import { APIResponse, Incentive } from './api/calculator-types-v1';
-import { MsgFn } from './i18n/use-translated';
+import { MsgFn, passthroughMsg } from './i18n/use-translated';
 import { IRARebate, getRebatesFor } from './ira-rebates';
-import { isIncentiveHeadlineable } from './item-name';
+import { itemName } from './item-name';
 import { PROJECTS, Project } from './projects';
 
 export type Results = {
@@ -33,7 +33,9 @@ export function getResultsForDisplay(
       response.incentives.filter(
         incentive =>
           incentive.items.some(item => projectInfo.items.includes(item)) &&
-          isIncentiveHeadlineable(incentive.items, project as Project),
+          // Filter out incentives where items array does not have a matching headline
+          itemName(incentive.items, passthroughMsg, project as Project) !==
+            null,
       ),
     ]),
   ) as Record<Project, Incentive[]>;

@@ -225,39 +225,6 @@ const multipleItemsName = (items: ItemType[], msg: MsgFn) => {
   return null;
 };
 
-// Returns false if the incentive includes more than one item, and the items are
-// under the same project but do not belong to a singular headline group.
-//
-// This is used to filter out un-headlineable incentives from the incentive count
-// in the project selector
-export function isIncentiveHeadlineable(
-  incentiveItems: ItemType[],
-  project: Project,
-) {
-  if (incentiveItems.length === 1) {
-    return true;
-  }
-  for (const { members } of ITEM_GROUPS) {
-    if (itemsBelongToGroup(incentiveItems, members)) {
-      return true;
-    }
-  }
-
-  const itemsToRender = incentiveItems.filter(item =>
-    PROJECTS[project].items.includes(item),
-  );
-
-  if (itemsToRender.length > 1) {
-    for (const { members } of ITEM_GROUPS) {
-      if (itemsBelongToGroup(itemsToRender, members)) {
-        return true;
-      }
-    }
-  }
-
-  return itemsToRender.length === 1;
-}
-
 /**
  * TODO this is an internationalization sin. Figure out something better!
  */
