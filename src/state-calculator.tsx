@@ -295,7 +295,11 @@ const StateCalculator: FC<{
     }
 
     return (
-      <div id="calc-root" className="grid gap-8 scroll-m-6" ref={resultsRef}>
+      <div
+        id="calc-root"
+        className="grid gap-8 scroll-m-[90px]"
+        ref={resultsRef}
+      >
         <Card padding="small">
           <FormSnapshot
             formLabels={submittedLabels!}
