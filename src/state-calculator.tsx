@@ -253,8 +253,8 @@ const StateCalculator: FC<{
     if (target) {
       scrollIntoView(target, {
         behavior: 'smooth',
-        block: 'nearest',
-        inline: 'nearest',
+        block: 'start',
+        inline: 'start',
         scrollMode: 'if-needed',
       });
     }
