@@ -86,6 +86,18 @@
           This information may not be accurate.
         </label>
       </div>
+      <div class="checkbox-and-label">
+        <input
+          type="checkbox"
+          id="showAddressField"
+          onChange="this.checked ? document.getElementById('calculator').setAttribute('show-address-field', '') : document.getElementById('calculator').removeAttribute('show-address-field')"
+        />
+        <label for="showAddressField">
+          Allows the user to input their address with or without their ZIP code.
+          This feature is currently being tested and should not be used in
+          production.
+        </label>
+      </div>
       <div class="separator"></div>
       <rewiring-america-state-calculator
         id="calculator"

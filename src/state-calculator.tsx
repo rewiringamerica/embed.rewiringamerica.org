@@ -59,9 +59,10 @@ const fetch = (
   msg: MsgFn,
   projectFilter: Project[],
 ) => {
+  const locationProvided = formValues.address || formValues.zip;
   if (
     !(
-      formValues.zip &&
+      locationProvided &&
       formValues.ownerStatus &&
       formValues.taxFiling &&
       formValues.householdIncome &&
@@ -76,12 +77,19 @@ const fetch = (
   const query = new URLSearchParams({
     language,
     include_beta_states: '' + includeBetaStates,
-    zip: formValues.zip,
     owner_status: formValues.ownerStatus,
     household_income: formValues.householdIncome,
     tax_filing: formValues.taxFiling,
     household_size: formValues.householdSize,
   });
+
+  // the API expects only EITHER the `address` OR `zip` to be sent
+  if (formValues.address) {
+    query.set('address', formValues.address);
+  } else if (formValues.zip) {
+    query.set('zip', formValues.zip);
+  }
+
   // Only send this param if "other" wasn't chosen
   if (formValues.utility && formValues.utility !== OTHER_UTILITY_ID) {
     query.set('utility', formValues.utility);
@@ -139,6 +147,7 @@ const StateCalculator: FC<{
   apiKey: string;
   attributeValues: FormValues;
   stateId?: string;
+  showAddress?: boolean;
   showEmail: boolean;
   emailRequired: boolean;
   emailToStaging: boolean;
@@ -150,6 +159,7 @@ const StateCalculator: FC<{
   apiKey,
   attributeValues,
   stateId,
+  showAddress,
   showEmail,
   emailRequired,
   emailToStaging,
@@ -177,6 +187,7 @@ const StateCalculator: FC<{
     );
 
     return {
+      address: storedValues?.address ?? attributeValues.address,
       zip: storedValues?.zip ?? attributeValues.zip,
       ownerStatus: storedValues?.ownerStatus ?? attributeValues.ownerStatus,
       householdIncome:
@@ -329,14 +340,23 @@ const StateCalculator: FC<{
             key={formKey}
             stateId={stateId}
             initialValues={getInitialFormValues()}
+            showAddressField={showAddress}
             showEmailField={showEmail && !emailSubmitted}
             emailRequired={emailRequired}
             loading={fetchState.state === 'loading'}
             errorMessage={
               fetchState.state === 'error' ? fetchState.message : null
             }
-            utilityFetcher={zip => {
-              const query = new URLSearchParams({ language: locale, zip });
+            utilityFetcher={(zipOrAddress: string | undefined) => {
+              const query = new URLSearchParams({ language: locale });
+
+              // add EITHER `zip` OR `address` to the query based on the value of `showAddress`
+              if (zipOrAddress) {
+                showAddress
+                  ? query.append('address', zipOrAddress)
+                  : query.append('zip', zipOrAddress);
+              }
+
               // Tracking usage of the embedded calculator
               query.append('ra_embed', '1');
 
@@ -357,6 +377,9 @@ const StateCalculator: FC<{
 };
 
 class CalculatorElement extends HTMLElement {
+  /* property to show the address field instead of the ZIP field */
+  showAddress: boolean = false;
+
   /* property to show the email signup field */
   showEmail: boolean = false;
 
@@ -396,6 +419,7 @@ class CalculatorElement extends HTMLElement {
   /* attributeChangedCallback() will be called when any of these changes */
   static observedAttributes = [
     'lang',
+    'show-address-field',
     'show-email',
     'email-required',
     'email-to-staging',
@@ -450,6 +474,8 @@ class CalculatorElement extends HTMLElement {
       this.apiKey = newValue ?? '';
     } else if (attr === 'include-beta-states') {
       this.includeBetaStates = newValue !== null;
+    } else if (attr === 'show-address-field') {
+      this.showAddress = newValue !== null;
     } else if (attr === 'show-email') {
       this.showEmail = newValue !== null;
     } else if (attr === 'email-required') {
@@ -496,6 +522,7 @@ class CalculatorElement extends HTMLElement {
             taxFiling: this.taxFiling,
           }}
           stateId={this.state}
+          showAddress={this.showAddress}
           showEmail={this.showEmail}
           emailRequired={this.emailRequired}
           emailToStaging={this.emailToStaging}

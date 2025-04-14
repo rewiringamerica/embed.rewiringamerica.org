@@ -128,4 +128,42 @@ describe('rewiring-america-state-calculator', () => {
       .shadow()
       .should('contain.text', 'More money coming soon!');
   });
+
+  describe('when the user enters a RI address', () => {
+    it('fetches utilities without a zip code provided', () => {
+      cy.get('rewiring-america-state-calculator')
+        .then($calc => {
+          $calc.attr('show-address-field', '');
+        })
+        .shadow()
+        .find('input#address')
+        .type('82 Smith St, Providence, RI');
+
+      // Unfocus the zip field to fetch utilities
+      cy.get('rewiring-america-state-calculator')
+        .shadow()
+        .find('input#household_income')
+        .focus();
+
+      cy.get('rewiring-america-state-calculator')
+        .shadow()
+        .find('button#utility')
+        .contains('Rhode Island Energy');
+    });
+
+    it('fetches utilities with a zip code provided', () => {
+      cy.get('rewiring-america-state-calculator')
+        .then($calc => {
+          $calc.attr('show-address-field', '');
+        })
+        .shadow()
+        .find('input#address')
+        .type('4 Center Rd, New Shoreham, RI 02807');
+
+      cy.get('rewiring-america-state-calculator')
+        .shadow()
+        .find('button#utility')
+        .contains('Block Island Power Company');
+    });
+  });
 });

@@ -53,10 +53,18 @@ export const FormSnapshot: React.FC<Props> = ({
           </span>{' '}
           {formLabels.ownerStatus}
         </li>
-        <li>
-          <span className="font-medium">{msg('ZIP code')}:</span>{' '}
-          {formLabels.zip}
-        </li>
+        {formLabels.address && (
+          <li>
+            <span className="font-medium">{msg('Address')}:</span>{' '}
+            {formLabels.address}
+          </li>
+        )}
+        {formLabels.zip && (
+          <li>
+            <span className="font-medium">{msg('ZIP code')}:</span>{' '}
+            {formLabels.zip}
+          </li>
+        )}
         <li>
           <span className="font-medium">
             {msg('Electric utility', { desc: 'as in utility company' })}:

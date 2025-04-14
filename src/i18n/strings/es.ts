@@ -139,6 +139,7 @@ export const templates = {
   s8fd8a524edc33867: `Esperado en 2025`,
   s8ff568239ce4b254: `Cuidado del césped`,
   s912b944fa287f7d0: `Nuevo Hampshire`,
+  s9a7f0b084a46d64e: `Ingrese su dirección para seleccionar una empresa de servicios eléctricos.`,
   s9afee25dcf31efc1: `un vehículo eléctrico nuevo`,
   s9b0d347a81e8f0a3: `Oklahoma`,
   s9ca62f0b7e639157: `Maine`,
@@ -214,6 +215,7 @@ export const templates = {
   se581b8fe2e188251: `Crédito de cuenta`,
   se6845b7d2d664ad8: `Dakota del Sur`,
   se769dd566c4c69b6: str`Encontramos ${0} programas de ahorro en ${1} proyectos,`,
+  se97a708c1c2cad76: `Su dirección ayuda a determinar la cantidad de descuentos y créditos fiscales para los que califica.`,
   sec13c0ca288e67eb: `aislamiento del desván/techo`,
   secc3df112f8ab69d: `un vehículo eléctrico`,
   sf05c1c17e90b0ddd: `Inquilino`,
@@ -228,5 +230,6 @@ export const templates = {
   sf8b5deb9ea9f5054: `Descuento en una estufa eléctrica`,
   sfa7338035e1ef173: `Alquilar o poseer`,
   sfc7214f623fe475d: `Selecciona la empresa a la que paga su factura de electricidad.`,
+  sfcdd8e672c75b713: `Dirección`,
   sfe16afc784bb9d76: `Techo solar`,
 };
