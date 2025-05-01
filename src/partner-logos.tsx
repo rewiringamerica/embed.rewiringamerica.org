@@ -41,7 +41,7 @@ export const PartnerLogos = ({ response }: Props) => {
       <h2 className="text-center text-grey-700 text-lg leading-tight font-medium mb-[8px]">
         {title}
       </h2>
-      <div className="flex flex-wrap justify-center items-start gap-x-12 gap-y-6">
+      <div className="flex flex-wrap justify-center items-start gap-x-12 gap-y-4">
         {logos}
       </div>
     </Card>
