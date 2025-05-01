@@ -154,7 +154,7 @@ const generateTimeSensitiveMessages = (
 const renderSelectProjectCard = () => {
   const { msg } = useTranslated();
   return (
-    <Card theme="grey" padding="large">
+    <Card theme="grey" padding="large" isFlat>
       <ProjectIcon
         className="mx-auto text-grey-500"
         width={120}
