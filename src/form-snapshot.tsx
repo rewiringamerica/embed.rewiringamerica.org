@@ -39,13 +39,13 @@ export const FormSnapshot: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="leading-normal text-color-text-primary">
+    <div className="flex flex-col gap-4">
+      <h3 className="leading-normal text-color-text-primary text-lg">
         <span className="font-medium">{title}</span>{' '}
         {msg('based on your household information.', {
           desc: 'preceded by "we found N projects"',
         })}
-      </div>
+      </h3>
       <ul className="text-sm text-grey-600 leading-normal">
         <li>
           <span className="font-medium">

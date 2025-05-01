@@ -4,25 +4,25 @@ import clsx from 'clsx';
 
 /**
  * Renders a padded card with white background and drop shadow. "isFlat" uses
- * a yellow background and no shadow instead. Children are placed in a
- * 1-column grid.
+ * no shadow instead. Children are placed in a 1-column grid.
  */
 export const Card = forwardRef<
   HTMLDivElement,
   PropsWithChildren<{
     id?: string;
-    theme?: 'white' | 'grey';
+    isFlat?: boolean;
     padding: 'small' | 'medium' | 'large';
+    theme?: 'white' | 'grey';
   }>
->(({ id, theme, children, padding }, ref) => (
+>(({ children, id, isFlat, padding, theme }, ref) => (
   <div
     ref={ref}
     id={id}
     className={clsx(
-      'rounded-xl',
-      'min-w-52',
-      theme === 'grey' && 'bg-[#efefef] border border-grey-200',
-      (!theme || theme === 'white') && 'bg-white shadow',
+      'rounded-xl min-w-52 border border-grey-200',
+      theme === 'grey' && 'bg-[#efefef]',
+      (!theme || theme === 'white') && 'bg-white',
+      isFlat ? 'shadow-none' : 'shadow',
     )}
   >
     <div

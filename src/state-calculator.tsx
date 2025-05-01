@@ -141,6 +141,55 @@ const fetch = (
     .catch(exc => setFetchState({ state: 'error', message: exc.message }));
 };
 
+const ComingSoonCard = ({ state }: { state: string }) => {
+  const { msg } = useTranslated();
+
+  // Show link to The Switch is On for states where they have good coverage.
+  const url = new URL('https://incentives.switchison.org/residents/incentives');
+  url.searchParams.set('state', state);
+  url.searchParams.set('utm_source', 'partner');
+  url.searchParams.set('utm_medium', 'referral');
+  url.searchParams.set('utm_campaign', 'rewiring_america');
+  const body =
+    state === 'CA' || state === 'WA' ? (
+      <>
+        {msg(
+          str`While we don't have detailed state and local utility coverage \
+for ${STATES[state].name(msg)},`,
+          { desc: 'followed by "The Switch is On is a ...' },
+        )}{' '}
+        <a
+          className="text-color-action-primary hover:underline"
+          href={url.toString()}
+          target="_blank"
+        >
+          The Switch is On
+        </a>{' '}
+        {msg(
+          `is a comprehensive resource that includes detailed information for your state.`,
+          { desc: 'preceded by "The Switch is On", name of an organization' },
+        )}
+      </>
+    ) : (
+      msg(
+        `You can take advantage of federal incentives now, but your state, \
+city, and utility may also provide incentives for this project. We’re working \
+hard to identify each one!`,
+      )
+    );
+
+  return (
+    <Card theme="grey" padding="medium">
+      <h3 className="text-color-text-primary text-center text-xl font-medium leading-tight">
+        {msg('More money coming soon!')}
+      </h3>
+      <p className="text-color-text-primary text-center text-base leading-normal">
+        {body}
+      </p>
+    </Card>
+  );
+};
+
 const StateCalculator: FC<{
   shadowRoot: ShadowRoot;
   apiHost: string;
@@ -280,6 +329,8 @@ const StateCalculator: FC<{
       totalResults,
       countOfProjects,
     } = getResultsForDisplay(response, msg, projectFilter);
+    const coverageState = response.coverage.state;
+    const locationState = response.location.state;
 
     let incentiveResults;
     if (projectFilter.length === 1) {
@@ -288,8 +339,6 @@ const StateCalculator: FC<{
         <CardCollection
           incentives={incentivesByProject[selectedProject]}
           iraRebates={iraRebatesByProject[selectedProject]}
-          coverageState={response.coverage.state}
-          locationState={response.location.state}
           project={selectedProject}
         />
       );
@@ -298,8 +347,6 @@ const StateCalculator: FC<{
         <IncentiveGrid
           incentivesByProject={incentivesByProject}
           iraRebatesByProject={iraRebatesByProject}
-          coverageState={response.coverage.state}
-          locationState={response.location.state}
           tabs={projectOptions}
         />
       );
@@ -308,10 +355,10 @@ const StateCalculator: FC<{
     return (
       <div
         id="calc-root"
-        className="grid gap-8 scroll-m-[90px]"
+        className="grid gap-6 scroll-m-[90px]"
         ref={calcContainerRef}
       >
-        <Card padding="small">
+        <Card padding="small" isFlat>
           <FormSnapshot
             formLabels={submittedLabels!}
             totalResults={totalResults}
@@ -321,6 +368,7 @@ const StateCalculator: FC<{
           />
         </Card>
         {incentiveResults}
+        {coverageState === null && <ComingSoonCard state={locationState} />}
         <PartnerLogos response={response} />
       </div>
     );

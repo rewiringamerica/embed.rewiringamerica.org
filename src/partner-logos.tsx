@@ -1,4 +1,5 @@
 import { APIResponse } from './api/calculator-types-v1';
+import { Card } from './card';
 import { useTranslated } from './i18n/use-translated';
 
 type Props = { response: APIResponse };
@@ -25,7 +26,7 @@ export const PartnerLogos = ({ response }: Props) => {
       key={id}
       alt={partner.name}
       src={partner.logo!.src}
-      width={partner.logo!.width}
+      width={Math.min(274, partner.logo!.width)}
       height={partner.logo!.height}
     />
   ));
@@ -35,13 +36,15 @@ export const PartnerLogos = ({ response }: Props) => {
   });
 
   return (
-    <div className="w-full max-w-7xl bg-white">
-      <h2 className="mx-6 mt-8 sm:mt-12 mb-12 sm:mb-16 text-center text-grey-700 text-xl sm:text-3xl leading-tight font-medium">
+    // <div className="w-full max-w-7xl bg-white p-4 border border-grey-200 rounded-xl">
+    <Card padding="small" isFlat>
+      <h2 className="text-center text-grey-700 text-lg leading-tight font-medium mb-[8px]">
         {title}
       </h2>
-      <div className="flex flex-wrap justify-center items-start gap-16 mb-20">
+      <div className="flex flex-wrap justify-center items-start gap-4">
         {logos}
       </div>
-    </div>
+    </Card>
+    // </div>
   );
 };

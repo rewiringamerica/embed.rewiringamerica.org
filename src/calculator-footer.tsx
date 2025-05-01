@@ -7,7 +7,7 @@ export const CalculatorFooter = () => {
   const { msg } = useTranslated();
   return (
     <slot name="footer">
-      <div className="calculator-footer min-w-50 mt-4 text-center">
+      <div className="calculator-footer min-w-50 mt-6 text-center">
         <p className="leading-normal">
           {toNbsp(
             msg('Calculator by', { desc: 'followed by "Rewiring America"' }),
