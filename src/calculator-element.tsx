@@ -2,12 +2,16 @@ import tailwindStyles from 'bundle-text:./tailwind.css';
 import { FC, useEffect, useRef, useState } from 'react';
 import { Root, createRoot } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
-import { APIResponse, APIUtilitiesResponse } from './api/calculator-types-v1';
+import {
+  APIResponse,
+  APIUtilitiesResponse,
+  FilingStatus,
+  OwnerStatus,
+} from './api/calculator-types-v1';
 import { fetchApi } from './api/fetch';
 import { FetchState } from './api/fetch-state';
 import { TextButton } from './buttons';
 import { CalculatorFooter } from './calculator-footer';
-import { FilingStatus, OwnerStatus } from './calculator-types';
 import { Card } from './card';
 import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
 import { FormSnapshot } from './form-snapshot';
