@@ -376,7 +376,7 @@ const StateCalculator: FC<{
   }
 };
 
-class CalculatorElement extends HTMLElement {
+export class RewiringAmericaCalculator extends HTMLElement {
   /* property to show the address field instead of the ZIP field */
   showAddress: boolean = false;
 
@@ -461,7 +461,7 @@ class CalculatorElement extends HTMLElement {
   }
 
   attributeChangedCallback(
-    attr: (typeof CalculatorElement.observedAttributes)[number],
+    attr: (typeof RewiringAmericaCalculator.observedAttributes)[number],
     _: string | null, // old value; unused
     newValue: string | null,
   ) {
@@ -564,17 +564,5 @@ class CalculatorElement extends HTMLElement {
     }
 
     return projectFilter;
-  }
-}
-
-customElements.define('rewiring-america-state-calculator', CalculatorElement);
-
-/**
- * Tell TypeScript that the HTML tag's type signature corresponds to the
- * class's type signature.
- */
-declare global {
-  interface HTMLElementTagNameMap {
-    'rewiring-america-state-calculator': CalculatorElement;
   }
 }
