@@ -2,12 +2,11 @@ import { useTranslated } from './i18n/use-translated';
 
 const toNbsp = (s: string) => s.replace(' ', '\u00a0');
 
-// The semantic class applies on the old embed; Tailwind classes on the new.
 export const CalculatorFooter = () => {
   const { msg } = useTranslated();
   return (
     <slot name="footer">
-      <div className="calculator-footer min-w-50 mt-6 text-center">
+      <div className="min-w-50 mt-4 text-center">
         <p className="leading-normal">
           {toNbsp(
             msg('Calculator by', { desc: 'followed by "Rewiring America"' }),
