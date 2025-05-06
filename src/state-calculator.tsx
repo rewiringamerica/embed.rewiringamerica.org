@@ -179,7 +179,7 @@ hard to identify each one!`,
     );
 
   return (
-    <Card theme="grey" padding="medium">
+    <Card theme="grey" padding="medium" isFlat>
       <h3 className="text-color-text-primary text-center text-xl font-medium leading-tight">
         {msg('More money coming soon!')}
       </h3>

@@ -36,7 +36,6 @@ export const PartnerLogos = ({ response }: Props) => {
   });
 
   return (
-    // <div className="w-full max-w-7xl bg-white p-4 border border-grey-200 rounded-xl">
     <Card padding="small" isFlat>
       <h2 className="text-center text-grey-700 text-lg leading-tight font-medium mb-[8px]">
         {title}
@@ -45,6 +44,5 @@ export const PartnerLogos = ({ response }: Props) => {
         {logos}
       </div>
     </Card>
-    // </div>
   );
 };
