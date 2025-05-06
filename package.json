@@ -76,10 +76,9 @@
     "module": false,
     "default": {
       "source": [
-        "src/calculator.tsx",
-        "src/state-calculator.tsx",
+        "src/calculator.ts",
+        "src/state-calculator.ts",
         "src/rewiring-fonts.css",
-        "src/ira-calculator.html",
         "src/index.html"
       ],
       "outputFormat": "global",
