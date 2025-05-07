@@ -30,9 +30,6 @@ export async function fetchApi<R>(
       if (error.title && error.detail) {
         // Zuplo's API key errors have this form:
         message = `${error.title}: ${error.detail}`;
-      } else if (error.code === '422') {
-        // 422 is the error code that Geocodio returns when it can't geocode the user's address input
-        message = 'No matches found. Check your address and try again.';
       } else if (error.message && error.error) {
         // Rewiring America's API errors have this form:
         message = `${error.error}: ${error.message}`;
