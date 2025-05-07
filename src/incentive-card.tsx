@@ -106,17 +106,17 @@ export const IncentiveCard: FC<{
 }) => (
   <Card padding="small">
     <div className="flex gap-4 justify-between items-baseline">
-      <div className="text-grey-900 text-lg font-medium leading-normal">
+      <h4 className="text-grey-900 text-lg font-medium leading-normal">
         {headline}
-      </div>
+      </h4>
       {/* Only appears on medium and wide layout */}
       <BorderlessLinkButton href={buttonUrl}>
         {buttonText} <ExternalLink w={20} h={20} />
       </BorderlessLinkButton>
     </div>
-    <div className="text-grey-400 text-base font-medium leading-tight">
+    <h5 className="text-grey-400 text-base font-medium leading-tight">
       {subHeadline}
-    </div>
+    </h5>
     <div className="text-grey-600 text-base leading-normal">{body}</div>
     <div className="flex flex-wrap gap-2.5">
       <Chip>{typeChip}</Chip>

@@ -16,7 +16,6 @@ import { itemName } from './item-name';
 import { PROJECT_ICONS } from './project-icons';
 import { PROJECTS, Project } from './projects';
 import { safeLocalStorage } from './safe-local-storage';
-import { STATES } from './states';
 
 const formatUnit = (unit: AmountUnit, msg: MsgFn) =>
   unit === 'btuh10k'
@@ -152,59 +151,10 @@ const generateTimeSensitiveMessages = (
   return null;
 };
 
-const ComingSoonCard = ({ state }: { state: string }) => {
-  const { msg } = useTranslated();
-
-  // Show link to The Switch is On for states where they have good coverage.
-  const url = new URL('https://incentives.switchison.org/residents/incentives');
-  url.searchParams.set('state', state);
-  url.searchParams.set('utm_source', 'partner');
-  url.searchParams.set('utm_medium', 'referral');
-  url.searchParams.set('utm_campaign', 'rewiring_america');
-  const body =
-    state === 'CA' || state === 'WA' ? (
-      <>
-        {msg(
-          str`While we don't have detailed state and local utility coverage \
-for ${STATES[state].name(msg)},`,
-          { desc: 'followed by "The Switch is On is a ...' },
-        )}{' '}
-        <a
-          className="text-color-action-primary hover:underline"
-          href={url.toString()}
-          target="_blank"
-        >
-          The Switch is On
-        </a>{' '}
-        {msg(
-          `is a comprehensive resource that includes detailed information for your state.`,
-          { desc: 'preceded by "The Switch is On", name of an organization' },
-        )}
-      </>
-    ) : (
-      msg(
-        `You can take advantage of federal incentives now, but your state, \
-city, and utility may also provide incentives for this project. We’re working \
-hard to identify each one!`,
-      )
-    );
-
-  return (
-    <Card theme="grey" padding="medium">
-      <h3 className="text-color-text-primary text-center text-xl font-medium leading-tight">
-        {msg('More money coming soon!')}
-      </h3>
-      <p className="text-color-text-primary text-center text-base leading-normal">
-        {body}
-      </p>
-    </Card>
-  );
-};
-
 const renderSelectProjectCard = () => {
   const { msg } = useTranslated();
   return (
-    <Card theme="grey" padding="large">
+    <Card theme="grey" padding="large" isFlat>
       <ProjectIcon
         className="mx-auto text-grey-500"
         width={120}
@@ -224,15 +174,11 @@ const renderSelectProjectCard = () => {
 type CardCollectionProps = {
   incentives: Incentive[];
   iraRebates: IRARebate[];
-  coverageState: string | null;
-  locationState: string;
   project: Project;
 };
 export const CardCollection: React.FC<CardCollectionProps> = ({
   incentives,
   iraRebates,
-  coverageState,
-  locationState,
   project,
 }) => {
   const { msg } = useTranslated();
@@ -295,7 +241,6 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
             />
           )),
         )}
-      {coverageState === null && <ComingSoonCard state={locationState} />}
     </div>
   );
 };
@@ -303,16 +248,12 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
 type IncentiveGridProps = {
   incentivesByProject: Record<Project, Incentive[]>;
   iraRebatesByProject: Record<Project, IRARebate[]>;
-  coverageState: string | null;
-  locationState: string;
   tabs: { project: Project; count: number }[];
 };
 
 export const IncentiveGrid = ({
   incentivesByProject,
   iraRebatesByProject,
-  coverageState,
-  locationState,
   tabs,
 }: IncentiveGridProps) => {
   const { msg } = useTranslated();
@@ -369,8 +310,6 @@ export const IncentiveGrid = ({
         <CardCollection
           incentives={incentivesByProject[projectTab]}
           iraRebates={iraRebatesByProject[projectTab]}
-          coverageState={coverageState}
-          locationState={locationState}
           project={projectTab}
         />
       ) : (
