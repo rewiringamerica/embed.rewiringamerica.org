@@ -137,10 +137,6 @@ There are a few tasks specific to this codebase that we're interested in:
 
 - Better test coverage, including tests that mock out API responses.
 
-### Deprecating old frontend
-
-This codebase actually contains two calculator frontends: one centered in `src/calculator.ts` and one centered in `src/state-calculator.ts`. **The former is soon to be deprecated and should not be used anymore**. It only has support for federal incentives from the Inflation Reduction Act. The latter has support for incentives from states and utilities, and is where all new development is happening.
-
 ## Contributing
 
 If you find an inaccuracy in **incentive information**, please see our [incentive API repo](https://github.com/rewiringamerica/api.rewiringamerica.org) for what to do.
