@@ -1326,6 +1326,13 @@
     "@parcel/utils" "2.10.2"
     posthtml "^0.16.4"
 
+"@parcel/packager-ts@2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@parcel/packager-ts/-/packager-ts-2.10.2.tgz#5d0445f941b0fe9690577d55946cfcf80da73294"
+  integrity sha512-0HhQWFraUnDgD5gzH7ru2fVEwDakKstjaBf6hTmqo7TAvO7Xj2UPXY4rkr5B1RpQFsnkSzd4Ll98+SMI2xN8mg==
+  dependencies:
+    "@parcel/plugin" "2.10.2"
+
 "@parcel/packager-wasm@2.10.2":
   version "2.10.2"
   resolved "https://registry.yarnpkg.com/@parcel/packager-wasm/-/packager-wasm-2.10.2.tgz#77044aafd5da8442bb8d1521c3614ef6debdb0b4"
@@ -1585,6 +1592,25 @@
     posthtml-parser "^0.10.1"
     posthtml-render "^3.0.0"
     semver "^7.5.2"
+
+"@parcel/transformer-typescript-types@2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@parcel/transformer-typescript-types/-/transformer-typescript-types-2.10.2.tgz#cc16215f71db9b251cb683419858dc8c7cf8808f"
+  integrity sha512-CF/g1c1H7dhg+euKN1Or12uGYfKyAjjM2ao2XLh1hEFCxZyc9AtKbuyNk8EeAnR1PA/+hymPc5Rb325m6EHZpA==
+  dependencies:
+    "@parcel/diagnostic" "2.10.2"
+    "@parcel/plugin" "2.10.2"
+    "@parcel/source-map" "^2.1.1"
+    "@parcel/ts-utils" "2.10.2"
+    "@parcel/utils" "2.10.2"
+    nullthrows "^1.1.1"
+
+"@parcel/ts-utils@2.10.2":
+  version "2.10.2"
+  resolved "https://registry.yarnpkg.com/@parcel/ts-utils/-/ts-utils-2.10.2.tgz#e2291ad880245028d9d5a25c5fbcca095151c817"
+  integrity sha512-66kCp0tUS+LvfC5EotWQsVvCD5cbUX4LrvKmRMW1qH7dkcq5rBtEV2iUbMdy8/JN2OR6p1KY+Mf+HOuVe169cw==
+  dependencies:
+    nullthrows "^1.1.1"
 
 "@parcel/types@2.10.2":
   version "2.10.2"

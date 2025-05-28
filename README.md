@@ -123,6 +123,10 @@ The calculator defines and uses many other CSS variables, but **their existence 
 
 2. The bundled file is written to `dist/state-calculator.js`. This file and `dist/rewiring-fonts.css` are all that's needed to embed the calculator on any webpage.
 
+### npm package
+
+This codebase is also published as an npm package, `@rewiringamerica/embed.rewiringamerica.org`. However, this package is intended only for use by Rewiring America internal codebases. The [Usage section](#usage) describes the **only** supported way to display the calculator on third-party websites.
+
 ## Roadmap
 
 This codebase doesn't have a significant roadmap of its own. Changes here are primarily driven by the needs of our broader incentives API / calculator project. As the API expands to incentives with more complex structures, this frontend will evolve to match.
