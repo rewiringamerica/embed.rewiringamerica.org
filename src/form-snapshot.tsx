@@ -1,6 +1,7 @@
 import { TextButton } from './buttons';
+import { MsgFn } from './i18n/msg';
 import { str } from './i18n/str';
-import { MsgFn, useTranslated } from './i18n/use-translated';
+import { useTranslated } from './i18n/use-translated';
 import { EditIcon } from './icons';
 import { PROJECTS, Project } from './projects';
 import { FormLabels } from './state-calculator-form';
