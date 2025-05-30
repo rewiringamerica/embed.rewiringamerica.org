@@ -9,8 +9,9 @@ import { Option, Select } from './components/select';
 import { Spinner } from './components/spinner';
 import { TextInput } from './components/text-input';
 import { CurrencyInput } from './currency-input';
+import { MsgFn } from './i18n/msg';
 import { str } from './i18n/str';
-import { MsgFn, useTranslated } from './i18n/use-translated';
+import { useTranslated } from './i18n/use-translated';
 import { STATES } from './states';
 
 const OWNER_STATUS_OPTIONS: (msg: MsgFn) => Option<OwnerStatus>[] = msg => [

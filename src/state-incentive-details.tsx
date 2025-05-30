@@ -8,8 +8,9 @@ import {
 import { getYear, isChangingSoon, isInFuture } from './api/dates';
 import { Card } from './card';
 import { Option, Select } from './components/select';
+import { MsgFn } from './i18n/msg';
 import { str } from './i18n/str';
-import { MsgFn, useTranslated } from './i18n/use-translated';
+import { useTranslated } from './i18n/use-translated';
 import { IncentiveCard } from './incentive-card';
 import { IRARebate } from './ira-rebates';
 import { itemName } from './item-name';

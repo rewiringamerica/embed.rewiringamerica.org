@@ -1,4 +1,4 @@
-import { MsgFn } from './i18n/use-translated';
+import { MsgFn } from './i18n/msg';
 
 export type StateInfo = {
   name: (msg: MsgFn) => string;

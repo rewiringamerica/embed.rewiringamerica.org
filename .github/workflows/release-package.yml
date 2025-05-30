@@ -1,0 +1,37 @@
+name: Publish Package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build package
+        run: yarn build
+
+      - name: Swap out README
+        run: mv README-package.md README.md
+
+      - name: Configure Git author
+        run: |
+          git config --global user.name "${{ github.event.release.author.login }}"
+          git config --global user.email "${{ github.event.release.author.email }}"
+
+      - name: Publish to GitHub Packages
+        run: yarn publish --access public --new-version ${{ github.event.release.tag_name }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

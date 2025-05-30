@@ -1,4 +1,4 @@
-import { MsgFn } from '../i18n/use-translated';
+import { MsgFn } from '../i18n/msg';
 
 /**
  * Fetches a response from the Incentives API. Handles turning an error response
