@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react';
 import { fnv1a64 } from './fnv1a64';
 import { allLocales, sourceLocale, targetLocales } from './locales';
+import { MsgFn, assembleStrResult } from './msg';
 import { TemplatedStr } from './str';
 import { templates as esStrings } from './strings/es';
 
@@ -9,26 +10,6 @@ type TargetLocale = (typeof targetLocales)[number];
 const STRINGS: {
   [k in TargetLocale]: Record<string, string | TemplatedStr>;
 } = { es: esStrings };
-
-/**
- * Converts a StrResult, consisting of a template array and values, into a
- * string. The items in the template array are alternated with the values. If
- * an order array is passed, the values are rearranged accordingly.
- */
-const assembleStrResult = (
-  template: TemplateStringsArray,
-  values: unknown[],
-  order: null | number[],
-) => {
-  const result = [];
-
-  for (let i = 0; i < template.length - 1; i++) {
-    result.push(template[i], values[order ? order[i] : i]);
-  }
-  result.push(template[template.length - 1]);
-
-  return result.join('');
-};
 
 /**
  * Converts the locale, as given to the calculator in its "lang" attribute,
@@ -43,15 +24,6 @@ const computeLocale = (rawLocale: string): Locale => {
     ? (lang as Locale)
     : sourceLocale;
 };
-
-/**
- * The extra part of the type is to get lit/localize-tools to recognize
- * callsites of this function as extractable strings.
- */
-export type MsgFn = ((
-  sourceStr: string | TemplatedStr,
-  options?: { desc: string },
-) => string) & { _LIT_LOCALIZE_MSG_?: never };
 
 export const LocaleContext = createContext(sourceLocale);
 
@@ -107,9 +79,3 @@ export const useTranslated = (): { msg: MsgFn; locale: Locale } => {
 
   return { msg, locale };
 };
-
-/** FOR TESTING ONLY: a version of msg that just passes the original through. */
-export const passthroughMsg: MsgFn = str =>
-  typeof str === 'string'
-    ? str
-    : assembleStrResult(str.template, str.values, null);
