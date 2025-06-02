@@ -1,9 +1,12 @@
 import AutoNumeric from 'autonumeric';
 import { FC, useEffect, useState } from 'react';
-import { APIUtilitiesResponse } from './api/calculator-types-v1';
+import {
+  APIUtilitiesResponse,
+  FilingStatus,
+  OwnerStatus,
+} from './api/calculator-types-v1';
 import { FetchState } from './api/fetch-state';
 import { PrimaryButton } from './buttons';
-import { FilingStatus, OwnerStatus } from './calculator-types';
 import { FormLabel } from './components/form-label';
 import { Option, Select } from './components/select';
 import { Spinner } from './components/spinner';
