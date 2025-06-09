@@ -8,7 +8,7 @@ import {
   FilingStatus,
   OwnerStatus,
 } from '../api/calculator-types-v1';
-import { fetchApi } from '../api/fetch';
+import { DEFAULT_CALCULATOR_API_HOST, fetchApi } from '../api/fetch';
 import { FetchState } from '../api/fetch-state';
 import { CalculatorFooter } from '../calculator-footer';
 import { TextButton } from '../components/buttons';
@@ -37,7 +37,6 @@ import {
 } from './state-calculator-form';
 import { CardCollection, IncentiveGrid } from './state-incentive-details';
 
-const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
 const DEFAULT_ZIP = '';
 const DEFAULT_OWNER_STATUS: OwnerStatus = 'homeowner';
 const DEFAULT_TAX_FILING: FilingStatus = 'single';

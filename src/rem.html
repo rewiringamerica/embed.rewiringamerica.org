@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>REM widget demo</title>
+    <link rel="stylesheet" type="text/css" href="./tailwind.css" />
+    <script type="module" src="./calculator.ts"></script>
+    <link rel="stylesheet" type="text/css" href="./rewiring-fonts.css" />
+  </head>
+  <body class="bg-[#fffae7]">
+    <main class="max-w-[720px] mx-auto p-6">
+      <h1 class="font-bold text-2xl text-center leading-tight text-balance">
+        Rewiring America Electrification Savings Calculator Demo
+      </h1>
+      <div class="bg-[#e2e2e2] my-4 h-px"></div>
+      <rewiring-america-impacts-calculator api-key="{{ apiKey }}" />
+    </main>
+  </body>
+</html>
