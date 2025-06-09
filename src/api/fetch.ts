@@ -1,5 +1,7 @@
 import { MsgFn } from '../i18n/msg';
 
+export const DEFAULT_CALCULATOR_API_HOST = 'https://api.rewiringamerica.org';
+
 /**
  * Fetches a response from the Incentives API. Handles turning an error response
  * into an exception with a useful message.
