@@ -20,7 +20,7 @@ export const Card = forwardRef<
     id={id}
     className={clsx(
       'rounded-xl min-w-52 border border-grey-200',
-      theme === 'grey' && 'bg-[#efefef]',
+      theme === 'grey' && 'bg-grey-100',
       (!theme || theme === 'white') && 'bg-white',
       isFlat ? 'shadow-none' : 'shadow',
     )}
