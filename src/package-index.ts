@@ -4,5 +4,5 @@
 
 export { type ItemType } from './api/calculator-types-v1';
 export { passthroughMsg, type MsgFn } from './i18n/msg';
-export { itemName } from './item-name';
-export { PROJECTS, type Project } from './projects';
+export { itemName } from './incentives/item-name';
+export { PROJECTS, type Project } from './incentives/projects';

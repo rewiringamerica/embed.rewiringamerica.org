@@ -1,4 +1,4 @@
-import tailwindStyles from 'bundle-text:./tailwind.css';
+import tailwindStyles from 'bundle-text:../tailwind.css';
 import { FC, useEffect, useRef, useState } from 'react';
 import { Root, createRoot } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -7,22 +7,26 @@ import {
   APIUtilitiesResponse,
   FilingStatus,
   OwnerStatus,
-} from './api/calculator-types-v1';
-import { fetchApi } from './api/fetch';
-import { FetchState } from './api/fetch-state';
-import { TextButton } from './buttons';
-import { CalculatorFooter } from './calculator-footer';
-import { Card } from './card';
-import { submitEmailSignup, wasEmailSubmitted } from './email-signup';
+} from '../api/calculator-types-v1';
+import { fetchApi } from '../api/fetch';
+import { FetchState } from '../api/fetch-state';
+import { CalculatorFooter } from '../calculator-footer';
+import { TextButton } from '../components/buttons';
+import { Card } from '../components/card';
+import {
+  submitEmailSignup,
+  wasEmailSubmitted,
+} from '../components/email-signup';
+import { allLocales } from '../i18n/locales';
+import { MsgFn } from '../i18n/msg';
+import { str } from '../i18n/str';
+import { LocaleContext, useTranslated } from '../i18n/use-translated';
+import { safeLocalStorage } from '../safe-local-storage';
+import { STATES } from '../states';
 import { FormSnapshot } from './form-snapshot';
-import { allLocales } from './i18n/locales';
-import { MsgFn } from './i18n/msg';
-import { str } from './i18n/str';
-import { LocaleContext, useTranslated } from './i18n/use-translated';
 import { PartnerLogos } from './partner-logos';
 import { PROJECTS, Project } from './projects';
 import { getResultsForDisplay } from './results';
-import { safeLocalStorage } from './safe-local-storage';
 import {
   CalculatorForm,
   DELIVERED_FUEL_UTILITY_ID,
@@ -32,7 +36,6 @@ import {
   OTHER_UTILITY_ID,
 } from './state-calculator-form';
 import { CardCollection, IncentiveGrid } from './state-incentive-details';
-import { STATES } from './states';
 
 const DEFAULT_CALCULATOR_API_HOST: string = 'https://api.rewiringamerica.org';
 const DEFAULT_ZIP = '';
@@ -47,7 +50,7 @@ const DEFAULT_UTILITY = '';
  * storage, increment the version in this key.
  */
 const FORM_VALUES_LOCAL_STORAGE_KEY = 'RA-calc-form-values-v2';
-declare module './safe-local-storage' {
+declare module '../safe-local-storage' {
   interface SafeLocalStorageMap {
     [FORM_VALUES_LOCAL_STORAGE_KEY]: Partial<FormValues>;
   }

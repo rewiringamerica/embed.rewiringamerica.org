@@ -1,6 +1,6 @@
 import AutoNumeric from 'autonumeric';
 import { useRef } from 'react';
-import { TextInput } from './components/text-input';
+import { TextInput } from './text-input';
 
 type Props = {
   value: string;

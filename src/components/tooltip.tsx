@@ -2,7 +2,7 @@ import { flip, offset, shift, useFloating } from '@floating-ui/react-dom';
 import { msg } from '@lit/localize';
 import clsx from 'clsx';
 import { FC, useId, useState } from 'react';
-import { QuestionIcon } from '../icons';
+import { QuestionIcon } from './icons';
 
 /**
  * Renders the question mark icon in a button, which shows a popover containing

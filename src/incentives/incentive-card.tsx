@@ -1,7 +1,11 @@
 import clsx from 'clsx';
 import { FC, PropsWithChildren } from 'react';
-import { Card } from './card';
-import { ExclamationPoint, ExternalLink, UpRightArrow } from './icons';
+import { Card } from '../components/card';
+import {
+  ExclamationPoint,
+  ExternalLink,
+  UpRightArrow,
+} from '../components/icons';
 
 const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
   isWarning,

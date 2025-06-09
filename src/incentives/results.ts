@@ -1,5 +1,5 @@
-import { APIResponse, Incentive } from './api/calculator-types-v1';
-import { MsgFn, passthroughMsg } from './i18n/msg';
+import { APIResponse, Incentive } from '../api/calculator-types-v1';
+import { MsgFn, passthroughMsg } from '../i18n/msg';
 import { IRARebate, getRebatesFor } from './ira-rebates';
 import { itemName } from './item-name';
 import { PROJECTS, Project } from './projects';

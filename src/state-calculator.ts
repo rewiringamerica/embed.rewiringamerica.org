@@ -1,4 +1,4 @@
-import { RewiringAmericaCalculator } from './calculator-element';
+import { RewiringAmericaCalculator } from './incentives/calculator-element';
 
 customElements.define(
   'rewiring-america-state-calculator',
