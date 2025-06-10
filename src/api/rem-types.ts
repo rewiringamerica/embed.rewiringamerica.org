@@ -18,3 +18,5 @@ export enum WaterHeatingFuel {
   NaturalGas = 'natural_gas',
   Propane = 'propane',
 }
+
+export interface RemAddressResponse {}

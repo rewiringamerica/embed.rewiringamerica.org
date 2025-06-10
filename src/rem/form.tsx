@@ -3,7 +3,6 @@ import { HeatingFuel, WaterHeatingFuel } from '../api/rem-types';
 import { PrimaryButton } from '../components/buttons';
 import { FormLabel } from '../components/form-label';
 import { Option, Select } from '../components/select';
-import { Spinner } from '../components/spinner';
 import { TextInput } from '../components/text-input';
 import { useTranslated } from '../i18n/use-translated';
 import { MsgFn } from '../package-index';
@@ -82,14 +81,13 @@ const WATER_HEATING_OPTIONS: (
 
 export interface FormValues {
   address: string;
-  heatingFuel: HeatingFuel;
-  waterHeatingFuel: WaterHeatingFuel | null;
+  heatingFuel: HeatingFuel | '';
+  waterHeatingFuel: WaterHeatingFuel | '';
 }
 
 export const RemForm: FC<{
-  loading: boolean;
   onSubmit: (f: FormValues) => void;
-}> = ({ loading, onSubmit }) => {
+}> = ({ onSubmit }) => {
   const [buildingType, setBuildingType] = useState('');
   const [address, setAddress] = useState('');
   const [heatingFuel, setHeatingFuel] = useState('');
@@ -136,8 +134,12 @@ export const RemForm: FC<{
       />
       <div className="col-start-[-2] col-end-[-1]">
         <div className="h-0 sm:h-9">{/* spacer for two-col mode */}</div>
-        <PrimaryButton id="calculate" disabled={loading}>
-          {loading && <Spinner className="w-4 h-4" />}
+        <PrimaryButton
+          id="calculate"
+          disabled={
+            buildingType === '' || address.length < 5 || heatingFuel === ''
+          }
+        >
           {msg('Next: select upgrade')}
         </PrimaryButton>
       </div>
@@ -168,7 +170,7 @@ export const RemForm: FC<{
           waterHeatingFuel:
             waterHeatingFuel !== ''
               ? (waterHeatingFuel as WaterHeatingFuel)
-              : null,
+              : '',
         });
       }}
     >
