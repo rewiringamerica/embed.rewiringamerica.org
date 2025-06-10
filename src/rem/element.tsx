@@ -6,12 +6,12 @@ import { DEFAULT_CALCULATOR_API_HOST, fetchApi } from '../api/fetch';
 import { FetchState } from '../api/fetch-state';
 import { Upgrade } from '../api/rem-types';
 import { CalculatorFooter } from '../calculator-footer';
-import { TextButton } from '../components/buttons';
 import { Card } from '../components/card';
 import { allLocales } from '../i18n/locales';
 import { LocaleContext, useTranslated } from '../i18n/use-translated';
 import { safeLocalStorage } from '../safe-local-storage';
-import { FormValues, RemForm } from './form';
+import { RemForm, RemFormLabels, RemFormValues } from './form';
+import { RemFormSnapshot } from './form-snapshot';
 import { UpgradeOptions } from './upgrade-options';
 
 /**
@@ -21,7 +21,7 @@ import { UpgradeOptions } from './upgrade-options';
 const FORM_VALUES_LOCAL_STORAGE_KEY = 'RA-calc-rem-form-values-v1';
 declare module '../safe-local-storage' {
   interface SafeLocalStorageMap {
-    [FORM_VALUES_LOCAL_STORAGE_KEY]: Partial<FormValues>;
+    [FORM_VALUES_LOCAL_STORAGE_KEY]: Partial<RemFormValues>;
   }
 }
 
@@ -33,8 +33,9 @@ const RemCalculator: FC<{
   const { msg } = useTranslated();
 
   const [submittedFormValues, setSubmittedFormValues] =
-    useState<FormValues | null>(null);
-  // form labels
+    useState<RemFormValues | null>(null);
+  const [submittedFormLabels, setSubmittedFormLabels] =
+    useState<RemFormLabels | null>(null);
 
   const [fetchState, setFetchState] = useState<FetchState<Savings>>({
     state: 'init',
@@ -70,35 +71,25 @@ const RemCalculator: FC<{
   return (
     <div>
       <Card padding="medium" theme="grey" isFlat>
-        <div className="flex justify-between items-baseline">
-          <h1 className="text-base sm:text-md font-medium leading-tight">
-            {msg('Your household info')}
-          </h1>
-          <div>
-            <TextButton onClick={resetForm}>{msg('Reset')}</TextButton>
-          </div>
-        </div>
-
-        <div className="text-sm leading-normal">
-          {msg(
-            'Enter your household information to calculate the energy bill savings and emissions reductions you could get from upgrades to your home.',
-          )}
-        </div>
-
-        {!submittedFormValues ? (
+        {!submittedFormValues || !submittedFormLabels ? (
           <RemForm
             key={formKey}
-            onSubmit={values => {
+            onReset={resetForm}
+            onSubmit={(values, labels) => {
               safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, values);
               setSubmittedFormValues(values);
+              setSubmittedFormLabels(labels);
             }}
           />
         ) : fetchState.state !== 'complete' ? (
           // TODO loading state
-          <UpgradeOptions
-            includeWaterHeater={submittedFormValues.waterHeatingFuel !== null}
-            onUpgradeSelected={startFetch}
-          />
+          <>
+            <RemFormSnapshot formLabels={submittedFormLabels}></RemFormSnapshot>
+            <UpgradeOptions
+              includeWaterHeater={submittedFormValues.waterHeatingFuel !== null}
+              onUpgradeSelected={startFetch}
+            />
+          </>
         ) : (
           // TODO real display
           <pre>{JSON.stringify(fetchState.response, null, 2)}</pre>

@@ -16,6 +16,13 @@ export type Option<T extends string> = {
   getIcon?: () => React.ReactElement;
 };
 
+export function labelForValue<T extends string>(
+  options: Option<T>[],
+  value: T,
+): string | undefined {
+  return options.find(opt => opt.value === value)?.label;
+}
+
 export type SelectProps<T extends string> = {
   /**
    * The HTML id of the focusable element. Also used as the "name" of the

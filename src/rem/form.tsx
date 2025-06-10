@@ -1,8 +1,8 @@
 import { FC, useState } from 'react';
 import { HeatingFuel, WaterHeatingFuel } from '../api/rem-types';
-import { PrimaryButton } from '../components/buttons';
+import { PrimaryButton, TextButton } from '../components/buttons';
 import { FormLabel } from '../components/form-label';
-import { Option, Select } from '../components/select';
+import { Option, Select, labelForValue } from '../components/select';
 import { TextInput } from '../components/text-input';
 import { useTranslated } from '../i18n/use-translated';
 import { MsgFn } from '../package-index';
@@ -79,15 +79,22 @@ const WATER_HEATING_OPTIONS: (
   },
 ];
 
-export interface FormValues {
+export interface RemFormValues {
   address: string;
   heatingFuel: HeatingFuel | '';
   waterHeatingFuel: WaterHeatingFuel | '';
 }
 
+export interface RemFormLabels {
+  address: string;
+  heatingFuel: string;
+  waterHeatingFuel: string | null;
+}
+
 export const RemForm: FC<{
-  onSubmit: (f: FormValues) => void;
-}> = ({ onSubmit }) => {
+  onReset: () => void;
+  onSubmit: (v: RemFormValues, l: RemFormLabels) => void;
+}> = ({ onReset, onSubmit }) => {
   const [buildingType, setBuildingType] = useState('');
   const [address, setAddress] = useState('');
   const [heatingFuel, setHeatingFuel] = useState('');
@@ -160,34 +167,58 @@ export const RemForm: FC<{
   );
 
   return (
-    <form
-      className="m-0"
-      onSubmit={e => {
-        e.preventDefault();
-        onSubmit({
-          address,
-          heatingFuel: heatingFuel as HeatingFuel,
-          waterHeatingFuel:
-            waterHeatingFuel !== ''
-              ? (waterHeatingFuel as WaterHeatingFuel)
-              : '',
-        });
-      }}
-    >
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Select
-          id="buildingType"
-          options={BUILDING_OPTIONS(msg)}
-          labelText={msg('Household type')}
-          currentValue={buildingType}
-          placeholder={msg('Select household type...')}
-          onChange={setBuildingType}
-        />
-
-        {buildingType === '' || buildingType === BuildingType.House
-          ? householdForm
-          : notSupportedCard}
+    <div className="flex flex-col gap-4">
+      <div className="flex justify-between items-baseline">
+        <h1 className="text-base sm:text-md font-medium leading-tight">
+          {msg('Your household info')}
+        </h1>
+        <div>
+          <TextButton onClick={onReset}>{msg('Reset')}</TextButton>
+        </div>
       </div>
-    </form>
+      <div className="text-sm leading-normal">
+        {msg(
+          'Enter your household information to calculate the energy bill savings and emissions reductions you could get from upgrades to your home.',
+        )}
+      </div>
+      <form
+        className="m-0"
+        onSubmit={e => {
+          e.preventDefault();
+          const values: RemFormValues = {
+            address,
+            heatingFuel: heatingFuel as HeatingFuel,
+            waterHeatingFuel:
+              waterHeatingFuel !== ''
+                ? (waterHeatingFuel as WaterHeatingFuel)
+                : '',
+          };
+          const labels = {
+            address,
+            heatingFuel: labelForValue(HEATING_OPTIONS(msg), heatingFuel)!,
+            waterHeatingFuel:
+              waterHeatingFuel !== ''
+                ? labelForValue(WATER_HEATING_OPTIONS(msg), waterHeatingFuel)!
+                : null,
+          };
+          onSubmit(values, labels);
+        }}
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Select
+            id="buildingType"
+            options={BUILDING_OPTIONS(msg)}
+            labelText={msg('Household type')}
+            currentValue={buildingType}
+            placeholder={msg('Select household type...')}
+            onChange={setBuildingType}
+          />
+
+          {buildingType === '' || buildingType === BuildingType.House
+            ? householdForm
+            : notSupportedCard}
+        </div>
+      </form>
+    </div>
   );
 };
