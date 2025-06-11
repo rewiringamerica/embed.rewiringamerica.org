@@ -167,7 +167,7 @@ export const RemForm: FC<{
   );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 p-4 bg-grey-100">
       <div className="flex justify-between items-baseline">
         <h1 className="text-base sm:text-md font-medium leading-tight">
           {msg('Your household info')}
