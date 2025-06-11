@@ -6,7 +6,9 @@ import { DEFAULT_CALCULATOR_API_HOST, fetchApi } from '../api/fetch';
 import { FetchState } from '../api/fetch-state';
 import { Upgrade } from '../api/rem-types';
 import { CalculatorFooter } from '../calculator-footer';
-import { Card } from '../components/card';
+import { TextButton } from '../components/buttons';
+import { EditIcon } from '../components/icons';
+import { Spinner } from '../components/spinner';
 import { allLocales } from '../i18n/locales';
 import { LocaleContext, useTranslated } from '../i18n/use-translated';
 import { safeLocalStorage } from '../safe-local-storage';
@@ -25,6 +27,39 @@ declare module '../safe-local-storage' {
   }
 }
 
+const Header = () => {
+  const { msg } = useTranslated();
+  return (
+    <div className="h-11 flex justify-between px-4 py-3 bg-yellow-100">
+      <img
+        src={new URL('../../static/logo.png', import.meta.url).toString()}
+        width="61"
+        height="20"
+      />
+      <span className="text-sm font-medium leading-normal">
+        {msg('Bill Impacts Calculator')}
+      </span>
+    </div>
+  );
+};
+
+const Loading = () => {
+  const { msg } = useTranslated();
+  return (
+    <div
+      key="spinner"
+      className="bg-grey-100 p-4 flex flex-col items-center py-12 gap-4"
+    >
+      <div className="w-25 h-25 text-grey-400">
+        <Spinner />
+      </div>
+      <div className="text-grey-400 text-lg font-medium leading-tight">
+        {msg('Calculating impact...')}
+      </div>
+    </div>
+  );
+};
+
 const RemCalculator: FC<{
   shadowRoot: ShadowRoot;
   apiHost: string;
@@ -36,19 +71,25 @@ const RemCalculator: FC<{
     useState<RemFormValues | null>(null);
   const [submittedFormLabels, setSubmittedFormLabels] =
     useState<RemFormLabels | null>(null);
+  const [submittedUpgradeLabel, setSubmittedUpgradeLabel] = useState<
+    string | null
+  >(null);
 
   const [fetchState, setFetchState] = useState<FetchState<Savings>>({
     state: 'init',
   });
 
-  const startFetch = (upgrade: Upgrade) => {
+  const startFetch = (upgrade: Upgrade, label: string) => {
+    setSubmittedUpgradeLabel(label);
     setFetchState({ state: 'loading' });
 
     const query = new URLSearchParams({
       upgrade,
       address: submittedFormValues!.address,
       heating_fuel: submittedFormValues!.heatingFuel,
-      water_heater_fuel: submittedFormValues!.waterHeatingFuel ?? undefined,
+      ...(submittedFormValues!.waterHeatingFuel
+        ? { water_heater_fuel: submittedFormValues!.waterHeatingFuel }
+        : {}),
     });
 
     fetchApi(apiKey, apiHost, '/api/v1/rem/address', query, msg)
@@ -68,33 +109,81 @@ const RemCalculator: FC<{
     setFormKey(fk => fk + 1);
   };
 
+  const children = [];
+
+  if (!submittedFormValues || !submittedFormLabels) {
+    children.push(
+      <RemForm
+        key={formKey}
+        onReset={resetForm}
+        onSubmit={(values, labels) => {
+          safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, values);
+          setSubmittedFormValues(values);
+          setSubmittedFormLabels(labels);
+        }}
+      />,
+    );
+  } else {
+    children.push(
+      <RemFormSnapshot
+        key="snapshot"
+        formLabels={submittedFormLabels}
+        onEdit={() => {
+          setSubmittedFormLabels(null);
+          setSubmittedFormValues(null);
+          setSubmittedUpgradeLabel(null);
+        }}
+      />,
+    );
+
+    if (!submittedUpgradeLabel) {
+      children.push(
+        <UpgradeOptions
+          key="upgradeOptions"
+          includeWaterHeater={submittedFormValues.waterHeatingFuel !== null}
+          onUpgradeSelected={startFetch}
+        />,
+      );
+    } else {
+      children.push(
+        <div
+          key="upgradeLabel"
+          className="flex flex-col bg-white p-4 pt-3 gap-3"
+        >
+          <div className="flex justify-between">
+            <span className="font-medium leading-normal">
+              {msg('Selected upgrade')}
+            </span>
+            <TextButton onClick={() => setSubmittedUpgradeLabel(null)}>
+              <div className="flex items-center gap-1.5">
+                <EditIcon w={16} h={16} />
+                {msg('Edit')}
+              </div>
+            </TextButton>
+          </div>
+          <span className="leading-normal">{submittedUpgradeLabel}</span>
+        </div>,
+      );
+
+      if (fetchState.state === 'loading') {
+        children.push(<Loading key="loading" />);
+      } else if (fetchState.state === 'complete') {
+        // TODO real display
+
+        children.push(
+          <pre key="results" className="bg-grey-100">
+            {JSON.stringify(fetchState.response, null, 2)}
+          </pre>,
+        );
+      }
+      // TODO error state
+    }
+  }
+
   return (
-    <div>
-      <Card padding="medium" theme="grey" isFlat>
-        {!submittedFormValues || !submittedFormLabels ? (
-          <RemForm
-            key={formKey}
-            onReset={resetForm}
-            onSubmit={(values, labels) => {
-              safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, values);
-              setSubmittedFormValues(values);
-              setSubmittedFormLabels(labels);
-            }}
-          />
-        ) : fetchState.state !== 'complete' ? (
-          // TODO loading state
-          <>
-            <RemFormSnapshot formLabels={submittedFormLabels}></RemFormSnapshot>
-            <UpgradeOptions
-              includeWaterHeater={submittedFormValues.waterHeatingFuel !== null}
-              onUpgradeSelected={startFetch}
-            />
-          </>
-        ) : (
-          // TODO real display
-          <pre>{JSON.stringify(fetchState.response, null, 2)}</pre>
-        )}
-      </Card>
+    <div className="flex flex-col gap-px bg-grey-200 rounded-xl border border-grey-200 overflow-clip">
+      <Header />
+      {children}
     </div>
   );
 };

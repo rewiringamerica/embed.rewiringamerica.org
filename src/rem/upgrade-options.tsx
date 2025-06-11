@@ -31,7 +31,7 @@ function getOptions(includeWaterHeater: boolean, msg: MsgFn) {
 
 export const UpgradeOptions: FC<{
   includeWaterHeater: boolean;
-  onUpgradeSelected: (u: Upgrade) => void;
+  onUpgradeSelected: (u: Upgrade, l: string) => void;
 }> = ({ includeWaterHeater, onUpgradeSelected }) => {
   const { msg } = useTranslated();
 
@@ -48,16 +48,8 @@ export const UpgradeOptions: FC<{
             sed efficitur eget, pharetra at sapien mauris quis.
           </p>
           <button
-            className="h-9 rounded border border-grey-300 text-grey-600 font-medium"
-            onClick={() => {
-              /* TODO */
-            }}
-          >
-            {msg('About this upgrade')}
-          </button>
-          <button
             className="h-9 rounded border border-grey-300 text-purple-500 font-medium"
-            onClick={() => onUpgradeSelected(option.upgrade)}
+            onClick={() => onUpgradeSelected(option.upgrade, option.label)}
           >
             {msg('View impact')}
           </button>
@@ -67,7 +59,7 @@ export const UpgradeOptions: FC<{
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 p-4 bg-grey-100">
       <p className="leading-normal">
         {msg(
           'Select an upgrade to view its cost savings and emissions impact:',

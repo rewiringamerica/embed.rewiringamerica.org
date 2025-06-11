@@ -56,6 +56,9 @@ module.exports = {
         24: '6rem', // 96px
         50: '12.5rem', // 200px
       },
+      spacing: {
+        25: '6.25rem', // 100px
+      },
     },
   },
   plugins: [require('@headlessui/tailwindcss')],
