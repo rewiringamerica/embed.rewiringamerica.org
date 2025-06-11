@@ -19,4 +19,24 @@ export enum WaterHeatingFuel {
   Propane = 'propane',
 }
 
-export interface RemAddressResponse {}
+export interface Quantity {
+  value: number;
+  unit: string;
+}
+
+export interface Quantiles {
+  median: Quantity;
+  percentile_20: Quantity;
+  percentile_80: Quantity;
+}
+
+export interface RemAddressResponse {
+  fuel_results: {
+    total: {
+      delta: {
+        emissions: Quantiles;
+        cost: Quantiles;
+      };
+    };
+  };
+}

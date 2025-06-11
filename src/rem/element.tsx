@@ -1,10 +1,9 @@
-import { Savings } from '@rewiringamerica/rem';
 import tailwindStyles from 'bundle-text:../tailwind.css';
 import { FC, useState } from 'react';
 import { Root, createRoot } from 'react-dom/client';
 import { DEFAULT_CALCULATOR_API_HOST, fetchApi } from '../api/fetch';
 import { FetchState } from '../api/fetch-state';
-import { Upgrade } from '../api/rem-types';
+import { RemAddressResponse, Upgrade } from '../api/rem-types';
 import { CalculatorFooter } from '../calculator-footer';
 import { TextButton } from '../components/buttons';
 import { EditIcon } from '../components/icons';
@@ -12,6 +11,7 @@ import { Spinner } from '../components/spinner';
 import { allLocales } from '../i18n/locales';
 import { LocaleContext, useTranslated } from '../i18n/use-translated';
 import { safeLocalStorage } from '../safe-local-storage';
+import { DetailedResults } from './DetailedResults';
 import { RemForm, RemFormLabels, RemFormValues } from './form';
 import { RemFormSnapshot } from './form-snapshot';
 import { UpgradeOptions } from './upgrade-options';
@@ -75,7 +75,7 @@ const RemCalculator: FC<{
     string | null
   >(null);
 
-  const [fetchState, setFetchState] = useState<FetchState<Savings>>({
+  const [fetchState, setFetchState] = useState<FetchState<RemAddressResponse>>({
     state: 'init',
   });
 
@@ -92,10 +92,14 @@ const RemCalculator: FC<{
         : {}),
     });
 
-    fetchApi(apiKey, apiHost, '/api/v1/rem/address', query, msg)
-      .then(response =>
-        setFetchState({ state: 'complete', response: response as Savings }),
-      )
+    fetchApi<RemAddressResponse>(
+      apiKey,
+      apiHost,
+      '/api/v1/rem/address',
+      query,
+      msg,
+    )
+      .then(response => setFetchState({ state: 'complete', response }))
       .catch(error =>
         setFetchState({ state: 'error', message: error.message }),
       );
@@ -168,15 +172,13 @@ const RemCalculator: FC<{
       if (fetchState.state === 'loading') {
         children.push(<Loading key="loading" />);
       } else if (fetchState.state === 'complete') {
-        // TODO real display
-
         children.push(
-          <pre key="results" className="bg-grey-100">
-            {JSON.stringify(fetchState.response, null, 2)}
-          </pre>,
+          <DetailedResults key="results" savings={fetchState.response} />,
         );
+      } else if (fetchState.state === 'error') {
+        // TODO real error state
+        children.push(<pre key="error">{fetchState.message}</pre>);
       }
-      // TODO error state
     }
   }
 
