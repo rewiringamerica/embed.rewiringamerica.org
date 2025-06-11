@@ -30,6 +30,7 @@
   --yellow-600: 242 199 46;
   --yellow-700: 160 135 44;
   --yellow-800: 100 86 36;
+  --green-500: 66 204 113;
 
   /* COLOR ALIASES */
   --color-action-primary: var(--purple-500);

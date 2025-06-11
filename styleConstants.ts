@@ -25,6 +25,7 @@ export const SUPPORTED_COLORS = [
   'yellow-600',
   'yellow-700',
   'yellow-800',
+  'green-500',
   // COLOR ALIASES
   'color-action-primary',
   'color-action-secondary',
