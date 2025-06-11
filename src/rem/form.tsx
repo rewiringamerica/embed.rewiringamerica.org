@@ -7,7 +7,7 @@ import { TextInput } from '../components/text-input';
 import { useTranslated } from '../i18n/use-translated';
 import { MsgFn } from '../package-index';
 
-enum BuildingType {
+export enum BuildingType {
   House = 'house',
   Apartment = 'apartment',
   MobileHome = 'mobile_home',
@@ -80,12 +80,14 @@ const WATER_HEATING_OPTIONS: (
 ];
 
 export interface RemFormValues {
+  buildingType: BuildingType;
   address: string;
   heatingFuel: HeatingFuel | '';
   waterHeatingFuel: WaterHeatingFuel | '';
 }
 
 export interface RemFormLabels {
+  buildingType: string;
   address: string;
   heatingFuel: string;
   waterHeatingFuel: string | null;
@@ -160,7 +162,7 @@ export const RemForm: FC<{
       </h2>
       <p className="leading-normal">
         {msg(
-          'Our model currently only supports houses. However, you can check out our resources for apartments TK.',
+          'Our model currently does not support apartments. However, you can check out our resources for apartments TK.',
         )}
       </p>
     </div>
@@ -186,6 +188,7 @@ export const RemForm: FC<{
         onSubmit={e => {
           e.preventDefault();
           const values: RemFormValues = {
+            buildingType: buildingType as BuildingType,
             address,
             heatingFuel: heatingFuel as HeatingFuel,
             waterHeatingFuel:
@@ -194,6 +197,7 @@ export const RemForm: FC<{
                 : '',
           };
           const labels = {
+            buildingType: labelForValue(BUILDING_OPTIONS(msg), buildingType)!,
             address,
             heatingFuel: labelForValue(HEATING_OPTIONS(msg), heatingFuel)!,
             waterHeatingFuel:
@@ -214,7 +218,7 @@ export const RemForm: FC<{
             onChange={setBuildingType}
           />
 
-          {buildingType === '' || buildingType === BuildingType.House
+          {buildingType === '' || buildingType !== BuildingType.Apartment
             ? householdForm
             : notSupportedCard}
         </div>

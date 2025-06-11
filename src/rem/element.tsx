@@ -144,7 +144,7 @@ const RemCalculator: FC<{
       children.push(
         <UpgradeOptions
           key="upgradeOptions"
-          includeWaterHeater={submittedFormValues.waterHeatingFuel !== null}
+          includeWaterHeater={!!submittedFormValues.waterHeatingFuel}
           onUpgradeSelected={startFetch}
         />,
       );
