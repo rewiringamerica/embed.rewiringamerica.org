@@ -25,6 +25,10 @@ export const RemFormSnapshot: FC<{
       </div>
       <ul className="text-sm leading-normal">
         <li>
+          <span className="font-medium">{msg('Household type')}:</span>{' '}
+          {formLabels.buildingType}
+        </li>
+        <li>
           <span className="font-medium">{msg('Address')}:</span>{' '}
           {formLabels.address}
         </li>
