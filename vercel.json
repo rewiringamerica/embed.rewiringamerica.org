@@ -4,6 +4,11 @@
       "source": "/state-calculator.html",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/ira-calculator.html",
+      "destination": "/",
+      "permanent": true
     }
   ]
 }
