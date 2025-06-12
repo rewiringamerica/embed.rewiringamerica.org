@@ -11,6 +11,12 @@ export type AuthorityType =
   | 'city'
   | 'county'
   | 'other';
+export type OwnerStatus = 'homeowner' | 'renter';
+export type FilingStatus =
+  | 'single'
+  | 'joint'
+  | 'hoh'
+  | 'married_filing_separately';
 
 export type AmountType = 'dollar_amount' | 'percent' | 'dollars_per_unit';
 export type AmountUnit =
