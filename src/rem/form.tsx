@@ -80,7 +80,7 @@ const WATER_HEATING_OPTIONS: (
 ];
 
 export interface RemFormValues {
-  buildingType: BuildingType;
+  buildingType: BuildingType | '';
   address: string;
   heatingFuel: HeatingFuel | '';
   waterHeatingFuel: WaterHeatingFuel | '';
@@ -94,13 +94,16 @@ export interface RemFormLabels {
 }
 
 export const RemForm: FC<{
+  initialValues: RemFormValues;
   onReset: () => void;
   onSubmit: (v: RemFormValues, l: RemFormLabels) => void;
-}> = ({ onReset, onSubmit }) => {
-  const [buildingType, setBuildingType] = useState('');
-  const [address, setAddress] = useState('');
-  const [heatingFuel, setHeatingFuel] = useState('');
-  const [waterHeatingFuel, setWaterHeatingFuel] = useState('');
+}> = ({ initialValues, onReset, onSubmit }) => {
+  const [buildingType, setBuildingType] = useState(initialValues.buildingType);
+  const [address, setAddress] = useState(initialValues.address);
+  const [heatingFuel, setHeatingFuel] = useState(initialValues.heatingFuel);
+  const [waterHeatingFuel, setWaterHeatingFuel] = useState(
+    initialValues.waterHeatingFuel,
+  );
 
   const { msg } = useTranslated();
 
@@ -145,9 +148,7 @@ export const RemForm: FC<{
         <div className="h-0 sm:h-9">{/* spacer for two-col mode */}</div>
         <PrimaryButton
           id="calculate"
-          disabled={
-            buildingType === '' || address.length < 5 || heatingFuel === ''
-          }
+          disabled={!buildingType || address.length < 5 || !heatingFuel}
         >
           {msg('Next: select upgrade')}
         </PrimaryButton>

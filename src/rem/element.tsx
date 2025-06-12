@@ -20,10 +20,10 @@ import { UpgradeOptions } from './upgrade-options';
  * If you make a backward-incompatible change to the format of form value
  * storage, increment the version in this key.
  */
-const FORM_VALUES_LOCAL_STORAGE_KEY = 'RA-calc-rem-form-values-v1';
+const REM_FORM_VALUES_LOCAL_STORAGE_KEY = 'RA-calc-rem-form-values-v1';
 declare module '../safe-local-storage' {
   interface SafeLocalStorageMap {
-    [FORM_VALUES_LOCAL_STORAGE_KEY]: Partial<RemFormValues>;
+    [REM_FORM_VALUES_LOCAL_STORAGE_KEY]: Partial<RemFormValues>;
   }
 }
 
@@ -109,8 +109,18 @@ const RemCalculator: FC<{
   // reinitializing the input values from initial (constructed above).
   const [formKey, setFormKey] = useState(0);
   const resetForm = () => {
-    safeLocalStorage.removeItem(FORM_VALUES_LOCAL_STORAGE_KEY);
+    safeLocalStorage.removeItem(REM_FORM_VALUES_LOCAL_STORAGE_KEY);
     setFormKey(fk => fk + 1);
+  };
+
+  const getInitialFormValues = (): RemFormValues => {
+    const saved = safeLocalStorage.getItem(REM_FORM_VALUES_LOCAL_STORAGE_KEY);
+    return {
+      buildingType: saved?.buildingType || '',
+      address: saved?.address || '',
+      heatingFuel: saved?.heatingFuel || '',
+      waterHeatingFuel: saved?.waterHeatingFuel || '',
+    };
   };
 
   const children = [];
@@ -119,9 +129,10 @@ const RemCalculator: FC<{
     children.push(
       <RemForm
         key={formKey}
+        initialValues={getInitialFormValues()}
         onReset={resetForm}
         onSubmit={(values, labels) => {
-          safeLocalStorage.setItem(FORM_VALUES_LOCAL_STORAGE_KEY, values);
+          safeLocalStorage.setItem(REM_FORM_VALUES_LOCAL_STORAGE_KEY, values);
           setSubmittedFormValues(values);
           setSubmittedFormLabels(labels);
         }}
