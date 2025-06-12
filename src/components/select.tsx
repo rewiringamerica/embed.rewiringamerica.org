@@ -45,6 +45,8 @@ export type SelectProps<T extends string> = {
   placeholder?: string;
   /** Shown below the select element. */
   helpText?: string;
+  /** Shown below the select element, overriding helpText if present. */
+  errorText?: string;
   currentValue: T | null;
   onChange: (newValue: T) => void;
 };
@@ -86,6 +88,7 @@ export const Select = <T extends string>({
   tooltipText,
   placeholder,
   helpText,
+  errorText,
   currentValue,
   onChange,
 }: SelectProps<T>) => {
@@ -143,6 +146,7 @@ export const Select = <T extends string>({
             'border',
             'border-grey-200',
             !disabled && 'hover:border-grey-600',
+            !!errorText && 'border-red-500',
             // Move the outline inward to cover up the border
             'outline-offset-[-1px]',
             'focus:outline',
@@ -226,12 +230,16 @@ export const Select = <T extends string>({
         </Transition>
       </Listbox>
       {
-        // nbsp forces vertical space even if help text is blank
-        helpText && (
+        // nbsp forces vertical space even if text is blank
+        errorText ? (
+          <div className="mx-3 mt-1 text-red-500 text-xsm leading-normal">
+            {errorText}&nbsp;
+          </div>
+        ) : helpText ? (
           <div className="mx-3 mt-1 text-grey-400 text-xsm leading-normal">
             {helpText}&nbsp;
           </div>
-        )
+        ) : null
       }
     </div>
   );

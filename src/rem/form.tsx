@@ -107,67 +107,7 @@ export const RemForm: FC<{
 
   const { msg } = useTranslated();
 
-  const householdForm = (
-    <>
-      <div>
-        <FormLabel>
-          <label htmlFor="address">{msg('Address')}</label>
-        </FormLabel>
-        <TextInput
-          id="address"
-          name="address"
-          placeholder={msg('Enter address...')}
-          required
-          type="text"
-          minLength={5}
-          inputMode="text"
-          autoComplete="street-address"
-          value={address}
-          onChange={e => setAddress(e.target.value)}
-        />
-      </div>
-      <Select
-        id="heatingFuel"
-        options={HEATING_OPTIONS(msg)}
-        labelText={msg('Heating fuel')}
-        currentValue={heatingFuel}
-        placeholder={msg('Select heating fuel...')}
-        onChange={setHeatingFuel}
-      ></Select>
-      <Select
-        id="waterHeatingFuel"
-        options={WATER_HEATING_OPTIONS(msg)}
-        labelText={msg('Water heating fuel (optional)')}
-        placeholder={msg('Select water heating fuel...')}
-        currentValue={waterHeatingFuel}
-        onChange={val =>
-          setWaterHeatingFuel(val === NO_WATER_HEATING_FUEL ? '' : val)
-        }
-      />
-      <div className="col-start-[-2] col-end-[-1]">
-        <div className="h-0 sm:h-9">{/* spacer for two-col mode */}</div>
-        <PrimaryButton
-          id="calculate"
-          disabled={!buildingType || address.length < 5 || !heatingFuel}
-        >
-          {msg('Next: select upgrade')}
-        </PrimaryButton>
-      </div>
-    </>
-  );
-
-  const notSupportedCard = (
-    <div className="flex flex-col text-center px-4 py-5 gap-3 bg-grey-200 rounded-lg">
-      <h2 className="text-lg font-medium leading-tight">
-        {msg('Household type not supported')}
-      </h2>
-      <p className="leading-normal">
-        {msg(
-          'Our model currently does not support apartments. However, you can check out our resources for apartments TK.',
-        )}
-      </p>
-    </div>
-  );
+  const isBadBuildingType = buildingType === BuildingType.Apartment;
 
   return (
     <div className="flex flex-col gap-4 p-4 bg-grey-100">
@@ -214,14 +154,71 @@ export const RemForm: FC<{
             id="buildingType"
             options={BUILDING_OPTIONS(msg)}
             labelText={msg('Household type')}
+            helpText=" " // empty help text to maintain vertical space
+            errorText={
+              isBadBuildingType
+                ? msg('Our model currently doesn’t support apartments.')
+                : undefined
+            }
             currentValue={buildingType}
             placeholder={msg('Select household type...')}
             onChange={setBuildingType}
           />
 
-          {buildingType === '' || buildingType !== BuildingType.Apartment
-            ? householdForm
-            : notSupportedCard}
+          <div>
+            <FormLabel>
+              <label htmlFor="address">{msg('Address')}</label>
+            </FormLabel>
+            <TextInput
+              id="address"
+              name="address"
+              placeholder={msg('Enter address...')}
+              required
+              type="text"
+              minLength={5}
+              inputMode="text"
+              disabled={isBadBuildingType}
+              autoComplete="street-address"
+              value={address}
+              onChange={e => setAddress(e.target.value)}
+            />
+          </div>
+          <Select
+            id="heatingFuel"
+            options={HEATING_OPTIONS(msg)}
+            labelText={msg('Heating fuel')}
+            disabled={isBadBuildingType}
+            currentValue={heatingFuel}
+            placeholder={msg('Select heating fuel...')}
+            onChange={setHeatingFuel}
+          ></Select>
+          <Select
+            id="waterHeatingFuel"
+            options={WATER_HEATING_OPTIONS(msg)}
+            labelText={msg('Water heating fuel (optional)')}
+            helpText={msg(
+              'Select your water heating fuel to see the impact of a water heater upgrade.',
+            )}
+            disabled={isBadBuildingType}
+            currentValue={waterHeatingFuel}
+            placeholder={msg('Select water heating fuel...')}
+            onChange={val =>
+              setWaterHeatingFuel(val === NO_WATER_HEATING_FUEL ? '' : val)
+            }
+          />
+          <div className="col-start-[-2] col-end-[-1]">
+            <PrimaryButton
+              id="calculate"
+              disabled={
+                !buildingType ||
+                buildingType === BuildingType.Apartment ||
+                address.length < 5 ||
+                !heatingFuel
+              }
+            >
+              {msg('Next: select upgrade')}
+            </PrimaryButton>
+          </div>
         </div>
       </form>
     </div>

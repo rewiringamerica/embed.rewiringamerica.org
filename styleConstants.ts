@@ -11,6 +11,7 @@ export const SUPPORTED_COLORS = [
   'grey-900',
   'orange-500',
   'purple-100',
+  'purple-200',
   'purple-500',
   'red-100',
   'red-500',
