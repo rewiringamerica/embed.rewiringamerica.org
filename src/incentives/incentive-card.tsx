@@ -1,5 +1,9 @@
 import clsx from 'clsx';
 import { FC, PropsWithChildren } from 'react';
+import {
+  BorderedLinkButton,
+  BorderlessLinkButton,
+} from '../components/buttons';
 import { Card } from '../components/card';
 import {
   ExclamationPoint,
@@ -33,62 +37,6 @@ const Chip: FC<PropsWithChildren<{ isWarning?: boolean }>> = ({
     {isWarning ? <ExclamationPoint w={16} h={16} /> : null}
     {children}
   </div>
-);
-
-/** Rendered as a button, with a border. Narrow layout only. */
-const BorderedLinkButton: FC<PropsWithChildren<{ href: string }>> = ({
-  href,
-  children,
-}) => (
-  <a
-    className={clsx(
-      'flex',
-      'sm:hidden',
-      'gap-2',
-      'justify-center',
-      'items-center',
-      'self-stretch',
-      'h-9',
-      'px-3.5',
-      'py-1.5',
-      'border',
-      'rounded',
-      'border-grey-300',
-      'text-ra-color-text-link',
-      'text-base',
-      'font-medium',
-      'leading-tight',
-    )}
-    target="_blank"
-    href={href}
-  >
-    {children}
-  </a>
-);
-
-/** Rendered as a pseudo-link, without a border. Med and wide layouts only */
-const BorderlessLinkButton: FC<PropsWithChildren<{ href: string }>> = ({
-  href,
-  children,
-}) => (
-  <a
-    className={clsx(
-      'hidden',
-      'sm:flex',
-      'gap-2',
-      'items-center',
-      'text-ra-color-text-link',
-      'text-base',
-      'font-medium',
-      'leading-tight',
-      'whitespace-nowrap',
-      'hover:underline',
-    )}
-    target="_blank"
-    href={href}
-  >
-    {children}
-  </a>
 );
 
 export const IncentiveCard: FC<{

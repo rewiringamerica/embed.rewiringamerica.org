@@ -30,14 +30,14 @@ declare module '../safe-local-storage' {
 const Header = () => {
   const { msg } = useTranslated();
   return (
-    <div className="h-11 flex justify-between px-4 py-3 bg-yellow-100">
+    <div className="h-11 flex justify-between px-4 py-3 bg-white">
       <img
         src={new URL('../../static/logo.png', import.meta.url).toString()}
         width="61"
         height="20"
       />
       <span className="text-sm font-medium leading-normal">
-        {msg('Bill Impacts Calculator')}
+        {msg('Bill Impact Calculator')}
       </span>
     </div>
   );
@@ -176,7 +176,9 @@ const RemCalculator: FC<{
               </div>
             </TextButton>
           </div>
-          <span className="leading-normal">{submittedUpgradeLabel}</span>
+          <div className="rounded p-2 leading-normal text-grey-900 border border-purple-200 bg-purple-100">
+            {submittedUpgradeLabel}
+          </div>
         </div>,
       );
 

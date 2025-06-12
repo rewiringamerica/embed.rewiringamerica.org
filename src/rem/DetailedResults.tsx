@@ -64,7 +64,7 @@ export const DetailedResults: FC<{ savings: RemAddressResponse }> = ({
             costResult.percentile_80.value,
           )} and $${renderNumber(
             costResult.percentile_20.value,
-          )} a year on their energy bills, with half of homes saving at least $${renderNumber(
+          )} a year on their energy bills, with most homes saving at least $${renderNumber(
             costResult.median.value,
           )}.`,
         )
@@ -82,7 +82,7 @@ export const DetailedResults: FC<{ savings: RemAddressResponse }> = ({
               costResult.percentile_20.value,
               costResult.percentile_80.value,
             ),
-          )} per year, with half of homes saving at least $${renderNumber(
+          )} per year, with most homes saving at least $${renderNumber(
             costResult.median.value,
           )}.`,
         )
@@ -97,7 +97,7 @@ export const DetailedResults: FC<{ savings: RemAddressResponse }> = ({
               costResult.percentile_20.value,
               costResult.percentile_80.value,
             ),
-          )} per year, with half of homes spending at least $${renderNumber(
+          )} per year, with most homes spending at least $${renderNumber(
             costResult.median.value,
           )} more.`,
         );
@@ -110,7 +110,7 @@ export const DetailedResults: FC<{ savings: RemAddressResponse }> = ({
             emissionsResult.percentile_80.value,
           )}kg and ${renderNumber(
             emissionsResult.percentile_20.value,
-          )}kg, with half of homes reducing emissions by at least ${renderNumber(
+          )}kg, with most homes reducing emissions by at least ${renderNumber(
             emissionsResult.median.value,
           )}kg.`,
         )
@@ -128,7 +128,7 @@ export const DetailedResults: FC<{ savings: RemAddressResponse }> = ({
               emissionsResult.percentile_20.value,
               emissionsResult.percentile_80.value,
             ),
-          )} per year, with half of homes reducing emissions by at least ${renderNumber(
+          )} per year, with most homes reducing emissions by at least ${renderNumber(
             emissionsResult.median.value,
           )}kg.`,
         )
@@ -137,7 +137,7 @@ export const DetailedResults: FC<{ savings: RemAddressResponse }> = ({
             emissionsResult.percentile_80.value,
           )} and ${renderKgDiff(
             emissionsResult.percentile_20.value,
-          )} per year, with half of homes increasing emissions by at least ${renderNumber(
+          )} per year, with most homes increasing emissions by at least ${renderNumber(
             emissionsResult.median.value,
           )}kg.`,
         );
@@ -162,12 +162,17 @@ export const DetailedResults: FC<{ savings: RemAddressResponse }> = ({
 
   return (
     <div className="flex flex-col gap-4 p-4 bg-grey-100">
-      <div className="leading-normal">
-        {msg(
-          `The impact estimates below were calculated based on your selected \
+      <div>
+        <h2 className="font-medium leading-normal mb-1">
+          {msg('Bill and emissions impact')}
+        </h2>
+        <p className="text-sm leading-normal">
+          {msg(
+            `We calculated the impact estimates below based on your selected \
 upgrade, the household info you shared, and other characteristics we found \
 for this home.`,
-        )}
+          )}
+        </p>
       </div>
       {costCard}
       {emissionsCard}
