@@ -1,22 +1,22 @@
-import ProjectIcon from 'jsx:../static/icons/project.svg';
+import ProjectIcon from 'jsx:../../static/icons/project.svg';
 import React, { useState } from 'react';
 import {
   AmountUnit,
   Incentive,
   IncentiveType,
-} from './api/calculator-types-v1';
-import { getYear, isChangingSoon, isInFuture } from './api/dates';
-import { Card } from './card';
-import { Option, Select } from './components/select';
-import { MsgFn } from './i18n/msg';
-import { str } from './i18n/str';
-import { useTranslated } from './i18n/use-translated';
+} from '../api/calculator-types-v1';
+import { getYear, isChangingSoon, isInFuture } from '../api/dates';
+import { Card } from '../components/card';
+import { Option, Select } from '../components/select';
+import { MsgFn } from '../i18n/msg';
+import { str } from '../i18n/str';
+import { useTranslated } from '../i18n/use-translated';
+import { safeLocalStorage } from '../safe-local-storage';
 import { IncentiveCard } from './incentive-card';
 import { IRARebate } from './ira-rebates';
 import { itemName } from './item-name';
 import { PROJECT_ICONS } from './project-icons';
 import { PROJECTS, Project } from './projects';
-import { safeLocalStorage } from './safe-local-storage';
 
 const formatUnit = (unit: AmountUnit, msg: MsgFn) =>
   unit === 'btuh10k'
@@ -325,7 +325,7 @@ export const IncentiveGrid = ({
  * storage, increment the version in this key.
  */
 const SELECTED_PROJECT_LOCAL_STORAGE_KEY = 'RA-calc-selected-project-v1';
-declare module './safe-local-storage' {
+declare module '../safe-local-storage' {
   interface SafeLocalStorageMap {
     [SELECTED_PROJECT_LOCAL_STORAGE_KEY]: Project;
   }

@@ -1,6 +1,6 @@
-import { APIResponse } from './api/calculator-types-v1';
-import { Card } from './card';
-import { useTranslated } from './i18n/use-translated';
+import { APIResponse } from '../api/calculator-types-v1';
+import { Card } from '../components/card';
+import { useTranslated } from '../i18n/use-translated';
 
 type Props = { response: APIResponse };
 

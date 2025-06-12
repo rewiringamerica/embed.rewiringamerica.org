@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import { FC } from 'react';
 import { str } from '../i18n/str';
 import { useTranslated } from '../i18n/use-translated';
-import { Check, DownTriangle } from '../icons';
 import { FormLabel } from './form-label';
+import { Check, DownTriangle } from './icons';
 import { Spinner } from './spinner';
 
 export type Option<T extends string> = {

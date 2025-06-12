@@ -4,18 +4,18 @@ import {
   APIUtilitiesResponse,
   FilingStatus,
   OwnerStatus,
-} from './api/calculator-types-v1';
-import { FetchState } from './api/fetch-state';
-import { PrimaryButton } from './buttons';
-import { FormLabel } from './components/form-label';
-import { Option, Select } from './components/select';
-import { Spinner } from './components/spinner';
-import { TextInput } from './components/text-input';
-import { CurrencyInput } from './currency-input';
-import { MsgFn } from './i18n/msg';
-import { str } from './i18n/str';
-import { useTranslated } from './i18n/use-translated';
-import { STATES } from './states';
+} from '../api/calculator-types-v1';
+import { FetchState } from '../api/fetch-state';
+import { PrimaryButton } from '../components/buttons';
+import { CurrencyInput } from '../components/currency-input';
+import { FormLabel } from '../components/form-label';
+import { Option, Select } from '../components/select';
+import { Spinner } from '../components/spinner';
+import { TextInput } from '../components/text-input';
+import { MsgFn } from '../i18n/msg';
+import { str } from '../i18n/str';
+import { useTranslated } from '../i18n/use-translated';
+import { STATES } from '../states';
 
 const OWNER_STATUS_OPTIONS: (msg: MsgFn) => Option<OwnerStatus>[] = msg => [
   { value: 'homeowner', label: msg('Homeowner') },

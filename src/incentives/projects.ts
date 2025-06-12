@@ -1,5 +1,5 @@
-import { ItemType } from './api/calculator-types-v1';
-import { MsgFn } from './i18n/msg';
+import { ItemType } from '../api/calculator-types-v1';
+import { MsgFn } from '../i18n/msg';
 
 type ProjectInfo = {
   label: (msg: MsgFn) => string;

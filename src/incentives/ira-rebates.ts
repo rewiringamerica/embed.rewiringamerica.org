@@ -1,6 +1,6 @@
-import { APIResponse, IncentiveType } from './api/calculator-types-v1';
-import { MsgFn } from './i18n/msg';
-import { str } from './i18n/str';
+import { APIResponse, IncentiveType } from '../api/calculator-types-v1';
+import { MsgFn } from '../i18n/msg';
+import { str } from '../i18n/str';
 import { Project } from './projects';
 
 export type IRARebate = {

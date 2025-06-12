@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { passthroughMsg as msg } from '../src/i18n/msg';
-import { itemName } from '../src/item-name';
+import { itemName } from '../src/incentives/item-name';
 
 describe('group names', () => {
   test('heat pumps', () => {
