@@ -55,7 +55,7 @@ export const UpgradeOptions: FC<{
 
   for (const option of getOptions(includeWaterHeater, msg)) {
     cards.push(
-      <Card theme="white" padding="medium" key={option.upgrade} isFlat>
+      <Card theme="white" padding="small" key={option.upgrade} isFlat>
         <div className="flex flex-col gap-3">
           <h2 className="text-lg font-medium leading-tight">{option.label}</h2>
           <p className="text-sm text-grey-600 leading-normal">

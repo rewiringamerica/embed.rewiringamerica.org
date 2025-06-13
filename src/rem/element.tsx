@@ -11,6 +11,7 @@ import { Spinner } from '../components/spinner';
 import { allLocales } from '../i18n/locales';
 import { LocaleContext, useTranslated } from '../i18n/use-translated';
 import { safeLocalStorage } from '../safe-local-storage';
+import { ApproximateResults } from './ApproximateResults';
 import { DetailedResults } from './DetailedResults';
 import { RemForm, RemFormLabels, RemFormValues } from './form';
 import { RemFormSnapshot } from './form-snapshot';
@@ -185,9 +186,16 @@ const RemCalculator: FC<{
       if (fetchState.state === 'loading') {
         children.push(<Loading key="loading" />);
       } else if (fetchState.state === 'complete') {
-        children.push(
-          <DetailedResults key="results" savings={fetchState.response} />,
-        );
+        // TODO this is just for demo purposes
+        if (submittedUpgradeLabel === 'Heat pump + weatherization') {
+          children.push(
+            <ApproximateResults key="results" savings={fetchState.response} />,
+          );
+        } else {
+          children.push(
+            <DetailedResults key="results" savings={fetchState.response} />,
+          );
+        }
       } else if (fetchState.state === 'error') {
         // TODO real error state
         children.push(<pre key="error">{fetchState.message}</pre>);
