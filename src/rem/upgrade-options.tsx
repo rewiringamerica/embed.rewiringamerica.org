@@ -57,12 +57,24 @@ export const UpgradeOptions: FC<{
     cards.push(
       <Card theme="white" padding="small" key={option.upgrade} isFlat>
         <div className="flex flex-col gap-3">
-          <h2 className="text-lg font-medium leading-tight">{option.label}</h2>
+          <div className="flex justify-between">
+            <h2 className="text-lg font-medium leading-tight">
+              {option.label}
+            </h2>
+            <button
+              // This button is NOT shown on small screens
+              className="hidden sm:block text-purple-500 font-medium leading-tight hover:underline"
+              onClick={() => onUpgradeSelected(option.upgrade, option.label)}
+            >
+              {msg('View impact')}
+            </button>
+          </div>
           <p className="text-sm text-grey-600 leading-normal">
             {option.description}
           </p>
           <button
-            className="h-9 rounded border border-grey-300 text-purple-500 font-medium"
+            // This button is ONLY shown on small screens
+            className="sm:hidden h-9 rounded border border-grey-300 text-purple-500 font-medium leading-tight"
             onClick={() => onUpgradeSelected(option.upgrade, option.label)}
           >
             {msg('View impact')}
