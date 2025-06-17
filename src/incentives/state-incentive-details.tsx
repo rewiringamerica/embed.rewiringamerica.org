@@ -114,13 +114,19 @@ const getStartYearIfInFuture = (incentive: Incentive) =>
  * doesn't take that into account.
  *
  * We exclude a specific set of authorities from this treatment as well, since
- * we know they're not city- or county-dependent. This is a short-term fix; we
+ * either we know they're not city- or county-dependent, or the requirement is
+ * spelled out in their actual descriptions. This is a short-term fix; we
  * anticipate adding a concept of "conditional eligibility" to the API, which
  * will let us show the hedging message only when it's actually needed.
  */
 const shouldShowLocationHedging = (incentive: Incentive) =>
   ['city', 'county', 'other'].includes(incentive.authority_type) &&
-  !['ma-massSave'].includes(incentive.authority || '');
+  ![
+    'ma-massSave',
+    'mn-city-of-edina',
+    'mn-city-of-minneapolis',
+    'mn-city-of-st-louis-park',
+  ].includes(incentive.authority || '');
 
 // Determines if there should be a warning chip for the incentive based on
 // whether it is currently paused, ending within 60 days, starting within
