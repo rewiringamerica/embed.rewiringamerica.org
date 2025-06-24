@@ -20,6 +20,7 @@ const ImpactCard: FC<{
       left={quantiles.percentile_80.value}
       middle={quantiles.median.value}
       right={quantiles.percentile_20.value}
+      zeroLabel={unit === 'dollars' ? '$0' : '0kg'}
       renderEnds={
         unit === 'dollars'
           ? n => `$${renderNumber(n)}`
