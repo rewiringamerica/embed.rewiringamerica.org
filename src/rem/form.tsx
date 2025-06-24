@@ -111,6 +111,10 @@ export const RemForm: FC<{
   const areValuesModified =
     !!buildingType || !!address || !!heatingFuel || !!waterHeatingFuel;
 
+  const addressHelpText = msg(
+    'Enter your street address, city, state, and ZIP code.',
+  );
+
   return (
     <div className="flex flex-col gap-4 p-4 bg-grey-100">
       <div className="flex justify-between items-baseline">
@@ -158,7 +162,6 @@ export const RemForm: FC<{
             id="buildingType"
             options={BUILDING_OPTIONS(msg)}
             labelText={msg('Household type')}
-            helpText=" " // empty help text to maintain vertical space
             errorText={
               isBadBuildingType
                 ? msg('Our model currently doesn’t support apartments.')
@@ -176,7 +179,8 @@ export const RemForm: FC<{
             <TextInput
               id="address"
               name="address"
-              placeholder={msg('Enter address...')}
+              // Intentionally not localizable. Also not a real address
+              placeholder="1234 Main St, Providence, RI 02903"
               required
               type="text"
               minLength={5}
@@ -186,6 +190,9 @@ export const RemForm: FC<{
               value={address}
               onChange={e => setAddress(e.target.value)}
             />
+            <div className="mx-3 mt-1 text-grey-400 text-xsm leading-normal">
+              {addressHelpText}
+            </div>
           </div>
           <Select
             id="heatingFuel"
