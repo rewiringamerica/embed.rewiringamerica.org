@@ -108,6 +108,8 @@ export const RemForm: FC<{
   const { msg } = useTranslated();
 
   const isBadBuildingType = buildingType === BuildingType.Apartment;
+  const areValuesModified =
+    !!buildingType || !!address || !!heatingFuel || !!waterHeatingFuel;
 
   return (
     <div className="flex flex-col gap-4 p-4 bg-grey-100">
@@ -116,7 +118,9 @@ export const RemForm: FC<{
           {msg('Your household info')}
         </h1>
         <div>
-          <TextButton onClick={onReset}>{msg('Reset')}</TextButton>
+          <TextButton disabled={!areValuesModified} onClick={onReset}>
+            {msg('Reset')}
+          </TextButton>
         </div>
       </div>
       <div className="text-sm leading-normal">
