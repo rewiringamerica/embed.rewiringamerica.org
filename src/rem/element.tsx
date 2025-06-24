@@ -4,7 +4,7 @@ import { Root, createRoot } from 'react-dom/client';
 import { DEFAULT_CALCULATOR_API_HOST, fetchApi } from '../api/fetch';
 import { FetchState } from '../api/fetch-state';
 import { RemAddressResponse, Upgrade } from '../api/rem-types';
-import { CalculatorFooter } from '../calculator-footer';
+import { FooterCopy } from '../calculator-footer';
 import { TextButton } from '../components/buttons';
 import { EditIcon } from '../components/icons';
 import { Spinner } from '../components/spinner';
@@ -211,6 +211,15 @@ const RemCalculator: FC<{
     }
   }
 
+  children.push(
+    <div
+      key="footer"
+      className="bg-white text-sm px-4 py-3 leading-normal text-center"
+    >
+      <FooterCopy />
+    </div>,
+  );
+
   return (
     <div className="flex flex-col gap-px bg-grey-200 rounded-xl border border-grey-200 overflow-clip">
       <Header />
@@ -225,7 +234,6 @@ export class ElectrificationImpactsCalculator extends HTMLElement {
   apiHost: string = DEFAULT_CALCULATOR_API_HOST;
 
   reactRootCalculator: Root | null = null;
-  reactRootFooter: Root | null = null;
 
   static observedAttributes = ['lang', 'api-key', 'api-host'] as const;
 
@@ -266,10 +274,6 @@ export class ElectrificationImpactsCalculator extends HTMLElement {
       const calculator = document.createElement('div');
       shadowRoot.appendChild(calculator);
       this.reactRootCalculator = createRoot(calculator);
-
-      const footer = document.createElement('div');
-      shadowRoot.appendChild(footer);
-      this.reactRootFooter = createRoot(footer);
     }
     this.render();
   }
@@ -282,11 +286,6 @@ export class ElectrificationImpactsCalculator extends HTMLElement {
           apiHost={this.apiHost}
           apiKey={this.apiKey}
         />
-      </LocaleContext.Provider>,
-    );
-    this.reactRootFooter?.render(
-      <LocaleContext.Provider value={this.lang}>
-        <CalculatorFooter />
       </LocaleContext.Provider>,
     );
   }
