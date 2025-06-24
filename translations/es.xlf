@@ -923,6 +923,179 @@
   <target>controles integrados de bomba de calor</target>
   <note from="lit-localize">e.g. "$100 off [this string]"</note>
 </trans-unit>
+<trans-unit id="s7993cc0db6d27b5b">
+  <source>Likely saver!</source>
+</trans-unit>
+<trans-unit id="s51b7fd026db003bb">
+  <source>Congratulations, you’re likely to lower your energy bills by going electric. Residents in your area save $<x id="0" equiv-text="${Math.abs(Math.round(costResult.median.value)).toLocaleString()}"/>/year on average.</source>
+</trans-unit>
+<trans-unit id="s0c460f55b0d0ac5e">
+  <source>Possible saver!</source>
+</trans-unit>
+<trans-unit id="sdac80296ba140b64">
+  <source>You might be able to lower your energy bills with this particular upgrade.</source>
+</trans-unit>
+<trans-unit id="s09d34fa9ee731aee">
+  <source>You’re unlikely to lower your energy bills with this particular upgrade, but you could still reduce your carbon emissions.</source>
+</trans-unit>
+<trans-unit id="sc03b9b6eff5d0151">
+  <source>Bill and emissions impact</source>
+</trans-unit>
+<trans-unit id="sbf8dbdb2203f13e8">
+  <source>These results below are based on your region and your selected upgrade, not the specific characteristics of your home.</source>
+</trans-unit>
+<trans-unit id="s7b4ae335fa702a88">
+  <source>$<x id="0" equiv-text="${renderNumber(n)}"/> less</source>
+</trans-unit>
+<trans-unit id="se4592b2ecbb76b90">
+  <source>$<x id="0" equiv-text="${renderNumber(n)}"/> more</source>
+</trans-unit>
+<trans-unit id="sb305b703e733e4c4">
+  <source><x id="0" equiv-text="${renderNumber(n)}"/>kg less</source>
+</trans-unit>
+<trans-unit id="sa56596fd05e62514">
+  <source><x id="0" equiv-text="${renderNumber(n)}"/>kg more</source>
+</trans-unit>
+<trans-unit id="s86f0eacef845d398">
+  <source>Our modeling shows that homes like yours will tend to save between $<x id="0" equiv-text="${renderNumber(costResult.percentile_80.value)}"/> and $<x id="1" equiv-text="${renderNumber(costResult.percentile_20.value)}"/> a year on their energy bills, with most homes saving at least $<x id="2" equiv-text="${renderNumber(costResult.median.value)}"/>.</source>
+</trans-unit>
+<trans-unit id="s43252eed90e6fab8">
+  <source>Our modeling shows that homes like yours will tend to spend between <x id="0" equiv-text="${renderDollarDiff(Math.min(costResult.percentile_20.value, costResult.percentile_80.value))}"/> and <x id="1" equiv-text="${renderDollarDiff(Math.max(costResult.percentile_20.value, costResult.percentile_80.value))}"/> per year, with most homes saving at least $<x id="2" equiv-text="${renderNumber(costResult.median.value)}"/>.</source>
+</trans-unit>
+<trans-unit id="s9b3b8dcb9ee24f25">
+  <source>Our modeling shows that homes like yours will tend to spend between <x id="0" equiv-text="${renderDollarDiff(Math.min(costResult.percentile_20.value, costResult.percentile_80.value))}"/> and <x id="1" equiv-text="${renderDollarDiff(Math.max(costResult.percentile_20.value, costResult.percentile_80.value))}"/> per year, with most homes spending at least $<x id="2" equiv-text="${renderNumber(costResult.median.value)}"/> more.</source>
+</trans-unit>
+<trans-unit id="s7874da67704ebb0b">
+  <source>Our modeling shows that homes like yours will tend to have annual emissions reductions between <x id="0" equiv-text="${renderNumber(emissionsResult.percentile_80.value)}"/>kg and <x id="1" equiv-text="${renderNumber(emissionsResult.percentile_20.value)}"/>kg, with most homes reducing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>kg.</source>
+</trans-unit>
+<trans-unit id="s75be27998ad443bd">
+  <source>Our modeling shows that homes like yours will tend to emit between <x id="0" equiv-text="${renderKgDiff(Math.min(emissionsResult.percentile_20.value, emissionsResult.percentile_80.value))}"/> and <x id="1" equiv-text="${renderKgDiff(Math.max(emissionsResult.percentile_20.value, emissionsResult.percentile_80.value))}"/> per year, with most homes reducing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>kg.</source>
+</trans-unit>
+<trans-unit id="s66a05de215cfda0b">
+  <source>Our modeling shows that homes like yours will tend to emit between <x id="0" equiv-text="${renderKgDiff(emissionsResult.percentile_80.value)}"/> and <x id="1" equiv-text="${renderKgDiff(emissionsResult.percentile_20.value)}"/> per year, with most homes increasing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>kg.</source>
+</trans-unit>
+<trans-unit id="s8d13b21fbb1a3a04">
+  <source>Energy bill impact</source>
+</trans-unit>
+<trans-unit id="s88271b5e5e1d5897">
+  <source>Emissions impact</source>
+</trans-unit>
+<trans-unit id="sbc720c2ef8acce29">
+  <source>We calculated the impact estimates below based on your selected upgrade, the household info you shared, and other characteristics we found for this home.</source>
+</trans-unit>
+<trans-unit id="s2d9a3be29382aef0">
+  <source>Enter your street address, city, state, and ZIP code.</source>
+</trans-unit>
+<trans-unit id="se4101cd3ff534a46">
+  <source>Enter your household information to calculate the energy bill savings and emissions reductions you could get from upgrades to your home.</source>
+</trans-unit>
+<trans-unit id="sdcd61c5aecd0a92e">
+  <source>Household type</source>
+</trans-unit>
+<trans-unit id="s61ab3f6c81e5c00a">
+  <source>Our model currently doesn’t support apartments.</source>
+</trans-unit>
+<trans-unit id="s5c687128d63123f2">
+  <source>Select household type...</source>
+</trans-unit>
+<trans-unit id="sab63f9cc28e699a3">
+  <source>Heating fuel</source>
+</trans-unit>
+<trans-unit id="sf7dd9ded2e89ae05">
+  <source>Select heating fuel...</source>
+</trans-unit>
+<trans-unit id="sbcbfb6181fd86ad9">
+  <source>Water heating fuel (optional)</source>
+</trans-unit>
+<trans-unit id="s65bae2714d6aae5e">
+  <source>Select your water heating fuel to see the impact of a water heater upgrade.</source>
+</trans-unit>
+<trans-unit id="sd56f3cec0da0154e">
+  <source>Select water heating fuel...</source>
+</trans-unit>
+<trans-unit id="s0a243d8bb2ae312e">
+  <source>Next: select upgrade</source>
+</trans-unit>
+<trans-unit id="sf00cf636320c1aca">
+  <source>Water heating fuel</source>
+</trans-unit>
+<trans-unit id="sac4e1ed6737109ef">
+  <source>Heat pump</source>
+</trans-unit>
+<trans-unit id="s46b99366f49f65cd">
+  <source>A heat pump is an efficient electric system that provides both heating and cooling by transferring heat between your home and the air outside, cutting energy use compared to traditional systems.</source>
+</trans-unit>
+<trans-unit id="sf459faf797f733a9">
+  <source>Weatherization</source>
+</trans-unit>
+<trans-unit id="sa7f22be14b041959">
+  <source>Weatherization includes upgrades like sealing air leaks and adding insulation to reduce energy loss, improve comfort, and lower heating and cooling bills.</source>
+</trans-unit>
+<trans-unit id="sd4a0958f79155a76">
+  <source>Heat pump + weatherization</source>
+</trans-unit>
+<trans-unit id="sb651be2f9d21f43b">
+  <source>Combining a heat pump with weatherization (like insulation and air sealing) maximizes comfort and energy savings by improving your home’s ability to retain heated or cooled air.</source>
+</trans-unit>
+<trans-unit id="s21bbdf0dd930b93d">
+  <source>Heat pump water heater</source>
+</trans-unit>
+<trans-unit id="sf775030226078438">
+  <source>A heat pump water heater uses electricity to pull heat from the surrounding air to warm your water, using up to 70% less energy than conventional electric water heaters.</source>
+</trans-unit>
+<trans-unit id="sd1c200d7b43580ba">
+  <source>View impact</source>
+</trans-unit>
+<trans-unit id="s316484804a08a355">
+  <source>Select upgrade</source>
+</trans-unit>
+<trans-unit id="s381a744f6d7fc819">
+  <source>Select an upgrade to view its impact on your energy bills and emissions:</source>
+</trans-unit>
+<trans-unit id="sbe6b0c10ca297c7a">
+  <source>Bill Impact Calculator</source>
+</trans-unit>
+<trans-unit id="sa5b024ac2e742ba8">
+  <source>Calculating impact...</source>
+</trans-unit>
+<trans-unit id="s87b70b2113a083d0">
+  <source>Selected upgrade</source>
+</trans-unit>
+<trans-unit id="s64ef2a6c2dd1d3d1">
+  <source>Edit</source>
+</trans-unit>
+<trans-unit id="s099722e1bd86397b">
+  <source>House</source>
+  <note from="lit-localize">building type</note>
+</trans-unit>
+<trans-unit id="s729d5e84dac94711">
+  <source>Apartment</source>
+  <note from="lit-localize">building type</note>
+</trans-unit>
+<trans-unit id="sae01e77c310ec0be">
+  <source>Mobile home</source>
+  <note from="lit-localize">building type</note>
+</trans-unit>
+<trans-unit id="sdd0dd79262c418ae">
+  <source>Townhome</source>
+  <note from="lit-localize">building type</note>
+</trans-unit>
+<trans-unit id="s2cb4cae8c985d3de">
+  <source>Electricity</source>
+  <note from="lit-localize">heating fuel option</note>
+</trans-unit>
+<trans-unit id="sf5958f869e4b848b">
+  <source>Natural gas</source>
+  <note from="lit-localize">heating fuel option</note>
+</trans-unit>
+<trans-unit id="se9ce6371cb2231ed">
+  <source>Fuel oil</source>
+  <note from="lit-localize">heating fuel option</note>
+</trans-unit>
+<trans-unit id="s0a0a82a1b7a4e4be">
+  <source>Propane</source>
+  <note from="lit-localize">heating fuel option</note>
+</trans-unit>
 </body>
 </file>
 </xliff>
