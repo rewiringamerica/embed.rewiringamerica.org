@@ -198,7 +198,15 @@ const RemCalculator: FC<{
         }
       } else if (fetchState.state === 'error') {
         // TODO real error state
-        children.push(<pre key="error">{fetchState.message}</pre>);
+        children.push(
+          <div
+            key="error"
+            className="flex flex-col gap-2 p-4 bg-red-100 text-sm leading-normal"
+          >
+            <span className="text-grey-400 uppercase">Error</span>
+            {fetchState.message}
+          </div>,
+        );
       }
     }
   }

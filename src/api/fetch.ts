@@ -33,8 +33,11 @@ export async function fetchApi<R>(
         // Zuplo's API key errors have this form:
         message = `${error.title}: ${error.detail}`;
       } else if (error.message && error.error) {
-        // Rewiring America's API errors have this form:
+        // Rewiring America's incentives API errors have this form:
         message = `${error.error}: ${error.message}`;
+      } else if (error.detail) {
+        // Rewiring America's REM API errors have this form
+        message = error.detail;
       }
     } catch (e) {
       // if we couldn't get anything off the response, just go with something generic:
