@@ -9,7 +9,7 @@ import { FetchState } from '../api/fetch-state';
 import { PrimaryButton } from '../components/buttons';
 import { CurrencyInput } from '../components/currency-input';
 import { FormLabel } from '../components/form-label';
-import { Option, Select } from '../components/select';
+import { Option, Select, labelForValue } from '../components/select';
 import { Spinner } from '../components/spinner';
 import { TextInput } from '../components/text-input';
 import { MsgFn } from '../i18n/msg';
@@ -90,13 +90,6 @@ function getGasOptions(
   } else {
     return null;
   }
-}
-
-function labelForValue<T extends string>(
-  options: Option<T>[],
-  value: T,
-): string | undefined {
-  return options.find(opt => opt.value === value)?.label;
 }
 
 const renderUtilityFields = (
