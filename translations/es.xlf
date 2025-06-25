@@ -1096,6 +1096,9 @@
   <source>Propane</source>
   <note from="lit-localize">heating fuel option</note>
 </trans-unit>
+<trans-unit id="sca0e4c6a7c97a79c">
+  <source>Graphical representation of the above numbers</source>
+</trans-unit>
 </body>
 </file>
 </xliff>

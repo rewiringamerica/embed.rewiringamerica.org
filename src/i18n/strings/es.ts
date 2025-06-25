@@ -239,6 +239,7 @@ export const templates = {
   s09d34fa9ee731aee: `You’re unlikely to lower your energy bills with this particular upgrade, but you could still reduce your carbon emissions.`,
   sc03b9b6eff5d0151: `Bill and emissions impact`,
   sbf8dbdb2203f13e8: `These results below are based on your region and your selected upgrade, not the specific characteristics of your home.`,
+  sca0e4c6a7c97a79c: `Graphical representation of the above numbers`,
   s7b4ae335fa702a88: str`\$${0} less`,
   se4592b2ecbb76b90: str`\$${0} more`,
   sb305b703e733e4c4: str`${0}kg less`,
