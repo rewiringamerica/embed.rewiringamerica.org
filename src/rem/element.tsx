@@ -13,9 +13,9 @@ import { LocaleContext, useTranslated } from '../i18n/use-translated';
 import { safeLocalStorage } from '../safe-local-storage';
 import { ApproximateResults } from './ApproximateResults';
 import { DetailedResults } from './DetailedResults';
-import { RemForm, RemFormLabels, RemFormValues } from './form';
-import { RemFormSnapshot } from './form-snapshot';
-import { UpgradeOptions } from './upgrade-options';
+import { RemForm, RemFormLabels, RemFormValues } from './RemForm';
+import { RemFormSnapshot } from './RemFormSnapshot';
+import { UpgradeOptions } from './UpgradeOptions';
 
 /**
  * If you make a backward-incompatible change to the format of form value
@@ -228,7 +228,7 @@ const RemCalculator: FC<{
   );
 };
 
-export class ElectrificationImpactsCalculator extends HTMLElement {
+export class BillImpactCalculator extends HTMLElement {
   /* supported properties to control which API path and key is used to load the calculator results */
   apiKey: string = '';
   apiHost: string = DEFAULT_CALCULATOR_API_HOST;
@@ -238,7 +238,7 @@ export class ElectrificationImpactsCalculator extends HTMLElement {
   static observedAttributes = ['lang', 'api-key', 'api-host'] as const;
 
   attributeChangedCallback(
-    attr: (typeof ElectrificationImpactsCalculator.observedAttributes)[number],
+    attr: (typeof BillImpactCalculator.observedAttributes)[number],
     _: string | null, // old value; unused
     newValue: string | null,
   ) {

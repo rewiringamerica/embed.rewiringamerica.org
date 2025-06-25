@@ -1,10 +1,10 @@
 import { RewiringAmericaCalculator } from './incentives/calculator-element';
-import { ElectrificationImpactsCalculator } from './rem/element';
+import { BillImpactCalculator } from './rem/element';
 
 customElements.define('rewiring-america-calculator', RewiringAmericaCalculator);
 customElements.define(
-  'rewiring-america-impacts-calculator',
-  ElectrificationImpactsCalculator,
+  'rewiring-america-bill-impact-calculator',
+  BillImpactCalculator,
 );
 
 declare global {

@@ -7,6 +7,8 @@ import { TextInput } from '../components/text-input';
 import { useTranslated } from '../i18n/use-translated';
 import { MsgFn } from '../package-index';
 
+const MIN_ADDRESS_LENGTH = 15;
+
 export enum BuildingType {
   House = 'house',
   Apartment = 'apartment',
@@ -110,6 +112,11 @@ export const RemForm: FC<{
   const isBadBuildingType = buildingType === BuildingType.Apartment;
   const areValuesModified =
     !!buildingType || !!address || !!heatingFuel || !!waterHeatingFuel;
+  const isFormSubmittable =
+    !!buildingType &&
+    buildingType !== BuildingType.Apartment &&
+    address.length >= MIN_ADDRESS_LENGTH &&
+    !!heatingFuel;
 
   const addressHelpText = msg(
     'Enter your street address, city, state, and ZIP code.',
@@ -183,7 +190,7 @@ export const RemForm: FC<{
               placeholder="1234 Main St, Providence, RI 02903"
               required
               type="text"
-              minLength={5}
+              minLength={MIN_ADDRESS_LENGTH}
               inputMode="text"
               disabled={isBadBuildingType}
               autoComplete="street-address"
@@ -218,15 +225,7 @@ export const RemForm: FC<{
             }
           />
           <div className="col-start-[-2] col-end-[-1]">
-            <PrimaryButton
-              id="calculate"
-              disabled={
-                !buildingType ||
-                buildingType === BuildingType.Apartment ||
-                address.length < 5 ||
-                !heatingFuel
-              }
-            >
+            <PrimaryButton id="calculate" disabled={!isFormSubmittable}>
               {msg('Next: select upgrade')}
             </PrimaryButton>
           </div>

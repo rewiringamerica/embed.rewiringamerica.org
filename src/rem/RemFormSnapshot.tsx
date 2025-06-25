@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { TextButton } from '../components/buttons';
 import { EditIcon } from '../components/icons';
 import { useTranslated } from '../i18n/use-translated';
-import { RemFormLabels } from './form';
+import { RemFormLabels } from './RemForm';
 
 export const RemFormSnapshot: FC<{
   formLabels: RemFormLabels;
