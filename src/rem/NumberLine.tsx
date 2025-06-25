@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { FC, ReactNode } from 'react';
+import { useTranslated } from '../i18n/use-translated';
 
 const Triangle: FC<{ up: boolean }> = ({ up }) =>
   up ? (
@@ -18,7 +19,10 @@ export const NumberLine: FC<{
   renderMiddle: (n: number) => ReactNode;
 }> = ({ left, middle, right, zeroLabel, renderEnds, renderMiddle }) => {
   const middleBubble = (
-    <div className="mx-auto bg-purple-100 rounded-lg px-4 py-1 text-lg leading-8">
+    <div
+      className="mx-auto bg-purple-100 rounded-lg px-4 py-1 text-lg leading-8"
+      aria-hidden={true}
+    >
       <Triangle up={middle > 0} />
       {renderMiddle(middle)}
     </div>
@@ -26,7 +30,7 @@ export const NumberLine: FC<{
 
   // A triangle with a right angle at the bottom
   const bubbleArrow = (
-    <div className="mx-auto text-purple-100">
+    <div className="mx-auto text-purple-100" aria-hidden={true}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
@@ -67,6 +71,7 @@ export const NumberLine: FC<{
         'grid grid-rows-[0.75rem_auto] relative mt-1',
         gridColClasses,
       )}
+      aria-hidden={true}
     >
       <div
         className={clsx(
@@ -124,11 +129,16 @@ export const NumberLine: FC<{
     </div>
   );
 
+  const { msg } = useTranslated();
+
   return (
-    <div className="flex flex-col">
+    <figure
+      className="flex flex-col select-none"
+      aria-label={msg('Graphical representation of the above numbers')}
+    >
       {middleBubble}
       {bubbleArrow}
       {lineAndLabels}
-    </div>
+    </figure>
   );
 };
