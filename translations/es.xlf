@@ -938,9 +938,6 @@
 <trans-unit id="sc03b9b6eff5d0151">
   <source>Bill and emissions impact</source>
 </trans-unit>
-<trans-unit id="sbf8dbdb2203f13e8">
-  <source>These results below are based on your region and your selected upgrade, not the specific characteristics of your home.</source>
-</trans-unit>
 <trans-unit id="s7b4ae335fa702a88">
   <source>$<x id="0" equiv-text="${renderNumber(n)}"/> less</source>
 </trans-unit>
@@ -967,9 +964,6 @@
 </trans-unit>
 <trans-unit id="s2d9a3be29382aef0">
   <source>Enter your street address, city, state, and ZIP code.</source>
-</trans-unit>
-<trans-unit id="se4101cd3ff534a46">
-  <source>Enter your household information to calculate the energy bill savings and emissions reductions you could get from upgrades to your home.</source>
 </trans-unit>
 <trans-unit id="sdcd61c5aecd0a92e">
   <source>Household type</source>
@@ -1001,9 +995,6 @@
 <trans-unit id="sac4e1ed6737109ef">
   <source>Heat pump</source>
 </trans-unit>
-<trans-unit id="s46b99366f49f65cd">
-  <source>A heat pump is an efficient electric system that provides both heating and cooling by transferring heat between your home and the air outside, cutting energy use compared to traditional systems.</source>
-</trans-unit>
 <trans-unit id="sf459faf797f733a9">
   <source>Weatherization</source>
 </trans-unit>
@@ -1021,9 +1012,6 @@
 </trans-unit>
 <trans-unit id="s316484804a08a355">
   <source>Select upgrade</source>
-</trans-unit>
-<trans-unit id="s381a744f6d7fc819">
-  <source>Select an upgrade to view its impact on your energy bills and emissions:</source>
 </trans-unit>
 <trans-unit id="sbe6b0c10ca297c7a">
   <source>Bill Impact Calculator</source>
@@ -1145,6 +1133,18 @@
 </trans-unit>
 <trans-unit id="s3b4030e1fd39d00f">
   <source>Our modeling shows that homes like yours will tend to emit between <x id="0" equiv-text="${renderLbDiff(emissionsResult.percentile_80.value)}"/> and <x id="1" equiv-text="${renderLbDiff(emissionsResult.percentile_20.value)}"/> per year, with most homes increasing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>lb.</source>
+</trans-unit>
+<trans-unit id="sf69a7b006eeca1b8">
+  <source>These results are based on your region, heating fuel(s), and selected upgrade, not the specific characteristics of your home.</source>
+</trans-unit>
+<trans-unit id="s5d916ed5ac60b831">
+  <source>Enter your household information to see potential energy bill changes and emissions reductions by upgrade type.</source>
+</trans-unit>
+<trans-unit id="sc9b08d464ea4775e">
+  <source>A heat pump is a single appliance with two modes, heating and cooling. By transferring heat (instead of creating it), heat pumps use less energy, making them more efficient than traditional systems.</source>
+</trans-unit>
+<trans-unit id="se68a868c42bbd5bc">
+  <source>Select an upgrade option to learn more about how it works within a household.</source>
 </trans-unit>
 </body>
 </file>
