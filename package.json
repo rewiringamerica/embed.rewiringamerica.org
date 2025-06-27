@@ -83,6 +83,7 @@
   "targets": {
     "default": {
       "source": [
+        "src/bill-impact-calculator.ts",
         "src/calculator.ts",
         "src/state-calculator.ts",
         "src/rewiring-fonts.css",
