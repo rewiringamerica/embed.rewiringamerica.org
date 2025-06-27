@@ -1,4 +1,4 @@
-# Rewiring America Embeddable Incentives Calculator
+# Rewiring America Embeddable Widgets
 
 This is a custom web component that renders a calculator for home electrification incentives. Users input some information about themselves, and the calculator shows incentives --- tax credits, rebates, etc. --- that they're eligible for.
 
@@ -6,7 +6,7 @@ The calculator can be embedded on third-party websites. An instance of it is ava
 
 In addition to the calculator itself, this repo contains a small website that demonstrates the component. It's hosted at `https://embed.rewiringamerica.org`.
 
-## Usage
+## Usage — Incentives Calculator
 
 To embed the calculator on your website:
 
@@ -100,6 +100,39 @@ rewiring-america-state-calculator {
 
 The calculator defines and uses many other CSS variables, but **their existence and behavior are not guaranteed to be stable**; override them at your own risk. Only variables prefixed with `--ra-` are supported customization points.
 
+## Usage — Bill Impact Calculator
+
+To embed the bill impact calculator on your website:
+
+1. Sign up for the [Rewiring America API](https://www.rewiringamerica.org/api) and get an API key.
+
+2. Add the following to your page's `<head>` tag:
+
+   ```html
+   <script
+     type="module"
+     src="https://embed.rewiringamerica.org/bill-impact-calculator.js"
+   ></script>
+   <link
+     rel="stylesheet"
+     type="text/css"
+     href="https://embed.rewiringamerica.org/rewiring-fonts.css"
+   />
+   ```
+
+3. Add the following in the body of the page:
+
+   ```html
+   <rewiring-america-bill-impact-calculator api-key="YOUR_API_KEY">
+   </rewiring-america-bill-impact-calculator>
+   ```
+
+### Customization
+
+The bill impact calculator supports the same [color customization CSS variables](#customizing-colors) as the incentives calculator.
+
+It does not currently emit any JavaScript events. It does not support any attributes other than `api-key`.
+
 ## Running / building
 
 ### Run a development server
@@ -141,9 +174,9 @@ There are a few tasks specific to this codebase that we're interested in:
 
 If you find an inaccuracy in **incentive information**, please see our [incentive API repo](https://github.com/rewiringamerica/api.rewiringamerica.org) for what to do.
 
-If you find a visual, behavioral, or accessibility bug in the _new_ calculator frontend (that is, the one that looks like [this](https://homes.rewiringamerica.org/calculator)), please file an issue in this repo. (The old frontend is soon to be deprecated, so there's no need to file issues for it.)
+If you find a visual, behavioral, or accessibility bug in the widgets, please file an issue in this repo.
 
-If you have a feature request for the new frontend, please file it as an issue. We can't make promises of when or if we'll get to it, but we are interested to hear what people want from this project.
+If you have a feature request for the widgets, please file it as an issue. We can't make promises of when or if we'll get to it, but we are interested to hear what people want from this project.
 
 We aren't ruling out accepting external code contributions, but we'd like to discuss it before you put too much work into a PR. The best place to have that discussion is in an issue on this repo, but you can also email us at `api@rewiringamerica.org`.
 
