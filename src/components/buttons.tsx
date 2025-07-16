@@ -3,10 +3,15 @@ import { FC, PropsWithChildren } from 'react';
 
 /** A button that looks like a real button; white text on purple. */
 export const PrimaryButton: FC<
-  PropsWithChildren<{ id?: string; disabled?: boolean }>
-> = ({ id, disabled, children }) => (
+  PropsWithChildren<{
+    id?: string;
+    disabled?: boolean;
+    type?: 'submit' | 'reset' | 'button';
+  }>
+> = ({ id, disabled, type, children }) => (
   <button
     id={id}
+    type={type}
     disabled={disabled}
     className={clsx(
       'flex',
@@ -45,10 +50,12 @@ export const PrimaryButton: FC<
 export const TextButton: FC<
   PropsWithChildren<{
     disabled?: boolean;
+    type?: 'submit' | 'reset' | 'button';
     onClick?: (e: React.MouseEvent) => void;
   }>
-> = ({ children, disabled, onClick }) => (
+> = ({ children, disabled, type, onClick }) => (
   <button
+    type={type}
     className={clsx(
       'text-ra-color-text-link',
       'disabled:text-color-state-disabled',
