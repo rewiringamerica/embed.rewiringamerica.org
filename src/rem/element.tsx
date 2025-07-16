@@ -3,7 +3,11 @@ import { FC, useState } from 'react';
 import { Root, createRoot } from 'react-dom/client';
 import { DEFAULT_CALCULATOR_API_HOST, fetchApi } from '../api/fetch';
 import { FetchState } from '../api/fetch-state';
-import { RemAddressResponse, Upgrade } from '../api/rem-types';
+import {
+  INTERNAL_UPGRADES,
+  RemAddressResponse,
+  Upgrade,
+} from '../api/rem-types';
 import { FooterCopy } from '../calculator-footer';
 import { TextButton } from '../components/buttons';
 import { EditIcon } from '../components/icons';
@@ -27,6 +31,13 @@ declare module '../safe-local-storage' {
     [REM_FORM_VALUES_LOCAL_STORAGE_KEY]: Partial<RemFormValues>;
   }
 }
+
+const DEFAULT_UPGRADES: Upgrade[] = [
+  Upgrade.HeatPump,
+  Upgrade.Weatherization,
+  Upgrade.HeatPumpAndWeatherization,
+  Upgrade.WaterHeater,
+];
 
 const Header = () => {
   const { msg } = useTranslated();
@@ -61,12 +72,32 @@ const Loading = () => {
   );
 };
 
+function parseUpgrades(upgradeStr: string): Upgrade[] {
+  if (!upgradeStr) {
+    return DEFAULT_UPGRADES;
+  }
+
+  const fields = upgradeStr.split(',').map(s => s.toLowerCase());
+  const validUpgrades = Object.values(Upgrade) as string[];
+
+  for (const field of fields) {
+    if (!validUpgrades.includes(field)) {
+      throw new Error(`Invalid upgrade: "${field}"`);
+    }
+  }
+
+  return fields as Upgrade[];
+}
+
 const RemCalculator: FC<{
   shadowRoot: ShadowRoot;
   apiHost: string;
   apiKey: string;
-}> = ({ apiHost, apiKey }) => {
+  upgrades: string;
+}> = ({ apiHost, apiKey, upgrades }) => {
   const { msg } = useTranslated();
+
+  const parsedUpgrades = parseUpgrades(upgrades);
 
   const [submittedFormValues, setSubmittedFormValues] =
     useState<RemFormValues | null>(null);
@@ -93,13 +124,11 @@ const RemCalculator: FC<{
         : {}),
     });
 
-    fetchApi<RemAddressResponse>(
-      apiKey,
-      apiHost,
-      '/api/v1/rem/address',
-      query,
-      msg,
-    )
+    const path = INTERNAL_UPGRADES.has(upgrade)
+      ? '/api/v1/internal/rem/address'
+      : '/api/v1/rem/address';
+
+    fetchApi<RemAddressResponse>(apiKey, apiHost, path, query, msg)
       .then(response => setFetchState({ state: 'complete', response }))
       .catch(error =>
         setFetchState({ state: 'error', message: error.message }),
@@ -156,6 +185,7 @@ const RemCalculator: FC<{
       children.push(
         <UpgradeOptions
           key="upgradeOptions"
+          upgrades={parsedUpgrades}
           includeWaterHeater={!!submittedFormValues.waterHeatingFuel}
           onUpgradeSelected={startFetch}
         />,
@@ -233,9 +263,17 @@ export class BillImpactCalculator extends HTMLElement {
   apiKey: string = '';
   apiHost: string = DEFAULT_CALCULATOR_API_HOST;
 
+  /** Attribute to customize the list of available upgrades. */
+  upgrades: string = '';
+
   reactRootCalculator: Root | null = null;
 
-  static observedAttributes = ['lang', 'api-key', 'api-host'] as const;
+  static observedAttributes = [
+    'lang',
+    'api-key',
+    'api-host',
+    'upgrades',
+  ] as const;
 
   attributeChangedCallback(
     attr: (typeof BillImpactCalculator.observedAttributes)[number],
@@ -249,6 +287,8 @@ export class BillImpactCalculator extends HTMLElement {
       this.apiHost = newValue ?? DEFAULT_CALCULATOR_API_HOST;
     } else if (attr === 'api-key') {
       this.apiKey = newValue ?? '';
+    } else if (attr === 'upgrades') {
+      this.upgrades = newValue ?? '';
     } else {
       // This will fail typechecking if the cases above aren't exhaustive
       // with respect to observedAttributes
@@ -285,6 +325,7 @@ export class BillImpactCalculator extends HTMLElement {
           shadowRoot={this.shadowRoot!}
           apiHost={this.apiHost}
           apiKey={this.apiKey}
+          upgrades={this.upgrades}
         />
       </LocaleContext.Provider>,
     );

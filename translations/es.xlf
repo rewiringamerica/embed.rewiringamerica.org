@@ -1099,6 +1099,27 @@
 <trans-unit id="sca0e4c6a7c97a79c">
   <source>Graphical representation of the above numbers</source>
 </trans-unit>
+<trans-unit id="s5072405c9c4bc333">
+  <source>The API key is invalid, or does not have enough permissions.</source>
+</trans-unit>
+<trans-unit id="sffb6b8d1a387a7f5">
+  <source>Heat pump (RI package)</source>
+</trans-unit>
+<trans-unit id="s4a40b314f4d4c3d9">
+  <source>Heat pump (CO ducted package)</source>
+</trans-unit>
+<trans-unit id="s975ac6500155be95">
+  <source>Heat pump (CO ductless package)</source>
+</trans-unit>
+<trans-unit id="sa4856334f2f935b3">
+  <source>This is the ductless heat pump package negotiated with our preferred contractor(s) in Rhode Island. (Carrier Performance series)</source>
+</trans-unit>
+<trans-unit id="s6355b132278979c5">
+  <source>This is the ducted heat pump package negotiated with our preferred contractor(s) in Colorado.</source>
+</trans-unit>
+<trans-unit id="s3865e2765d1c884d">
+  <source>This is the ductless heat pump package negotiated with our preferred contractor(s) in Colorado.</source>
+</trans-unit>
 </body>
 </file>
 </xliff>

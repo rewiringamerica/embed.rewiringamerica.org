@@ -22,7 +22,11 @@ export async function fetchApi<R>(
       Authorization: `Bearer ${apiKey}`,
     },
   });
-  if (response.status >= 400) {
+  if (response.status === 401) {
+    throw new Error(
+      msg('The API key is invalid, or does not have enough permissions.'),
+    );
+  } else if (response.status >= 400) {
     console.error(response);
     // statusText isn't always set, but it's a reasonable proxy for a human readable error if it is:
     let message = response.statusText;
