@@ -88,7 +88,7 @@ export const UpgradeOptions: FC<{
         aria-describedby={descriptionId}
       >
         <div className="flex justify-between">
-          <h2 id={labelId} className="text-lg font-medium leading-tight">
+          <h2 id={labelId} className="font-medium leading-tight">
             {getLabelForUpgrade(upgrade, msg)}
           </h2>
           <RadioButton w={22} h={22} selected={checked} />
