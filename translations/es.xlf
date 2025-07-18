@@ -1013,9 +1013,6 @@
 <trans-unit id="sd56f3cec0da0154e">
   <source>Select water heating fuel...</source>
 </trans-unit>
-<trans-unit id="s0a243d8bb2ae312e">
-  <source>Next: select upgrade</source>
-</trans-unit>
 <trans-unit id="sf00cf636320c1aca">
   <source>Water heating fuel</source>
 </trans-unit>
@@ -1042,9 +1039,6 @@
 </trans-unit>
 <trans-unit id="sf775030226078438">
   <source>A heat pump water heater uses electricity to pull heat from the surrounding air to warm your water, using up to 70% less energy than conventional electric water heaters.</source>
-</trans-unit>
-<trans-unit id="sd1c200d7b43580ba">
-  <source>View impact</source>
 </trans-unit>
 <trans-unit id="s316484804a08a355">
   <source>Select upgrade</source>
@@ -1119,6 +1113,9 @@
 </trans-unit>
 <trans-unit id="s3865e2765d1c884d">
   <source>This is the ductless heat pump package negotiated with our preferred contractor(s) in Colorado.</source>
+</trans-unit>
+<trans-unit id="sb9ff22860ac9bf4f">
+  <source>Calculate impact</source>
 </trans-unit>
 </body>
 </file>

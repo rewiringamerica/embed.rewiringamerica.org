@@ -1,13 +1,13 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { HeatingFuel, WaterHeatingFuel } from '../api/rem-types';
-import { PrimaryButton, TextButton } from '../components/buttons';
+import { TextButton } from '../components/buttons';
 import { FormLabel } from '../components/form-label';
 import { Option, Select, labelForValue } from '../components/select';
 import { TextInput } from '../components/text-input';
 import { useTranslated } from '../i18n/use-translated';
 import { MsgFn } from '../package-index';
 
-const MIN_ADDRESS_LENGTH = 15;
+export const MIN_ADDRESS_LENGTH = 15;
 
 export enum BuildingType {
   House = 'house',
@@ -95,28 +95,33 @@ export interface RemFormLabels {
   waterHeatingFuel: string | null;
 }
 
-export const RemForm: FC<{
-  initialValues: RemFormValues;
-  onReset: () => void;
-  onSubmit: (v: RemFormValues, l: RemFormLabels) => void;
-}> = ({ initialValues, onReset, onSubmit }) => {
-  const [buildingType, setBuildingType] = useState(initialValues.buildingType);
-  const [address, setAddress] = useState(initialValues.address);
-  const [heatingFuel, setHeatingFuel] = useState(initialValues.heatingFuel);
-  const [waterHeatingFuel, setWaterHeatingFuel] = useState(
-    initialValues.waterHeatingFuel,
-  );
+export function getLabelsForValues(
+  values: RemFormValues,
+  msg: MsgFn,
+): RemFormLabels {
+  return {
+    buildingType: labelForValue(BUILDING_OPTIONS(msg), values.buildingType)!,
+    address: values.address,
+    heatingFuel: labelForValue(HEATING_OPTIONS(msg), values.heatingFuel)!,
+    waterHeatingFuel:
+      values.waterHeatingFuel !== ''
+        ? labelForValue(WATER_HEATING_OPTIONS(msg), values.waterHeatingFuel)!
+        : null,
+  };
+}
 
+export const RemForm: FC<{
+  values: RemFormValues;
+  onValuesChange: (v: RemFormValues) => void;
+  onReset: () => void;
+}> = ({ values, onValuesChange, onReset }) => {
   const { msg } = useTranslated();
+
+  const { buildingType, address, heatingFuel, waterHeatingFuel } = values;
 
   const isBadBuildingType = buildingType === BuildingType.Apartment;
   const areValuesModified =
     !!buildingType || !!address || !!heatingFuel || !!waterHeatingFuel;
-  const isFormSubmittable =
-    !!buildingType &&
-    buildingType !== BuildingType.Apartment &&
-    address.length >= MIN_ADDRESS_LENGTH &&
-    !!heatingFuel;
 
   const addressHelpText = msg(
     'Enter your street address, city, state, and ZIP code.',
@@ -129,7 +134,11 @@ export const RemForm: FC<{
           {msg('Your household info')}
         </h1>
         <div>
-          <TextButton disabled={!areValuesModified} onClick={onReset}>
+          <TextButton
+            disabled={!areValuesModified}
+            type="reset"
+            onClick={onReset}
+          >
             {msg('Reset')}
           </TextButton>
         </div>
@@ -139,98 +148,72 @@ export const RemForm: FC<{
           'Enter your household information to calculate the energy bill savings and emissions reductions you could get from upgrades to your home.',
         )}
       </div>
-      <form
-        className="m-0"
-        onSubmit={e => {
-          e.preventDefault();
-          const values: RemFormValues = {
-            buildingType: buildingType as BuildingType,
-            address,
-            heatingFuel: heatingFuel as HeatingFuel,
-            waterHeatingFuel:
-              waterHeatingFuel !== ''
-                ? (waterHeatingFuel as WaterHeatingFuel)
-                : '',
-          };
-          const labels = {
-            buildingType: labelForValue(BUILDING_OPTIONS(msg), buildingType)!,
-            address,
-            heatingFuel: labelForValue(HEATING_OPTIONS(msg), heatingFuel)!,
-            waterHeatingFuel:
-              waterHeatingFuel !== ''
-                ? labelForValue(WATER_HEATING_OPTIONS(msg), waterHeatingFuel)!
-                : null,
-          };
-          onSubmit(values, labels);
-        }}
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Select
-            id="buildingType"
-            options={BUILDING_OPTIONS(msg)}
-            labelText={msg('Household type')}
-            errorText={
-              isBadBuildingType
-                ? msg('Our model currently doesn’t support apartments.')
-                : undefined
-            }
-            currentValue={buildingType}
-            placeholder={msg('Select household type...')}
-            onChange={setBuildingType}
-          />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Select
+          id="buildingType"
+          options={BUILDING_OPTIONS(msg)}
+          labelText={msg('Household type')}
+          errorText={
+            isBadBuildingType
+              ? msg('Our model currently doesn’t support apartments.')
+              : undefined
+          }
+          currentValue={buildingType}
+          placeholder={msg('Select household type...')}
+          onChange={val => onValuesChange({ ...values, buildingType: val })}
+        />
 
-          <div>
-            <FormLabel>
-              <label htmlFor="address">{msg('Address')}</label>
-            </FormLabel>
-            <TextInput
-              id="address"
-              name="address"
-              // Intentionally not localizable. Also not a real address
-              placeholder="1234 Main St, Providence, RI 02903"
-              required
-              type="text"
-              minLength={MIN_ADDRESS_LENGTH}
-              inputMode="text"
-              disabled={isBadBuildingType}
-              autoComplete="street-address"
-              value={address}
-              onChange={e => setAddress(e.target.value)}
-            />
-            <div className="mx-3 mt-1 text-grey-400 text-xsm leading-normal">
-              {addressHelpText}
-            </div>
-          </div>
-          <Select
-            id="heatingFuel"
-            options={HEATING_OPTIONS(msg)}
-            labelText={msg('Heating fuel')}
+        <div>
+          <FormLabel>
+            <label htmlFor="address">{msg('Address')}</label>
+          </FormLabel>
+          <TextInput
+            id="address"
+            name="address"
+            // Intentionally not localizable. Also not a real address
+            placeholder="1234 Main St, Providence, RI 02903"
+            required
+            type="text"
+            minLength={MIN_ADDRESS_LENGTH}
+            inputMode="text"
             disabled={isBadBuildingType}
-            currentValue={heatingFuel}
-            placeholder={msg('Select heating fuel...')}
-            onChange={setHeatingFuel}
-          ></Select>
-          <Select
-            id="waterHeatingFuel"
-            options={WATER_HEATING_OPTIONS(msg)}
-            labelText={msg('Water heating fuel (optional)')}
-            helpText={msg(
-              'Select your water heating fuel to see the impact of a water heater upgrade.',
-            )}
-            disabled={isBadBuildingType}
-            currentValue={waterHeatingFuel}
-            placeholder={msg('Select water heating fuel...')}
-            onChange={val =>
-              setWaterHeatingFuel(val === NO_WATER_HEATING_FUEL ? '' : val)
+            autoComplete="street-address"
+            value={address}
+            onChange={e =>
+              onValuesChange({ ...values, address: e.target.value })
             }
           />
-          <div className="col-start-[-2] col-end-[-1]">
-            <PrimaryButton id="calculate" disabled={!isFormSubmittable}>
-              {msg('Next: select upgrade')}
-            </PrimaryButton>
+          <div className="mx-3 mt-1 text-grey-400 text-xsm leading-normal">
+            {addressHelpText}
           </div>
         </div>
-      </form>
+        <Select
+          id="heatingFuel"
+          options={HEATING_OPTIONS(msg)}
+          labelText={msg('Heating fuel')}
+          disabled={isBadBuildingType}
+          currentValue={heatingFuel}
+          placeholder={msg('Select heating fuel...')}
+          onChange={val => onValuesChange({ ...values, heatingFuel: val })}
+        ></Select>
+        <Select
+          id="waterHeatingFuel"
+          options={WATER_HEATING_OPTIONS(msg)}
+          labelText={msg('Water heating fuel (optional)')}
+          helpText={msg(
+            'Select your water heating fuel to see the impact of a water heater upgrade.',
+          )}
+          disabled={isBadBuildingType}
+          currentValue={waterHeatingFuel}
+          placeholder={msg('Select water heating fuel...')}
+          onChange={val =>
+            onValuesChange({
+              ...values,
+              waterHeatingFuel: val === NO_WATER_HEATING_FUEL ? '' : val,
+            })
+          }
+        />
+      </div>
     </div>
   );
 };

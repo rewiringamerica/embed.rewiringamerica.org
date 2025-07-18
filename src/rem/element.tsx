@@ -9,26 +9,34 @@ import {
   Upgrade,
 } from '../api/rem-types';
 import { FooterCopy } from '../calculator-footer';
-import { TextButton } from '../components/buttons';
-import { EditIcon } from '../components/icons';
+import { PrimaryButton } from '../components/buttons';
 import { Spinner } from '../components/spinner';
 import { allLocales } from '../i18n/locales';
 import { LocaleContext, useTranslated } from '../i18n/use-translated';
 import { safeLocalStorage } from '../safe-local-storage';
 import { ApproximateResults } from './ApproximateResults';
 import { DetailedResults } from './DetailedResults';
-import { RemForm, RemFormLabels, RemFormValues } from './RemForm';
+import {
+  BuildingType,
+  MIN_ADDRESS_LENGTH,
+  RemForm,
+  RemFormLabels,
+  RemFormValues,
+  getLabelsForValues,
+} from './RemForm';
 import { RemFormSnapshot } from './RemFormSnapshot';
-import { UpgradeOptions } from './UpgradeOptions';
+import { UpgradeOptions, getLabelForUpgrade } from './UpgradeOptions';
 
 /**
  * If you make a backward-incompatible change to the format of form value
  * storage, increment the version in this key.
  */
 const REM_FORM_VALUES_LOCAL_STORAGE_KEY = 'RA-calc-rem-form-values-v1';
+const REM_UPGRADE_LOCAL_STORAGE_KEY = 'RA-calc-rem-upgrade-v1';
 declare module '../safe-local-storage' {
   interface SafeLocalStorageMap {
     [REM_FORM_VALUES_LOCAL_STORAGE_KEY]: Partial<RemFormValues>;
+    [REM_UPGRADE_LOCAL_STORAGE_KEY]: Upgrade;
   }
 }
 
@@ -99,8 +107,24 @@ const RemCalculator: FC<{
 
   const parsedUpgrades = parseUpgrades(upgrades);
 
-  const [submittedFormValues, setSubmittedFormValues] =
-    useState<RemFormValues | null>(null);
+  const getInitialFormValues = (): RemFormValues => {
+    const saved = safeLocalStorage.getItem(REM_FORM_VALUES_LOCAL_STORAGE_KEY);
+    return {
+      buildingType: saved?.buildingType || '',
+      address: saved?.address || '',
+      heatingFuel: saved?.heatingFuel || '',
+      waterHeatingFuel: saved?.waterHeatingFuel || '',
+    };
+  };
+  const getInitialUpgrade = (): Upgrade | null =>
+    safeLocalStorage.getItem(REM_UPGRADE_LOCAL_STORAGE_KEY);
+
+  const [formValues, setFormValues] =
+    useState<RemFormValues>(getInitialFormValues);
+  const [upgradeValue, setUpgradeValue] = useState<Upgrade | null>(
+    getInitialUpgrade,
+  );
+
   const [submittedFormLabels, setSubmittedFormLabels] =
     useState<RemFormLabels | null>(null);
   const [submittedUpgradeLabel, setSubmittedUpgradeLabel] = useState<
@@ -111,20 +135,25 @@ const RemCalculator: FC<{
     state: 'init',
   });
 
-  const startFetch = (upgrade: Upgrade, label: string) => {
-    setSubmittedUpgradeLabel(label);
+  const submit = () => {
+    safeLocalStorage.setItem(REM_FORM_VALUES_LOCAL_STORAGE_KEY, formValues);
+    safeLocalStorage.setItem(REM_UPGRADE_LOCAL_STORAGE_KEY, upgradeValue!);
+
+    setSubmittedFormLabels(getLabelsForValues(formValues, msg));
+    setSubmittedUpgradeLabel(getLabelForUpgrade(upgradeValue!, msg));
+
     setFetchState({ state: 'loading' });
 
     const query = new URLSearchParams({
-      upgrade,
-      address: submittedFormValues!.address,
-      heating_fuel: submittedFormValues!.heatingFuel,
-      ...(submittedFormValues!.waterHeatingFuel
-        ? { water_heater_fuel: submittedFormValues!.waterHeatingFuel }
+      upgrade: upgradeValue!,
+      address: formValues!.address,
+      heating_fuel: formValues!.heatingFuel,
+      ...(formValues!.waterHeatingFuel
+        ? { water_heater_fuel: formValues!.waterHeatingFuel }
         : {}),
     });
 
-    const path = INTERNAL_UPGRADES.has(upgrade)
+    const path = INTERNAL_UPGRADES.has(upgradeValue!)
       ? '/api/v1/internal/rem/address'
       : '/api/v1/rem/address';
 
@@ -135,38 +164,61 @@ const RemCalculator: FC<{
       );
   };
 
-  // Incrementing the form key will cause the form to drop its state,
-  // reinitializing the input values from initial (constructed above).
-  const [formKey, setFormKey] = useState(0);
   const resetForm = () => {
     safeLocalStorage.removeItem(REM_FORM_VALUES_LOCAL_STORAGE_KEY);
-    setFormKey(fk => fk + 1);
-  };
-
-  const getInitialFormValues = (): RemFormValues => {
-    const saved = safeLocalStorage.getItem(REM_FORM_VALUES_LOCAL_STORAGE_KEY);
-    return {
-      buildingType: saved?.buildingType || '',
-      address: saved?.address || '',
-      heatingFuel: saved?.heatingFuel || '',
-      waterHeatingFuel: saved?.waterHeatingFuel || '',
-    };
+    safeLocalStorage.removeItem(REM_UPGRADE_LOCAL_STORAGE_KEY);
+    setFormValues(getInitialFormValues());
+    setUpgradeValue(getInitialUpgrade());
   };
 
   const children = [];
 
-  if (!submittedFormValues || !submittedFormLabels) {
+  if (!submittedFormLabels || !submittedUpgradeLabel) {
+    const canSubmit =
+      !!formValues.buildingType &&
+      formValues.buildingType !== BuildingType.Apartment &&
+      formValues.address.length >= MIN_ADDRESS_LENGTH &&
+      !!formValues.heatingFuel &&
+      !!upgradeValue;
+
     children.push(
-      <RemForm
-        key={formKey}
-        initialValues={getInitialFormValues()}
-        onReset={resetForm}
-        onSubmit={(values, labels) => {
-          safeLocalStorage.setItem(REM_FORM_VALUES_LOCAL_STORAGE_KEY, values);
-          setSubmittedFormValues(values);
-          setSubmittedFormLabels(labels);
+      <form
+        className="flex flex-col m-0 bg-grey-100"
+        onSubmit={e => {
+          e.preventDefault();
+          submit();
         }}
-      />,
+      >
+        <RemForm
+          key="form"
+          values={formValues}
+          onValuesChange={newValues => {
+            setFormValues(newValues);
+
+            // If water heater upgrade is unavailable, deselect it
+            if (
+              !newValues.waterHeatingFuel &&
+              upgradeValue === Upgrade.WaterHeater
+            ) {
+              setUpgradeValue(null);
+            }
+          }}
+          onReset={resetForm}
+        />
+        <div className="h-px bg-grey-200">{/* separator */}</div>
+        <UpgradeOptions
+          key="upgradeOptions"
+          upgrades={parsedUpgrades}
+          includeWaterHeater={!!formValues.waterHeatingFuel}
+          selectedUpgrade={upgradeValue}
+          onUpgradeSelected={setUpgradeValue}
+        />
+        <div className="mx-4 mb-4">
+          <PrimaryButton disabled={!canSubmit} type="submit">
+            {msg('Calculate impact')}
+          </PrimaryButton>
+        </div>
+      </form>,
     );
   } else {
     children.push(
@@ -175,69 +227,46 @@ const RemCalculator: FC<{
         formLabels={submittedFormLabels}
         onEdit={() => {
           setSubmittedFormLabels(null);
-          setSubmittedFormValues(null);
           setSubmittedUpgradeLabel(null);
         }}
       />,
     );
 
-    if (!submittedUpgradeLabel) {
-      children.push(
-        <UpgradeOptions
-          key="upgradeOptions"
-          upgrades={parsedUpgrades}
-          includeWaterHeater={!!submittedFormValues.waterHeatingFuel}
-          onUpgradeSelected={startFetch}
-        />,
-      );
-    } else {
-      children.push(
-        <div
-          key="upgradeLabel"
-          className="flex flex-col bg-white p-4 pt-3 gap-3"
-        >
-          <div className="flex justify-between">
-            <span className="font-medium leading-normal">
-              {msg('Selected upgrade')}
-            </span>
-            <TextButton onClick={() => setSubmittedUpgradeLabel(null)}>
-              <div className="flex items-center gap-1.5">
-                <EditIcon w={16} h={16} />
-                {msg('Edit')}
-              </div>
-            </TextButton>
-          </div>
-          <div className="rounded p-2 leading-normal text-grey-900 border border-purple-200 bg-purple-100">
-            {submittedUpgradeLabel}
-          </div>
-        </div>,
-      );
+    children.push(
+      <div key="upgradeLabel" className="flex flex-col bg-white p-4 pt-3 gap-3">
+        <div className="font-medium leading-normal">
+          {msg('Selected upgrade')}
+        </div>
+        <div className="rounded p-2 leading-normal text-grey-900 border border-purple-200 bg-purple-100">
+          {submittedUpgradeLabel}
+        </div>
+      </div>,
+    );
 
-      if (fetchState.state === 'loading') {
-        children.push(<Loading key="loading" />);
-      } else if (fetchState.state === 'complete') {
-        // TODO this is just for demo purposes
-        if (submittedUpgradeLabel === 'Heat pump + weatherization') {
-          children.push(
-            <ApproximateResults key="results" savings={fetchState.response} />,
-          );
-        } else {
-          children.push(
-            <DetailedResults key="results" savings={fetchState.response} />,
-          );
-        }
-      } else if (fetchState.state === 'error') {
-        // TODO real error state
+    if (fetchState.state === 'loading') {
+      children.push(<Loading key="loading" />);
+    } else if (fetchState.state === 'complete') {
+      // TODO this is just for demo purposes
+      if (submittedUpgradeLabel === 'Heat pump + weatherization') {
         children.push(
-          <div
-            key="error"
-            className="flex flex-col gap-2 p-4 bg-red-100 text-sm leading-normal"
-          >
-            <span className="text-grey-400 uppercase">Error</span>
-            {fetchState.message}
-          </div>,
+          <ApproximateResults key="results" savings={fetchState.response} />,
+        );
+      } else {
+        children.push(
+          <DetailedResults key="results" savings={fetchState.response} />,
         );
       }
+    } else if (fetchState.state === 'error') {
+      // TODO real error state
+      children.push(
+        <div
+          key="error"
+          className="flex flex-col gap-2 p-4 bg-red-100 text-sm leading-normal"
+        >
+          <span className="text-grey-400 uppercase">Error</span>
+          {fetchState.message}
+        </div>,
+      );
     }
   }
 
