@@ -246,8 +246,7 @@ const RemCalculator: FC<{
     if (fetchState.state === 'loading') {
       children.push(<Loading key="loading" />);
     } else if (fetchState.state === 'complete') {
-      // TODO this is just for demo purposes
-      if (submittedUpgradeLabel === 'Heat pump + weatherization') {
+      if (fetchState.response.estimate_type === 'puma_level') {
         children.push(
           <ApproximateResults key="results" savings={fetchState.response} />,
         );

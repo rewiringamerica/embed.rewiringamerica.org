@@ -52,4 +52,5 @@ export interface RemAddressResponse {
       };
     };
   };
+  estimate_type: 'address_level' | 'puma_level';
 }
