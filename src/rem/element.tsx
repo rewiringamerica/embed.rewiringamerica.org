@@ -9,8 +9,7 @@ import {
   Upgrade,
 } from '../api/rem-types';
 import { FooterCopy } from '../calculator-footer';
-import { PrimaryButton, TextButton } from '../components/buttons';
-import { EditIcon } from '../components/icons';
+import { PrimaryButton } from '../components/buttons';
 import { Spinner } from '../components/spinner';
 import { allLocales } from '../i18n/locales';
 import { LocaleContext, useTranslated } from '../i18n/use-translated';
@@ -226,22 +225,17 @@ const RemCalculator: FC<{
       <RemFormSnapshot
         key="snapshot"
         formLabels={submittedFormLabels}
-        onEdit={() => setSubmittedFormLabels(null)}
+        onEdit={() => {
+          setSubmittedFormLabels(null);
+          setSubmittedUpgradeLabel(null);
+        }}
       />,
     );
 
     children.push(
       <div key="upgradeLabel" className="flex flex-col bg-white p-4 pt-3 gap-3">
-        <div className="flex justify-between">
-          <span className="font-medium leading-normal">
-            {msg('Selected upgrade')}
-          </span>
-          <TextButton onClick={() => setSubmittedUpgradeLabel(null)}>
-            <div className="flex items-center gap-1.5">
-              <EditIcon w={16} h={16} />
-              {msg('Edit')}
-            </div>
-          </TextButton>
+        <div className="font-medium leading-normal">
+          {msg('Selected upgrade')}
         </div>
         <div className="rounded p-2 leading-normal text-grey-900 border border-purple-200 bg-purple-100">
           {submittedUpgradeLabel}
