@@ -272,6 +272,7 @@ export const templates = {
   sbcbfb6181fd86ad9: `Water heating fuel (optional)`,
   s65bae2714d6aae5e: `Select your water heating fuel to see the impact of a water heater upgrade.`,
   sd56f3cec0da0154e: `Select water heating fuel...`,
+  s64ef2a6c2dd1d3d1: `Edit`,
   sf00cf636320c1aca: `Water heating fuel`,
   sac4e1ed6737109ef: `Heat pump`,
   sd4a0958f79155a76: `Heat pump + weatherization`,
@@ -293,5 +294,4 @@ export const templates = {
   sa5b024ac2e742ba8: `Calculating impact...`,
   sb9ff22860ac9bf4f: `Calculate impact`,
   s87b70b2113a083d0: `Selected upgrade`,
-  s64ef2a6c2dd1d3d1: `Edit`,
 };

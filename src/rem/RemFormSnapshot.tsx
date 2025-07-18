@@ -19,7 +19,7 @@ export const RemFormSnapshot: FC<{
         <TextButton onClick={onEdit}>
           <div className="flex items-center gap-1.5">
             <EditIcon w={16} h={16} />
-            Edit
+            {msg('Edit')}
           </div>
         </TextButton>
       </div>
