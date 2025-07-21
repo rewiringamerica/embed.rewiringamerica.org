@@ -284,7 +284,7 @@ export const templates = {
   s46b99366f49f65cd: `A heat pump is an efficient electric system that provides both heating and cooling by transferring heat between your home and the air outside, cutting energy use compared to traditional systems.`,
   sb651be2f9d21f43b: `Combining a heat pump with weatherization (like insulation and air sealing) maximizes comfort and energy savings by improving your home’s ability to retain heated or cooled air.`,
   sa7f22be14b041959: `Weatherization includes upgrades like sealing air leaks and adding insulation to reduce energy loss, improve comfort, and lower heating and cooling bills.`,
-  sf775030226078438: `A heat pump water heater uses electricity to pull heat from the surrounding air to warm your water, using up to 70% less energy than conventional electric water heaters.`,
+  s885b17a11e6d5ffc: `A heat pump water heater uses electricity to pull heat from the surrounding air to warm your water, using less energy than conventional electric water heaters.`,
   sa4856334f2f935b3: `This is the ductless heat pump package negotiated with our preferred contractor(s) in Rhode Island. (Carrier Performance series)`,
   s6355b132278979c5: `This is the ducted heat pump package negotiated with our preferred contractor(s) in Colorado.`,
   s3865e2765d1c884d: `This is the ductless heat pump package negotiated with our preferred contractor(s) in Colorado.`,

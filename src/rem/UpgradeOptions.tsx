@@ -31,7 +31,7 @@ insulation to reduce energy loss, improve comfort, and lower heating and \
 cooling bills.`),
   [Upgrade.WaterHeater]: msg =>
     msg(`A heat pump water heater uses electricity to pull heat from the \
-surrounding air to warm your water, using up to 70% less energy than \
+surrounding air to warm your water, using less energy than \
 conventional electric water heaters.`),
 
   // There are actually two standard packages in RI (Carrier Performance and
