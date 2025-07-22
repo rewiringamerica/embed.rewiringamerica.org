@@ -1,5 +1,6 @@
-import { FC } from 'react';
-import { HeatingFuel, WaterHeatingFuel } from '../api/rem-types';
+import clsx from 'clsx';
+import { FC, useEffect, useRef } from 'react';
+import { HeatingFuel, RemErrorType, WaterHeatingFuel } from '../api/rem-types';
 import { TextButton } from '../components/buttons';
 import { FormLabel } from '../components/form-label';
 import { Option, Select, labelForValue } from '../components/select';
@@ -110,11 +111,54 @@ export function getLabelsForValues(
   };
 }
 
+export function getErrorText(errorType: RemErrorType, msg: MsgFn) {
+  if (errorType === 'address_not_parsable') {
+    return msg('We cannot locate this address.');
+  } else if (errorType === 'building_not_supported') {
+    return msg('We are unable to estimate bill impacts for this address.');
+  } else if (errorType === 'building_type_not_supported') {
+    return msg(
+      `This calculator only supports residential addresses, and this address \
+does not appear to be residential.`,
+    );
+  } else if (errorType === 'country_not_supported') {
+    return msg('This calculator only supports addresses in the United States.');
+  } else if (errorType === 'multifamily_not_supported') {
+    return msg(
+      `This calculator does not support multifamily buildings, and this \
+address appears to have multiple housing units.`,
+    );
+  } else if (errorType === 'state_not_supported') {
+    return msg(
+      'This calculator does not support addresses in Alaska or Hawaii.',
+    );
+  } else if (errorType === 'third_party_error') {
+    return msg(
+      'The calculator is temporarily unavailable. Please try again later.',
+    );
+  } else if (
+    errorType === 'missing_water_heater_fuel' ||
+    errorType === 'unexpected_error' ||
+    errorType === 'upgrade_not_supported'
+  ) {
+    // Missing WH fuel should never happen; the calculator shouldn't allow
+    // submitting HPWH as the upgrade if no water heater fuel was chosen.
+    //
+    // The other errors are from unforeseen problems or just shouldn't happen.
+    return msg('An error occurred while calculating bill impacts.');
+  } else {
+    const e: never = errorType;
+    console.log(e);
+    return msg('An error occurred while calculating bill impacts.');
+  }
+}
+
 export const RemForm: FC<{
+  errorType: RemErrorType | null;
   values: RemFormValues;
   onValuesChange: (v: RemFormValues) => void;
   onReset: () => void;
-}> = ({ values, onValuesChange, onReset }) => {
+}> = ({ errorType, values, onValuesChange, onReset }) => {
   const { msg } = useTranslated();
 
   const { buildingType, address, heatingFuel, waterHeatingFuel } = values;
@@ -123,9 +167,18 @@ export const RemForm: FC<{
   const areValuesModified =
     !!buildingType || !!address || !!heatingFuel || !!waterHeatingFuel;
 
+  const addressErrorText = errorType ? getErrorText(errorType, msg) : null;
   const addressHelpText = msg(
     'Enter your street address, city, state, and ZIP code.',
   );
+  const addressFieldRef = useRef<HTMLInputElement>(null);
+
+  // Focus the address field if there's a new error
+  useEffect(() => {
+    if (errorType) {
+      addressFieldRef.current?.focus();
+    }
+  }, [errorType]);
 
   return (
     <div className="flex flex-col gap-4 p-4 bg-grey-100">
@@ -168,6 +221,7 @@ export const RemForm: FC<{
             <label htmlFor="address">{msg('Address')}</label>
           </FormLabel>
           <TextInput
+            ref={addressFieldRef}
             id="address"
             name="address"
             // Intentionally not localizable. Also not a real address
@@ -177,14 +231,20 @@ export const RemForm: FC<{
             minLength={MIN_ADDRESS_LENGTH}
             inputMode="text"
             disabled={isBadBuildingType}
+            error={!!addressErrorText}
             autoComplete="street-address"
             value={address}
             onChange={e =>
               onValuesChange({ ...values, address: e.target.value })
             }
           />
-          <div className="mx-3 mt-1 text-grey-400 text-xsm leading-normal">
-            {addressHelpText}
+          <div
+            className={clsx(
+              'mx-3 mt-1 text-xsm leading-normal',
+              addressErrorText ? 'text-red-500' : 'text-grey-400',
+            )}
+          >
+            {addressErrorText ?? addressHelpText}
           </div>
         </div>
         <Select

@@ -10,7 +10,7 @@ import { JSX, forwardRef } from 'react';
  */
 export const TextInput = forwardRef<
   HTMLInputElement,
-  JSX.IntrinsicElements['input'] & { type: 'text' | 'email' }
+  JSX.IntrinsicElements['input'] & { type: 'text' | 'email'; error?: boolean }
 >((props, ref) => (
   <input
     ref={ref}
@@ -26,6 +26,7 @@ export const TextInput = forwardRef<
       'border',
       'border-grey-200',
       !props.disabled && 'hover:border-grey-600',
+      !!props.error && 'border-red-500',
       'outline-offset-[-1px]',
       'focus:outline',
       'focus:outline-2',

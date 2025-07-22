@@ -66,9 +66,6 @@
 <trans-unit id="s459781c939bc83e5">
   <source>Household income</source>
 <target>Ingresos del hogar</target></trans-unit>
-<trans-unit id="s2ef277dcb08bbedd">
-  <source>Error loading incentives.</source>
-<target>Error al cargar los incentivos.</target></trans-unit>
 <trans-unit id="sa8693630efda6dd3">
   <source>Tax credit</source>
 <target>Crédito fiscal</target></trans-unit>
@@ -1116,6 +1113,34 @@
 </trans-unit>
 <trans-unit id="s885b17a11e6d5ffc">
   <source>A heat pump water heater uses electricity to pull heat from the surrounding air to warm your water, using less energy than conventional electric water heaters.</source>
+</trans-unit>
+<trans-unit id="s870d2cd66e4f1aa3">
+  <source>Error loading results.</source>
+  <target>Error al cargar los resultados.</target>
+</trans-unit>
+<trans-unit id="sc2d752a4be1d39a8">
+  <source>We cannot determine where this address is.</source>
+</trans-unit>
+<trans-unit id="s7c0777744c3bc035">
+  <source>We cannot estimate bill impacts for this address.</source>
+</trans-unit>
+<trans-unit id="sedd306baae77722d">
+  <source>This calculator only supports residential addresses, and this address does not appear to be residential.</source>
+</trans-unit>
+<trans-unit id="se4ec75b1a54975ba">
+  <source>This calculator only supports addresses in the United States.</source>
+</trans-unit>
+<trans-unit id="s6c87367cfdc80cc0">
+  <source>This calculator does not support multifamily buildings, and this address appears to have multiple housing units.</source>
+</trans-unit>
+<trans-unit id="s84c0bea381be8b0e">
+  <source>This calculator does not support addresses in Alaska or Hawaii.</source>
+</trans-unit>
+<trans-unit id="s133d52107175d759">
+  <source>The calculator is temporarily unavailable. Please try again later.</source>
+</trans-unit>
+<trans-unit id="s8545c6dec16f5695">
+  <source>An error occurred while calculating bill impacts.</source>
 </trans-unit>
 </body>
 </file>

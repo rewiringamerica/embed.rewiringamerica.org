@@ -17,4 +17,5 @@ export type FetchState<T> =
   | {
       state: 'error';
       message: string;
+      type?: string;
     };

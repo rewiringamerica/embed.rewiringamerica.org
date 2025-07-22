@@ -6,6 +6,7 @@ import { FetchState } from '../api/fetch-state';
 import {
   INTERNAL_UPGRADES,
   RemAddressResponse,
+  RemErrorType,
   Upgrade,
 } from '../api/rem-types';
 import { FooterCopy } from '../calculator-footer';
@@ -160,7 +161,11 @@ const RemCalculator: FC<{
     fetchApi<RemAddressResponse>(apiKey, apiHost, path, query, msg)
       .then(response => setFetchState({ state: 'complete', response }))
       .catch(error =>
-        setFetchState({ state: 'error', message: error.message }),
+        setFetchState({
+          state: 'error',
+          message: error.message,
+          type: error.type,
+        }),
       );
   };
 
@@ -173,7 +178,11 @@ const RemCalculator: FC<{
 
   const children = [];
 
-  if (!submittedFormLabels || !submittedUpgradeLabel) {
+  if (
+    !submittedFormLabels ||
+    !submittedUpgradeLabel ||
+    fetchState.state === 'error'
+  ) {
     const canSubmit =
       !!formValues.buildingType &&
       formValues.buildingType !== BuildingType.Apartment &&
@@ -191,6 +200,11 @@ const RemCalculator: FC<{
       >
         <RemForm
           key="form"
+          errorType={
+            fetchState.state === 'error'
+              ? (fetchState.type as RemErrorType)
+              : null
+          }
           values={formValues}
           onValuesChange={newValues => {
             setFormValues(newValues);
@@ -255,17 +269,6 @@ const RemCalculator: FC<{
           <DetailedResults key="results" savings={fetchState.response} />,
         );
       }
-    } else if (fetchState.state === 'error') {
-      // TODO real error state
-      children.push(
-        <div
-          key="error"
-          className="flex flex-col gap-2 p-4 bg-red-100 text-sm leading-normal"
-        >
-          <span className="text-grey-400 uppercase">Error</span>
-          {fetchState.message}
-        </div>,
-      );
     }
   }
 
