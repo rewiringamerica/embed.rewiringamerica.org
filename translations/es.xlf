@@ -1118,12 +1118,6 @@
   <source>Error loading results.</source>
   <target>Error al cargar los resultados.</target>
 </trans-unit>
-<trans-unit id="sc2d752a4be1d39a8">
-  <source>We cannot determine where this address is.</source>
-</trans-unit>
-<trans-unit id="s7c0777744c3bc035">
-  <source>We cannot estimate bill impacts for this address.</source>
-</trans-unit>
 <trans-unit id="sedd306baae77722d">
   <source>This calculator only supports residential addresses, and this address does not appear to be residential.</source>
 </trans-unit>
@@ -1141,6 +1135,12 @@
 </trans-unit>
 <trans-unit id="s8545c6dec16f5695">
   <source>An error occurred while calculating bill impacts.</source>
+</trans-unit>
+<trans-unit id="s0c4ed3e9dde17304">
+  <source>We cannot locate this address.</source>
+</trans-unit>
+<trans-unit id="s01c0b8cdfb47db52">
+  <source>We are unable to estimate bill impacts for this address.</source>
 </trans-unit>
 </body>
 </file>
