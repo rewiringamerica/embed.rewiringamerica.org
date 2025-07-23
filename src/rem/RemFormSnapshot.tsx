@@ -6,8 +6,9 @@ import { RemFormLabels } from './RemForm';
 
 export const RemFormSnapshot: FC<{
   formLabels: RemFormLabels;
+  upgradeLabel: string;
   onEdit: () => void;
-}> = ({ formLabels, onEdit }) => {
+}> = ({ formLabels, upgradeLabel, onEdit }) => {
   const { msg } = useTranslated();
 
   return (
@@ -43,6 +44,13 @@ export const RemFormSnapshot: FC<{
           </li>
         )}
       </ul>
+      <div className="h-px bg-grey-200">{/* separator */}</div>
+      <div className="font-medium leading-normal">
+        {msg('Selected upgrade')}
+      </div>
+      <div className="rounded p-2 leading-normal text-grey-900 border border-purple-200 bg-purple-100">
+        {upgradeLabel}
+      </div>
     </div>
   );
 };
