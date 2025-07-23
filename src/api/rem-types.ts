@@ -54,3 +54,25 @@ export interface RemAddressResponse {
   };
   estimate_type: 'address_level' | 'puma_level';
 }
+
+export type RemErrorType =
+  // 400 status
+  // Bad address
+  | 'multifamily_not_supported'
+  | 'building_type_not_supported'
+  | 'address_not_parsable'
+  | 'country_not_supported'
+  | 'state_not_supported'
+  // Weird combination of inputs
+  | 'building_not_supported'
+  // Shouldn't happen
+  | 'missing_water_heater_fuel'
+
+  // 500 status
+  // Shouldn't happen
+  | 'unexpected_error'
+  | 'upgrade_not_supported'
+
+  // 502 status
+  // No specific field is the problem
+  | 'third_party_error';

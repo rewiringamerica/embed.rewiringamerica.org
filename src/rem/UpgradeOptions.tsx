@@ -87,7 +87,7 @@ export const UpgradeOptions: FC<{
         aria-labelledby={labelId}
         aria-describedby={descriptionId}
       >
-        <div className="flex justify-between">
+        <div className="flex w-full justify-between">
           <h2 id={labelId} className="font-medium leading-tight">
             {getLabelForUpgrade(upgrade, msg)}
           </h2>
