@@ -219,7 +219,7 @@ const RemCalculator: FC<{
           }}
           onReset={resetForm}
         />
-        <div className="h-px bg-grey-200">{/* separator */}</div>
+        <div className="h-px mx-4 bg-grey-200">{/* separator */}</div>
         <UpgradeOptions
           key="upgradeOptions"
           upgrades={parsedUpgrades}
@@ -239,22 +239,12 @@ const RemCalculator: FC<{
       <RemFormSnapshot
         key="snapshot"
         formLabels={submittedFormLabels}
+        upgradeLabel={submittedUpgradeLabel}
         onEdit={() => {
           setSubmittedFormLabels(null);
           setSubmittedUpgradeLabel(null);
         }}
       />,
-    );
-
-    children.push(
-      <div key="upgradeLabel" className="flex flex-col bg-white p-4 pt-3 gap-3">
-        <div className="font-medium leading-normal">
-          {msg('Selected upgrade')}
-        </div>
-        <div className="rounded p-2 leading-normal text-grey-900 border border-purple-200 bg-purple-100">
-          {submittedUpgradeLabel}
-        </div>
-      </div>,
     );
 
     if (fetchState.state === 'loading') {
