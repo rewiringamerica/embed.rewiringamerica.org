@@ -5,7 +5,7 @@ import { MsgFn, assembleStrResult } from './msg';
 import { TemplatedStr } from './str';
 import { templates as esStrings } from './strings/es';
 
-type Locale = (typeof allLocales)[number];
+export type Locale = (typeof allLocales)[number];
 type TargetLocale = (typeof targetLocales)[number];
 const STRINGS: {
   [k in TargetLocale]: Record<string, string | TemplatedStr>;

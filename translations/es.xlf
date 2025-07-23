@@ -1142,6 +1142,10 @@
 <trans-unit id="s01c0b8cdfb47db52">
   <source>We are unable to estimate bill impacts for this address.</source>
 </trans-unit>
+<trans-unit id="s9a994af33fff58cd">
+  <source>Ending on <x id="0" equiv-text="${formattedDate}"/></source>
+  <target>Finaliza el <x id="0" equiv-text="${formattedDate}"/></target>
+</trans-unit>
 </body>
 </file>
 </xliff>
