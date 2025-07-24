@@ -5,12 +5,17 @@ import {
   Incentive,
   IncentiveType,
 } from '../api/calculator-types-v1';
-import { getYear, isChangingSoon, isInFuture } from '../api/dates';
+import {
+  getYear,
+  isChangingWithinDays,
+  isExactDay,
+  isInFuture,
+} from '../api/dates';
 import { Card } from '../components/card';
 import { Option, Select } from '../components/select';
 import { MsgFn } from '../i18n/msg';
 import { str } from '../i18n/str';
-import { useTranslated } from '../i18n/use-translated';
+import { Locale, useTranslated } from '../i18n/use-translated';
 import { safeLocalStorage } from '../safe-local-storage';
 import { IncentiveCard } from './incentive-card';
 import { IRARebate } from './ira-rebates';
@@ -128,25 +133,51 @@ const shouldShowLocationHedging = (incentive: Incentive) =>
     'mn-city-of-st-louis-park',
   ].includes(incentive.authority || '');
 
+const FEDERAL_SOON_DAYS = 180;
+const OTHER_SOON_DAYS = 60;
+
 // Determines if there should be a warning chip for the incentive based on
-// whether it is currently paused, ending within 60 days, starting within
-// 60 days, or starting further in the future, in that order of priority.
+// whether it is currently paused, ending soon, starting soon, or starting
+// further in the future, in that order of priority.
 const generateTimeSensitiveMessages = (
   incentive: Incentive,
   futureStartYear: number | null,
   msg: MsgFn,
+  locale: Locale,
 ) => {
   if (incentive.paused) {
     return msg('On hold');
   }
 
-  if (incentive.end_date && isChangingSoon(incentive.end_date, new Date())) {
-    return msg('Ending soon');
+  if (incentive.end_date) {
+    // Warn about federal incentives ~6 months in advance because they're big
+    // and known to not be renewing.
+    const windowDays =
+      incentive.authority_type === 'federal'
+        ? FEDERAL_SOON_DAYS
+        : OTHER_SOON_DAYS;
+
+    if (isChangingWithinDays(windowDays, incentive.end_date, new Date())) {
+      // If the exact end date is known, include it in the chip.
+      if (isExactDay(incentive.end_date)) {
+        // Construct at midnight local time, since DateTimeFormat will interpret
+        // the date in local time.
+        const date = new Date(incentive.end_date + 'T00:00:00');
+        const formattedDate = new Intl.DateTimeFormat(locale, {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        }).format(date);
+        return msg(str`Ending on ${formattedDate}`);
+      } else {
+        return msg('Ending soon');
+      }
+    }
   }
 
   if (
     incentive.start_date &&
-    isChangingSoon(incentive.start_date, new Date())
+    isChangingWithinDays(OTHER_SOON_DAYS, incentive.start_date, new Date())
   ) {
     return msg('Coming soon');
   }
@@ -188,7 +219,7 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
   iraRebates,
   project,
 }) => {
-  const { msg } = useTranslated();
+  const { msg, locale } = useTranslated();
   return (
     <div className="flex flex-col gap-4">
       {incentives
@@ -213,6 +244,7 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
             incentive,
             futureStartYear,
             msg,
+            locale,
           );
 
           const [buttonUrl, buttonText] = incentive.more_info_url

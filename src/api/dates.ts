@@ -48,26 +48,34 @@ export function isInFuture(apiDate: string, now: Date): boolean {
 }
 
 /**
- * Returns whether the given API date is within 60 days in the future, relative
- * to "now". (start_date and end_date in the API can represent a range of dates
- * rather than just a single one.)
+ * Returns whether the given API date is within the given number of days in the
+ * future, relative to "now". (start_date and end_date in the API can represent
+ * a range of dates rather than just a single one.)
  *
  * The [now] param will be interpreted in local time.
  */
-export function isChangingSoon(apiDate: string, now: Date): boolean {
+export function isChangingWithinDays(
+  days: number,
+  apiDate: string,
+  now: Date,
+): boolean {
   const earliestPossibleInstant = parseApiDate(apiDate);
   // Construct the timestamp at UTC midnight, with the Y/M/D of now, as
   // interpreted in local time. This avoids timezone issues by only comparing
   // timestamps with the same time and timezone component.
   const utcNow = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
 
-  const sixtyDays = 60 * 24 * 60 * 60 * 1000;
-  const sixtyDaysFromNow = utcNow + sixtyDays;
+  const daysInMilliseconds = days * 24 * 60 * 60 * 1000;
+  const sixtyDaysFromNow = utcNow + daysInMilliseconds;
 
   return (
     earliestPossibleInstant > utcNow &&
     sixtyDaysFromNow > earliestPossibleInstant
   );
+}
+
+export function isExactDay(apiDate: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}/.test(apiDate);
 }
 
 export function getYear(apiDate: string): number {
