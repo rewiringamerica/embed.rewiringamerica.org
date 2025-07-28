@@ -172,9 +172,7 @@ const RemCalculator: FC<{
       new CustomEvent('bi-calculator-submitted', {
         bubbles: true,
         composed: true,
-        detail: {
-          formData: formValues,
-        },
+        detail: { formData: { ...formValues, upgrade: upgradeValue } },
       }),
     );
   };
