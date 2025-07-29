@@ -103,7 +103,7 @@ const RemCalculator: FC<{
   apiHost: string;
   apiKey: string;
   upgrades: string;
-}> = ({ apiHost, apiKey, upgrades }) => {
+}> = ({ shadowRoot, apiHost, apiKey, upgrades }) => {
   const { msg } = useTranslated();
 
   const parsedUpgrades = parseUpgrades(upgrades);
@@ -167,6 +167,14 @@ const RemCalculator: FC<{
           type: error.type,
         }),
       );
+
+    shadowRoot.dispatchEvent(
+      new CustomEvent('bi-calculator-submitted', {
+        bubbles: true,
+        composed: true,
+        detail: { formData: { ...formValues, upgrade: upgradeValue } },
+      }),
+    );
   };
 
   const resetForm = () => {
