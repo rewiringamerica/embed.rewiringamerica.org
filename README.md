@@ -48,7 +48,7 @@ The calculator component supports the following attributes to customize its beha
 | `household-income` | number          | A household income to pre-populate in the form.                                                                                              | `0`                                               |
 | `tax-filing`       | string          | A tax-filing status to pre-populate in the form.<br/>Valid values: `single`, `joint`, `married_filing_separately`, `hoh`                     | `single`                                          |
 | `household-size`   | number          | A household size to pre-populate in the form. <br/>Valid values: 1 through 8 inclusive                                                       | `1`                                               |
-| `show-email`       | boolean          | Whether to display the email field to collect emails. If true, and user enters an email, it will go to Rewiring America.                    | `false`                                           |
+| `show-email`       | boolean         | Whether to display the email field to collect emails. If true, and user enters an email, it will go to Rewiring America.                     | `false`                                           |
 
 Values are pre-populated from attributes on page load, and when the user clicks "Reset calculator".
 
@@ -123,6 +123,10 @@ The calculator defines and uses many other CSS variables, but **their existence 
 
 2. The bundled file is written to `dist/state-calculator.js`. This file and `dist/rewiring-fonts.css` are all that's needed to embed the calculator on any webpage.
 
+### npm package
+
+This codebase is also published as an npm package, `@rewiringamerica/embed.rewiringamerica.org`. However, this package is intended only for use by Rewiring America internal codebases. The [Usage section](#usage) describes the **only** supported way to display the calculator on third-party websites.
+
 ## Roadmap
 
 This codebase doesn't have a significant roadmap of its own. Changes here are primarily driven by the needs of our broader incentives API / calculator project. As the API expands to incentives with more complex structures, this frontend will evolve to match.
@@ -132,10 +136,6 @@ There are a few tasks specific to this codebase that we're interested in:
 - Automatically generating `src/api/calculator-types-v1.ts` from the [API spec](https://api.rewiringamerica.org/spec.json), rather than manually maintaining it.
 
 - Better test coverage, including tests that mock out API responses.
-
-### Deprecating old frontend
-
-This codebase actually contains two calculator frontends: one centered in `src/calculator.ts` and one centered in `src/state-calculator.ts`. **The former is soon to be deprecated and should not be used anymore**. It only has support for federal incentives from the Inflation Reduction Act. The latter has support for incentives from states and utilities, and is where all new development is happening.
 
 ## Contributing
 

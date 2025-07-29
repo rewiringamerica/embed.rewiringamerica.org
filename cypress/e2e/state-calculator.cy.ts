@@ -49,7 +49,7 @@ describe('rewiring-america-state-calculator', () => {
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains(/We found \d+ results across \d+ projects./);
+      .contains(/We found \d+ savings programs across \d+ projects./);
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
@@ -57,23 +57,17 @@ describe('rewiring-america-state-calculator', () => {
         'To view your eligible savings programs, select a project above.',
       );
 
-    cy.selectProjects(['hvac']);
+    cy.selectProjects(['ev']);
 
+    // RI state incentive
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('$1,000/ton off an air source heat pump');
+      .contains('Up to $1,500 off a new electric vehicle');
 
+    // 30D
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('$350/ton off a ducted heat pump');
-
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .contains('30% of cost of geothermal heating installation');
-
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .contains('$2,000 off an air source heat pump');
+      .contains('$7,500 off a new electric vehicle');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
@@ -133,5 +127,43 @@ describe('rewiring-america-state-calculator', () => {
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .should('contain.text', 'More money coming soon!');
+  });
+
+  describe('when the user enters a RI address', () => {
+    it('fetches utilities without a zip code provided', () => {
+      cy.get('rewiring-america-state-calculator')
+        .then($calc => {
+          $calc.attr('show-address-field', '');
+        })
+        .shadow()
+        .find('input#address')
+        .type('82 Smith St, Providence, RI');
+
+      // Unfocus the zip field to fetch utilities
+      cy.get('rewiring-america-state-calculator')
+        .shadow()
+        .find('input#household_income')
+        .focus();
+
+      cy.get('rewiring-america-state-calculator')
+        .shadow()
+        .find('button#utility')
+        .contains('Rhode Island Energy');
+    });
+
+    it('fetches utilities with a zip code provided', () => {
+      cy.get('rewiring-america-state-calculator')
+        .then($calc => {
+          $calc.attr('show-address-field', '');
+        })
+        .shadow()
+        .find('input#address')
+        .type('4 Center Rd, New Shoreham, RI 02807');
+
+      cy.get('rewiring-america-state-calculator')
+        .shadow()
+        .find('button#utility')
+        .contains('Block Island Power Company');
+    });
   });
 });

@@ -57,27 +57,15 @@
 <trans-unit id="sc5b20cb72269bc4f">
   <source>Homeowners and renters qualify for different incentives.</source>
 <target>Los propietarios y inquilinos califican para diferentes incentivos.</target></trans-unit>
-<trans-unit id="sb694f3d582a0dbb9">
-  <source>Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.</source>
-<target>Selecciona "Cabeza de familia" si tiene un hijo o pariente que vive con usted y paga más de la mitad de los gastos de su hogar. Selecciona "Conjunta" si declara sus impuestos como pareja casada.</target></trans-unit>
 <trans-unit id="s82397872ac9bddcf">
   <source>Household size</source>
 <target>Tamaño del hogar</target></trans-unit>
 <trans-unit id="sb1b20a59970ba607">
   <source>Include anyone you live with who you claim as a dependent on your taxes, and your spouse or partner if you file taxes together.</source>
 <target>Incluye a cualquier persona con la que viva y que reclame como dependiente en sus impuestos, y a su cónyuge o pareja si presenta impuestos conjuntos.</target></trans-unit>
-<trans-unit id="sb932cf0734934406">
-  <source>Your zip code helps determine the amount of discounts and tax credits you qualify for.</source>
-<target>Su código postal ayuda a determinar la cantidad de descuentos y créditos fiscales para los que califica.</target></trans-unit>
 <trans-unit id="s459781c939bc83e5">
   <source>Household income</source>
 <target>Ingresos del hogar</target></trans-unit>
-<trans-unit id="s1f0dc611dbdf4115">
-  <source>Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.</source>
-<target>Ingresa sus ingresos brutos (ingresos antes de impuestos). Incluye salarios y sueldos, además de otras formas de ingresos, como pensiones, intereses, dividendos e ingresos por alquiler. Si está casado y presenta una declaración conjunta, incluye los ingresos de su cónyuge.</target></trans-unit>
-<trans-unit id="s2ef277dcb08bbedd">
-  <source>Error loading incentives.</source>
-<target>Error al cargar los incentivos.</target></trans-unit>
 <trans-unit id="sa8693630efda6dd3">
   <source>Tax credit</source>
 <target>Crédito fiscal</target></trans-unit>
@@ -115,14 +103,6 @@
   <source>Terms</source>
   <note from="lit-localize">as in terms of service</note>
 <target>Términos</target></trans-unit>
-<trans-unit id="s12c2889034735d5e">
-  <source>Electric Utility</source>
-  <note from="lit-localize">as in utility company</note>
-<target>Empresa de servicios eléctricos</target></trans-unit>
-<trans-unit id="se4572a1a2528a7d4">
-  <source>Zip</source>
-  <note from="lit-localize">as in zip code</note>
-<target>Código postal</target></trans-unit>
 <trans-unit id="s9eba0933010df96e">
   <source>More information</source>
   <note from="lit-localize">button caption</note>
@@ -223,10 +203,6 @@
   <source>Rent or own</source>
   <note from="lit-localize">form field label</note>
 <target>Alquilar o poseer</target></trans-unit>
-<trans-unit id="safb8e695c2fc2dc3">
-  <source>Tax filing</source>
-  <note from="lit-localize">form field label</note>
-<target>Declaración de impuestos</target></trans-unit>
 <trans-unit id="s282049f502eac1de">
   <source>Project</source>
   <note from="lit-localize">label for a selector input</note>
@@ -541,10 +517,6 @@
   <source>https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates</source>
   <target>https://homes.rewiringamerica.org/es/federal-incentives/home-electrification-appliance-rebates</target>
 </trans-unit>
-<trans-unit id="sc9266b1b6ae1aad4">
-  <source>Expected in 2024-2025</source>
-  <target>Esperado en 2024-2025</target>
-</trans-unit>
 <trans-unit id="s3fba93629af19a87">
   <source>The federal guidelines allow for a discount of up to $<x id="0" equiv-text="${rebate.maxAmount.toLocaleString()}"/>.</source>
   <target>Los lineamientos federales permiten un descuento de hasta $<x id="0" equiv-text="${rebate.maxAmount.toLocaleString()}"/>.</target>
@@ -730,10 +702,6 @@
   <source><x id="0" equiv-text="${num}"/> results</source>
   <target><x id="0" equiv-text="${num}"/> resultados</target>
 </trans-unit>
-<trans-unit id="s581011428ded91a0">
-  <source>We found <x id="0" equiv-text="${totalResults}"/> results across <x id="1" equiv-text="${countOfProjects}"/> projects.</source>
-  <target>Encontramos <x id="0" equiv-text="${totalResults}"/> resultados en <x id="1" equiv-text="${countOfProjects}"/> proyectos.</target>
-</trans-unit>
 <trans-unit id="sd57f177db8fa7777">
   <source>Select a project</source>
   <target>Seleccione un proyecto</target>
@@ -785,6 +753,398 @@
 <trans-unit id="sbc6953a36ced943f">
   <source>privacy policy</source>
   <target>política de privacidad</target>
+</trans-unit>
+<trans-unit id="sb2d056e8d2ea5bc5">
+  <source>Delivered propane or fuel oil</source>
+  <target>Propano o fueloil entregado</target>
+</trans-unit>
+<trans-unit id="s52d768131ca697d4">
+  <source>No gas service</source>
+  <target>Sin servicio de gas</target>
+</trans-unit>
+<trans-unit id="sc967ff75e8a58273">
+  <source>Choose the company you pay your gas bill to.</source>
+  <target>Selecciona la empresa a la que paga su factura de gas.</target>
+</trans-unit>
+<trans-unit id="s0ecb1faa5d6b45b8">
+  <source>While we don't have detailed state and local utility coverage for <x id="0" equiv-text="${STATES[state].name(msg)}"/>,</source>
+  <target>Aunque no disponemos de cobertura detallada de los servicios públicos estatales y locales para <x id="0" equiv-text="${STATES[state].name(msg)}"/>,</target>
+  <note from="lit-localize">followed by "The Switch is On is a ...</note>
+</trans-unit>
+<trans-unit id="sf597f4db453ddcad">
+  <source>is a comprehensive resource that includes detailed information for your state.</source>
+  <target>es un recurso completo que incluye información detallada para su estado.</target>
+  <note from="lit-localize">preceded by "The Switch is On", name of an organization</note>
+</trans-unit>
+<trans-unit id="s7f91b88f65cb788d">
+  <source>Your income may qualify you for specific savings programs. Enter your gross income (income before taxes). Include wages and salary plus other forms of income, including pensions, interest, dividends, and rental income. If you are married and file jointly, include your spouse’s income.</source>
+  <target>Sus ingresos pueden calificarlo para programas de ahorro específicos. Ingresa sus ingresos brutos (ingresos antes de impuestos). Incluye salarios y sueldos, además de otras formas de ingresos, como pensiones, intereses, dividendos e ingresos por alquiler. Si está casado y presenta una declaración conjunta, incluye los ingresos de su cónyuge.</target>
+</trans-unit>
+<trans-unit id="se3b71225f30e5435">
+  <source>Your tax filing status helps determine the savings programs you qualify for. Select "Head of Household" if you have a child or relative living with you, and you pay more than half the costs of your home. Select "Joint" if you file your taxes as a married couple.</source>
+  <target>Su estado civil para la declaración de impuestos ayuda a determinar los programas de ahorro para los que califica. Selecciona "Cabeza de familia" si tiene un hijo o pariente que vive con usted y paga más de la mitad de los gastos de su hogar. Selecciona "Conjunta" si declara sus impuestos como pareja casada.</target>
+</trans-unit>
+<trans-unit id="s1c99093e7cd286db">
+  <source>Tax filing status</source>
+  <target>Estado de declaración de impuestos</target>
+  <note from="lit-localize">form field label</note>
+</trans-unit>
+<trans-unit id="s442fb1c19566bdb9">
+  <source>ZIP code</source>
+  <target>Código postal</target>
+</trans-unit>
+<trans-unit id="s4047f0acceaa73fe">
+  <source>Electric utility</source>
+  <target>Empresa de servicios eléctricos</target>
+  <note from="lit-localize">as in utility company</note>
+</trans-unit>
+<trans-unit id="sd640aaac6c6ec262">
+  <source>Gas utility</source>
+  <target>Empresa de gas</target>
+  <note from="lit-localize">as in utility company</note>
+</trans-unit>
+<trans-unit id="s4d39828d70b784d7">
+  <source>based on your household information.</source>
+  <target>según su información del hogar.</target>
+  <note from="lit-localize">preceded by "we found N projects"</note>
+</trans-unit>
+<trans-unit id="scb772323dbbe9641">
+  <source>a cool roof</source>
+  <target>un techo frío</target>
+  <note from="lit-localize">e.g. "$100 off [this string]</note>
+</trans-unit>
+<trans-unit id="sd8bca9deffec6553">
+  <source>a solar water heater</source>
+  <target>un calentador de agua solar</target>
+  <note from="lit-localize">e.g. "$100 off [this string]</note>
+</trans-unit>
+<trans-unit id="s2d4cc60d1e81984a">
+  <source>a smart thermostat</source>
+  <target>un termostato inteligente</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s15baab178b16cd70">
+  <source>We found <x id="0" equiv-text="${totalResults}"/> savings programs for <x id="1" equiv-text="${projectLabel}"/>,</source>
+  <target>Encontramos <x id="0" equiv-text="${totalResults}"/> programas de ahorro para <x id="1" equiv-text="${projectLabel}"/>,</target>
+</trans-unit>
+<trans-unit id="se769dd566c4c69b6">
+  <source>We found <x id="0" equiv-text="${totalResults}"/> savings programs across <x id="1" equiv-text="${countOfProjects}"/> projects,</source>
+  <target>Encontramos <x id="0" equiv-text="${totalResults}"/> programas de ahorro en <x id="1" equiv-text="${countOfProjects}"/> proyectos,</target>
+</trans-unit>
+<trans-unit id="sdb2de09e3926710a">
+  <source>clothes dryers</source>
+  <target>secadoras</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
+</trans-unit>
+<trans-unit id="s5d276c727ffc287a">
+  <source>solar installation</source>
+  <target>solar installation</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
+</trans-unit>
+<trans-unit id="s84fdf8ef099cc6d2">
+  <source>water heaters</source>
+  <target>calentadores de agua</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
+</trans-unit>
+<trans-unit id="s64b946f9cb37d1de">
+  <source>cooking stoves/ranges</source>
+  <target>estufas/cocinas</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
+</trans-unit>
+<trans-unit id="sd431582bed5b1d77">
+  <source>electrical panels and wiring</source>
+  <target>tableros eléctricos y cableado</target>
+  <note from="lit-localize">comes after "we found N savings programs for"</note>
+</trans-unit>
+<trans-unit id="se549d84bd6822826">
+  <source>Your ZIP code helps determine the amount of discounts and tax credits you qualify for.</source>
+  <target>Su código postal ayuda a determinar la cantidad de descuentos y créditos fiscales para los que califica.</target>
+</trans-unit>
+<trans-unit id="se3ea0a1a24cb9f94">
+  <source>ZIP</source>
+  <target>Código postal</target>
+  <note from="lit-localize">as in ZIP code</note>
+</trans-unit>
+<trans-unit id="sbd1436bbb92185d2">
+  <source>panel and wiring upgrades for EV charging</source>
+  <target>un tablero eléctrico y cableado para carga de vehículos eléctricos</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="sa732d69cf764c91a">
+  <source>wiring for EV charging</source>
+  <target>cableado para carga de vehículos eléctricos</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s0f8bbefd1394db7f">
+  <source>an electrical panel and wiring</source>
+  <target>un tablero eléctrico y cableado</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s834fb215f6b3658d">
+  <source>Ending soon</source>
+  <target>Finaliza pronto</target>
+</trans-unit>
+<trans-unit id="s392f667420703599">
+  <source>Coming soon</source>
+  <target>Próximamente</target>
+</trans-unit>
+<trans-unit id="sf24f64352974cf1d">
+  <source>On hold</source>
+  <target>Pausada</target>
+  <note from="lit-localize">such as when an incentive is "paused"</note>
+</trans-unit>
+<trans-unit id="sfcdd8e672c75b713">
+  <source>Address</source>
+  <target>Dirección</target>
+</trans-unit>
+<trans-unit id="se97a708c1c2cad76">
+  <source>Your address helps determine the amount of discounts and tax credits you qualify for.</source>
+  <target>Su dirección ayuda a determinar la cantidad de descuentos y créditos fiscales para los que califica.</target>
+</trans-unit>
+<trans-unit id="s9a7f0b084a46d64e">
+  <source>Enter your address to select a utility.</source>
+  <target>Ingrese su dirección para seleccionar una empresa de servicios eléctricos.</target>
+</trans-unit>
+<trans-unit id="s7d0f073444968fe2">
+  <source>shade screen or window films</source>
+  <target>película para pantalla de sombra o ventana</target>
+  <note from="lit-localize">e.g. "$0.5/square foot off"</note>
+</trans-unit>
+<trans-unit id="s2aff515f3b6f6529">
+  <source>electric service upgrades to your home</source>
+  <target>mejoras en el servicio eléctrico de tu hogar</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s0e8b54f023eea1b6">
+  <source>integrated heat pump controls</source>
+  <target>controles integrados de bomba de calor</target>
+  <note from="lit-localize">e.g. "$100 off [this string]"</note>
+</trans-unit>
+<trans-unit id="s7993cc0db6d27b5b">
+  <source>Likely saver!</source>
+</trans-unit>
+<trans-unit id="s51b7fd026db003bb">
+  <source>Congratulations, you’re likely to lower your energy bills by going electric. Residents in your area save $<x id="0" equiv-text="${Math.abs(Math.round(costResult.median.value)).toLocaleString()}"/>/year on average.</source>
+</trans-unit>
+<trans-unit id="s0c460f55b0d0ac5e">
+  <source>Possible saver!</source>
+</trans-unit>
+<trans-unit id="sdac80296ba140b64">
+  <source>You might be able to lower your energy bills with this particular upgrade.</source>
+</trans-unit>
+<trans-unit id="s09d34fa9ee731aee">
+  <source>You’re unlikely to lower your energy bills with this particular upgrade, but you could still reduce your carbon emissions.</source>
+</trans-unit>
+<trans-unit id="sc03b9b6eff5d0151">
+  <source>Bill and emissions impact</source>
+</trans-unit>
+<trans-unit id="sbf8dbdb2203f13e8">
+  <source>These results below are based on your region and your selected upgrade, not the specific characteristics of your home.</source>
+</trans-unit>
+<trans-unit id="s7b4ae335fa702a88">
+  <source>$<x id="0" equiv-text="${renderNumber(n)}"/> less</source>
+</trans-unit>
+<trans-unit id="se4592b2ecbb76b90">
+  <source>$<x id="0" equiv-text="${renderNumber(n)}"/> more</source>
+</trans-unit>
+<trans-unit id="sb305b703e733e4c4">
+  <source><x id="0" equiv-text="${renderNumber(n)}"/>kg less</source>
+</trans-unit>
+<trans-unit id="sa56596fd05e62514">
+  <source><x id="0" equiv-text="${renderNumber(n)}"/>kg more</source>
+</trans-unit>
+<trans-unit id="s86f0eacef845d398">
+  <source>Our modeling shows that homes like yours will tend to save between $<x id="0" equiv-text="${renderNumber(costResult.percentile_80.value)}"/> and $<x id="1" equiv-text="${renderNumber(costResult.percentile_20.value)}"/> a year on their energy bills, with most homes saving at least $<x id="2" equiv-text="${renderNumber(costResult.median.value)}"/>.</source>
+</trans-unit>
+<trans-unit id="s43252eed90e6fab8">
+  <source>Our modeling shows that homes like yours will tend to spend between <x id="0" equiv-text="${renderDollarDiff(Math.min(costResult.percentile_20.value, costResult.percentile_80.value))}"/> and <x id="1" equiv-text="${renderDollarDiff(Math.max(costResult.percentile_20.value, costResult.percentile_80.value))}"/> per year, with most homes saving at least $<x id="2" equiv-text="${renderNumber(costResult.median.value)}"/>.</source>
+</trans-unit>
+<trans-unit id="s9b3b8dcb9ee24f25">
+  <source>Our modeling shows that homes like yours will tend to spend between <x id="0" equiv-text="${renderDollarDiff(Math.min(costResult.percentile_20.value, costResult.percentile_80.value))}"/> and <x id="1" equiv-text="${renderDollarDiff(Math.max(costResult.percentile_20.value, costResult.percentile_80.value))}"/> per year, with most homes spending at least $<x id="2" equiv-text="${renderNumber(costResult.median.value)}"/> more.</source>
+</trans-unit>
+<trans-unit id="s7874da67704ebb0b">
+  <source>Our modeling shows that homes like yours will tend to have annual emissions reductions between <x id="0" equiv-text="${renderNumber(emissionsResult.percentile_80.value)}"/>kg and <x id="1" equiv-text="${renderNumber(emissionsResult.percentile_20.value)}"/>kg, with most homes reducing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>kg.</source>
+</trans-unit>
+<trans-unit id="s75be27998ad443bd">
+  <source>Our modeling shows that homes like yours will tend to emit between <x id="0" equiv-text="${renderKgDiff(Math.min(emissionsResult.percentile_20.value, emissionsResult.percentile_80.value))}"/> and <x id="1" equiv-text="${renderKgDiff(Math.max(emissionsResult.percentile_20.value, emissionsResult.percentile_80.value))}"/> per year, with most homes reducing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>kg.</source>
+</trans-unit>
+<trans-unit id="s66a05de215cfda0b">
+  <source>Our modeling shows that homes like yours will tend to emit between <x id="0" equiv-text="${renderKgDiff(emissionsResult.percentile_80.value)}"/> and <x id="1" equiv-text="${renderKgDiff(emissionsResult.percentile_20.value)}"/> per year, with most homes increasing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>kg.</source>
+</trans-unit>
+<trans-unit id="s8d13b21fbb1a3a04">
+  <source>Energy bill impact</source>
+</trans-unit>
+<trans-unit id="s88271b5e5e1d5897">
+  <source>Emissions impact</source>
+</trans-unit>
+<trans-unit id="sbc720c2ef8acce29">
+  <source>We calculated the impact estimates below based on your selected upgrade, the household info you shared, and other characteristics we found for this home.</source>
+</trans-unit>
+<trans-unit id="s2d9a3be29382aef0">
+  <source>Enter your street address, city, state, and ZIP code.</source>
+</trans-unit>
+<trans-unit id="se4101cd3ff534a46">
+  <source>Enter your household information to calculate the energy bill savings and emissions reductions you could get from upgrades to your home.</source>
+</trans-unit>
+<trans-unit id="sdcd61c5aecd0a92e">
+  <source>Household type</source>
+</trans-unit>
+<trans-unit id="s61ab3f6c81e5c00a">
+  <source>Our model currently doesn’t support apartments.</source>
+</trans-unit>
+<trans-unit id="s5c687128d63123f2">
+  <source>Select household type...</source>
+</trans-unit>
+<trans-unit id="sab63f9cc28e699a3">
+  <source>Heating fuel</source>
+</trans-unit>
+<trans-unit id="sf7dd9ded2e89ae05">
+  <source>Select heating fuel...</source>
+</trans-unit>
+<trans-unit id="sbcbfb6181fd86ad9">
+  <source>Water heating fuel (optional)</source>
+</trans-unit>
+<trans-unit id="s65bae2714d6aae5e">
+  <source>Select your water heating fuel to see the impact of a water heater upgrade.</source>
+</trans-unit>
+<trans-unit id="sd56f3cec0da0154e">
+  <source>Select water heating fuel...</source>
+</trans-unit>
+<trans-unit id="sf00cf636320c1aca">
+  <source>Water heating fuel</source>
+</trans-unit>
+<trans-unit id="sac4e1ed6737109ef">
+  <source>Heat pump</source>
+</trans-unit>
+<trans-unit id="s46b99366f49f65cd">
+  <source>A heat pump is an efficient electric system that provides both heating and cooling by transferring heat between your home and the air outside, cutting energy use compared to traditional systems.</source>
+</trans-unit>
+<trans-unit id="sf459faf797f733a9">
+  <source>Weatherization</source>
+</trans-unit>
+<trans-unit id="sa7f22be14b041959">
+  <source>Weatherization includes upgrades like sealing air leaks and adding insulation to reduce energy loss, improve comfort, and lower heating and cooling bills.</source>
+</trans-unit>
+<trans-unit id="sd4a0958f79155a76">
+  <source>Heat pump + weatherization</source>
+</trans-unit>
+<trans-unit id="sb651be2f9d21f43b">
+  <source>Combining a heat pump with weatherization (like insulation and air sealing) maximizes comfort and energy savings by improving your home’s ability to retain heated or cooled air.</source>
+</trans-unit>
+<trans-unit id="s21bbdf0dd930b93d">
+  <source>Heat pump water heater</source>
+</trans-unit>
+<trans-unit id="s316484804a08a355">
+  <source>Select upgrade</source>
+</trans-unit>
+<trans-unit id="s381a744f6d7fc819">
+  <source>Select an upgrade to view its impact on your energy bills and emissions:</source>
+</trans-unit>
+<trans-unit id="sbe6b0c10ca297c7a">
+  <source>Bill Impact Calculator</source>
+</trans-unit>
+<trans-unit id="sa5b024ac2e742ba8">
+  <source>Calculating impact...</source>
+</trans-unit>
+<trans-unit id="s87b70b2113a083d0">
+  <source>Selected upgrade</source>
+</trans-unit>
+<trans-unit id="s64ef2a6c2dd1d3d1">
+  <source>Edit</source>
+</trans-unit>
+<trans-unit id="s099722e1bd86397b">
+  <source>House</source>
+  <note from="lit-localize">building type</note>
+</trans-unit>
+<trans-unit id="s729d5e84dac94711">
+  <source>Apartment</source>
+  <note from="lit-localize">building type</note>
+</trans-unit>
+<trans-unit id="sae01e77c310ec0be">
+  <source>Mobile home</source>
+  <note from="lit-localize">building type</note>
+</trans-unit>
+<trans-unit id="sdd0dd79262c418ae">
+  <source>Townhome</source>
+  <note from="lit-localize">building type</note>
+</trans-unit>
+<trans-unit id="s2cb4cae8c985d3de">
+  <source>Electricity</source>
+  <note from="lit-localize">heating fuel option</note>
+</trans-unit>
+<trans-unit id="sf5958f869e4b848b">
+  <source>Natural gas</source>
+  <note from="lit-localize">heating fuel option</note>
+</trans-unit>
+<trans-unit id="se9ce6371cb2231ed">
+  <source>Fuel oil</source>
+  <note from="lit-localize">heating fuel option</note>
+</trans-unit>
+<trans-unit id="s0a0a82a1b7a4e4be">
+  <source>Propane</source>
+  <note from="lit-localize">heating fuel option</note>
+</trans-unit>
+<trans-unit id="sca0e4c6a7c97a79c">
+  <source>Graphical representation of the above numbers</source>
+</trans-unit>
+<trans-unit id="s5072405c9c4bc333">
+  <source>The API key is invalid, or does not have enough permissions.</source>
+</trans-unit>
+<trans-unit id="sffb6b8d1a387a7f5">
+  <source>Heat pump (RI package)</source>
+</trans-unit>
+<trans-unit id="s4a40b314f4d4c3d9">
+  <source>Heat pump (CO ducted package)</source>
+</trans-unit>
+<trans-unit id="s975ac6500155be95">
+  <source>Heat pump (CO ductless package)</source>
+</trans-unit>
+<trans-unit id="sa4856334f2f935b3">
+  <source>This is the ductless heat pump package negotiated with our preferred contractor(s) in Rhode Island. (Carrier Performance series)</source>
+</trans-unit>
+<trans-unit id="s6355b132278979c5">
+  <source>This is the ducted heat pump package negotiated with our preferred contractor(s) in Colorado.</source>
+</trans-unit>
+<trans-unit id="s3865e2765d1c884d">
+  <source>This is the ductless heat pump package negotiated with our preferred contractor(s) in Colorado.</source>
+</trans-unit>
+<trans-unit id="sb9ff22860ac9bf4f">
+  <source>Calculate impact</source>
+</trans-unit>
+<trans-unit id="s885b17a11e6d5ffc">
+  <source>A heat pump water heater uses electricity to pull heat from the surrounding air to warm your water, using less energy than conventional electric water heaters.</source>
+</trans-unit>
+<trans-unit id="s870d2cd66e4f1aa3">
+  <source>Error loading results.</source>
+  <target>Error al cargar los resultados.</target>
+</trans-unit>
+<trans-unit id="sedd306baae77722d">
+  <source>This calculator only supports residential addresses, and this address does not appear to be residential.</source>
+</trans-unit>
+<trans-unit id="se4ec75b1a54975ba">
+  <source>This calculator only supports addresses in the United States.</source>
+</trans-unit>
+<trans-unit id="s6c87367cfdc80cc0">
+  <source>This calculator does not support multifamily buildings, and this address appears to have multiple housing units.</source>
+</trans-unit>
+<trans-unit id="s84c0bea381be8b0e">
+  <source>This calculator does not support addresses in Alaska or Hawaii.</source>
+</trans-unit>
+<trans-unit id="s133d52107175d759">
+  <source>The calculator is temporarily unavailable. Please try again later.</source>
+</trans-unit>
+<trans-unit id="s8545c6dec16f5695">
+  <source>An error occurred while calculating bill impacts.</source>
+</trans-unit>
+<trans-unit id="s0c4ed3e9dde17304">
+  <source>We cannot locate this address.</source>
+</trans-unit>
+<trans-unit id="s01c0b8cdfb47db52">
+  <source>We are unable to estimate bill impacts for this address.</source>
+</trans-unit>
+<trans-unit id="s9a994af33fff58cd">
+  <source>Ending on <x id="0" equiv-text="${formattedDate}"/></source>
+  <target>Finaliza el <x id="0" equiv-text="${formattedDate}"/></target>
 </trans-unit>
 </body>
 </file>

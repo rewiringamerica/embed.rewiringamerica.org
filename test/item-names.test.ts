@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
-import { passthroughMsg as msg } from '../src/i18n/use-translated';
-import { itemName } from '../src/item-name';
+import { passthroughMsg as msg } from '../src/i18n/msg';
+import { itemName } from '../src/incentives/item-name';
 
 describe('group names', () => {
   test('heat pumps', () => {
@@ -14,6 +14,23 @@ describe('group names', () => {
         'hvac',
       ),
     ).toBe('a heat pump');
+  });
+
+  test('water heaters', () => {
+    expect(
+      itemName(
+        ['heat_pump_water_heater', 'non_heat_pump_water_heater'],
+        msg,
+        'water_heater',
+      ),
+    ).toBe('a water heater');
+    expect(
+      itemName(
+        ['heat_pump_water_heater', 'solar_water_heater'],
+        msg,
+        'water_heater',
+      ),
+    ).toBe('a water heater');
   });
 
   test('weatherization and insulation', () => {
@@ -41,6 +58,13 @@ describe('group names', () => {
     expect(
       itemName(
         ['wall_insulation', 'other_weatherization'],
+        msg,
+        'weatherization_and_efficiency',
+      ),
+    ).toBe('weatherization');
+    expect(
+      itemName(
+        ['cool_roof', 'other_weatherization'],
         msg,
         'weatherization_and_efficiency',
       ),
@@ -94,6 +118,12 @@ describe('group names', () => {
     ).toBeNull();
   });
 
+  test('electrical', () => {
+    expect(itemName(['electric_wiring', 'electric_panel'], msg, 'wiring')).toBe(
+      'an electrical panel and wiring',
+    );
+  });
+
   test('HEAR rebates applicable to multiple appliances', () => {
     expect(
       itemName(['heat_pump_clothes_dryer', 'electric_stove'], msg, 'cooking'),
@@ -106,5 +136,30 @@ describe('group names', () => {
         'clothes_dryer',
       ),
     ).toBe('a heat pump clothes dryer');
+  });
+
+  test('cross-project groups', () => {
+    // Test in both projects
+    expect(
+      itemName(['electric_vehicle_charger', 'electric_wiring'], msg, 'ev'),
+    ).toBe('wiring for EV charging');
+    expect(
+      itemName(['electric_vehicle_charger', 'electric_wiring'], msg, 'wiring'),
+    ).toBe('wiring for EV charging');
+
+    expect(
+      itemName(
+        ['electric_vehicle_charger', 'electric_wiring', 'electric_panel'],
+        msg,
+        'ev',
+      ),
+    ).toBe('panel and wiring upgrades for EV charging');
+    expect(
+      itemName(
+        ['electric_vehicle_charger', 'electric_wiring', 'electric_panel'],
+        msg,
+        'wiring',
+      ),
+    ).toBe('panel and wiring upgrades for EV charging');
   });
 });

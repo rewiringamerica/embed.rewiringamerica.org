@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import { FC } from 'react';
 import { str } from '../i18n/str';
 import { useTranslated } from '../i18n/use-translated';
-import { Check, DownTriangle } from '../icons';
 import { FormLabel } from './form-label';
+import { Check, DownTriangle } from './icons';
 import { Spinner } from './spinner';
 
 export type Option<T extends string> = {
@@ -15,6 +15,13 @@ export type Option<T extends string> = {
   badge?: number;
   getIcon?: () => React.ReactElement;
 };
+
+export function labelForValue<T extends string>(
+  options: Option<T>[],
+  value: T,
+): string | undefined {
+  return options.find(opt => opt.value === value)?.label;
+}
 
 export type SelectProps<T extends string> = {
   /**
@@ -38,6 +45,8 @@ export type SelectProps<T extends string> = {
   placeholder?: string;
   /** Shown below the select element. */
   helpText?: string;
+  /** Shown below the select element, overriding helpText if present. */
+  errorText?: string;
   currentValue: T | null;
   onChange: (newValue: T) => void;
 };
@@ -79,6 +88,7 @@ export const Select = <T extends string>({
   tooltipText,
   placeholder,
   helpText,
+  errorText,
   currentValue,
   onChange,
 }: SelectProps<T>) => {
@@ -136,6 +146,7 @@ export const Select = <T extends string>({
             'border',
             'border-grey-200',
             !disabled && 'hover:border-grey-600',
+            !!errorText && 'border-red-500',
             // Move the outline inward to cover up the border
             'outline-offset-[-1px]',
             'focus:outline',
@@ -205,15 +216,13 @@ export const Select = <T extends string>({
                   o.disabled && 'opacity-50',
                 )}
               >
-                {currentValue === o.value ? (
-                  <Check w={20} h={20} />
-                ) : (
-                  <div className="w-5" />
-                )}
+                <div className="w-5 shrink-0">
+                  {currentValue === o.value && <Check w={20} h={20} />}
+                </div>
                 {o.getIcon && (
                   <span className="text-lg text-grey-700">{o.getIcon()}</span>
                 )}
-                <span className="grow">{o.label}</span>
+                <span className="text-color-text-primary">{o.label}</span>
                 {o.badge !== undefined && <Badge num={o.badge} />}
               </Listbox.Option>
             ))}
@@ -221,12 +230,16 @@ export const Select = <T extends string>({
         </Transition>
       </Listbox>
       {
-        // nbsp forces vertical space even if help text is blank
-        helpText && (
+        // nbsp forces vertical space even if text is blank
+        errorText ? (
+          <div className="mx-3 mt-1 text-red-500 text-xsm leading-normal">
+            {errorText}&nbsp;
+          </div>
+        ) : helpText ? (
           <div className="mx-3 mt-1 text-grey-400 text-xsm leading-normal">
             {helpText}&nbsp;
           </div>
-        )
+        ) : null
       }
     </div>
   );

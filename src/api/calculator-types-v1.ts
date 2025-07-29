@@ -11,6 +11,12 @@ export type AuthorityType =
   | 'city'
   | 'county'
   | 'other';
+export type OwnerStatus = 'homeowner' | 'renter';
+export type FilingStatus =
+  | 'single'
+  | 'joint'
+  | 'hoh'
+  | 'married_filing_separately';
 
 export type AmountType = 'dollar_amount' | 'percent' | 'dollars_per_unit';
 export type AmountUnit =
@@ -35,6 +41,7 @@ export const ITEMS = [
   'basement_insulation',
   'battery_storage_installation',
   'central_air_conditioner',
+  'cool_roof',
   'crawlspace_insulation',
   'door_replacement',
   'duct_replacement',
@@ -45,6 +52,7 @@ export const ITEMS = [
   'efficiency_rebates',
   'electric_outdoor_equipment',
   'electric_panel',
+  'electric_service_upgrades',
   'electric_stove',
   'electric_vehicle_charger',
   'electric_wiring',
@@ -53,6 +61,7 @@ export const ITEMS = [
   'geothermal_heating_installation',
   'heat_pump_clothes_dryer',
   'heat_pump_water_heater',
+  'integrated_heat_pump_controls',
   'new_electric_vehicle',
   'new_plugin_hybrid_vehicle',
   'non_heat_pump_clothes_dryer',
@@ -61,6 +70,9 @@ export const ITEMS = [
   'other_insulation',
   'other_weatherization',
   'rooftop_solar_installation',
+  'smart_thermostat',
+  'solar_screen_films',
+  'solar_water_heater',
   'used_electric_vehicle',
   'used_plugin_hybrid_vehicle',
   'wall_insulation',
@@ -72,7 +84,7 @@ export type ItemType = (typeof ITEMS)[number];
 export interface Incentive {
   payment_methods: IncentiveType[];
   authority_type: AuthorityType;
-  authority_name: string | null;
+  authority: string | null;
   program: string;
   program_url: string;
   more_info_url?: string;
@@ -80,8 +92,8 @@ export interface Incentive {
   amount: Amount;
   start_date?: string;
   end_date?: string;
+  paused?: boolean;
   short_description?: string;
-
   eligible?: boolean;
 }
 
@@ -98,6 +110,8 @@ export interface APIUtilityMap {
 export interface APIUtilitiesResponse {
   location: APILocation;
   utilities: APIUtilityMap;
+  gas_utilities?: APIUtilityMap;
+  gas_utility_affects_incentives?: boolean;
 }
 
 export interface APIResponse {
