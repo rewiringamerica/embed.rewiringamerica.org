@@ -40,11 +40,13 @@ conventional electric water heaters.`),
     msg(`This is the ductless heat pump package negotiated with our preferred \
 contractor(s) in Rhode Island. (Carrier Performance series)`),
   [Upgrade.InternalDaikin7]: msg =>
-    msg(`This is the ducted heat pump package negotiated with our preferred \
-contractor(s) in Colorado.`),
+    msg(
+      `This is the ducted heat pump package negotiated with our preferred contractor(s) in Colorado. (Daikin 7 Series).`,
+    ),
   [Upgrade.InternalDaikinSMulti]: msg =>
-    msg(`This is the ductless heat pump package negotiated with our preferred \
-contractor(s) in Colorado.`),
+    msg(
+      `This is the ductless heat pump package negotiated with our preferred contractor(s) in Colorado. (Daikin Aurora Pair for single zone and Daikin Standard Multi for multi zone).`,
+    ),
 };
 
 export function getLabelForUpgrade(u: Upgrade, msg: MsgFn) {

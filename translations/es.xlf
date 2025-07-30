@@ -1102,12 +1102,6 @@
 <trans-unit id="sa4856334f2f935b3">
   <source>This is the ductless heat pump package negotiated with our preferred contractor(s) in Rhode Island. (Carrier Performance series)</source>
 </trans-unit>
-<trans-unit id="s6355b132278979c5">
-  <source>This is the ducted heat pump package negotiated with our preferred contractor(s) in Colorado.</source>
-</trans-unit>
-<trans-unit id="s3865e2765d1c884d">
-  <source>This is the ductless heat pump package negotiated with our preferred contractor(s) in Colorado.</source>
-</trans-unit>
 <trans-unit id="sb9ff22860ac9bf4f">
   <source>Calculate impact</source>
 </trans-unit>
@@ -1145,6 +1139,12 @@
 <trans-unit id="s9a994af33fff58cd">
   <source>Ending on <x id="0" equiv-text="${formattedDate}"/></source>
   <target>Finaliza el <x id="0" equiv-text="${formattedDate}"/></target>
+</trans-unit>
+<trans-unit id="s30bd1ebb5ef24416">
+  <source>This is the ducted heat pump package negotiated with our preferred contractor(s) in Colorado. (Daikin 7 Series).</source>
+</trans-unit>
+<trans-unit id="s22cc13f7eee45108">
+  <source>This is the ductless heat pump package negotiated with our preferred contractor(s) in Colorado. (Daikin Aurora Pair for single zone and Daikin Standard Multi for multi zone).</source>
 </trans-unit>
 </body>
 </file>
