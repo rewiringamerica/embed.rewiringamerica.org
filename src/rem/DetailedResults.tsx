@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { Quantiles, RemAddressResponse } from '../api/rem-types';
 import { str } from '../i18n/str';
 import { useTranslated } from '../i18n/use-translated';
@@ -161,10 +161,20 @@ export const DetailedResults: FC<{ savings: RemAddressResponse }> = ({
     />
   );
 
+  // Focus the header on mount, to put screen readers on it
+  const headerRef = useRef<HTMLHeadingElement | null>(null);
+  useEffect(() => {
+    headerRef.current?.focus();
+  });
+
   return (
     <div className="flex flex-col gap-4 p-4 bg-grey-100">
       <div>
-        <h2 className="font-medium leading-normal mb-1">
+        <h2
+          ref={headerRef}
+          className="font-medium leading-normal mb-1"
+          tabIndex={-1}
+        >
           {msg('Bill and emissions impact')}
         </h2>
         <p className="text-sm leading-normal">
