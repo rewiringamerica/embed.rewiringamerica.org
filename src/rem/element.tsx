@@ -210,8 +210,16 @@ const RemCalculator: FC<{
       !!formValues.heatingFuel &&
       !!upgradeValue;
 
+    const canReset =
+      !!formValues.buildingType ||
+      !!formValues.address ||
+      !!formValues.heatingFuel ||
+      !!formValues.waterHeatingFuel ||
+      !!upgradeValue;
+
     children.push(
       <form
+        key="form"
         className="flex flex-col m-0 bg-grey-100"
         onSubmit={e => {
           e.preventDefault();
@@ -219,7 +227,6 @@ const RemCalculator: FC<{
         }}
       >
         <RemForm
-          key="form"
           errorType={
             fetchState.state === 'error'
               ? (fetchState.type as RemErrorType)
@@ -237,11 +244,11 @@ const RemCalculator: FC<{
               setUpgradeValue(null);
             }
           }}
+          canReset={canReset}
           onReset={resetForm}
         />
         <div className="h-px mx-4 bg-grey-200">{/* separator */}</div>
         <UpgradeOptions
-          key="upgradeOptions"
           upgrades={parsedUpgrades}
           includeWaterHeater={!!formValues.waterHeatingFuel}
           selectedUpgrade={upgradeValue}
@@ -282,19 +289,13 @@ const RemCalculator: FC<{
     }
   }
 
-  children.push(
-    <div
-      key="footer"
-      className="bg-white text-sm px-4 py-3 leading-normal text-center"
-    >
-      <FooterCopy />
-    </div>,
-  );
-
   return (
     <div className="flex flex-col gap-px bg-grey-200 rounded-xl border border-grey-200 overflow-clip">
       <Header />
       {children}
+      <div className="bg-white text-sm px-4 py-3 leading-normal text-center">
+        <FooterCopy />
+      </div>
     </div>
   );
 };
