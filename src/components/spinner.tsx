@@ -1,10 +1,16 @@
 import clsx from 'clsx';
-import { FC } from 'react';
+import { forwardRef } from 'react';
 
-export const Spinner: FC<{ className?: string }> = ({ className }) => (
+export const Spinner = forwardRef<
+  HTMLDivElement,
+  { className?: string; labelId?: string }
+>(({ className, labelId }, ref) => (
   <div
-    className={clsx(className, 'animate-spinnerContainer')}
+    ref={ref}
+    className={clsx(className, 'animate-spinnerContainer outline-none')}
     role="progressbar"
+    tabIndex={-1}
+    aria-labelledby={labelId}
   >
     <svg className="w-full h-full" viewBox="22 22 44 44">
       <circle
@@ -18,4 +24,4 @@ export const Spinner: FC<{ className?: string }> = ({ className }) => (
       />
     </svg>
   </div>
-);
+));

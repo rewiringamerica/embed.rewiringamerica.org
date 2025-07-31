@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useId, useRef } from 'react';
 import { HeatingFuel, RemErrorType, WaterHeatingFuel } from '../api/rem-types';
 import { TextButton } from '../components/buttons';
 import { FormLabel } from '../components/form-label';
@@ -174,6 +174,7 @@ export const RemForm: FC<{
     'Enter your street address, city, state, and ZIP code.',
   );
   const addressFieldRef = useRef<HTMLInputElement>(null);
+  const addressDescriptionId = useId();
 
   // Focus the address field if there's a new error
   useEffect(() => {
@@ -239,8 +240,11 @@ export const RemForm: FC<{
             onChange={e =>
               onValuesChange({ ...values, address: e.target.value })
             }
+            aria-describedby={addressDescriptionId}
           />
           <div
+            id={addressDescriptionId}
+            aria-hidden={true}
             className={clsx(
               'mx-3 mt-1 text-xsm leading-normal',
               addressErrorText ? 'text-red-500' : 'text-grey-400',

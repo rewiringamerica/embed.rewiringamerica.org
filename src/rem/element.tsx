@@ -1,5 +1,5 @@
 import tailwindStyles from 'bundle-text:../tailwind.css';
-import { FC, useState } from 'react';
+import { FC, useEffect, useId, useRef, useState } from 'react';
 import { Root, createRoot } from 'react-dom/client';
 import { DEFAULT_CALCULATOR_API_HOST, fetchApi } from '../api/fetch';
 import { FetchState } from '../api/fetch-state';
@@ -56,6 +56,7 @@ const Header = () => {
         src={new URL('../../static/logo.png', import.meta.url).toString()}
         width="61"
         height="20"
+        aria-hidden={true}
       />
       <span className="text-sm font-medium leading-normal">
         {msg('Bill Impact Calculator')}
@@ -66,15 +67,26 @@ const Header = () => {
 
 const Loading = () => {
   const { msg } = useTranslated();
+  const labelId = useId();
+
+  // Focus the spinner when it first appears on the page
+  const ref = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    ref.current?.focus();
+  });
+
   return (
     <div
       key="spinner"
       className="bg-grey-100 p-4 flex flex-col items-center py-12 gap-4"
     >
       <div className="w-25 h-25 text-grey-400">
-        <Spinner />
+        <Spinner ref={ref} labelId={labelId} />
       </div>
-      <div className="text-grey-400 text-lg font-medium leading-tight">
+      <div
+        id={labelId}
+        className="text-grey-400 text-lg font-medium leading-tight"
+      >
         {msg('Calculating impact...')}
       </div>
     </div>

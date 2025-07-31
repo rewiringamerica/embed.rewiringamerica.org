@@ -76,16 +76,15 @@ export const UpgradeOptions: FC<{
           'flex flex-col p-3 gap-2 text-left',
           'first:rounded-t-xl last:rounded-b-xl',
           'border-b border-grey-200 last:border-0',
-          disabled && 'opacity-35',
+          'disabled:opacity-35',
           checked ? 'bg-purple-100' : 'bg-white',
         )}
         type="button"
         onClick={() => !disabled && onUpgradeSelected(upgrade)}
-        tabIndex={disabled ? -1 : 0}
+        disabled={disabled}
         value={upgrade}
         role="radio"
         aria-checked={checked}
-        aria-disabled={disabled}
         aria-labelledby={labelId}
         aria-describedby={descriptionId}
       >

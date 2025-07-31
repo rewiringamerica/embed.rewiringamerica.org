@@ -1,7 +1,7 @@
 import { flip, offset, useFloating } from '@floating-ui/react-dom';
 import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
-import { FC } from 'react';
+import { FC, useId } from 'react';
 import { str } from '../i18n/str';
 import { useTranslated } from '../i18n/use-translated';
 import { FormLabel } from './form-label';
@@ -121,6 +121,8 @@ export const Select = <T extends string>({
     middleware: [flip(), offset(1)],
   });
 
+  const helperTextId = useId();
+
   return (
     <div>
       <Listbox
@@ -158,6 +160,7 @@ export const Select = <T extends string>({
             'rounded',
             'bg-white',
           )}
+          aria-describedby={helperTextId}
         >
           {buttonContents}
           {loading && <Spinner className="w-4 h-4 text-color-text-primary" />}
@@ -232,11 +235,19 @@ export const Select = <T extends string>({
       {
         // nbsp forces vertical space even if text is blank
         errorText ? (
-          <div className="mx-3 mt-1 text-red-500 text-xsm leading-normal">
+          <div
+            id={helperTextId}
+            className="mx-3 mt-1 text-red-500 text-xsm leading-normal"
+            aria-hidden={true}
+          >
             {errorText}&nbsp;
           </div>
         ) : helpText ? (
-          <div className="mx-3 mt-1 text-grey-400 text-xsm leading-normal">
+          <div
+            id={helperTextId}
+            className="mx-3 mt-1 text-grey-400 text-xsm leading-normal"
+            aria-hidden={true}
+          >
             {helpText}&nbsp;
           </div>
         ) : null
