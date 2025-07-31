@@ -247,7 +247,7 @@ export const RemForm: FC<{
             aria-hidden={true}
             className={clsx(
               'mx-3 mt-1 text-xsm leading-normal',
-              addressErrorText ? 'text-red-500' : 'text-grey-400',
+              addressErrorText ? 'text-red-500' : 'text-grey-500',
             )}
           >
             {addressErrorText ?? addressHelpText}
