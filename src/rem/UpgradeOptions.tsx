@@ -73,10 +73,10 @@ export const UpgradeOptions: FC<{
       <button
         key={upgrade}
         className={clsx(
+          'group',
           'flex flex-col p-3 gap-2 text-left',
           'first:rounded-t-xl last:rounded-b-xl',
           'border-b border-grey-200 last:border-0',
-          'disabled:opacity-35',
           checked ? 'bg-purple-100' : 'bg-white',
         )}
         type="button"
@@ -89,12 +89,18 @@ export const UpgradeOptions: FC<{
         aria-describedby={descriptionId}
       >
         <div className="flex w-full justify-between">
-          <h2 id={labelId} className="font-medium leading-tight">
+          <h2
+            id={labelId}
+            className="font-medium leading-tight text-grey-900 group-disabled:text-grey-300"
+          >
             {getLabelForUpgrade(upgrade, msg)}
           </h2>
-          <RadioButton w={22} h={22} selected={checked} />
+          <RadioButton w={22} h={22} selected={checked} disabled={disabled} />
         </div>
-        <p id={descriptionId} className="text-sm text-grey-600 leading-normal">
+        <p
+          id={descriptionId}
+          className="text-sm text-grey-600 group-disabled:text-grey-300 leading-normal"
+        >
           {DESCRIPTIONS[upgrade](msg)}
         </p>
       </button>,

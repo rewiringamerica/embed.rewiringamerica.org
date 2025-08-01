@@ -237,12 +237,20 @@ export const EditIcon: FC<IconProps> = ({ w, h }) => (
   </svg>
 );
 
-export const RadioButton: FC<IconProps & { selected: boolean }> = ({
-  w,
-  h,
-  selected,
-}) =>
-  selected ? (
+export const RadioButton: FC<
+  IconProps & { selected: boolean; disabled?: boolean }
+> = ({ w, h, selected, disabled }) =>
+  disabled ? (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={w}
+      height={h}
+      viewBox="0 0 22 22"
+      fill="none"
+    >
+      <circle cx="11" cy="11" r="10" stroke="#9b9b9b" strokeWidth="2" />
+    </svg>
+  ) : selected ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={w}

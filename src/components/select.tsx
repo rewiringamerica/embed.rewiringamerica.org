@@ -245,7 +245,7 @@ export const Select = <T extends string>({
         ) : helpText ? (
           <div
             id={helperTextId}
-            className="mx-3 mt-1 text-grey-400 text-xsm leading-normal"
+            className="mx-3 mt-1 text-grey-500 text-xsm leading-normal"
             aria-hidden={true}
           >
             {helpText}&nbsp;
