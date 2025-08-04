@@ -33,6 +33,6 @@ export const TextInput = forwardRef<
       'focus:outline-purple-500',
       props.inputMode === 'numeric' && 'tabular-nums',
     )}
-    {...props}
+    {...{ ...props, error: undefined }}
   />
 ));

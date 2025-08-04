@@ -159,15 +159,14 @@ export const RemForm: FC<{
   errorType: RemErrorType | null;
   values: RemFormValues;
   onValuesChange: (v: RemFormValues) => void;
+  canReset: boolean;
   onReset: () => void;
-}> = ({ errorType, values, onValuesChange, onReset }) => {
+}> = ({ errorType, values, onValuesChange, canReset, onReset }) => {
   const { msg } = useTranslated();
 
   const { buildingType, address, heatingFuel, waterHeatingFuel } = values;
 
   const isBadBuildingType = buildingType === BuildingType.Apartment;
-  const areValuesModified =
-    !!buildingType || !!address || !!heatingFuel || !!waterHeatingFuel;
 
   const addressErrorText = errorType ? getErrorText(errorType, msg) : null;
   const addressHelpText = msg(
@@ -190,11 +189,7 @@ export const RemForm: FC<{
           {msg('Your household info')}
         </h1>
         <div>
-          <TextButton
-            disabled={!areValuesModified}
-            type="reset"
-            onClick={onReset}
-          >
+          <TextButton disabled={!canReset} type="reset" onClick={onReset}>
             {msg('Reset')}
           </TextButton>
         </div>
