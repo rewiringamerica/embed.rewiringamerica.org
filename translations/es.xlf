@@ -1093,12 +1093,6 @@
 <trans-unit id="sffb6b8d1a387a7f5">
   <source>Heat pump (RI package)</source>
 </trans-unit>
-<trans-unit id="s4a40b314f4d4c3d9">
-  <source>Heat pump (CO ducted package)</source>
-</trans-unit>
-<trans-unit id="s975ac6500155be95">
-  <source>Heat pump (CO ductless package)</source>
-</trans-unit>
 <trans-unit id="sa4856334f2f935b3">
   <source>This is the ductless heat pump package negotiated with our preferred contractor(s) in Rhode Island. (Carrier Performance series)</source>
 </trans-unit>
@@ -1140,11 +1134,17 @@
   <source>Ending on <x id="0" equiv-text="${formattedDate}"/></source>
   <target>Finaliza el <x id="0" equiv-text="${formattedDate}"/></target>
 </trans-unit>
-<trans-unit id="s30bd1ebb5ef24416">
-  <source>This is the ducted heat pump package negotiated with our preferred contractor(s) in Colorado. (Daikin 7 Series).</source>
+<trans-unit id="s8cc709b85da1eb49">
+  <source>Heat pump (ducted, cold-climate package)</source>
 </trans-unit>
-<trans-unit id="s22cc13f7eee45108">
-  <source>This is the ductless heat pump package negotiated with our preferred contractor(s) in Colorado. (Daikin Aurora Pair for single zone and Daikin Standard Multi for multi zone).</source>
+<trans-unit id="s4887422d2a0398bd">
+  <source>Heat pump (ductless, cold-climate package)</source>
+</trans-unit>
+<trans-unit id="sf4b96ba258ee7949">
+  <source>This is the ducted, cold-climate heat pump package currently used in our Colorado programs.</source>
+</trans-unit>
+<trans-unit id="s444229da3fe450d1">
+  <source>This is the ductless, cold-climate heat pump package currently used in our Colorado programs.</source>
 </trans-unit>
 </body>
 </file>

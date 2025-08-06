@@ -12,8 +12,10 @@ const LABELS: { [k in Upgrade]: (m: MsgFn) => string } = {
   [Upgrade.WaterHeater]: msg => msg('Heat pump water heater'),
 
   [Upgrade.InternalCarrierPerformance]: msg => msg('Heat pump (RI package)'),
-  [Upgrade.InternalDaikin7]: msg => msg('Heat pump (CO ducted package)'),
-  [Upgrade.InternalDaikinSMulti]: msg => msg('Heat pump (CO ductless package)'),
+  [Upgrade.InternalDaikin7]: msg =>
+    msg('Heat pump (ducted, cold-climate package)'),
+  [Upgrade.InternalDaikinSMulti]: msg =>
+    msg('Heat pump (ductless, cold-climate package)'),
 };
 
 const DESCRIPTIONS: { [k in Upgrade]: (m: MsgFn) => string } = {
@@ -41,11 +43,11 @@ conventional electric water heaters.`),
 contractor(s) in Rhode Island. (Carrier Performance series)`),
   [Upgrade.InternalDaikin7]: msg =>
     msg(
-      `This is the ducted heat pump package negotiated with our preferred contractor(s) in Colorado. (Daikin 7 Series).`,
+      `This is the ducted, cold-climate heat pump package currently used in our Colorado programs.`,
     ),
   [Upgrade.InternalDaikinSMulti]: msg =>
     msg(
-      `This is the ductless heat pump package negotiated with our preferred contractor(s) in Colorado. (Daikin Aurora Pair for single zone and Daikin Standard Multi for multi zone).`,
+      `This is the ductless, cold-climate heat pump package currently used in our Colorado programs.`,
     ),
 };
 
@@ -88,7 +90,7 @@ export const UpgradeOptions: FC<{
         aria-labelledby={labelId}
         aria-describedby={descriptionId}
       >
-        <div className="flex w-full justify-between">
+        <div className="flex justify-between w-full">
           <h2
             id={labelId}
             className="font-medium leading-tight text-grey-900 group-disabled:text-grey-300"
@@ -99,7 +101,7 @@ export const UpgradeOptions: FC<{
         </div>
         <p
           id={descriptionId}
-          className="text-sm text-grey-600 group-disabled:text-grey-300 leading-normal"
+          className="text-sm leading-normal text-grey-600 group-disabled:text-grey-300"
         >
           {DESCRIPTIONS[upgrade](msg)}
         </p>
@@ -118,7 +120,7 @@ export const UpgradeOptions: FC<{
       aria-describedby={groupDescriptionId}
     >
       <div>
-        <h2 id={groupLabelId} className="font-medium leading-normal mb-1">
+        <h2 id={groupLabelId} className="mb-1 font-medium leading-normal">
           {msg('Select upgrade')}
         </h2>
         <p id={groupDescriptionId} className="text-sm leading-normal">
