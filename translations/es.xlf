@@ -1140,11 +1140,11 @@
 <trans-unit id="s4887422d2a0398bd">
   <source>Heat pump (ductless, cold-climate package)</source>
 </trans-unit>
-<trans-unit id="sf4b96ba258ee7949">
-  <source>This is the ducted, cold-climate heat pump package currently used in our Colorado programs.</source>
+<trans-unit id="s551164ee352060c7">
+  <source>This is the ducted, cold-climate heat pump package currently used in our Colorado programs. SEER rating 17-19; COP@5°F: 2;</source>
 </trans-unit>
-<trans-unit id="s444229da3fe450d1">
-  <source>This is the ductless, cold-climate heat pump package currently used in our Colorado programs.</source>
+<trans-unit id="s9c1ecf31424c575d">
+  <source>This is the ductless, cold-climate heat pump package currently used in our Colorado programs. SEER rating: 18-21; COP@5°F of 1.8-2.</source>
 </trans-unit>
 </body>
 </file>

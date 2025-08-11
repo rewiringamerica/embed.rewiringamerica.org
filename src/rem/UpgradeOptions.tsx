@@ -43,11 +43,11 @@ conventional electric water heaters.`),
 contractor(s) in Rhode Island. (Carrier Performance series)`),
   [Upgrade.InternalDaikin7]: msg =>
     msg(
-      `This is the ducted, cold-climate heat pump package currently used in our Colorado programs.`,
+      `This is the ducted, cold-climate heat pump package currently used in our Colorado programs. SEER rating 17-19; COP@5°F: 2;`,
     ),
   [Upgrade.InternalDaikinSMulti]: msg =>
     msg(
-      `This is the ductless, cold-climate heat pump package currently used in our Colorado programs.`,
+      `This is the ductless, cold-climate heat pump package currently used in our Colorado programs. SEER rating: 18-21; COP@5°F of 1.8-2.`,
     ),
 };
 
