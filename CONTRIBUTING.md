@@ -46,7 +46,7 @@ All the code is TypeScript, and is required to typecheck without errors.
 
   3. Run `yarn strings:build` to generate the JavaScript with the translations. Make sure the translations show up in the UI when you set the attribute `lang="es"` on the calculator element.
 
-  4. Include the changes in `es.xlf` and `src/locales/strings/es.ts` in your PR.
+  4. Include the changes in `es.xlf` and `src/i18n/strings/es.ts` in your PR.
 
 ## Branching
 
