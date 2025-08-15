@@ -947,12 +947,6 @@
 <trans-unit id="se4592b2ecbb76b90">
   <source>$<x id="0" equiv-text="${renderNumber(n)}"/> more</source>
 </trans-unit>
-<trans-unit id="sb305b703e733e4c4">
-  <source><x id="0" equiv-text="${renderNumber(n)}"/>kg less</source>
-</trans-unit>
-<trans-unit id="sa56596fd05e62514">
-  <source><x id="0" equiv-text="${renderNumber(n)}"/>kg more</source>
-</trans-unit>
 <trans-unit id="s86f0eacef845d398">
   <source>Our modeling shows that homes like yours will tend to save between $<x id="0" equiv-text="${renderNumber(costResult.percentile_80.value)}"/> and $<x id="1" equiv-text="${renderNumber(costResult.percentile_20.value)}"/> a year on their energy bills, with most homes saving at least $<x id="2" equiv-text="${renderNumber(costResult.median.value)}"/>.</source>
 </trans-unit>
@@ -961,15 +955,6 @@
 </trans-unit>
 <trans-unit id="s9b3b8dcb9ee24f25">
   <source>Our modeling shows that homes like yours will tend to spend between <x id="0" equiv-text="${renderDollarDiff(Math.min(costResult.percentile_20.value, costResult.percentile_80.value))}"/> and <x id="1" equiv-text="${renderDollarDiff(Math.max(costResult.percentile_20.value, costResult.percentile_80.value))}"/> per year, with most homes spending at least $<x id="2" equiv-text="${renderNumber(costResult.median.value)}"/> more.</source>
-</trans-unit>
-<trans-unit id="s7874da67704ebb0b">
-  <source>Our modeling shows that homes like yours will tend to have annual emissions reductions between <x id="0" equiv-text="${renderNumber(emissionsResult.percentile_80.value)}"/>kg and <x id="1" equiv-text="${renderNumber(emissionsResult.percentile_20.value)}"/>kg, with most homes reducing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>kg.</source>
-</trans-unit>
-<trans-unit id="s75be27998ad443bd">
-  <source>Our modeling shows that homes like yours will tend to emit between <x id="0" equiv-text="${renderKgDiff(Math.min(emissionsResult.percentile_20.value, emissionsResult.percentile_80.value))}"/> and <x id="1" equiv-text="${renderKgDiff(Math.max(emissionsResult.percentile_20.value, emissionsResult.percentile_80.value))}"/> per year, with most homes reducing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>kg.</source>
-</trans-unit>
-<trans-unit id="s66a05de215cfda0b">
-  <source>Our modeling shows that homes like yours will tend to emit between <x id="0" equiv-text="${renderKgDiff(emissionsResult.percentile_80.value)}"/> and <x id="1" equiv-text="${renderKgDiff(emissionsResult.percentile_20.value)}"/> per year, with most homes increasing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>kg.</source>
 </trans-unit>
 <trans-unit id="s8d13b21fbb1a3a04">
   <source>Energy bill impact</source>
@@ -1145,6 +1130,21 @@
 </trans-unit>
 <trans-unit id="s9c1ecf31424c575d">
   <source>This is the ductless, cold-climate heat pump package currently used in our Colorado programs. SEER rating: 18-21; COP@5°F of 1.8-2.</source>
+</trans-unit>
+<trans-unit id="s3d54efd5ccda6c00">
+  <source><x id="0" equiv-text="${renderNumber(n)}"/>lb less</source>
+</trans-unit>
+<trans-unit id="s58ce07d024786058">
+  <source><x id="0" equiv-text="${renderNumber(n)}"/>lb more</source>
+</trans-unit>
+<trans-unit id="sdef4a548a26ce613">
+  <source>Our modeling shows that homes like yours will tend to have annual emissions reductions between <x id="0" equiv-text="${renderNumber(emissionsResult.percentile_80.value)}"/>lb and <x id="1" equiv-text="${renderNumber(emissionsResult.percentile_20.value)}"/>lb, with most homes reducing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>lb.</source>
+</trans-unit>
+<trans-unit id="s6df89e9986ae258d">
+  <source>Our modeling shows that homes like yours will tend to emit between <x id="0" equiv-text="${renderLbDiff(Math.min(emissionsResult.percentile_20.value, emissionsResult.percentile_80.value))}"/> and <x id="1" equiv-text="${renderLbDiff(Math.max(emissionsResult.percentile_20.value, emissionsResult.percentile_80.value))}"/> per year, with most homes reducing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>lb.</source>
+</trans-unit>
+<trans-unit id="s3b4030e1fd39d00f">
+  <source>Our modeling shows that homes like yours will tend to emit between <x id="0" equiv-text="${renderLbDiff(emissionsResult.percentile_80.value)}"/> and <x id="1" equiv-text="${renderLbDiff(emissionsResult.percentile_20.value)}"/> per year, with most homes increasing emissions by at least <x id="2" equiv-text="${renderNumber(emissionsResult.median.value)}"/>lb.</source>
 </trans-unit>
 </body>
 </file>

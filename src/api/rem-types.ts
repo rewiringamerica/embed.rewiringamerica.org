@@ -34,7 +34,6 @@ export enum WaterHeatingFuel {
 
 export interface Quantity {
   value: number;
-  unit: string;
 }
 
 export interface Quantiles {

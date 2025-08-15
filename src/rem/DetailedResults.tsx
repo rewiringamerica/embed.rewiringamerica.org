@@ -11,7 +11,7 @@ const ImpactCard: FC<{
   title: string;
   description: string;
   quantiles: Quantiles;
-  unit: 'dollars' | 'kgCO2e';
+  unit: 'dollars' | 'lbCO2e';
 }> = ({ title, description, quantiles, unit }) => (
   <div className="flex flex-col p-3 gap-6 bg-white rounded-lg border border-grey-200">
     <h3 className="font-medium leading-tight">{title}</h3>
@@ -20,18 +20,18 @@ const ImpactCard: FC<{
       left={quantiles.percentile_80.value}
       middle={quantiles.median.value}
       right={quantiles.percentile_20.value}
-      zeroLabel={unit === 'dollars' ? '$0' : '0kg'}
+      zeroLabel={unit === 'dollars' ? '$0' : '0lb'}
       renderEnds={
         unit === 'dollars'
           ? n => `$${renderNumber(n)}`
-          : n => `${renderNumber(n)}kg`
+          : n => `${renderNumber(n)}lb`
       }
       renderMiddle={
         unit === 'dollars'
           ? n => `$${renderNumber(n)}/yr`
           : n => (
               <>
-                {renderNumber(n)}kg CO<sub>2</sub>e/yr
+                {renderNumber(n)}lb CO<sub>2</sub>e/yr
               </>
             )
       }
@@ -52,10 +52,10 @@ export const DetailedResults: FC<{ savings: RemAddressResponse }> = ({
       ? msg(str`$${renderNumber(n)} less`)
       : msg(str`$${renderNumber(n)} more`);
 
-  const renderKgDiff = (n: number) =>
+  const renderLbDiff = (n: number) =>
     n <= 0
-      ? msg(str`${renderNumber(n)}kg less`)
-      : msg(str`${renderNumber(n)}kg more`);
+      ? msg(str`${renderNumber(n)}lb less`)
+      : msg(str`${renderNumber(n)}lb more`);
 
   const costDescription =
     costResult.percentile_80.value <= 0
@@ -109,38 +109,38 @@ export const DetailedResults: FC<{ savings: RemAddressResponse }> = ({
         msg(
           str`Our modeling shows that homes like yours will tend to have annual emissions reductions between ${renderNumber(
             emissionsResult.percentile_80.value,
-          )}kg and ${renderNumber(
+          )}lb and ${renderNumber(
             emissionsResult.percentile_20.value,
-          )}kg, with most homes reducing emissions by at least ${renderNumber(
+          )}lb, with most homes reducing emissions by at least ${renderNumber(
             emissionsResult.median.value,
-          )}kg.`,
+          )}lb.`,
         )
       : // Bad case: at least some part of the range is not saving.
       // Phrase differently depending on which way the median goes.
       emissionsResult.median.value <= 0
       ? msg(
-          str`Our modeling shows that homes like yours will tend to emit between ${renderKgDiff(
+          str`Our modeling shows that homes like yours will tend to emit between ${renderLbDiff(
             Math.min(
               emissionsResult.percentile_20.value,
               emissionsResult.percentile_80.value,
             ),
-          )} and ${renderKgDiff(
+          )} and ${renderLbDiff(
             Math.max(
               emissionsResult.percentile_20.value,
               emissionsResult.percentile_80.value,
             ),
           )} per year, with most homes reducing emissions by at least ${renderNumber(
             emissionsResult.median.value,
-          )}kg.`,
+          )}lb.`,
         )
       : msg(
-          str`Our modeling shows that homes like yours will tend to emit between ${renderKgDiff(
+          str`Our modeling shows that homes like yours will tend to emit between ${renderLbDiff(
             emissionsResult.percentile_80.value,
-          )} and ${renderKgDiff(
+          )} and ${renderLbDiff(
             emissionsResult.percentile_20.value,
           )} per year, with most homes increasing emissions by at least ${renderNumber(
             emissionsResult.median.value,
-          )}kg.`,
+          )}lb.`,
         );
 
   const costCard = (
@@ -157,7 +157,7 @@ export const DetailedResults: FC<{ savings: RemAddressResponse }> = ({
       title={msg('Emissions impact')}
       description={emissionsDescription}
       quantiles={emissionsResult}
-      unit="kgCO2e"
+      unit="lbCO2e"
     />
   );
 

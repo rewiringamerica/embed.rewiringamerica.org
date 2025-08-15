@@ -41,6 +41,8 @@ declare module '../safe-local-storage' {
   }
 }
 
+const POUNDS_PER_KG = 2.205;
+
 const DEFAULT_UPGRADES: Upgrade[] = [
   Upgrade.HeatPump,
   Upgrade.Weatherization,
@@ -171,7 +173,16 @@ const RemCalculator: FC<{
       : '/api/v1/rem/address';
 
     fetchApi<RemAddressResponse>(apiKey, apiHost, path, query, msg)
-      .then(response => setFetchState({ state: 'complete', response }))
+      .then(response => {
+        // Convert the emissions numbers from kg to pounds
+        response.fuel_results.total.delta.emissions.median.value *=
+          POUNDS_PER_KG;
+        response.fuel_results.total.delta.emissions.percentile_20.value *=
+          POUNDS_PER_KG;
+        response.fuel_results.total.delta.emissions.percentile_80.value *=
+          POUNDS_PER_KG;
+        setFetchState({ state: 'complete', response });
+      })
       .catch(error =>
         setFetchState({
           state: 'error',
