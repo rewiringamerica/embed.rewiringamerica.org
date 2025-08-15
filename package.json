@@ -87,7 +87,7 @@
         "src/calculator.ts",
         "src/state-calculator.ts",
         "src/rewiring-fonts.css",
-        "src/rem.html",
+        "src/bill-impact-calculator.html",
         "src/index.html"
       ],
       "outputFormat": "global",

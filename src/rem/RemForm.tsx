@@ -196,7 +196,8 @@ export const RemForm: FC<{
       </div>
       <div className="text-sm leading-normal">
         {msg(
-          'Enter your household information to calculate the energy bill savings and emissions reductions you could get from upgrades to your home.',
+          `Enter your household information to see potential energy bill \
+changes and emissions reductions by upgrade type.`,
         )}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

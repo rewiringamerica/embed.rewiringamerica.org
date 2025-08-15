@@ -3,7 +3,7 @@
 
 describe('bill impact calculator', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:1234/rem.html');
+    cy.visit('http://localhost:1234/bill-impact-calculator.html');
 
     // Inject the axe-core library
     cy.injectAxe();

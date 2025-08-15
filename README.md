@@ -1,12 +1,14 @@
-# Rewiring America Embeddable Incentives Calculator
+# Rewiring America Embeddable Calculators
 
-This is a custom web component that renders a calculator for home electrification incentives. Users input some information about themselves, and the calculator shows incentives --- tax credits, rebates, etc. --- that they're eligible for.
+This repo contains custom web components, with information on home electrification, that can be embedded on third-party websites. There are currently two:
 
-The calculator can be embedded on third-party websites. An instance of it is available on [Rewiring America's website](https://homes.rewiringamerica.org/calculator).
+- **Incentives calculator**: users input some information about themselves, and the calculator shows incentives --- tax credits, rebates, etc. --- that they're eligible for. It is used on [Rewiring America's website](https://homes.rewiringamerica.org/calculator).
 
-In addition to the calculator itself, this repo contains a small website that demonstrates the component. It's hosted at `https://embed.rewiringamerica.org`.
+- **Bill impact calculator**: users input some information about their home, and the calculator shows the likely range of energy bill savings that could result from electrifying.
 
-## Usage
+In addition to the calculator components, this repo contains a small website that demonstrates the components. It's hosted at `https://embed.rewiringamerica.org`.
+
+## Usage — Incentives Calculator
 
 To embed the calculator on your website:
 
@@ -100,6 +102,62 @@ rewiring-america-state-calculator {
 
 The calculator defines and uses many other CSS variables, but **their existence and behavior are not guaranteed to be stable**; override them at your own risk. Only variables prefixed with `--ra-` are supported customization points.
 
+## Usage — Bill Impact Calculator
+
+To embed the bill impact calculator on your website:
+
+1. Sign up for the [Rewiring America API](https://www.rewiringamerica.org/api) and get an API key.
+
+2. Add the following to your page's `<head>` tag:
+
+   ```html
+   <script
+     type="module"
+     src="https://embed.rewiringamerica.org/bill-impact-calculator.js"
+   ></script>
+   <link
+     rel="stylesheet"
+     type="text/css"
+     href="https://embed.rewiringamerica.org/rewiring-fonts.css"
+   />
+   ```
+
+3. Add the following in the body of the page:
+
+   ```html
+   <rewiring-america-bill-impact-calculator api-key="YOUR_API_KEY">
+   </rewiring-america-bill-impact-calculator>
+   ```
+
+### Customization
+
+The bill impact calculator supports the same [color customization CSS variables](#customizing-colors) as the incentives calculator.
+
+The calculator does not support any attributes other than `api-key`.
+
+### Events
+
+The calculator component dispatches a custom event when the form is submitted. This is intended to be used for analytics. When the event is dispatched, the form submission has already happened, and you don't need to do anything.
+
+The events' `target` is the calculator component. They are not cancelable. You can listen for them with `addEventListener()`, as follows:
+
+```html
+<script>
+  // NB:- place *after* the <rewiring-america-bill-impact-calculator> tag to ensure it exists:
+  var calc = document.getElementsByTagName(
+    'rewiring-america-bill-impact-calculator',
+  )[0];
+  calc.addEventListener('bi-calculator-submitted', function (event) {
+    // replace the following with a call to your event tracking system:
+    console.log(event.detail.formData);
+  });
+</script>
+```
+
+| Event name                | `detail`                                                                                                                                                                                       |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bi-calculator-submitted` | The key `formData` contains an object with the form data that was submitted. The possible keys in that object are `buildingType`, `address`, `heatingFuel`, `waterHeatingFuel`, and `upgrade`. |
+
 ## Running / building
 
 ### Run a development server
@@ -125,25 +183,15 @@ The calculator defines and uses many other CSS variables, but **their existence 
 
 ### npm package
 
-This codebase is also published as an npm package, `@rewiringamerica/embed.rewiringamerica.org`. However, this package is intended only for use by Rewiring America internal codebases. The [Usage section](#usage) describes the **only** supported way to display the calculator on third-party websites.
-
-## Roadmap
-
-This codebase doesn't have a significant roadmap of its own. Changes here are primarily driven by the needs of our broader incentives API / calculator project. As the API expands to incentives with more complex structures, this frontend will evolve to match.
-
-There are a few tasks specific to this codebase that we're interested in:
-
-- Automatically generating `src/api/calculator-types-v1.ts` from the [API spec](https://api.rewiringamerica.org/spec.json), rather than manually maintaining it.
-
-- Better test coverage, including tests that mock out API responses.
+This codebase is also published as an npm package, `@rewiringamerica/embed.rewiringamerica.org`. However, this package is intended only for use by Rewiring America internal codebases. The [Usage section](#usage--incentives-calculator) describes the **only** supported way to display the calculator on third-party websites.
 
 ## Contributing
 
 If you find an inaccuracy in **incentive information**, please see our [incentive API repo](https://github.com/rewiringamerica/api.rewiringamerica.org) for what to do.
 
-If you find a visual, behavioral, or accessibility bug in the _new_ calculator frontend (that is, the one that looks like [this](https://homes.rewiringamerica.org/calculator)), please file an issue in this repo. (The old frontend is soon to be deprecated, so there's no need to file issues for it.)
+If you find a visual, behavioral, or accessibility bug in the widgets, please file an issue in this repo.
 
-If you have a feature request for the new frontend, please file it as an issue. We can't make promises of when or if we'll get to it, but we are interested to hear what people want from this project.
+If you have a feature request for the widgets, please file it as an issue. We can't make promises of when or if we'll get to it, but we are interested to hear what people want from this project.
 
 We aren't ruling out accepting external code contributions, but we'd like to discuss it before you put too much work into a PR. The best place to have that discussion is in an issue on this repo, but you can also email us at `api@rewiringamerica.org`.
 

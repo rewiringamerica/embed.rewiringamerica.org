@@ -20,9 +20,9 @@ const LABELS: { [k in Upgrade]: (m: MsgFn) => string } = {
 
 const DESCRIPTIONS: { [k in Upgrade]: (m: MsgFn) => string } = {
   [Upgrade.HeatPump]: msg =>
-    msg(`A heat pump is an efficient electric system that provides both \
-heating and cooling by transferring heat between your home and the air \
-outside, cutting energy use compared to traditional systems.`),
+    msg(`A heat pump is a single appliance with two modes, heating and \
+cooling. By transferring heat (instead of creating it), heat pumps use less \
+energy, making them more efficient than traditional systems.`),
   [Upgrade.HeatPumpAndWeatherization]: msg =>
     msg(`Combining a heat pump with weatherization (like insulation and air \
 sealing) maximizes comfort and energy savings by improving your home’s \
@@ -125,7 +125,7 @@ export const UpgradeOptions: FC<{
         </h2>
         <p id={groupDescriptionId} className="text-sm leading-normal">
           {msg(
-            'Select an upgrade to view its impact on your energy bills and emissions:',
+            'Select an upgrade option to learn more about how it works within a household.',
           )}
         </p>
       </div>

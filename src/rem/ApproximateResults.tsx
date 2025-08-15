@@ -65,8 +65,8 @@ upgrade, but you could still reduce your carbon emissions.`,
         </h2>
         <p className="text-sm leading-normal text-grey-600">
           {msg(
-            `These results below are based on your region and your selected \
-upgrade, not the specific characteristics of your home.`,
+            `These results are based on your region, heating fuel(s), and \
+selected upgrade, not the specific characteristics of your home.`,
           )}
         </p>
       </div>

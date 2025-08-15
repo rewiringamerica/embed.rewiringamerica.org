@@ -166,6 +166,7 @@ const RemCalculator: FC<{
       ...(formValues!.waterHeatingFuel
         ? { water_heater_fuel: formValues!.waterHeatingFuel }
         : {}),
+      ra_embed: '1',
     });
 
     const path = INTERNAL_UPGRADES.has(upgradeValue!)
