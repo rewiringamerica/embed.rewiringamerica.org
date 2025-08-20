@@ -1,4 +1,3 @@
-import tailwindStyles from 'bundle-text:../tailwind.css';
 import { FC, useEffect, useRef, useState } from 'react';
 import { Root, createRoot } from 'react-dom/client';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -499,24 +498,11 @@ export class RewiringAmericaCalculator extends HTMLElement {
     if (!this.shadowRoot) {
       const shadowRoot = this.attachShadow({ mode: 'open' });
 
-      try {
-        const stylesheet = document.createElement('link');
-        stylesheet.rel = 'stylesheet';
-        stylesheet.href = new URL(
-          '../tailwind.css',
-          import.meta.url,
-        ).toString();
-        stylesheet.type = 'text/css';
-
-        shadowRoot.appendChild(stylesheet);
-        console.log('using link for stylesheet');
-      } catch (e) {
-        const style = document.createElement('style');
-        style.textContent = tailwindStyles;
-
-        shadowRoot.appendChild(style);
-        console.log('using inline style');
-      }
+      const stylesheet = document.createElement('link');
+      stylesheet.rel = 'stylesheet';
+      stylesheet.href = new URL('../tailwind.css', import.meta.url).toString();
+      stylesheet.type = 'text/css';
+      shadowRoot.appendChild(stylesheet);
 
       const calculator = document.createElement('div');
       shadowRoot.appendChild(calculator);
