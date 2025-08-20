@@ -102,6 +102,15 @@ rewiring-america-state-calculator {
 
 The calculator defines and uses many other CSS variables, but **their existence and behavior are not guaranteed to be stable**; override them at your own risk. Only variables prefixed with `--ra-` are supported customization points.
 
+### `Content-Security-Policy` directives
+
+To enforce a CSP on a page that embeds the calculator, you'll need the following directives in your CSP:
+
+- `script-src https://embed.rewiringamerica.org/`
+- `style-src https://embed.rewiringamerica.org/`
+- `font-src https://www.rewiringamerica.org/`
+- `connect-src https://api.rewiringamerica.org/`
+
 ## Usage — Bill Impact Calculator
 
 To embed the bill impact calculator on your website:
@@ -157,6 +166,10 @@ The events' `target` is the calculator component. They are not cancelable. You c
 | Event name                | `detail`                                                                                                                                                                                       |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `bi-calculator-submitted` | The key `formData` contains an object with the form data that was submitted. The possible keys in that object are `buildingType`, `address`, `heatingFuel`, `waterHeatingFuel`, and `upgrade`. |
+
+### `Content-Security-Policy` directives
+
+To enforce a CSP on a page that embeds the calculator, you'll need the same directives as for the incentives calculator, [documented above](#content-security-policy-directives).
 
 ## Running / building
 
