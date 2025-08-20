@@ -499,10 +499,24 @@ export class RewiringAmericaCalculator extends HTMLElement {
     if (!this.shadowRoot) {
       const shadowRoot = this.attachShadow({ mode: 'open' });
 
-      const style = document.createElement('style');
-      style.textContent = tailwindStyles;
+      try {
+        const stylesheet = document.createElement('link');
+        stylesheet.rel = 'stylesheet';
+        stylesheet.href = new URL(
+          '../tailwind.css',
+          import.meta.url,
+        ).toString();
+        stylesheet.type = 'text/css';
 
-      shadowRoot.appendChild(style);
+        shadowRoot.appendChild(stylesheet);
+        console.log('using link for stylesheet');
+      } catch (e) {
+        const style = document.createElement('style');
+        style.textContent = tailwindStyles;
+
+        shadowRoot.appendChild(style);
+        console.log('using inline style');
+      }
 
       const calculator = document.createElement('div');
       shadowRoot.appendChild(calculator);
