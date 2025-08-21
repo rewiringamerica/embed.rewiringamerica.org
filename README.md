@@ -170,7 +170,7 @@ The events' `target` is the calculator component. They are not cancelable. You c
    REWIRING_AMERICA_API_KEY=zpka_********************************_********
    ```
 
-3. Install Node 18. We recommend using [NVM](https://github.com/nvm-sh/nvm).
+3. Install Node 22. We recommend using [NVM](https://github.com/nvm-sh/nvm).
 4. Install Yarn by running `corepack enable`.
 5. Run `yarn install` to install dependencies.
 6. Run `yarn serve:widget` to run a local server that serves the embed demo website. Access it at `http://localhost:1234`.

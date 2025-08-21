@@ -7,6 +7,9 @@
     "type": "git",
     "url": "https://github.com/rewiringamerica/embed.rewiringamerica.org.git"
   },
+  "engines": {
+    "node": ">=22"
+  },
   "main": "package-dist/package-index.js",
   "types": "package-dist/package-index.d.ts",
   "files": [
