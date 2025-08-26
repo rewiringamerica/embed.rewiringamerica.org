@@ -104,7 +104,9 @@ The calculator defines and uses many other CSS variables, but **their existence 
 
 ### `Content-Security-Policy` directives
 
-To enforce a CSP on a page that embeds the calculator, you'll need the following directives in your CSP:
+The calculator loads JavaScript and CSS from `https://embed.rewiringamerica.org`, loads fonts from `https://www.rewiringamerica.org`, and makes `fetch()` calls to `https://api.rewiringamerica.org`.
+
+Therefore, to enforce a CSP on a page that embeds the calculator, you'll need the following directives (or something more permissive) in your CSP:
 
 - `script-src https://embed.rewiringamerica.org/`
 - `style-src https://embed.rewiringamerica.org/`
