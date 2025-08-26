@@ -67,6 +67,7 @@ const HEAR_EXCLUSION_RULES: Record<string, true | Project[]> = {
   ME: true,
   MD: true,
   NY: true,
+  OR: true,
   RI: true,
   SD: true,
   NM: ['cooking', 'clothes_dryer'], // only exclude stoves and dryers in NM for now
@@ -78,6 +79,7 @@ const HER_EXCLUDE_STATES = new Set([
   'MA',
   'ME',
   'NY',
+  'OR',
   'SD',
   'WI',
 ]);
