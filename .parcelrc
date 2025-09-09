@@ -2,13 +2,10 @@
   "extends": "@parcel/config-default",
   "transformers": {
     "jsx:*.svg": [
-      "...",
-      "@parcel/transformer-svg-react"
+      "@parcel/transformer-svg-jsx"
     ],
-    "jsx:*.{js,jsx}": [
-      "@parcel/transformer-babel",
-      "@parcel/transformer-js",
-      "@parcel/transformer-react-refresh-wrap"
+    "jsx:*": [
+      "..."
     ]
   }
 }
