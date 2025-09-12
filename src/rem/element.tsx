@@ -1,4 +1,3 @@
-import tailwindStyles from 'bundle-text:../tailwind.css';
 import { FC, useEffect, useId, useRef, useState } from 'react';
 import { Root, createRoot } from 'react-dom/client';
 import { DEFAULT_CALCULATOR_API_HOST, fetchApi } from '../api/fetch';
@@ -360,10 +359,11 @@ export class BillImpactCalculator extends HTMLElement {
     if (!this.shadowRoot) {
       const shadowRoot = this.attachShadow({ mode: 'open' });
 
-      const style = document.createElement('style');
-      style.textContent = tailwindStyles;
-
-      shadowRoot.appendChild(style);
+      const stylesheet = document.createElement('link');
+      stylesheet.href = new URL('../tailwind.css', import.meta.url).toString();
+      stylesheet.rel = 'stylesheet';
+      stylesheet.type = 'text/css';
+      shadowRoot.appendChild(stylesheet);
 
       const calculator = document.createElement('div');
       shadowRoot.appendChild(calculator);

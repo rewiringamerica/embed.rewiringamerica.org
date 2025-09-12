@@ -26,8 +26,8 @@
   },
   "scripts": {
     "build": "parcel build src/package-index.ts",
-    "build:widget": "parcel build --target default",
-    "serve:widget": "parcel serve ./src/*.html --dist-dir build",
+    "build:widget": "parcel build --target default && cp dist/state-calculator.js dist/calculator.js",
+    "serve:widget": "parcel serve --target default --dist-dir build",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "lint": "tsc --noEmit && prettier --check . && eslint .",
@@ -88,7 +88,6 @@
     "default": {
       "source": [
         "src/bill-impact-calculator.ts",
-        "src/calculator.ts",
         "src/state-calculator.ts",
         "src/rewiring-fonts.css",
         "src/bill-impact-calculator.html",
@@ -103,5 +102,6 @@
   },
   "lint-staged": {
     "**/*.{js,ts,tsx,json,md,css,html}": "prettier --write"
-  }
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }
