@@ -262,12 +262,8 @@ export const CalculatorForm: FC<{
 }) => {
   const { msg } = useTranslated();
 
-  const [address, setAddress] = useState(
-    showAddressField ? initialValues.address : undefined,
-  );
-  const [zip, setZip] = useState(
-    showAddressField ? undefined : initialValues.zip,
-  );
+  const [address, setAddress] = useState(initialValues.address ?? '');
+  const [zip, setZip] = useState(initialValues.zip);
   const [ownerStatus, setOwnerStatus] = useState(initialValues.ownerStatus);
   const [householdIncome, setHouseholdIncome] = useState(
     initialValues.householdIncome,
@@ -365,8 +361,7 @@ export const CalculatorForm: FC<{
       onSubmit={e => {
         e.preventDefault();
         const values: FormValues = {
-          address: showAddressField ? address : undefined,
-          zip: showAddressField ? undefined : zip,
+          ...(showAddressField ? { address } : { zip }),
           ownerStatus,
           householdIncome,
           householdSize,
@@ -378,8 +373,7 @@ export const CalculatorForm: FC<{
 
         const gasOptions = getGasOptions(utilitiesFetchState, msg);
         const labels: FormLabels = {
-          address: showAddressField ? address : undefined,
-          zip: showAddressField ? undefined : zip,
+          ...(showAddressField ? { address } : { zip }),
           householdIncome: AutoNumeric.format(householdIncome, {
             ...AutoNumeric.getPredefinedOptions().NorthAmerican,
             decimalPlaces: 0,
