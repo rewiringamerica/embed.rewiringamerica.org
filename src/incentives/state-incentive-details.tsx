@@ -345,6 +345,7 @@ export const IncentiveGrid = ({
           }}
         />
       </div>
+      <slot name="campaign">{/* Campaign content can be inserted here */}</slot>
       {projectTab !== null ? (
         <CardCollection
           incentives={incentivesByProject[projectTab]}
