@@ -64,11 +64,6 @@ describe('rewiring-america-state-calculator', () => {
       .shadow()
       .contains('Up to $1,500 off a new electric vehicle');
 
-    // 30D
-    cy.get('rewiring-america-state-calculator')
-      .shadow()
-      .contains('$7,500 off a new electric vehicle');
-
     cy.get('rewiring-america-state-calculator')
       .shadow()
       .contains('Brought to you in partnership with');
