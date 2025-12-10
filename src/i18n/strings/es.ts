@@ -136,7 +136,7 @@ export const templates = {
   s8ee1a34f2ada948d: str`Los lineamientos federals permiten un reembolso de hasta \$${0}, basado en el ahorro de energía simulado o en el ahorro de energía medido logrado por el reacondicionamiento.`,
   s8f668dd0fa1b8c4e: `Reembolso por eficiencia`,
   s8fd029fdcc452602: `Ingrese su código postal para seleccionar una empresa de servicios eléctricos.`,
-  s8fd8a524edc33867: `Esperado en 2025`,
+  s8fd8a624edc33a1a: `Esperado en 2026`,
   s8ff568239ce4b254: `Cuidado del césped`,
   s912b944fa287f7d0: `Nuevo Hampshire`,
   s9a7f0b084a46d64e: `Ingrese su dirección para seleccionar una empresa de servicios eléctricos.`,
