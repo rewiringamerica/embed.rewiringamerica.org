@@ -533,10 +533,6 @@
   <source>https://homes.rewiringamerica.org/federal-incentives/home-efficiency-rebates</source>
   <target>https://homes.rewiringamerica.org/es/federal-incentives/home-efficiency-rebates</target>
 </trans-unit>
-<trans-unit id="s8fd8a524edc33867">
-  <source>Expected in 2025</source>
-  <target>Esperado en 2025</target>
-</trans-unit>
 <trans-unit id="s8ee1a34f2ada948d">
   <source>The federal guidelines allow for a rebate of up to $<x id="0" equiv-text="${maxHerRebate.toLocaleString()}"/>, based on the modeled energy savings or measured energy savings achieved by the retrofit.</source>
   <target>Los lineamientos federals permiten un reembolso de hasta $<x id="0" equiv-text="${maxHerRebate.toLocaleString()}"/>, basado en el ahorro de energía simulado o en el ahorro de energía medido logrado por el reacondicionamiento.</target>
@@ -1145,6 +1141,10 @@
 </trans-unit>
 <trans-unit id="se68a868c42bbd5bc">
   <source>Select an upgrade option to learn more about how it works within a household.</source>
+</trans-unit>
+<trans-unit id="s8fd8a624edc33a1a">
+  <source>Expected in 2026</source>
+  <target>Esperado en 2026</target>
 </trans-unit>
 </body>
 </file>

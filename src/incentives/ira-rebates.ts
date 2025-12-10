@@ -60,6 +60,7 @@ const hearRebates: {
  * generic info to users in those states.
  */
 const HEAR_EXCLUSION_RULES: Record<string, true | Project[]> = {
+  AZ: true,
   DC: true,
   GA: true,
   ID: true,
@@ -114,7 +115,7 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
           url: msg(
             'https://homes.rewiringamerica.org/federal-incentives/home-electrification-appliance-rebates',
           ),
-          timeline: msg('Expected in 2025'),
+          timeline: msg('Expected in 2026'),
         });
       }
     });
@@ -135,7 +136,7 @@ export function getRebatesFor(response: APIResponse, msg: MsgFn): IRARebate[] {
       url: msg(
         'https://homes.rewiringamerica.org/federal-incentives/home-efficiency-rebates',
       ),
-      timeline: msg('Expected in 2025'),
+      timeline: msg('Expected in 2026'),
     });
   }
 
