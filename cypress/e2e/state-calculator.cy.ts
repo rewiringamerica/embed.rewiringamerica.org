@@ -62,7 +62,7 @@ describe('rewiring-america-state-calculator', () => {
     // RI state incentive
     cy.get('rewiring-america-state-calculator')
       .shadow()
-      .contains('Up to $1,500 off a new electric vehicle');
+      .contains('Up to $2,500 off a used electric vehicle');
 
     cy.get('rewiring-america-state-calculator')
       .shadow()
