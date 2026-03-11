@@ -1,12 +1,10 @@
 import { APIResponse, Incentive } from '../api/calculator-types-v1';
 import { MsgFn, passthroughMsg } from '../i18n/msg';
-import { IRARebate, getRebatesFor } from './ira-rebates';
 import { itemName } from './item-name';
 import { PROJECTS, Project } from './projects';
 
 export type Results = {
   incentivesByProject: Record<Project, Incentive[]>;
-  iraRebatesByProject: Record<Project, IRARebate[]>;
   projectOptions: { project: Project; count: number }[];
   totalResults: number;
   countOfProjects: number;
@@ -40,20 +38,10 @@ export function getResultsForDisplay(
     ]),
   ) as Record<Project, Incentive[]>;
 
-  const iraRebates = getRebatesFor(response, msg);
-  const iraRebatesByProject = Object.fromEntries(
-    Object.keys(projects).map(project => [
-      project,
-      iraRebates.filter(rebate => rebate.project === project),
-    ]),
-  ) as Record<Project, IRARebate[]>;
-
   // Sort projects with nonzero incentives first, then alphabetically.
   const projectOptions = (Object.keys(projects) as Project[])
     .map(project => {
-      const count =
-        incentivesByProject[project].length +
-        iraRebatesByProject[project].length;
+      const count = incentivesByProject[project].length;
 
       // The string "false" compares before "true"
       const sortKey = `${count === 0} ${projects[project].label(msg)}`;
@@ -67,7 +55,6 @@ export function getResultsForDisplay(
 
   return {
     incentivesByProject,
-    iraRebatesByProject,
     projectOptions,
     totalResults,
     countOfProjects,

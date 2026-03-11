@@ -330,7 +330,6 @@ const StateCalculator: FC<{
     const response = fetchState.response;
     const {
       incentivesByProject,
-      iraRebatesByProject,
       projectOptions,
       totalResults,
       countOfProjects,
@@ -344,7 +343,6 @@ const StateCalculator: FC<{
       incentiveResults = (
         <CardCollection
           incentives={incentivesByProject[selectedProject]}
-          iraRebates={iraRebatesByProject[selectedProject]}
           project={selectedProject}
         />
       );
@@ -352,7 +350,6 @@ const StateCalculator: FC<{
       incentiveResults = (
         <IncentiveGrid
           incentivesByProject={incentivesByProject}
-          iraRebatesByProject={iraRebatesByProject}
           tabs={projectOptions}
         />
       );

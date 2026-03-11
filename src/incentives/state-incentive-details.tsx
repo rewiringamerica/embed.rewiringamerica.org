@@ -18,7 +18,6 @@ import { str } from '../i18n/str';
 import { Locale, useTranslated } from '../i18n/use-translated';
 import { safeLocalStorage } from '../safe-local-storage';
 import { IncentiveCard } from './incentive-card';
-import { IRARebate } from './ira-rebates';
 import { itemName } from './item-name';
 import { PROJECT_ICONS } from './project-icons';
 import { PROJECTS, Project } from './projects';
@@ -211,12 +210,10 @@ const renderSelectProjectCard = () => {
 
 type CardCollectionProps = {
   incentives: Incentive[];
-  iraRebates: IRARebate[];
   project: Project;
 };
 export const CardCollection: React.FC<CardCollectionProps> = ({
   incentives,
-  iraRebates,
   project,
 }) => {
   const { msg, locale } = useTranslated();
@@ -265,34 +262,18 @@ export const CardCollection: React.FC<CardCollectionProps> = ({
               buttonText={buttonText}
             />
           );
-        })
-        .concat(
-          iraRebates.map((rebate, index) => (
-            <IncentiveCard
-              key={`ira${index}`}
-              typeChip={formatIncentiveType([rebate.paymentMethod], msg)}
-              headline={rebate.headline}
-              subHeadline={rebate.program}
-              body={rebate.description}
-              warningChip={rebate.timeline}
-              buttonUrl={rebate.url}
-              buttonText={msg('Learn more')}
-            />
-          )),
-        )}
+        })}
     </div>
   );
 };
 
 type IncentiveGridProps = {
   incentivesByProject: Record<Project, Incentive[]>;
-  iraRebatesByProject: Record<Project, IRARebate[]>;
   tabs: { project: Project; count: number }[];
 };
 
 export const IncentiveGrid = ({
   incentivesByProject,
-  iraRebatesByProject,
   tabs,
 }: IncentiveGridProps) => {
   const { msg } = useTranslated();
@@ -349,7 +330,6 @@ export const IncentiveGrid = ({
       {projectTab !== null ? (
         <CardCollection
           incentives={incentivesByProject[projectTab]}
-          iraRebates={iraRebatesByProject[projectTab]}
           project={projectTab}
         />
       ) : (
