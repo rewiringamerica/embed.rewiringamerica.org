@@ -1681,22 +1681,22 @@
     "@parcel/plugin" "2.15.4"
     "@parcel/rust" "2.15.4"
 
-"@parcel/transformer-typescript-types@2.15.4":
-  version "2.15.4"
-  resolved "https://registry.yarnpkg.com/@parcel/transformer-typescript-types/-/transformer-typescript-types-2.15.4.tgz#c33a5aaf79f57d3ba6674e394039428a321ad616"
-  integrity sha512-fvc9X2NR36rSalhLAY0nhawPHODTJw7vgoWmNUt63HEUjtYluf5FSz7mASoLVVy/5CKKUg3FdXFWpCYetxOCXQ==
+"@parcel/transformer-typescript-types@2.16.4":
+  version "2.16.4"
+  resolved "https://registry.yarnpkg.com/@parcel/transformer-typescript-types/-/transformer-typescript-types-2.16.4.tgz#e78cd2abeb49801fb02060f6910efaf56ca75913"
+  integrity sha512-Cec1U3iqt7Dsqa17W8PXhfiqn+qlJntwp62Sq2z4S/ud1dkXZuURWeCkLGb5dB/DgNi3Xp0IeQxlSNoKNd/WJg==
   dependencies:
-    "@parcel/diagnostic" "2.15.4"
-    "@parcel/plugin" "2.15.4"
+    "@parcel/diagnostic" "2.16.4"
+    "@parcel/plugin" "2.16.4"
     "@parcel/source-map" "^2.1.1"
-    "@parcel/ts-utils" "2.15.4"
-    "@parcel/utils" "2.15.4"
+    "@parcel/ts-utils" "2.16.4"
+    "@parcel/utils" "2.16.4"
     nullthrows "^1.1.1"
 
-"@parcel/ts-utils@2.15.4":
-  version "2.15.4"
-  resolved "https://registry.yarnpkg.com/@parcel/ts-utils/-/ts-utils-2.15.4.tgz#cbc6ef7abfe7db6632b15d04050f933ea48f4b57"
-  integrity sha512-7RLG2ULdcQ8lL/VTXh8kIP+TEqs3fYihLAi3+qOdyCrPfOfhHMyFLbPnAMvsMhpOXKZT0jq43I4e/zFJZSXJAw==
+"@parcel/ts-utils@2.16.4":
+  version "2.16.4"
+  resolved "https://registry.yarnpkg.com/@parcel/ts-utils/-/ts-utils-2.16.4.tgz#2c874974e262cecca5be9fb7486c6795866c58bf"
+  integrity sha512-hOYaQvtyq72jKqBjhtSBVn8vATZuaLnvauVRSDPH1DFOgQaPnM1r71Gw5djx6KMk+Tcpa5NyHNJmLVlVAIQ2tA==
   dependencies:
     nullthrows "^1.1.1"
 
